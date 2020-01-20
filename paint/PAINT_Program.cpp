@@ -2,6 +2,8 @@
 #include "PAINT_DrawWindow.h"
 #include "PAINT_ToolWindow.h"
 #include "PAINT_StatusBarWindow.h"
+#include "WIN_Mouse.h"
+#include <cassert>
 #include <SDL.h>
 #include <iostream>
 
@@ -9,11 +11,12 @@ using namespace paint;
 using namespace gfx;
 using namespace win;
 
-void Program::initialize(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surface* surface)
+void Program::initialize(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surface* surface, SDL_Texture* texture)
 {
 	renderer_ = renderer;
 	window_ = sdlWindow;
 	surface_ = surface;
+	texture_ = texture;
 
 	// Create draw window.
 	gfx::Rectangle drawRect(200, 40, 1000, 720);
@@ -52,16 +55,24 @@ void Program::run()
 	int xOffset;
 	int yOffset;
 
+	MouseButton button;
 
 	auto children = screen_.getChildren();
 
 	bool clicked = false;
 
+	//SDL_SetRenderTarget(renderer_, texture_);
+
 	//While application is running
 	std::shared_ptr<UIelement> activeElement = nullptr;
 	while (!quit) {
+
+
 		//Handle events on queue
 		while (SDL_PollEvent(&e) != 0) {
+			SDL_RenderClear(renderer_);
+			screen_.draw();
+
 			//User requests quit
 			if (e.type == SDL_QUIT) {
 				quit = true;
@@ -77,13 +88,16 @@ void Program::run()
 
 				for (const auto &child : children) {
 					//	//If the mouse is over the child
-					if ((xMouse > child->getRect().x) && (xMouse < child->getRect().x + child->getRect().width) && (yMouse > child->getRect().y) && (yMouse < child->getRect().y + child->getRect().height)) {
+					const Rectangle& rect = child->getRect();
+					if (rect.ContainsPoint(xMouse, yMouse)) {
 						//std::cout << "Its inside the window \n";
 						if (activeElement != (child)) {
-							if (activeElement != nullptr) {
+							if (activeElement) {
 								activeElement->mouseExit();
 							}
-							child->mouseEnter();
+							if (child) {
+								child->mouseEnter();
+							}
 							activeElement = (child);
 						}
 					}
@@ -94,12 +108,36 @@ void Program::run()
 				
 				clicked = true;
 
+				switch (e.button.button) {
+				case SDL_BUTTON_LEFT:
+					button = MouseButton::Left;
+					break;
+
+				case SDL_BUTTON_MIDDLE:
+					button = MouseButton::Centre;
+					break;
+
+				case SDL_BUTTON_RIGHT:
+					button = MouseButton::Right;
+					break;
+
+				default:
+					assert(false);
+					break;
+				}
+
 			}
 
 			if (clicked) {
 				if (activeElement == drawWindow_) {
-					drawWindow_->AddClickedPixels(xMouse, yMouse);
-					activeElement->mouseButtonDown(e.button, xMouse, yMouse);
+
+					SDL_SetRenderDrawColor(renderer_, 0, 0, 0, 255);
+
+					//drawWindow_->AddClickedPixels(xMouse, yMouse);
+					
+					const int xRel = xMouse - activeElement->getRect().x;
+					const int yRel = yMouse - activeElement->getRect().y;
+					activeElement->mouseButtonDown(button, xRel, yRel);
 				}
 			}
 
@@ -118,8 +156,8 @@ void Program::run()
 		// Signal to the new active one the mouse has moved in.
 
 		// Draw everything.
-		SDL_RenderClear(renderer_);
-		screen_.draw();
+
+
 		SDL_RenderPresent(renderer_);
 	}
 

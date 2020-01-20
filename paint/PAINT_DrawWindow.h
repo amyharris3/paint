@@ -2,6 +2,7 @@
 
 #include "WIN_Window.h"
 
+struct SDL_Texture;
 
 namespace win
 {
@@ -31,6 +32,8 @@ namespace paint
 		const char* name_;
 		std::vector<Coords> clickedPixels_;  
 		SDL_Surface* surface_;
+		SDL_Renderer* renderer_;
+		SDL_Texture* texture_;
 //
 
 
@@ -38,7 +41,7 @@ namespace paint
 		DrawWindow() = default;
 		DrawWindow(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surface* surface, const gfx::Rectangle& rect, const char* name);
 
-		virtual ~DrawWindow() = default;
+		virtual ~DrawWindow();
 
 		void AddClickedPixels(int xMouse, int yMouse);
 		void mouseButtonDown(win::MouseButton button, int xPixel, int yPixel) override;
@@ -46,5 +49,6 @@ namespace paint
 		//void getPixels(SDL_Surface* surface);
 
 		//void setColor(SDL_Surface* surface);
+		void draw() override;
 	};
 }

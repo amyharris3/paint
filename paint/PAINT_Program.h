@@ -6,6 +6,7 @@
 struct SDL_Window;
 struct SDL_Renderer;
 struct SDL_Surface;
+struct SDL_Texture;
 
 namespace paint
 {
@@ -20,6 +21,7 @@ namespace paint
 		SDL_Window* window_;
 		SDL_Renderer* renderer_;
 		SDL_Surface* surface_;
+		SDL_Texture* texture_;
 		std::shared_ptr<DrawWindow> drawWindow_;
 		//ToolWindow * toolWindow_;
 		//StatusBarWindow * statusWindow_;
@@ -35,7 +37,7 @@ namespace paint
 		Program& operator=(Program&& that) = default;
 
 
-		void initialize(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surface* surface);
+		void initialize(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surface* surface, SDL_Texture* texture);
 		void run();
 
 	};
