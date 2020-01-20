@@ -103,7 +103,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)SDL2_ttf-2.0.15\include;$(SolutionDir)..\gfx;$(SolutionDir)SDL\include;%(AdditionalIncludeDirectories);$(SolutionDir)..\win</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)SDL2_ttf-2.0.15\include;$(SolutionDir)gfx;$(SolutionDir)SDL\include;%(AdditionalIncludeDirectories);$(SolutionDir)win</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -140,7 +140,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\gfx;$(SolutionDir)SDL\include;$(SolutionDir)SDL2_ttf-2.0.15\include;%(AdditionalIncludeDirectories);$(SolutionDir)..\win</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)gfx;$(SolutionDir)SDL\include;$(SolutionDir)SDL2_ttf-2.0.15\include;%(AdditionalIncludeDirectories);$(SolutionDir)win</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -185,11 +185,11 @@
     <ClInclude Include="PAINT_Triangle.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\gfx\gfx.vcxproj">
-      <Project>{1363c1f5-3a34-4703-b9a2-fae690d703d8}</Project>
+    <ProjectReference Include="..\gfx\gfx.vcxproj">
+      <Project>{085cee7f-1f0f-4a65-a88a-3c58a3783291}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\win\win.vcxproj">
-      <Project>{20bac629-f162-4ee0-8212-79faf6bc2b9d}</Project>
+    <ProjectReference Include="..\win\win.vcxproj">
+      <Project>{745d1704-dd48-498e-aeda-d20e78a1b05a}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
