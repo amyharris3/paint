@@ -18,7 +18,8 @@ void Window::draw()
 {
 	SDL_Rect sdlRect{ rect_.x, rect_.y, rect_.width, rect_.height };
 	SDL_RenderDrawRect(renderer_, &sdlRect);
-	auto colourArr = getBackgroundColour().getColour();
+	uint8_t colourArr[4];
+	getBackgroundColour().getComponents(colourArr);
 	SDL_SetRenderDrawColor(renderer_, colourArr[0], colourArr[1], colourArr[2], colourArr[3]);
 	SDL_RenderFillRect(renderer_, &sdlRect);
 

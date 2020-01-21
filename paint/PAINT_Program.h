@@ -11,7 +11,7 @@ struct SDL_Texture;
 namespace paint
 {
 	class DrawWindow;
-	//class ToolWindow;
+	class ToolWindow;
 	//class StatusBarWindow;
 
 	class Program
@@ -23,6 +23,7 @@ namespace paint
 		SDL_Surface* surface_;
 		SDL_Texture* texture_;
 		std::shared_ptr<DrawWindow> drawWindow_;
+		std::shared_ptr<ToolWindow> toolWindow_;
 		//ToolWindow * toolWindow_;
 		//StatusBarWindow * statusWindow_;
 		

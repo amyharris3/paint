@@ -2,6 +2,7 @@
 #include "PAINT_DrawWindow.h"
 #include "PAINT_ToolWindow.h"
 #include "PAINT_StatusBarWindow.h"
+#include "WIN_Button.h"
 #include "WIN_Mouse.h"
 #include <cassert>
 #include <SDL.h>
@@ -34,6 +35,13 @@ void Program::initialize(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surf
 	toolWindow->setBackgroundColour(toolColour);
 	screen_.AddChild(toolWindow);
 
+	toolWindow_ = toolWindow;
+
+	gfx::Rectangle drawButtonRect(20, 60, 20, 20);
+	auto drawButton = std::make_shared<Button>(renderer_, drawButtonRect, "drawButton");
+	//screen_.AddChild(drawButton);
+	toolWindow->AddChild(drawButton);
+
 	// Create status bar window.
 	gfx::Rectangle statusRect(0, 760, 1200, 40);
 	auto statusWindow = std::make_shared<StatusBarWindow>(sdlWindow, renderer, surface, statusRect, "statusWindow");
@@ -58,6 +66,8 @@ void Program::run()
 	MouseButton button;
 
 	auto children = screen_.getChildren();
+	auto toolChildren = toolWindow_->getChildren();
+
 
 	bool clicked = false;
 
@@ -149,14 +159,11 @@ void Program::run()
 
 		}
 
-		// Has mouse moved? No => nothing to do.
-		// If so: what is the active UIelement?
-		// Is it the same as before? => Nothing to do.
-		// Signal to the old active one the mouse has moved out.
-		// Signal to the new active one the mouse has moved in.
-
 		// Draw everything.
 
+		for (const auto& toolChild : toolChildren) {
+			toolChild->draw();
+		}
 
 		SDL_RenderPresent(renderer_);
 	}

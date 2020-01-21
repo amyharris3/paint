@@ -108,10 +108,11 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <AdditionalLibraryDirectories>$(SolutionDir)SDL2_ttf-2.0.15\lib\x64;$(SolutionDir)SDL\lib\win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /q /y /s $(SolutionDir)SDL\lib\win64\SDL2.dll $(OutDir)</Command>
+      <Command>xcopy /q /y /s $(SolutionDir)SDL\lib\win64\SDL2.dll $(OutDir)
+xcopy /q /y /s $(SolutionDir)SDL\lib\win64\SDL2_image.dll $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -151,6 +152,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ButtonFunctions.cpp" />
     <ClCompile Include="PAINT_Brush.cpp" />
     <ClCompile Include="PAINT_Circle.cpp" />
     <ClCompile Include="PAINT_DrawFlags.cpp" />

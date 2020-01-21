@@ -23,12 +23,12 @@ void UIelement::setBackgroundColour(gfx::Colour bgColour)
 
 void UIelement::mouseEnter()
 {
-	std::cout << "The mouse has entered the " << name_ << " window. \n";
+	std::cout << "The mouse has entered the " << name_ << " UI element. \n";
 }
 
 void UIelement::mouseExit()
 {
-	std::cout << "The mouse has left the " << name_ << " window. \n";
+	std::cout << "The mouse has left the " << name_ << " UI element. \n";
 }
 
 void UIelement::mouseButtonDown(MouseButton b, int xPixel, int yPixel)
