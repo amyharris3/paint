@@ -24,6 +24,7 @@
     <ClCompile Include="WIN_FreeLayout.cpp" />
     <ClCompile Include="WIN_Layout.cpp" />
     <ClCompile Include="WIN_RowLayout.cpp" />
+    <ClCompile Include="WIN_TableLayout.cpp" />
     <ClCompile Include="WIN_UIelement.cpp" />
     <ClCompile Include="WIN_Window.cpp" />
   </ItemGroup>
@@ -34,6 +35,7 @@
     <ClInclude Include="WIN_Layout.h" />
     <ClInclude Include="WIN_Mouse.h" />
     <ClInclude Include="WIN_RowLayout.h" />
+    <ClInclude Include="WIN_TableLayout.h" />
     <ClInclude Include="WIN_UIelement.h" />
     <ClInclude Include="WIN_Window.h" />
   </ItemGroup>
