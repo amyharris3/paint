@@ -31,6 +31,10 @@ namespace win
 		void setBackgroundColour(gfx::Colour bgColour);
 		gfx::Colour getBackgroundColour() const { return backgroundColour_; }
 		gfx::Colour getForegroundColour() const { return foregroundColour_; }
+		void getForegroundColour(uint8_t rgba[]);
+		void getBackgroundColour(uint8_t rgba[]);
+
+		void setRect(const gfx::Rectangle & rect);
 		gfx::Rectangle getRect() const { return rect_; }
 		const char* getName() { return name_; }
 
@@ -40,5 +44,6 @@ namespace win
 		virtual void mouseExit();
 		virtual void mouseButtonDown(MouseButton b, int xPixel, int yPixel);
 		//virtual void mouseButtonUp(MouseButton button) {}
+
 	};
 }

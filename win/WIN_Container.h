@@ -1,12 +1,14 @@
 #pragma once
 
 #include "WIN_UIelement.h"
+#include "WIN_Layout.h"
+#include "WIN_TableLayout.h"
 #include <memory>
 #include <vector>
 
 namespace win
 {
-	class Layout;
+	//class Layout;
 
 	class Container : public UIelement
 	{

@@ -1,19 +1,28 @@
 #pragma once
 
+#include <cstdint>
+
 namespace gfx
 {
 	class Colour
 	{
-	private:
-		int r_;
-		int g_;
-		int b_;
-		int a_;
 	public:
 		Colour() = default;
-		Colour(int r, int g, int b, int a);
+		Colour(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
 		~Colour() = default;
+		Colour(Colour const&) = default;
+		Colour& operator=(Colour const&) = default;
+		Colour(Colour&&) = default;
+		Colour& operator=(Colour&&) = default;
 
-		int* getColour();
+		void getComponents(uint8_t rgba[]);
+
+		uint8_t* getColour();
+
+	private:
+		uint8_t r_;
+		uint8_t g_;
+		uint8_t b_;
+		uint8_t a_;
 	};
 }

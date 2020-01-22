@@ -9,7 +9,7 @@ struct SDL_Surface;
 
 namespace win 
 {
-	class Layout;
+	//class Layout;
 
 	class Window : public Container
 	{
@@ -26,13 +26,17 @@ namespace win
 	public:
 		Window() = delete;
 		virtual ~Window() = default;
-		Window(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surface* surface, const gfx::Rectangle& rect, const char* name);
+		Window(SDL_Window * sdlWindow, SDL_Renderer * renderer, SDL_Surface * surface, const gfx::Rectangle & rect, const char* name);
+		Window(SDL_Window * sdlWindow, SDL_Renderer * renderer, SDL_Surface * surface, const gfx::Rectangle & rect, const char* name, Layout* layout);
 		Window(Window const& that) = delete;
 		Window(Window && that) = delete;
 		Window & operator=(Window const& that) = delete;
 		Window& operator=(Window && that) = delete;
 
 		void draw() override;
+
+		void drawGenericBox(int x, int y, int width, int height, gfx::Colour boxColour);
+		void drawLayout();
 
 	protected:
 		SDL_Window * getSDLWindow() { return sdlWindow_; }

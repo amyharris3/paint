@@ -2,7 +2,7 @@
 
 using namespace gfx;
 
-Colour::Colour(int r, int g, int b, int a)
+Colour::Colour(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
 	: r_(r)
 	, g_(g)
 	, b_(b)
@@ -10,9 +10,17 @@ Colour::Colour(int r, int g, int b, int a)
 {
 }
 
-int* Colour::getColour()
+void Colour::getComponents(uint8_t rgba[])
 {
-	int colourArr[4] = { r_, g_, b_, a_ };
+	rgba[0] = r_;
+	rgba[1] = g_;
+	rgba[2] = b_;
+	rgba[3] = a_;
+}
+
+uint8_t* Colour::getColour()
+{
+	uint8_t colourArr[4] = { r_, g_, b_, a_ };
 	return colourArr;
 }
 

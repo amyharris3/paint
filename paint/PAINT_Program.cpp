@@ -29,6 +29,7 @@ void Program::initialize(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surf
 
 	// Create tool window.
 	gfx::Rectangle toolRect(0, 40, 200, 720);
+	//TableLayout toolLayout(10, 10, 5, 5, 10, 10, 3, 2);
 	auto toolWindow = std::make_shared<ToolWindow>(sdlWindow, renderer, surface, toolRect, "toolWindow");
 	gfx::Colour toolColour{ 59, 156, 141, 120 };
 	toolWindow->setBackgroundColour(toolColour);
