@@ -4,7 +4,6 @@
 namespace win
 {
 	// FreeLayout does not change the parameters of the child elements
-	// It does check that the child elements are within the bounds of the container and corrects if they are not
 	class FreeLayout : public Layout
 	{
 	public:

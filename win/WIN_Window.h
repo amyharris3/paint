@@ -9,7 +9,7 @@ struct SDL_Surface;
 
 namespace win 
 {
-	//class Layout;
+	class Layout;
 
 	class Window : public Container
 	{

@@ -73,7 +73,40 @@ namespace PaintTests
 			Assert::AreEqual(L.getCols(), 5);
 		}
 
-		TEST_METHOD(TestTableLayoutApplSingle)
+		TEST_METHOD(TestFreeLayout)
+		{
+			FreeLayout L;
+			gfx::Rectangle boundary;
+
+			std::vector<std::shared_ptr<UIelement>> elements;
+			for (int i = 0; i < 3; i++) {
+				auto element = std::make_shared<TestElement>();
+				elements.push_back(element);
+			}
+
+			L.Apply(elements, boundary);
+
+			for (int i = 0; i < 1; i++) {
+				const auto& box = elements[i]->getRect();
+				Assert::AreEqual(box.x, 0);
+				Assert::AreEqual(box.y, 0);
+				Assert::AreEqual(box.width, 1);
+				Assert::AreEqual(box.height, 1);
+			}
+		}
+
+		TEST_METHOD(TestFreeLayoutEmptyElements)
+		{
+			TableLayout L(1, 2, 0, 0, 1, 1);
+			gfx::Rectangle boundary(0, 0, 10, 10);
+
+			std::vector<std::shared_ptr<UIelement>> elements;
+
+			L.Apply(elements, boundary);
+		}
+
+
+		TEST_METHOD(TestTableLayoutApplySingle)
 		{
 			TableLayout L(1, 2, 0, 0, 1, 1);
 			gfx::Rectangle boundary(0, 0, 10, 10);
@@ -87,7 +120,61 @@ namespace PaintTests
 			const auto& box = element->getRect();
 			Assert::AreEqual(box.x, 1);
 			Assert::AreEqual(box.y, 2);
+			Assert::AreEqual(box.width, 8);
+			Assert::AreEqual(box.height, 6);
 			Assert::IsTrue(boundary.ContainsPoint(box.x, box.y));
+		}
+
+		TEST_METHOD(TestTableLayoutApply1xN)
+		{
+			TableLayout L(1, 2, 1, 1, 1, 5);
+			gfx::Rectangle boundary(0, 0, 28, 10);
+
+			std::vector<std::shared_ptr<UIelement>> elements;
+			for (int i = 0; i < 5; i++) {
+				auto element = std::make_shared<TestElement>();
+				elements.push_back(element);
+			}
+
+			L.Apply(elements, boundary);
+
+			int xcount = 0;
+			for (const auto& element : elements) {
+				const auto& box = element->getRect();
+				Assert::AreEqual(box.x, 1 + (5 * xcount));
+				Assert::AreEqual(box.y, 2);
+				Assert::AreEqual(box.width, 4);
+				Assert::AreEqual(box.height, 6);
+				Assert::IsTrue(boundary.ContainsPoint(box.x, box.y));
+
+				xcount++;
+			}
+		}
+
+		TEST_METHOD(TestTableLayoutApplyNx1)
+		{
+			TableLayout L(2, 1, 1, 1, 5, 1);
+			gfx::Rectangle boundary(0, 0, 10, 28);
+
+			std::vector<std::shared_ptr<UIelement>> elements;
+			for (int i = 0; i < 5; i++) {
+				auto element = std::make_shared<TestElement>();
+				elements.push_back(element);
+			}
+
+			L.Apply(elements, boundary);
+
+			int ycount = 0;
+			for (const auto& element : elements) {
+				const auto& box = element->getRect();
+				Assert::AreEqual(box.x, 2);
+				Assert::AreEqual(box.y, 1 + (5 * ycount));
+				Assert::AreEqual(box.width, 6);
+				Assert::AreEqual(box.height, 4);
+				//Assert::IsTrue(boundary.ContainsPoint(box.x, box.y));
+
+				ycount++;
+			}
 		}
 
 		TEST_METHOD(TestTableLayoutApply)
@@ -103,8 +190,6 @@ namespace PaintTests
 
 			L.Apply(elements, boundary);
 
-			int elementWidth = 20;
-			int elementHeight = 20;
 			int xcount = 0;
 			int ycount = 0;
 
@@ -112,12 +197,11 @@ namespace PaintTests
 			//and that they are still within boundaries, after layout is applied
 			for (const auto& element : elements) {
 				const auto& box = element->getRect();
-				Assert::IsTrue(boundary.ContainsPoint(box.x, box.y));
-
 				Assert::AreEqual(box.x, 10 + (25 * xcount));
 				Assert::AreEqual(box.y, 10 + (25 * ycount));
-				Assert::AreEqual(box.width, elementWidth);
-				Assert::AreEqual(box.height, elementHeight);
+				Assert::AreEqual(box.width, 20);
+				Assert::AreEqual(box.height, 20);
+				Assert::IsTrue(boundary.ContainsPoint(box.x, box.y));
 
 				xcount++;
 				if (xcount == 2) {

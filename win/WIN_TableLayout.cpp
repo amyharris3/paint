@@ -94,4 +94,3 @@ void TableLayout::Apply(std::vector<std::shared_ptr<UIelement>> const& elements,
 
 	}
 }
-
