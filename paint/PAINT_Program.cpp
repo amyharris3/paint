@@ -37,8 +37,9 @@ void Program::initialize(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surf
 
 	toolWindow_ = toolWindow;
 
-	gfx::Rectangle drawButtonRect(20, 60, 20, 20);
-	auto drawButton = std::make_shared<Button>(renderer_, drawButtonRect, "drawButton");
+	// Create tool window buttons. 
+	gfx::Rectangle drawButtonRect(20, 60, 60, 60);
+	auto drawButton = std::make_shared<Button>(renderer_, drawButtonRect, "drawButton", "button_test.png");
 	//screen_.AddChild(drawButton);
 	toolWindow->AddChild(drawButton);
 
@@ -60,8 +61,6 @@ void Program::run()
 	bool quit = false;
 	int xMouse{ 0 };
 	int yMouse{ 0 };
-	int xOffset;
-	int yOffset;
 
 	MouseButton button;
 
@@ -75,6 +74,7 @@ void Program::run()
 
 	//While application is running
 	std::shared_ptr<UIelement> activeElement = nullptr;
+	std::shared_ptr<UIelement> highlightedButton = nullptr;
 	while (!quit) {
 
 
@@ -92,9 +92,6 @@ void Program::run()
 			if (e.type == SDL_MOUSEMOTION) {
 
 				SDL_GetMouseState(&xMouse, &yMouse);
-				//Get the mouse offsets
-				//xOffset = e.motion.x;
-				//yOffset = e.motion.y;
 
 				for (const auto &child : children) {
 					//	//If the mouse is over the child
@@ -105,12 +102,24 @@ void Program::run()
 							if (activeElement) {
 								activeElement->mouseExit();
 							}
-							if (child) {
+							else if (child) {
 								child->mouseEnter();
 							}
 							activeElement = (child);
 						}
 					}
+				}
+
+				for (const auto& toolChild : toolChildren) {
+					const Rectangle& toolRect = toolChild->getRect();
+					if (toolRect.ContainsPoint(xMouse, yMouse)) {
+						toolChild->mouseEnter();
+						highlightedButton = toolChild;
+					}
+					else {
+						toolChild->mouseExit();
+					}
+
 				}
 			}
 
@@ -149,6 +158,14 @@ void Program::run()
 					const int yRel = yMouse - activeElement->getRect().y;
 					activeElement->mouseButtonDown(button, xRel, yRel);
 				}
+
+				if (activeElement == toolWindow_) {
+					const Rectangle& buttonRect = highlightedButton->getRect();
+					if (buttonRect.ContainsPoint(xMouse, yMouse)) {
+						highlightedButton->mouseButtonDown(button, NULL, NULL);
+					}
+				}
+
 			}
 
 			if (e.type == SDL_MOUSEBUTTONUP) {
