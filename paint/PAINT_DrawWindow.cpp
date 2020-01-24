@@ -15,7 +15,6 @@ DrawWindow::DrawWindow(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surfac
 	, surface_(surface)
 	, renderer_(renderer)
 	, texture_(nullptr)
-	, drawingToggle_(false)
 {
 
 	texture_ = SDL_CreateTexture(renderer_, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, rect.width, rect.height);
@@ -62,11 +61,10 @@ void DrawWindow::mouseButtonDown(MouseButton b, int xPixel, int yPixel)
 	
 	Coords mousePixel{ xPixel, yPixel };
 	if (b == MouseButton::Left) {
-		if (drawingToggle_) {
-			uint32_t pixel = 0xFFFFFFFF;
-			SDL_Rect pixelRect = { xPixel, yPixel, 1, 1 };
-			SDL_UpdateTexture(texture_, &pixelRect, reinterpret_cast<void*>(&pixel), 1);
-		}
+		uint32_t pixel = 0xFFFFFFFF;
+		SDL_Rect pixelRect = { xPixel, yPixel, 1, 1 };
+		SDL_UpdateTexture(texture_, &pixelRect, reinterpret_cast<void*>(&pixel), 1);
+
 		//auto brushedArea = activeBrush_->brushArea(mousePixel);
 		//for (auto brushedPixel : brushedArea) {
 		//	std::cout << "brushed pixel at x: " << brushedPixel.x << ", y: " << brushedPixel.y << '\n';

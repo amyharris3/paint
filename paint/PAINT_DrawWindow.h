@@ -34,7 +34,6 @@ namespace paint
 		SDL_Surface* surface_;
 		SDL_Renderer* renderer_;
 		SDL_Texture* texture_;
-		bool drawingToggle_;
 //
 
 
@@ -48,7 +47,6 @@ namespace paint
 		void mouseButtonDown(win::MouseButton button, int xPixel, int yPixel) override;
 		void setActiveBrush(Brush* brush);
 		//void getPixels(SDL_Surface* surface);
-		void changeDrawToggle(bool drawingToggle) { drawingToggle_ = drawingToggle; }
 
 		//void setColor(SDL_Surface* surface);
 		void draw() override;
