@@ -22,7 +22,4 @@ ToolWindow::~ToolWindow()
 void ToolWindow::draw()
 {
 	Window::draw();
-	/*for (const auto& tool : toolbar) {
-		const auto& childRect = child
-	}*/
 }

@@ -41,6 +41,8 @@ void Program::initialize(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surf
 
 	drawWindow_ = drawWindow;
 
+	const 
+
 	// Create tool window.
 	gfx::Rectangle toolRect(0, 40, 200, 720);
 	auto toolWindow = std::make_shared<ToolWindow>(sdlWindow, renderer, surface, toolRect, "toolWindow");
@@ -52,7 +54,7 @@ void Program::initialize(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surf
 	gfx::Rectangle toolbarRect(10, 50, 180, 340);
 	auto toolbarLayout = std::make_shared<win::TableLayout>(10, 10, 10, 10, 3, 2);
 	auto toolbarBox = std::make_shared<ToolWindow>(sdlWindow, renderer, surface, toolbarRect, "toolbarBox", toolbarLayout);
-	gfx::Colour toolboxColour{ 100, 255, 220, 255 };
+	const gfx::Colour toolboxColour{ 100, 255, 220, 255 };
 	toolbarBox->setBackgroundColour(toolboxColour);
 	// Create tool window buttons.
 	gfx::Colour yellow(255, 255, 0, 255);
@@ -66,7 +68,7 @@ void Program::initialize(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surf
 	// Create area for colour picker
 	gfx::Rectangle colourPickerRect(10, 400, 180, 200);
 	auto colourPickerBox= std::make_shared<ToolWindow>(sdlWindow, renderer, surface, colourPickerRect, "colourPickerBox");
-	gfx::Colour colourPickerColour{ 150, 255, 240, 255 };
+	const gfx::Colour colourPickerColour{ 150, 255, 240, 255 };
 	colourPickerBox->setBackgroundColour(colourPickerColour);
 	toolWindow->addChild(colourPickerBox);
 	
@@ -75,9 +77,16 @@ void Program::initialize(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surf
 	// Create status bar window.
 	gfx::Rectangle statusRect(0, 760, 1200, 40);
 	auto statusWindow = std::make_shared<StatusBarWindow>(sdlWindow, renderer, surface, statusRect, "statusWindow");
-	gfx::Colour statusColour{ 40, 115, 103, 255 };
+	const gfx::Colour statusColour{ 40, 115, 103, 255 };
 	statusWindow->setBackgroundColour(statusColour);
 	screen_.addChild(statusWindow);
+
+	// Create menu bar window.
+	gfx::Rectangle menuRect(0, 0, 1200, 40);
+	auto menuWindow = std::make_shared<StatusBarWindow>(sdlWindow, renderer, surface, menuRect, "menuWindow");
+	const gfx::Colour menuColour{ 40, 115, 103, 255 };
+	menuWindow->setBackgroundColour(menuColour);
+	screen_.addChild(menuWindow);
 	
 	// Set active tool to default.
 
