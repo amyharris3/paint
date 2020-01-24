@@ -17,8 +17,6 @@ namespace gfx
 
 		void getComponents(uint8_t rgba[]);
 
-		uint8_t* getColour();
-
 	private:
 		uint8_t r_;
 		uint8_t g_;

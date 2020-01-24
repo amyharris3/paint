@@ -6,7 +6,7 @@
 using namespace paint;
 static Program s_program;
 
-int main(int argc, char ** argv)
+int main(int /*argc*/, char **/* argv*/)
 {
 	// Create root window.
 	SDL_Window* rootWindow = SDL_CreateWindow("rootWindow", 300, 100, 1200, 800, 0);

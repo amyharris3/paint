@@ -27,14 +27,14 @@ namespace win
 		void setRows(int rows);
 		void setCols(int cols);
 		
-		int getXmargin() { return xmargin_; }
-		int getYmargin() { return ymargin_; }
-		int getXspacing() { return xspacing_; }
-		int getYspacing() { return yspacing_; }
-		int getRows() { return rows_; }
-		int getCols() { return cols_; }
+		int getXmargin() const { return xmargin_; }
+		int getYmargin() const { return ymargin_; }
+		int getXspacing() const { return xspacing_; }
+		int getYspacing() const { return yspacing_; }
+		int getRows() const { return rows_; }
+		int getCols() const { return cols_; }
 
-		void Apply(std::vector<std::shared_ptr<UIelement>> const& elements, gfx::Rectangle const& bounds);
+		void Apply(std::vector<std::shared_ptr<UIelement>> const& elements, gfx::Rectangle const& bounds) override;
 
 	};
 }

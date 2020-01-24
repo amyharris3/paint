@@ -16,7 +16,6 @@ DrawWindow::DrawWindow(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surfac
 	, renderer_(renderer)
 	, texture_(nullptr)
 {
-
 	texture_ = SDL_CreateTexture(renderer_, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, rect.width, rect.height);
 }
 

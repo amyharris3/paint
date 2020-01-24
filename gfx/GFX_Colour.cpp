@@ -17,10 +17,3 @@ void Colour::getComponents(uint8_t rgba[])
 	rgba[2] = b_;
 	rgba[3] = a_;
 }
-
-uint8_t* Colour::getColour()
-{
-	uint8_t colourArr[4] = { r_, g_, b_, a_ };
-	return colourArr;
-}
-

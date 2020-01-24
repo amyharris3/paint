@@ -7,7 +7,7 @@ ToolWindow::ToolWindow(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surfac
 {
 }
 
-ToolWindow::ToolWindow(SDL_Window * sdlWindow, SDL_Renderer * renderer, SDL_Surface* surface, gfx::Rectangle const & rect, const char* name, win::Layout* layout)
+ToolWindow::ToolWindow(SDL_Window * sdlWindow, SDL_Renderer * renderer, SDL_Surface* surface, gfx::Rectangle const & rect, const char* name, std::shared_ptr<win::Layout> layout)
 	: Window(sdlWindow, renderer, surface, rect, name, layout)
 {
 }
@@ -15,4 +15,13 @@ ToolWindow::ToolWindow(SDL_Window * sdlWindow, SDL_Renderer * renderer, SDL_Surf
 
 ToolWindow::~ToolWindow()
 {
+}
+
+//Draw toolbar in NxM table layout
+void ToolWindow::draw()
+{
+	Window::draw();
+	/*for (const auto& tool : toolbar) {
+		const auto& childRect = child
+	}*/
 }

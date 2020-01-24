@@ -2,15 +2,29 @@
 #include "PAINT_DrawWindow.h"
 #include "PAINT_ToolWindow.h"
 #include "PAINT_StatusBarWindow.h"
+#include "WIN_Button.h"
 #include "WIN_Mouse.h"
 #include <cassert>
 #include <SDL.h>
 #include <iostream>
+#include "WIN_TableLayout.h"
+#include <WIN_GenericBox.h>
+
 
 using namespace paint;
 using namespace gfx;
 using namespace win;
 
+Program::Program()
+: screen_(std::make_shared<FreeLayout>(), Rectangle(300,100,1200,720),"screen")
+, window_(nullptr)
+, renderer_(nullptr)
+, surface_(nullptr)
+, texture_(nullptr)
+, drawWindow_(nullptr)
+{
+	
+}
 void Program::initialize(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surface* surface, SDL_Texture* texture)
 {
 	renderer_ = renderer;
@@ -23,25 +37,43 @@ void Program::initialize(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surf
 	auto drawWindow = std::make_shared<DrawWindow>(sdlWindow, renderer, surface, drawRect, "drawWindow");
 	gfx::Colour drawColour{ 255, 255, 255, 255 };
 	drawWindow->setBackgroundColour(drawColour);
-	screen_.AddChild(drawWindow);
+	screen_.addChild(drawWindow);
 
 	drawWindow_ = drawWindow;
 
 	// Create tool window.
 	gfx::Rectangle toolRect(0, 40, 200, 720);
-	//TableLayout toolLayout(10, 10, 5, 5, 10, 10, 3, 2);
 	auto toolWindow = std::make_shared<ToolWindow>(sdlWindow, renderer, surface, toolRect, "toolWindow");
 	gfx::Colour toolColour{ 59, 156, 141, 120 };
 	toolWindow->setBackgroundColour(toolColour);
-	screen_.AddChild(toolWindow);
+
+	// Tool window sub-containers
+	// Create toolbar inside tool window, allocating 3x2 table for 6 tool elements
+	gfx::Rectangle toolbarRect(10, 50, 180, 340);
+	auto toolbarLayout = std::make_shared<win::TableLayout>(10, 10, 10, 10, 3, 2);
+	auto toolbarBox = std::make_shared<ToolWindow>(sdlWindow, renderer, surface, toolbarRect, "toolbarBox", toolbarLayout);
+	gfx::Colour toolboxColour{ 100, 255, 220, 255 };
+	toolbarBox->setBackgroundColour(toolboxColour);
+	// Create tool window buttons.
+	gfx::Colour yellow(255, 255, 0, 255);
+	for (int i = 0; i < 6; i++) {
+		gfx::Rectangle rectGenericBox(0, 40, 20, 20);
+		auto box = std::make_shared<GenericBox>(rectGenericBox, "genericBox", yellow, yellow, renderer);
+		toolbarBox->addChild(box);
+	}
+	toolWindow->addChild(toolbarBox);
+
+	// Create area for colour picker
+
+	screen_.addChild(toolWindow);
 
 	// Create status bar window.
 	gfx::Rectangle statusRect(0, 760, 1200, 40);
 	auto statusWindow = std::make_shared<StatusBarWindow>(sdlWindow, renderer, surface, statusRect, "statusWindow");
 	gfx::Colour statusColour{ 40, 115, 103, 255 };
 	statusWindow->setBackgroundColour(statusColour);
-	screen_.AddChild(statusWindow);
-
+	screen_.addChild(statusWindow);
+	
 	// Set active tool to default.
 
 	// Anything else.
@@ -53,10 +85,8 @@ void Program::run()
 	bool quit = false;
 	int xMouse{ 0 };
 	int yMouse{ 0 };
-	int xOffset;
-	int yOffset;
-
-	MouseButton button;
+	//int xOffset;
+	//int yOffset;
 
 	auto children = screen_.getChildren();
 
@@ -105,6 +135,7 @@ void Program::run()
 				}
 			}
 
+			MouseButton button = MouseButton::Left;
 			if (e.type == SDL_MOUSEBUTTONDOWN) {
 				
 				clicked = true;

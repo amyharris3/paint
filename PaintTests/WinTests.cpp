@@ -128,7 +128,7 @@ namespace PaintTests
 		TEST_METHOD(TestTableLayoutApply1xN)
 		{
 			TableLayout L(1, 2, 1, 1, 1, 5);
-			gfx::Rectangle boundary(0, 0, 28, 10);
+			gfx::Rectangle boundary(0, 0, 26, 10);
 
 			std::vector<std::shared_ptr<UIelement>> elements;
 			for (int i = 0; i < 5; i++) {
@@ -154,7 +154,7 @@ namespace PaintTests
 		TEST_METHOD(TestTableLayoutApplyNx1)
 		{
 			TableLayout L(2, 1, 1, 1, 5, 1);
-			gfx::Rectangle boundary(0, 0, 10, 28);
+			gfx::Rectangle boundary(0, 0, 10, 26);
 
 			std::vector<std::shared_ptr<UIelement>> elements;
 			for (int i = 0; i < 5; i++) {
@@ -171,7 +171,7 @@ namespace PaintTests
 				Assert::AreEqual(box.y, 1 + (5 * ycount));
 				Assert::AreEqual(box.width, 6);
 				Assert::AreEqual(box.height, 4);
-				//Assert::IsTrue(boundary.ContainsPoint(box.x, box.y));
+				Assert::IsTrue(boundary.ContainsPoint(box.x, box.y));
 
 				ycount++;
 			}

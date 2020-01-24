@@ -1,12 +1,13 @@
 #include "WIN_UIelement.h"
 #include <iostream>
-#include <SDL.h>
 
 using namespace win;
 
 UIelement::UIelement(gfx::Rectangle rect, const char* name)
-	: rect_(rect)
-	, name_(name)
+	: name_(name)
+	, foregroundColour_()
+	, backgroundColour_()
+	, rect_(rect)
 {
 }
 
@@ -47,7 +48,7 @@ void UIelement::mouseExit()
 	std::cout << "The mouse has left the " << name_ << " window. \n";
 }
 
-void UIelement::mouseButtonDown(MouseButton b, int xPixel, int yPixel)
+void UIelement::mouseButtonDown(MouseButton, int xPixel, int yPixel)
 {
 
 }

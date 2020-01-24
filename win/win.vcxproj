@@ -22,6 +22,7 @@
     <ClCompile Include="WIN_Button.cpp" />
     <ClCompile Include="WIN_Container.cpp" />
     <ClCompile Include="WIN_FreeLayout.cpp" />
+    <ClCompile Include="WIN_GenericBox.cpp" />
     <ClCompile Include="WIN_Layout.cpp" />
     <ClCompile Include="WIN_RowLayout.cpp" />
     <ClCompile Include="WIN_TableLayout.cpp" />
@@ -32,6 +33,7 @@
     <ClInclude Include="WIN_Button.h" />
     <ClInclude Include="WIN_Container.h" />
     <ClInclude Include="WIN_FreeLayout.h" />
+    <ClInclude Include="WIN_GenericBox.h" />
     <ClInclude Include="WIN_Layout.h" />
     <ClInclude Include="WIN_Mouse.h" />
     <ClInclude Include="WIN_RowLayout.h" />

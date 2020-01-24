@@ -1,37 +1,33 @@
 #include "WIN_Window.h"
 #include <SDL.h>
+#include "WIN_FreeLayout.h"
 
 using namespace win;
 
+// If initialised without a layout, defaults to FreeLayout
 Window::Window(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surface* surface, gfx::Rectangle const& rect, const char* name)
-	: Container(nullptr, rect, name)
-	, layout_(nullptr)
-	, rect_(rect)
-	, sdlWindow_(sdlWindow)
-	, renderer_(renderer)
-	, name_(name)
-	, surface_(surface)
+: Window(sdlWindow, renderer, surface, rect, name, std::make_shared<FreeLayout>())
 {
 }
 
-Window::Window(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surface* surface, gfx::Rectangle const & rect, const char* name, Layout* layout)
-	: Container(nullptr, rect, name)
-	, layout_(layout)
-	, rect_(rect)
+Window::Window(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surface* surface, gfx::Rectangle const & rect, const char* name, std::shared_ptr<Layout> layout)
+	: Container(std::move(layout), rect, name)
 	, sdlWindow_(sdlWindow)
 	, renderer_(renderer)
-	, name_(name)
-	, surface_(surface)
+	// TODO , surface_(surface)
 {
 }
 
 void Window::draw()
 {
-	SDL_Rect sdlRect{ rect_.x, rect_.y, rect_.width, rect_.height };
+	const auto& rect = getRect();
+	SDL_Rect sdlRect{ rect.x, rect.y, rect.width, rect.height };
 	SDL_RenderDrawRect(renderer_, &sdlRect);
-	auto colourArr = getBackgroundColour().getColour();
-	SDL_SetRenderDrawColor(renderer_, colourArr[0], colourArr[1], colourArr[2], colourArr[3]);
+	uint8_t rgba[4];
+	getBackgroundColour().getComponents(rgba);
+	SDL_SetRenderDrawColor(renderer_, rgba[0], rgba[1], rgba[2], rgba[3]);
 	SDL_RenderFillRect(renderer_, &sdlRect);
+	Container::draw();
 
 	//if ((x != NULL) && (y != NULL)) {
 	//	auto fgColourArr = getForegroundColour().getColour();
@@ -40,25 +36,3 @@ void Window::draw()
 	//}
 
 }
-
-
-void Window::drawGenericBox(int x, int y, int width, int height, gfx::Colour boxColour)
-{
-	SDL_Rect sdlRect{ x, y, width, height };
-	SDL_RenderDrawRect(renderer_, &sdlRect);
-	auto colourArr = boxColour.getColour();
-	SDL_SetRenderDrawColor(renderer_, colourArr[0], colourArr[1], colourArr[2], colourArr[3]);
-	SDL_RenderFillRect(renderer_, &sdlRect);
-}
-
-/*void Window::drawLayout()
-{
-	gfx::Colour boxColour{ 50, 255, 255, 255 };
-
-	//incorporate buttons here when they are finished
-	for (auto element : layout_->getSubElements()) {
-		drawGenericBox(element.xpos_, element.ypos_, layout_->getElementWidth(), layout_->getElementHeight(), boxColour);
-
-	}
-}
-*/

@@ -99,4 +99,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\SDL\lib\win64\SDL2_image.dll" />
+  </ItemGroup>
 </Project>

@@ -80,8 +80,8 @@ void TableLayout::Apply(std::vector<std::shared_ptr<UIelement>> const& elements,
 	int ycount = 0;
 	for (const auto& elem : elements) {
 
-		gfx::Rectangle rect(xmargin_ + ((elementWidth + xspacing_) * xcount), 
-						ymargin_ + ((elementWidth + yspacing_) * ycount),
+		gfx::Rectangle rect(bounds.x + xmargin_ + ((elementWidth + xspacing_) * xcount), 
+						bounds.y + ymargin_ + ((elementHeight + yspacing_) * ycount),
 						elementWidth,
 						elementHeight);
 		elem->setRect(rect);

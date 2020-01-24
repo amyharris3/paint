@@ -7,11 +7,11 @@ StatusBarWindow::StatusBarWindow(SDL_Window* sdlWindow, SDL_Renderer* renderer, 
 {
 }
 
-void StatusBarWindow::displayMouseCoords(int xMouse, int yMouse)
-{
-
-	//The current input text.
-	//std::string inputText = "Some Text";
-	//gInputTextTexture.loadFromRenderedText(inputText.c_str(), textColour_);
-
-}
+//void StatusBarWindow::displayMouseCoords(int xMouse, int yMouse)
+//{
+//
+//	//The current input text.
+//	//std::string inputText = "Some Text";
+//	//gInputTextTexture.loadFromRenderedText(inputText.c_str(), textColour_);
+//
+//}
