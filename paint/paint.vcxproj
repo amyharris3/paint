@@ -152,7 +152,7 @@ xcopy /q /y /s $(SolutionDir)SDL\lib\win64\SDL2_image.dll $(OutDir)</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ButtonFunctions.cpp" />
+    <ClCompile Include="PAINT_ButtonFunctions.cpp" />
     <ClCompile Include="PAINT_Brush.cpp" />
     <ClCompile Include="PAINT_Circle.cpp" />
     <ClCompile Include="PAINT_DrawFlags.cpp" />
@@ -173,6 +173,7 @@ xcopy /q /y /s $(SolutionDir)SDL\lib\win64\SDL2_image.dll $(OutDir)</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PAINT_Brush.h" />
+    <ClInclude Include="PAINT_ButtonFunctions.h" />
     <ClInclude Include="PAINT_Circle.h" />
     <ClInclude Include="PAINT_DrawFlags.h" />
     <ClInclude Include="PAINT_DrawWindow.h" />

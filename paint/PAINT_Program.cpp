@@ -7,10 +7,38 @@
 #include <cassert>
 #include <SDL.h>
 #include <iostream>
+#include <memory>
+#include "PAINT_ButtonFunctions.h"
 
 using namespace paint;
 using namespace gfx;
 using namespace win;
+
+using UIelementVector = std::vector<std::shared_ptr<UIelement>>;
+
+static std::shared_ptr<UIelement> GetTopmostElement(const UIelementVector & children, int x, int y)
+{
+	for (const auto& child : children) {
+		const auto& rect = child->getRect();
+		if (rect.ContainsPoint(x, y)) {
+			if (auto childContainer = std::dynamic_pointer_cast<Container>(child)) {
+				// The child is a container.
+				if (!childContainer->getChildren().empty()) {
+					// The container has children.
+					return GetTopmostElement(childContainer->getChildren(), x, y);
+				}
+				else {
+					return child;
+				}
+			}
+			else {
+				return child;
+
+			}
+		}
+	}
+	return nullptr;
+}
 
 void Program::initialize(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surface* surface, SDL_Texture* texture)
 {
@@ -39,7 +67,7 @@ void Program::initialize(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surf
 
 	// Create tool window buttons. 
 	gfx::Rectangle drawButtonRect(20, 60, 60, 60);
-	auto drawButton = std::make_shared<Button>(renderer_, drawButtonRect, "drawButton", "button_test.png");
+	auto drawButton = std::make_shared<Button>(renderer_, drawButtonRect, "drawButton", "button_default.png", myAction);
 	//screen_.AddChild(drawButton);
 	toolWindow->AddChild(drawButton);
 
@@ -93,33 +121,16 @@ void Program::run()
 
 				SDL_GetMouseState(&xMouse, &yMouse);
 
-				for (const auto &child : children) {
-					//	//If the mouse is over the child
-					const Rectangle& rect = child->getRect();
-					if (rect.ContainsPoint(xMouse, yMouse)) {
-						//std::cout << "Its inside the window \n";
-						if (activeElement != (child)) {
-							if (activeElement) {
-								activeElement->mouseExit();
-							}
-							else if (child) {
-								child->mouseEnter();
-							}
-							activeElement = (child);
-						}
-					}
-				}
-
-				for (const auto& toolChild : toolChildren) {
-					const Rectangle& toolRect = toolChild->getRect();
-					if (toolRect.ContainsPoint(xMouse, yMouse)) {
-						toolChild->mouseEnter();
-						highlightedButton = toolChild;
-					}
-					else {
-						toolChild->mouseExit();
+				auto active = GetTopmostElement(screen_.getChildren(), xMouse, yMouse);
+				if (activeElement != active) {
+					if (activeElement) {
+						activeElement->mouseExit();
 					}
 
+					activeElement = active;
+					if (activeElement) {
+						activeElement->mouseEnter();
+					}
 				}
 			}
 
@@ -148,30 +159,20 @@ void Program::run()
 			}
 
 			if (clicked) {
-				if (activeElement == drawWindow_) {
-
+				if (activeElement) {
 					SDL_SetRenderDrawColor(renderer_, 0, 0, 0, 255);
-
-					//drawWindow_->AddClickedPixels(xMouse, yMouse);
-					
 					const int xRel = xMouse - activeElement->getRect().x;
 					const int yRel = yMouse - activeElement->getRect().y;
 					activeElement->mouseButtonDown(button, xRel, yRel);
 				}
-
-				if (activeElement == toolWindow_) {
-					const Rectangle& buttonRect = highlightedButton->getRect();
-					if (buttonRect.ContainsPoint(xMouse, yMouse)) {
-						highlightedButton->mouseButtonDown(button, NULL, NULL);
-					}
-				}
-
 			}
 
 			if (e.type == SDL_MOUSEBUTTONUP) {
 				std::cout << "Mouse button up \n";
 				clicked = false;
-				//drawWindow_->setColor(surface);
+				if (activeElement) {
+					activeElement->mouseButtonUp(button);
+				}
 			}
 
 		}

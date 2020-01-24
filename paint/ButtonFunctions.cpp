@@ -1,6 +1,0 @@
-//
-//
-//void toggleDraw(int activateDraw)
-//{
-//
-//}

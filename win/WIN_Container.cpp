@@ -20,6 +20,7 @@ Container::Container(std::shared_ptr<Layout> layout, const gfx::Rectangle& rect,
 void Container::AddChild(std::shared_ptr<UIelement> child)
 {
 	children_.push_back(child);
+	//child->setParent(this);
 }
 
 

@@ -24,8 +24,7 @@ namespace win
 
 		void AddChild(std::shared_ptr<UIelement> child);
 		void ApplyLayout();
-		std::vector<std::shared_ptr<UIelement>> getChildren() { return children_; }
-
+		const std::vector<std::shared_ptr<UIelement>> & getChildren() { return children_; }
 
 		void draw() override;
 

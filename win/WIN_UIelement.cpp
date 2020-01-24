@@ -1,12 +1,14 @@
 #include "WIN_UIelement.h"
 #include <iostream>
 #include <SDL.h>
+#include "WIN_Container.h"
 
 using namespace win;
 
 UIelement::UIelement(gfx::Rectangle rect, const char* name)
 	: rect_(rect)
 	, name_(name)
+	, parent_(nullptr)
 {
 }
 
@@ -35,3 +37,8 @@ void UIelement::mouseButtonDown(MouseButton b, int xPixel, int yPixel)
 {
 
 }
+
+//void UIelement::setParent(Container * parent)
+//{
+//	parent_ = parent;
+//}
