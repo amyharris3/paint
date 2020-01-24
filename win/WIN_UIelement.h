@@ -34,8 +34,9 @@ namespace win
 		gfx::Colour getBackgroundColour() const { return backgroundColour_; }
 		gfx::Colour getForegroundColour() const { return foregroundColour_; }
 		gfx::Rectangle getRect() const { return rect_; }
-		const char* getName() { return name_; }
-		//void setParent(Container * parent);
+		//const char* getName() { return name_; }
+		void setParent(UIelement * parent);
+		UIelement* getParent() { return parent_; }
 
 		virtual void draw() = 0;
 		//virtual void mouseMove(int x, int y) {}

@@ -2,8 +2,8 @@
 
 using namespace paint;
 
-StatusBarWindow::StatusBarWindow(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surface* surface, gfx::Rectangle const& rect, const char* name)
-	: Window(sdlWindow, renderer, surface, rect, name)
+StatusBarWindow::StatusBarWindow(SDL_Renderer* renderer, gfx::Rectangle const& rect, const char* name)
+	: Window(renderer, rect, name)
 {
 }
 

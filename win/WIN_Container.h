@@ -23,6 +23,7 @@ namespace win
 		Container& operator=(Container&& that) = default;
 
 		void AddChild(std::shared_ptr<UIelement> child);
+
 		void ApplyLayout();
 		const std::vector<std::shared_ptr<UIelement>> & getChildren() { return children_; }
 

@@ -2,8 +2,8 @@
 
 using namespace paint;
 
-ToolWindow::ToolWindow(SDL_Window * sdlWindow, SDL_Renderer * renderer, SDL_Surface* surface, gfx::Rectangle const & rect, const char* name)
-	: Window(sdlWindow, renderer, surface, rect, name)
+ToolWindow::ToolWindow(SDL_Renderer * renderer, gfx::Rectangle const & rect, const char* name)
+	: Window(renderer, rect, name)
 {
 }
 
@@ -11,3 +11,12 @@ ToolWindow::ToolWindow(SDL_Window * sdlWindow, SDL_Renderer * renderer, SDL_Surf
 ToolWindow::~ToolWindow()
 {
 }
+
+//
+//void ToolWindow::draw()
+//{
+//
+//	for (auto child : this->getChildren()) {
+//		child->draw();
+//	}
+//}

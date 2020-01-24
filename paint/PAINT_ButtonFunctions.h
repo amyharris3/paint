@@ -7,7 +7,6 @@ namespace win {
 
 namespace paint {
 
-
 	void myAction(win::Button* button);
 
 	//void foo();

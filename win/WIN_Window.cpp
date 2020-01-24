@@ -3,14 +3,12 @@
 
 using namespace win;
 
-Window::Window(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surface* surface, gfx::Rectangle const & rect, const char* name)
+Window::Window(SDL_Renderer* renderer, gfx::Rectangle const & rect, const char* name)
 	: Container(nullptr, rect, name)
 	, layout_(nullptr)
 	, rect_(rect)
-	, sdlWindow_(sdlWindow)
 	, renderer_(renderer)
 	, name_(name)
-	, surface_(surface)
 {
 }
 

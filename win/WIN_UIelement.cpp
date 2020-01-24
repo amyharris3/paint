@@ -38,7 +38,7 @@ void UIelement::mouseButtonDown(MouseButton b, int xPixel, int yPixel)
 
 }
 
-//void UIelement::setParent(Container * parent)
-//{
-//	parent_ = parent;
-//}
+void UIelement::setParent(UIelement * parent)
+{
+	parent_ = parent;
+}

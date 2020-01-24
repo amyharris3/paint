@@ -1,6 +1,8 @@
 #include "PAINT_ButtonFunctions.h"
 #include "WIN_Button.h"
 #include <iostream>
+#include "PAINT_Utils.h"
+#include "PAINT_DrawWindow.h"
 
 using namespace win;
 using namespace paint;
@@ -23,5 +25,6 @@ void paint::myAction(win::Button* button)
 
 void paint::toggleDraw(win::Button* button)
 {
-
+	auto dw = utils::findDrawWindow(button);
+	dw->toggleDraw();
 }

@@ -10,7 +10,7 @@ namespace paint
 	{
 	public:
 		StatusBarWindow() = default;
-		StatusBarWindow(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surface* surface, gfx::Rectangle const& rect, const char* name);
+		StatusBarWindow(SDL_Renderer* renderer, gfx::Rectangle const& rect, const char* name);
 		void displayMouseCoords(int xMouse, int yMouse);
 		virtual ~StatusBarWindow() = default;
 	};

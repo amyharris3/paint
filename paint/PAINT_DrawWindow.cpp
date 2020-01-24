@@ -7,14 +7,13 @@
 using namespace paint;
 using namespace win;
 
-DrawWindow::DrawWindow(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surface* surface, gfx::Rectangle const& rect, const char* name)
-	: Window(sdlWindow, renderer, surface, rect, name)
+DrawWindow::DrawWindow(SDL_Renderer* renderer, gfx::Rectangle const& rect, const char* name)
+	: Window( renderer, rect, name)
 	, activeTool_(nullptr)
 	, activeBrush_(nullptr)
-	, name_(nullptr)
-	, surface_(surface)
+	, name_(name)
 	, renderer_(renderer)
-	, texture_(nullptr)
+	, drawToggle_(false)
 {
 
 	texture_ = SDL_CreateTexture(renderer_, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, rect.width, rect.height);
@@ -38,12 +37,6 @@ void DrawWindow::setActiveBrush(Brush* brush)
 //	pixels_ = surface->pixels;
 //}
 
-void DrawWindow::AddClickedPixels(int xMouse, int yMouse)
-{
-	Coords coord = { xMouse, yMouse };
-	//std::cout << "Adding clicked pixel at x: " << xMouse << ", y: " << yMouse << '\n';
-	clickedPixels_.push_back(coord);
-}
 
 /*override*/
 void DrawWindow::draw()
@@ -61,9 +54,12 @@ void DrawWindow::mouseButtonDown(MouseButton b, int xPixel, int yPixel)
 	
 	Coords mousePixel{ xPixel, yPixel };
 	if (b == MouseButton::Left) {
-		uint32_t pixel = 0xFFFFFFFF;
-		SDL_Rect pixelRect = { xPixel, yPixel, 1, 1 };
-		SDL_UpdateTexture(texture_, &pixelRect, reinterpret_cast<void*>(&pixel), 1);
+		if (drawToggle_) {
+			uint32_t pixel = 0xFFFFFFFF;
+			SDL_Rect pixelRect = { xPixel, yPixel, 1, 1 };
+			SDL_UpdateTexture(texture_, &pixelRect, reinterpret_cast<void*>(&pixel), 1);
+
+		}
 
 		//auto brushedArea = activeBrush_->brushArea(mousePixel);
 		//for (auto brushedPixel : brushedArea) {
@@ -76,17 +72,8 @@ void DrawWindow::mouseButtonDown(MouseButton b, int xPixel, int yPixel)
 	}
 }
 
-//void DrawWindow::setColor(SDL_Surface* surface)
-//{
-//	Uint16* pixels = (Uint16*)surface->pixels;            // Get the pixels from the Surface
-//
-//	// Iterrate through the pixels and change the color
-//	for (auto pixel : clickedPixels_) {
-//		auto brushedArea = activeBrush.brushArea(pixel);
-//		for (auto brushedPixel : brushedArea) {
-//			pixels[brushedPixel.x + (brushedPixel.y * surface->w)] = SDL_MapRGB(surface->format, 255, 0, 0);
-//		}
-//
-//	}
-//
-//}
+
+void DrawWindow::toggleDraw()
+{
+	drawToggle_ = !drawToggle_;
+}

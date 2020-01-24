@@ -162,14 +162,17 @@ xcopy /q /y /s $(SolutionDir)SDL\lib\win64\SDL2_image.dll $(OutDir)</Command>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\amyha\source\repos\paint\SDL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\amyha\source\repos\paint\SDL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <ClCompile Include="PAINT_MenuWindow.cpp" />
     <ClCompile Include="PAINT_Program.cpp" />
     <ClCompile Include="PAINT_Rectangle.cpp" />
+    <ClCompile Include="PAINT_Screen.cpp" />
     <ClCompile Include="PAINT_Shape.cpp" />
     <ClCompile Include="PAINT_ShapeTool.cpp" />
     <ClCompile Include="PAINT_Tool.cpp" />
     <ClCompile Include="PAINT_StatusBarWindow.cpp" />
     <ClCompile Include="PAINT_ToolWindow.cpp" />
     <ClCompile Include="PAINT_Triangle.cpp" />
+    <ClCompile Include="PAINT_Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PAINT_Brush.h" />
@@ -178,14 +181,17 @@ xcopy /q /y /s $(SolutionDir)SDL\lib\win64\SDL2_image.dll $(OutDir)</Command>
     <ClInclude Include="PAINT_DrawFlags.h" />
     <ClInclude Include="PAINT_DrawWindow.h" />
     <ClInclude Include="PAINT_Eraser.h" />
+    <ClInclude Include="PAINT_MenuWindow.h" />
     <ClInclude Include="PAINT_Program.h" />
     <ClInclude Include="PAINT_Rectangle.h" />
+    <ClInclude Include="PAINT_Screen.h" />
     <ClInclude Include="PAINT_Shape.h" />
     <ClInclude Include="PAINT_ShapeTool.h" />
     <ClInclude Include="PAINT_Tool.h" />
     <ClInclude Include="PAINT_StatusBarWindow.h" />
     <ClInclude Include="PAINT_ToolWindow.h" />
     <ClInclude Include="PAINT_Triangle.h" />
+    <ClInclude Include="PAINT_Utils.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\gfx\gfx.vcxproj">
