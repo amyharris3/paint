@@ -20,9 +20,13 @@ namespace win
 		int cols_;
 
 	public:
-		TableLayout() = default;
-		TableLayout(const int xmargin, const int ymargin, const int xspacing, const int yspacing, int rows, int cols);
-		virtual ~TableLayout();
+		//TableLayout() = default;
+		explicit TableLayout(const int xmargin = 0, const int ymargin = 0, const int xspacing = 0, const int yspacing = 0, int rows = 1, int cols = 1);
+		virtual ~TableLayout() = default;
+		TableLayout(TableLayout const& that) = default;
+		TableLayout(TableLayout && that) = default;
+		TableLayout& operator=(TableLayout const& that) = default;
+		TableLayout& operator=(TableLayout && that) = default;
 
 		void setRows(int rows);
 		void setCols(int cols);

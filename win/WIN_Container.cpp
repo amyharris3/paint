@@ -17,7 +17,7 @@ Container::Container(std::shared_ptr<Layout> layout, const gfx::Rectangle& rect,
 
 }
 
-void Container::addChild(std::shared_ptr<UIelement> child)
+void Container::addChild(std::shared_ptr<UIelement> const & child)
 {
 	children_.push_back(child);
 	dirty_ = true;
@@ -31,14 +31,14 @@ void Container::draw()
 	}
 
 	// TODO: draw myself.
-	for (auto child : children_) {
-		const char* name = child->getName();
+	for (auto & child : children_) {
+		auto name = child->getName();
 		gfx::Rectangle r = child->getRect();
 		child->draw();
 	}
 }
 
-void Container::applyLayout()
+void Container::applyLayout() const
 {
 	layout_->Apply(children_, getRect());
 }

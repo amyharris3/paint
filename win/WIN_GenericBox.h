@@ -9,7 +9,7 @@ struct SDL_Rect;
 
 namespace win
 {
-	class GenericBox : public UIelement
+	class GenericBox final : public UIelement
 	{
 	public:
 

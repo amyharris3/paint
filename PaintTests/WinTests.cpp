@@ -30,17 +30,17 @@ namespace PaintTests
 
 			uint8_t rgbaFore[4];
 			element.getForegroundColour(rgbaFore);
-			Assert::AreEqual(rgbaFore[0], (uint8_t)0);
-			Assert::AreEqual(rgbaFore[1], (uint8_t)1);
-			Assert::AreEqual(rgbaFore[2], (uint8_t)2);
-			Assert::AreEqual(rgbaFore[3], (uint8_t)3);
+			Assert::AreEqual(rgbaFore[0], uint8_t(0));
+			Assert::AreEqual(rgbaFore[1], uint8_t(1));
+			Assert::AreEqual(rgbaFore[2], uint8_t(2));
+			Assert::AreEqual(rgbaFore[3], uint8_t(3));
 
 			uint8_t rgbaBack[4];
 			element.getBackgroundColour(rgbaBack);
-			Assert::AreEqual(rgbaBack[0], (uint8_t)250);
-			Assert::AreEqual(rgbaBack[1], (uint8_t)251);
-			Assert::AreEqual(rgbaBack[2], (uint8_t)252);
-			Assert::AreEqual(rgbaBack[3], (uint8_t)253);
+			Assert::AreEqual(rgbaBack[0], uint8_t(250));
+			Assert::AreEqual(rgbaBack[1], uint8_t(251));
+			Assert::AreEqual(rgbaBack[2], uint8_t(252));
+			Assert::AreEqual(rgbaBack[3], uint8_t(253));
 		}
 
 	};
@@ -76,7 +76,7 @@ namespace PaintTests
 		TEST_METHOD(TestFreeLayout)
 		{
 			FreeLayout L;
-			gfx::Rectangle boundary;
+			const gfx::Rectangle boundary;
 
 			std::vector<std::shared_ptr<UIelement>> elements;
 			for (int i = 0; i < 3; i++) {
@@ -86,7 +86,7 @@ namespace PaintTests
 
 			L.Apply(elements, boundary);
 
-			for (int i = 0; i < 1; i++) {
+			for (auto i = 0; i < 1; i++) {
 				const auto& box = elements[i]->getRect();
 				Assert::AreEqual(box.x, 0);
 				Assert::AreEqual(box.y, 0);
@@ -98,7 +98,7 @@ namespace PaintTests
 		TEST_METHOD(TestFreeLayoutEmptyElements)
 		{
 			TableLayout L(1, 2, 0, 0, 1, 1);
-			gfx::Rectangle boundary(0, 0, 10, 10);
+			const gfx::Rectangle boundary(0, 0, 10, 10);
 
 			std::vector<std::shared_ptr<UIelement>> elements;
 
@@ -109,7 +109,7 @@ namespace PaintTests
 		TEST_METHOD(TestTableLayoutApplySingle)
 		{
 			TableLayout L(1, 2, 0, 0, 1, 1);
-			gfx::Rectangle boundary(0, 0, 10, 10);
+			const gfx::Rectangle boundary(0, 0, 10, 10);
 
 			std::vector<std::shared_ptr<UIelement>> elements;
 			auto element = std::make_shared<TestElement>();
@@ -122,13 +122,13 @@ namespace PaintTests
 			Assert::AreEqual(box.y, 2);
 			Assert::AreEqual(box.width, 8);
 			Assert::AreEqual(box.height, 6);
-			Assert::IsTrue(boundary.ContainsPoint(box.x, box.y));
+			Assert::IsTrue(boundary.containsPoint(box.x, box.y));
 		}
 
 		TEST_METHOD(TestTableLayoutApply1xN)
 		{
 			TableLayout L(1, 2, 1, 1, 1, 5);
-			gfx::Rectangle boundary(0, 0, 26, 10);
+			const gfx::Rectangle boundary(0, 0, 26, 10);
 
 			std::vector<std::shared_ptr<UIelement>> elements;
 			for (int i = 0; i < 5; i++) {
@@ -145,7 +145,7 @@ namespace PaintTests
 				Assert::AreEqual(box.y, 2);
 				Assert::AreEqual(box.width, 4);
 				Assert::AreEqual(box.height, 6);
-				Assert::IsTrue(boundary.ContainsPoint(box.x, box.y));
+				Assert::IsTrue(boundary.containsPoint(box.x, box.y));
 
 				xcount++;
 			}
@@ -154,7 +154,7 @@ namespace PaintTests
 		TEST_METHOD(TestTableLayoutApplyNx1)
 		{
 			TableLayout L(2, 1, 1, 1, 5, 1);
-			gfx::Rectangle boundary(0, 0, 10, 26);
+			const gfx::Rectangle boundary(0, 0, 10, 26);
 
 			std::vector<std::shared_ptr<UIelement>> elements;
 			for (int i = 0; i < 5; i++) {
@@ -171,7 +171,7 @@ namespace PaintTests
 				Assert::AreEqual(box.y, 1 + (5 * ycount));
 				Assert::AreEqual(box.width, 6);
 				Assert::AreEqual(box.height, 4);
-				Assert::IsTrue(boundary.ContainsPoint(box.x, box.y));
+				Assert::IsTrue(boundary.containsPoint(box.x, box.y));
 
 				ycount++;
 			}
@@ -180,7 +180,7 @@ namespace PaintTests
 		TEST_METHOD(TestTableLayoutApply)
 		{
 			TableLayout L(10, 10, 5, 5, 3, 2);
-			gfx::Rectangle boundary(0, 0, 65, 90);
+			const gfx::Rectangle boundary(0, 0, 65, 90);
 
 			std::vector<std::shared_ptr<UIelement>> elements;
 			for (int i = 0; i < 6; i++) {
@@ -201,7 +201,7 @@ namespace PaintTests
 				Assert::AreEqual(box.y, 10 + (25 * ycount));
 				Assert::AreEqual(box.width, 20);
 				Assert::AreEqual(box.height, 20);
-				Assert::IsTrue(boundary.ContainsPoint(box.x, box.y));
+				Assert::IsTrue(boundary.containsPoint(box.x, box.y));
 
 				xcount++;
 				if (xcount == 2) {

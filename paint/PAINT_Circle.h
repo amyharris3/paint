@@ -3,11 +3,16 @@
 
 namespace paint
 {
-	class Circle :
+	class Circle final :
 		public Shape
 	{
 	public:
-		Circle();
-		virtual ~Circle();
+		Circle() = default;
+		virtual ~Circle() = default;
+		Circle(const Circle& that) = default;
+		Circle(Circle && that) = default;
+		Circle& operator=(const Circle & that) = default;
+		Circle& operator=(Circle && that) = default;
+		
 	};
 }

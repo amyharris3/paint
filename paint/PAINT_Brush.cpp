@@ -3,24 +3,24 @@
 
 using namespace paint;
 
-
-
-Brush::Brush(int thickness)
+Brush::Brush(const int thickness)
 	: thickness_(thickness)
 {
 
 }
 
-
-std::vector<Coords> Brush::brushArea(Coords pixel)
+// Only defined for round brushes of thickness_, more complex shapes undefined
+std::vector<Coords> Brush::brushArea(const Coords pixel) const
 {
 	std::vector<Coords> returnPixels;
 
 	returnPixels.push_back(pixel);
-	for (int i = 0; i <= 5; ++i) {
+	
+	for (auto i = 0; i <= int(round(double(thickness_))); ++i) {
 		returnPixels.push_back(Coords{ pixel.x - i, pixel.y - i });
 		returnPixels.push_back(Coords{ pixel.x + i, pixel.y + i });
 	}
+	
 	return returnPixels;
 }
 

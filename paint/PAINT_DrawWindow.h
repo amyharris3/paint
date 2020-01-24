@@ -4,6 +4,11 @@
 
 struct SDL_Texture;
 
+namespace gfx
+{
+	class Colour;
+}
+
 namespace win
 {
 	enum class MouseButton;
@@ -18,18 +23,17 @@ namespace paint
 		int y;
 	};
 
-	class Colour;
 	class Tool;
 	class Brush;
 
-	class DrawWindow :
+	class DrawWindow final :
 		public win::Window
 	{
 	private:
 		// TODO What sort of pointer?
 		Tool * activeTool_;
 		Brush * activeBrush_;
-		const char* name_;
+		gfx::Colour activeColour_;
 		std::vector<Coords> clickedPixels_;  
 		SDL_Surface* surface_;
 		SDL_Renderer* renderer_;
@@ -38,13 +42,18 @@ namespace paint
 
 
 	public:
-		DrawWindow() = default;
+		DrawWindow() = delete;
 		DrawWindow(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surface* surface, const gfx::Rectangle& rect, const char* name);
 
 		virtual ~DrawWindow();
+		DrawWindow(const DrawWindow& that) = delete;
+		DrawWindow(DrawWindow&& that) = delete;
+		DrawWindow& operator=(const DrawWindow& that) = delete;
+		DrawWindow& operator=(DrawWindow&& that) = delete;
 
-		void AddClickedPixels(int xMouse, int yMouse);
-		void mouseButtonDown(win::MouseButton button, int xPixel, int yPixel) override;
+
+		void addClickedPixels(int xMouse, int yMouse);
+		void mouseButtonDown(win::MouseButton b, int xPixel, int yPixel) override;
 		void setActiveBrush(Brush* brush);
 		//void getPixels(SDL_Surface* surface);
 

@@ -35,7 +35,7 @@ void Program::initialize(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surf
 	// Create draw window.
 	gfx::Rectangle drawRect(200, 40, 1000, 720);
 	auto drawWindow = std::make_shared<DrawWindow>(sdlWindow, renderer, surface, drawRect, "drawWindow");
-	gfx::Colour drawColour{ 255, 255, 255, 255 };
+	const gfx::Colour drawColour{ 255, 255, 255, 255 };
 	drawWindow->setBackgroundColour(drawColour);
 	screen_.addChild(drawWindow);
 
@@ -47,7 +47,7 @@ void Program::initialize(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surf
 	gfx::Colour toolColour{ 59, 156, 141, 120 };
 	toolWindow->setBackgroundColour(toolColour);
 
-	// Tool window sub-containers
+	// Tool window sub-containers - referring to sub-containers as 'box' to distinguish from 'window'
 	// Create toolbar inside tool window, allocating 3x2 table for 6 tool elements
 	gfx::Rectangle toolbarRect(10, 50, 180, 340);
 	auto toolbarLayout = std::make_shared<win::TableLayout>(10, 10, 10, 10, 3, 2);
@@ -64,7 +64,12 @@ void Program::initialize(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surf
 	toolWindow->addChild(toolbarBox);
 
 	// Create area for colour picker
-
+	gfx::Rectangle colourPickerRect(10, 400, 180, 200);
+	auto colourPickerBox= std::make_shared<ToolWindow>(sdlWindow, renderer, surface, colourPickerRect, "colourPickerBox");
+	gfx::Colour colourPickerColour{ 150, 255, 240, 255 };
+	colourPickerBox->setBackgroundColour(colourPickerColour);
+	toolWindow->addChild(colourPickerBox);
+	
 	screen_.addChild(toolWindow);
 
 	// Create status bar window.
@@ -120,7 +125,7 @@ void Program::run()
 				for (const auto &child : children) {
 					//	//If the mouse is over the child
 					const Rectangle& rect = child->getRect();
-					if (rect.ContainsPoint(xMouse, yMouse)) {
+					if (rect.containsPoint(xMouse, yMouse)) {
 						//std::cout << "Its inside the window \n";
 						if (activeElement != (child)) {
 							if (activeElement) {
@@ -165,7 +170,7 @@ void Program::run()
 
 					SDL_SetRenderDrawColor(renderer_, 0, 0, 0, 255);
 
-					//drawWindow_->AddClickedPixels(xMouse, yMouse);
+					//drawWindow_->addClickedPixels(xMouse, yMouse);
 					
 					const int xRel = xMouse - activeElement->getRect().x;
 					const int yRel = yMouse - activeElement->getRect().y;

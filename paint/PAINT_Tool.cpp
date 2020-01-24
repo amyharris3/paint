@@ -2,6 +2,7 @@
 
 using namespace paint;
 
+/*
 Tool::Tool()
 {
 }
@@ -10,3 +11,4 @@ Tool::Tool()
 Tool::~Tool()
 {
 }
+*/

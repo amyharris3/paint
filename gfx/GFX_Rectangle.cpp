@@ -2,7 +2,7 @@
 
 using namespace gfx;
 
-bool Rectangle::ContainsPoint(const int x, const int y) const
+bool Rectangle::containsPoint(const int x, const int y) const
 {
 	return (x >= this->x) && (y >= this->y) && (x < this->x + this->width) && (y < this->y + this->height);
 }

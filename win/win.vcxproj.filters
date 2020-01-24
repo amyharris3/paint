@@ -27,9 +27,6 @@
     <ClCompile Include="WIN_Layout.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WIN_RowLayout.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="WIN_UIelement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -57,9 +54,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WIN_Mouse.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="WIN_RowLayout.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WIN_UIelement.h">

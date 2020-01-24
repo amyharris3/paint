@@ -16,15 +16,15 @@ namespace paint
 		public Tool
 	{
 	public:
-		Brush() = default;
-		Brush(int thickness);
+		//Brush() = default;
+		explicit Brush(int thickness = 5);
 		virtual ~Brush() = default;
 		Brush(const Brush& that) = default;
 		Brush(Brush&& that) = default;
 		Brush& operator=(const Brush& that) = default;
 		Brush& operator=(Brush&& that) = default;
 
-		std::vector<Coords> brushArea(Coords pixel);
+		std::vector<Coords> brushArea(Coords pixel) const;
 
 
 	private:

@@ -2,10 +2,14 @@
 
 namespace paint
 {
-	class DrawFlags
+	class DrawFlags final
 	{
 	public:
-		DrawFlags();
-		~DrawFlags();
+		DrawFlags() = default;
+		~DrawFlags() = default;
+		DrawFlags(const DrawFlags& that) = default;
+		DrawFlags(DrawFlags && that) = default;
+		DrawFlags& operator=(const DrawFlags & that) = default;
+		DrawFlags& operator=(DrawFlags && that) = default;
 	};
 }

@@ -27,8 +27,7 @@ namespace gfx
 		Rectangle& operator=(Rectangle &&) = default;
 
 		// API.
-		bool ContainsPoint(int x, int y) const;
-
+		bool containsPoint(int x, int y) const;
 		
 		int x;
 		int y;

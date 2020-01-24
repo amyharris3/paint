@@ -2,16 +2,21 @@
 
 #include "PAINT_DrawFlags.h"
 
-class DrawFlags;
-
 namespace paint
 {
+	class DrawFlags;
+	
 	class Shape
 	{
 	private:
 		DrawFlags * drawFlag_;
+		
 	public:
-		Shape();
-		virtual ~Shape();
+		Shape() = default;
+		virtual ~Shape() = default;
+		Shape(const Shape& that) = default;
+		Shape(Shape && that) = default;
+		Shape& operator=(const Shape & that) = default;
+		Shape& operator=(Shape && that) = default;
 	};
 }

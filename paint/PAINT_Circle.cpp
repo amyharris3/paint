@@ -2,7 +2,7 @@
 
 using namespace paint;
 
-Circle::Circle()
+/*Circle::Circle()
 {
 }
 
@@ -10,3 +10,4 @@ Circle::Circle()
 Circle::~Circle()
 {
 }
+*/

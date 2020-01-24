@@ -11,13 +11,14 @@ DrawWindow::DrawWindow(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surfac
 	: Window(sdlWindow, renderer, surface, rect, name)
 	, activeTool_(nullptr)
 	, activeBrush_(nullptr)
-	, name_(nullptr)
+	, activeColour_(gfx::Colour(255, 255, 255,255))
 	, surface_(surface)
 	, renderer_(renderer)
 	, texture_(nullptr)
 {
 	texture_ = SDL_CreateTexture(renderer_, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, rect.width, rect.height);
 }
+
 
 DrawWindow::~DrawWindow()
 {
@@ -26,6 +27,7 @@ DrawWindow::~DrawWindow()
 		texture_ = nullptr;
 	}
 }
+
 
 void DrawWindow::setActiveBrush(Brush* brush)
 {	
@@ -37,9 +39,9 @@ void DrawWindow::setActiveBrush(Brush* brush)
 //	pixels_ = surface->pixels;
 //}
 
-void DrawWindow::AddClickedPixels(int xMouse, int yMouse)
+void DrawWindow::addClickedPixels(const int xMouse, const int yMouse)
 {
-	Coords coord = { xMouse, yMouse };
+	const Coords coord = { xMouse, yMouse };
 	//std::cout << "Adding clicked pixel at x: " << xMouse << ", y: " << yMouse << '\n';
 	clickedPixels_.push_back(coord);
 }
@@ -52,13 +54,13 @@ void DrawWindow::draw()
 	SDL_RenderCopy(renderer_, texture_, nullptr, &destRect);
 }
 
-void DrawWindow::mouseButtonDown(MouseButton b, int xPixel, int yPixel)
+void DrawWindow::mouseButtonDown(MouseButton const b, int const xPixel, int const yPixel)
 {
 	//Uint16* pixels = (Uint16*)surface_->pixels;            // Get the pixels from the Surface
 	
 	Coords mousePixel{ xPixel, yPixel };
 	if (b == MouseButton::Left) {
-		uint32_t pixel = 0xFFFFFFFF;
+		auto pixel = 0xFFFFFFFF; //uint32_t
 		SDL_Rect pixelRect = { xPixel, yPixel, 1, 1 };
 		SDL_UpdateTexture(texture_, &pixelRect, reinterpret_cast<void*>(&pixel), 1);
 		//auto brushedArea = activeBrush_->brushArea(mousePixel);
@@ -76,7 +78,7 @@ void DrawWindow::mouseButtonDown(MouseButton b, int xPixel, int yPixel)
 //{
 //	Uint16* pixels = (Uint16*)surface->pixels;            // Get the pixels from the Surface
 //
-//	// Iterrate through the pixels and change the color
+//	// Iterate through the pixels and change the color
 //	for (auto pixel : clickedPixels_) {
 //		auto brushedArea = activeBrush.brushArea(pixel);
 //		for (auto brushedPixel : brushedArea) {

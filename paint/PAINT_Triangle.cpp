@@ -2,6 +2,7 @@
 
 using namespace paint;
 
+/*
 Triangle::Triangle()
 {
 }
@@ -10,3 +11,4 @@ Triangle::Triangle()
 Triangle::~Triangle()
 {
 }
+*/

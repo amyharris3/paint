@@ -3,7 +3,7 @@
 
 using namespace win;
 
-UIelement::UIelement(gfx::Rectangle rect, const char* name)
+UIelement::UIelement(gfx::Rectangle const rect, const char* name)
 	: name_(name)
 	, foregroundColour_()
 	, backgroundColour_()
@@ -11,13 +11,13 @@ UIelement::UIelement(gfx::Rectangle rect, const char* name)
 {
 }
 
-void UIelement::setForegroundColour(gfx::Colour fgColour)
+void UIelement::setForegroundColour(gfx::Colour const fgColour)
 {
 	foregroundColour_ = fgColour;
 }
 
 
-void UIelement::setBackgroundColour(gfx::Colour bgColour)
+void UIelement::setBackgroundColour(gfx::Colour const bgColour)
 {
 	backgroundColour_ = bgColour;
 }

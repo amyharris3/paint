@@ -14,7 +14,7 @@ namespace PaintTests
 		
 		TEST_METHOD(TestDefaultConstructionInvariant)
 		{
-			Rectangle rect;
+			const Rectangle rect;
 			Assert::AreEqual(rect.x, 0);
 			Assert::AreEqual(rect.y, 0);
 			Assert::AreEqual(rect.width, 1);
@@ -23,7 +23,7 @@ namespace PaintTests
 
 		TEST_METHOD(TestConstructionInvariant)
 		{
-			Rectangle rect(-1, -1, 10, 10);
+			const Rectangle rect(-1, -1, 10, 10);
 			Assert::AreEqual(rect.x, -1);
 			Assert::AreEqual(rect.y, -1);
 			Assert::AreEqual(rect.width, 10);
@@ -32,8 +32,8 @@ namespace PaintTests
 
 		TEST_METHOD(TestCopyConstruction)
 		{
-			Rectangle a;
-			Rectangle b(a);
+			const Rectangle a;
+			const Rectangle b(a);
 			Assert::AreEqual(b.x, 0);
 			Assert::AreEqual(b.y, 0);
 			Assert::AreEqual(b.width, 1);
@@ -42,8 +42,8 @@ namespace PaintTests
 
 		TEST_METHOD(TestAssignmentOperator)
 		{
-			Rectangle a;
-			Rectangle b = a;
+			const Rectangle a;
+			const Rectangle b = a;
 			Assert::AreEqual(b.x, 0);
 			Assert::AreEqual(b.y, 0);
 			Assert::AreEqual(b.width, 1);
@@ -52,7 +52,7 @@ namespace PaintTests
 
 		TEST_METHOD(TestMoveConstructor)
 		{
-			Rectangle rect(makeUnitRectangle());
+			const Rectangle rect(makeUnitRectangle());
 			Assert::AreEqual(rect.x, 0);
 			Assert::AreEqual(rect.y, 0);
 			Assert::AreEqual(rect.width, 1);
@@ -61,7 +61,7 @@ namespace PaintTests
 
 		TEST_METHOD(TestMoveAssignmentOperator)
 		{
-			Rectangle rect = makeUnitRectangle();
+			const Rectangle rect = makeUnitRectangle();
 			Assert::AreEqual(rect.x, 0);
 			Assert::AreEqual(rect.y, 0);
 			Assert::AreEqual(rect.width, 1);
@@ -70,38 +70,38 @@ namespace PaintTests
 
 		TEST_METHOD(TestContainsPointSucceedsForInternalPoint)
 		{
-			Rectangle rect(0, 0, 10, 10);
-			Assert::IsTrue(rect.ContainsPoint(5,5));
+			const Rectangle rect(0, 0, 10, 10);
+			Assert::IsTrue(rect.containsPoint(5,5));
 		}
 
 		TEST_METHOD(TestContainsPointsFailsForExternalPoint)
 		{
-			Rectangle rect(0, 0, 10, 10);
-			Assert::IsFalse(rect.ContainsPoint(20, 20));
+			const Rectangle rect(0, 0, 10, 10);
+			Assert::IsFalse(rect.containsPoint(20, 20));
 		}
 
 		TEST_METHOD(TestContainsPointIsInclusiveLeft)
 		{
-			Rectangle rect(0, 0, 10, 10);
-			Assert::IsTrue(rect.ContainsPoint(0, 1));
+			const Rectangle rect(0, 0, 10, 10);
+			Assert::IsTrue(rect.containsPoint(0, 1));
 		}
 
 		TEST_METHOD(TestContainsPointIsInclusiveTop)
 		{
-			Rectangle rect(0, 0, 10, 10);
-			Assert::IsTrue(rect.ContainsPoint(1, 0));
+			const Rectangle rect(0, 0, 10, 10);
+			Assert::IsTrue(rect.containsPoint(1, 0));
 		}
 
 		TEST_METHOD(TestContainsPointIsExclusiveRight)
 		{
-			Rectangle rect(0, 0, 10, 10);
-			Assert::IsFalse(rect.ContainsPoint(0, 10));
+			const Rectangle rect(0, 0, 10, 10);
+			Assert::IsFalse(rect.containsPoint(0, 10));
 		}
 
 		TEST_METHOD(TestContainsPointIsExclusiveBottom)
 		{
-			Rectangle rect(0, 0, 10, 10);
-			Assert::IsFalse(rect.ContainsPoint(1, 10));
+			const Rectangle rect(0, 0, 10, 10);
+			Assert::IsFalse(rect.containsPoint(1, 10));
 		}
 
 	private:
@@ -127,7 +127,7 @@ namespace PaintTests
 		}
 		TEST_METHOD(TestCopyConstruction)
 		{
-			Colour c1(10, 20, 30, 40);
+			const Colour c1(10, 20, 30, 40);
 			Colour c2(c1);
 			uint8_t rgba[4];
 			c2.getComponents(rgba);
@@ -139,7 +139,7 @@ namespace PaintTests
 
 		TEST_METHOD(TestAsssignmentOperator)
 		{
-			Colour c1(10, 20, 30, 40);
+			const  Colour c1(10, 20, 30, 40);
 			Colour c2 = c1;
 			uint8_t rgba[4];
 			c2.getComponents(rgba);

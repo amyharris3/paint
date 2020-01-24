@@ -2,6 +2,7 @@
 
 using namespace paint;
 
+/*
 Shape::Shape()
 {
 }
@@ -10,3 +11,4 @@ Shape::Shape()
 Shape::~Shape()
 {
 }
+*/

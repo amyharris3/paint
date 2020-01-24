@@ -4,7 +4,7 @@
 
 namespace PaintTests
 {
-	class TestElement : public win::UIelement
+	class TestElement final : public win::UIelement
 	{
 	public:
 		
@@ -14,7 +14,6 @@ namespace PaintTests
 		TestElement(TestElement && that) = default;
 		TestElement& operator=(TestElement const& that) = default;
 		TestElement& operator=(TestElement && that) = default;
-
 
 		void draw() override {};
 	};
