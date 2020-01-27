@@ -34,6 +34,7 @@ namespace paint
 		Tool * activeTool_;
 		Brush * activeBrush_;
 		gfx::Colour activeColour_;
+		gfx::Colour inactiveColour_;
 		std::vector<Coords> clickedPixels_;  
 		SDL_Surface* surface_;
 		SDL_Renderer* renderer_;
@@ -56,6 +57,8 @@ namespace paint
 		void mouseButtonDown(win::MouseButton b, int xPixel, int yPixel) override;
 		void setActiveBrush(Brush* brush);
 		//void getPixels(SDL_Surface* surface);
+
+		void swapActiveColour();
 
 		//void setColor(SDL_Surface* surface);
 		void draw() override;

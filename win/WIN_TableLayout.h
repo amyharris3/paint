@@ -6,7 +6,7 @@ namespace win
 {
 	class UIelement;
 
-	class TableLayout :
+	class TableLayout final :
 		public Layout
 	{
 	private:

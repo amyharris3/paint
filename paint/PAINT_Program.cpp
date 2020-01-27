@@ -25,6 +25,7 @@ Program::Program()
 {
 	
 }
+
 void Program::initialize(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surface* surface, SDL_Texture* texture)
 {
 	renderer_ = renderer;

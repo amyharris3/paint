@@ -12,6 +12,7 @@ DrawWindow::DrawWindow(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surfac
 	, activeTool_(nullptr)
 	, activeBrush_(nullptr)
 	, activeColour_(gfx::Colour(255, 255, 255,255))
+	, inactiveColour_(gfx::Colour(255, 255, 255, 255))
 	, surface_(surface)
 	, renderer_(renderer)
 	, texture_(nullptr)
@@ -44,6 +45,11 @@ void DrawWindow::addClickedPixels(const int xMouse, const int yMouse)
 	const Coords coord = { xMouse, yMouse };
 	//std::cout << "Adding clicked pixel at x: " << xMouse << ", y: " << yMouse << '\n';
 	clickedPixels_.push_back(coord);
+}
+
+void DrawWindow::swapActiveColour()
+{
+	std::swap(activeColour_, inactiveColour_);
 }
 
 /*override*/

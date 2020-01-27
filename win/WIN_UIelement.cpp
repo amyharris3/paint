@@ -32,6 +32,11 @@ void UIelement::getBackgroundColour(uint8_t rgba[])
 	backgroundColour_.getComponents(rgba);
 }
 
+void UIelement::swapColours()
+{
+	std::swap(foregroundColour_, backgroundColour_);
+}
+
 void UIelement::setRect(const gfx::Rectangle& rect)
 {
 	rect_ = rect;

@@ -32,6 +32,7 @@ namespace win
 		gfx::Colour getForegroundColour() const { return foregroundColour_; }
 		void getForegroundColour(uint8_t rgba[]);
 		void getBackgroundColour(uint8_t rgba[]);
+		void swapColours();
 
 		void setRect(const gfx::Rectangle & rect);
 		gfx::Rectangle getRect() const { return rect_; }

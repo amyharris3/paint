@@ -57,6 +57,9 @@
     <ClCompile Include="PAINT_StatusBarWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PAINT_ColourPicker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PAINT_Brush.h">
@@ -96,6 +99,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PAINT_Program.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PAINT_ColourPicker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

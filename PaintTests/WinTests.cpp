@@ -43,6 +43,39 @@ namespace PaintTests
 			Assert::AreEqual(rgbaBack[3], uint8_t(253));
 		}
 
+		TEST_METHOD(TestSwapColours)
+		{
+			TestElement element;
+
+			uint8_t rgbaFore[4];
+			element.getForegroundColour(rgbaFore);
+			Assert::AreEqual(rgbaFore[0], uint8_t(0));
+			Assert::AreEqual(rgbaFore[1], uint8_t(1));
+			Assert::AreEqual(rgbaFore[2], uint8_t(2));
+			Assert::AreEqual(rgbaFore[3], uint8_t(3));
+
+			uint8_t rgbaBack[4];
+			element.getBackgroundColour(rgbaBack);
+			Assert::AreEqual(rgbaBack[0], uint8_t(250));
+			Assert::AreEqual(rgbaBack[1], uint8_t(251));
+			Assert::AreEqual(rgbaBack[2], uint8_t(252));
+			Assert::AreEqual(rgbaBack[3], uint8_t(253));
+			
+			element.swapColours();
+
+			element.getForegroundColour(rgbaFore);
+			Assert::AreEqual(rgbaFore[0], uint8_t(250));
+			Assert::AreEqual(rgbaFore[1], uint8_t(251));
+			Assert::AreEqual(rgbaFore[2], uint8_t(252));
+			Assert::AreEqual(rgbaFore[3], uint8_t(253));
+
+			element.getBackgroundColour(rgbaBack);
+			Assert::AreEqual(rgbaBack[0], uint8_t(0));
+			Assert::AreEqual(rgbaBack[1], uint8_t(1));
+			Assert::AreEqual(rgbaBack[2], uint8_t(2));
+			Assert::AreEqual(rgbaBack[3], uint8_t(3));
+		}
+		
 	};
 
 	TEST_CLASS(TestWinLayouts)
