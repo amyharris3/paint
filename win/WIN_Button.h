@@ -18,12 +18,15 @@ namespace win
 		BUTTON_SPRITE_MOUSE_UP,
 	};
 
+	class Button;
+	typedef void (*ActionFunction)(Button * button);
+
 	class Button :
 		public UIelement
 	{
 	public:
 		Button() = default;
-		Button(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* name, const char* spritePath);
+		Button(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* name, const char* spritePath, ActionFunction act);
 		virtual ~Button();
 		Button(const Button& that) = default;
 		Button(Button&& that) = default;
@@ -34,10 +37,9 @@ namespace win
 		void mouseEnter() override;
 		void mouseExit() override;
 		void mouseButtonDown(MouseButton b, int xPixel, int yPixel) override;
-		void mouseButtonUp(MouseButton button) override;
+		void mouseButtonUp(MouseButton b) override;
 
-		SDL_Texture* loadSprite(const char* path);
-		void handleSpriteSheet();
+		ActionFunction action;
 
 	private:
 		ButtonState buttonState_;
@@ -47,5 +49,9 @@ namespace win
 		SDL_Rect spriteClips_[4];
 		SDL_Rect* activeClip_;
 		SDL_Rect buttonRect_;
+		bool clicked_;
+
+		SDL_Texture* loadSprite(const char* path);
+		void handleSpriteSheet();
 	};
 }

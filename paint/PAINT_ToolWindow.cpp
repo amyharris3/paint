@@ -4,7 +4,6 @@
 using namespace paint;
 
 ToolWindow::ToolWindow(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surface* surface, gfx::Rectangle const& rect, const char* name)
-	: Window(sdlWindow, renderer, surface, rect, name)
 {
 }
 
@@ -19,13 +18,13 @@ ToolWindow::~ToolWindow()
 }
 */
 
-//Draw toolbar in NxM table layout
 void ToolWindow::draw()
+//Draw toolbar in NxM table layout
 {
 	Window::draw();
 }
 
 void ToolWindow::mouseButtonDown(win::MouseButton const b, int const xPixel, int const yPixel)
 {
-	
 }
+	

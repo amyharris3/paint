@@ -8,7 +8,9 @@ namespace paint
 	class StatusBarWindow final : public win::Window
 	{
 	public:
-		StatusBarWindow(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surface* surface, gfx::Rectangle const& rect, const char* name);
+		StatusBarWindow() = default;
+		StatusBarWindow(SDL_Renderer* renderer, gfx::Rectangle const& rect, const char* name);
+		void displayMouseCoords(int xMouse, int yMouse);
 		virtual ~StatusBarWindow() = default;
 		StatusBarWindow(const StatusBarWindow& that) = delete;
 		StatusBarWindow(StatusBarWindow && that) = delete;

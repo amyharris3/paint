@@ -57,6 +57,18 @@
     <ClCompile Include="PAINT_StatusBarWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+      <Filter>Source Files</Filter>
+    <ClCompile Include="PAINT_ButtonFunctions.cpp">
+    </ClCompile>
+    <ClCompile Include="PAINT_Utils.cpp">
+      <Filter>Source Files</Filter>
+    <ClCompile Include="PAINT_Screen.cpp">
+    </ClCompile>
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PAINT_MenuWindow.cpp">
+    </ClCompile>
+      <Filter>Source Files</Filter>
     <ClCompile Include="PAINT_ColourPicker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -101,9 +113,21 @@
     <ClInclude Include="PAINT_Program.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PAINT_ColourPicker.h">
+    <ClInclude Include="PAINT_ButtonFunctions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+      <Filter>Header Files</Filter>
+    <ClInclude Include="PAINT_Utils.h">
+    </ClInclude>
+      <Filter>Header Files</Filter>
+    <ClInclude Include="PAINT_Screen.h">
+    </ClInclude>
+      <Filter>Header Files</Filter>
+    <ClInclude Include="PAINT_MenuWindow.h">
+    </ClInclude>
+    <ClInclude Include="PAINT_ColourPicker.h">
+    </ClInclude>
+      <Filter>Header Files</Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\SDL\lib\win64\SDL2_image.dll" />

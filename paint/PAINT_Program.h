@@ -1,6 +1,7 @@
 #pragma once
 
-#include <WIN_Container.h>
+#include "WIN_Container.h"
+#include "PAINT_Screen.h"
 
 
 struct SDL_Window;
@@ -11,18 +12,19 @@ struct SDL_Texture;
 namespace paint
 {
 	class DrawWindow;
-	//class ToolWindow;
+	class ToolWindow;
+	class Screen;
 	//class StatusBarWindow;
 
 	class Program
 	{
 	private:
-		win::Container screen_;
-		SDL_Window* window_;
+		std::shared_ptr<Screen> screen_;
+		//win::Container screen_;
 		SDL_Renderer* renderer_;
-		SDL_Surface* surface_;
-		SDL_Texture* texture_;
-		std::shared_ptr<DrawWindow> drawWindow_;
+		//std::shared_ptr<DrawWindow> drawWindow_;
+		//std::shared_ptr<ToolWindow> toolWindow_;
+		
 		//ToolWindow * toolWindow_;
 		//StatusBarWindow * statusWindow_;
 		
@@ -37,8 +39,9 @@ namespace paint
 		Program& operator=(Program&& that) = default;
 
 
-		void initialize(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surface* surface, SDL_Texture* texture);
+		void initialize(SDL_Renderer* renderer);
 		void run();
 
+	
 	};
 }

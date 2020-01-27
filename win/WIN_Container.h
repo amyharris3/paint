@@ -24,8 +24,8 @@ namespace win
 		Container& operator=(const Container& that) = default;
 		Container& operator=(Container&& that) = default;
 
-		void addChild(std::shared_ptr<UIelement> const & child);
-		const std::vector<std::shared_ptr<UIelement>> & getChildren() const { return children_; }
+		void AddChild(std::shared_ptr<UIelement> child);
+		const std::vector<std::shared_ptr<UIelement>> & getChildren() { return children_; }
 
 		void draw() override;
 		void applyLayout() const;
