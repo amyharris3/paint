@@ -1,5 +1,6 @@
 #include "WIN_ColourDisplay.h"
 #include <SDL.h>
+#include "WIN_Mouse.h"
 
 using namespace win;
 
@@ -58,5 +59,5 @@ void ColourDisplay::draw()
 
 void ColourDisplay::mouseButtonDown(win::MouseButton const b)
 {
-
+	
 }

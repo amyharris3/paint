@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include "PAINT_Brush.h"
 #include "WIN_Mouse.h"
+#include <iostream>
 
 using namespace paint;
 using namespace win;
@@ -53,6 +54,7 @@ void DrawWindow::setSecondaryColour(gfx::Colour colour)
 void DrawWindow::swapColours()
 {
 	std::swap(primaryColour_, secondaryColour_);
+	std::cout << "Colours have been swapped \n";
 }
 
 /*override*/
@@ -72,7 +74,7 @@ void DrawWindow::mouseButtonDown(MouseButton const b, int const xPixel, int cons
 	Coords mousePixel{ xPixel, yPixel };
 	if (b == MouseButton::Left) {
 		if (drawToggle_) {
-			uint32_t pixel = 0xFFFFFFFF;
+			//uint32_t pixel = 0xFFFFFFFF;
 			SDL_Rect pixelRect = { xPixel, yPixel, 1, 1 };
 			SDL_UpdateTexture(texture_, &pixelRect, reinterpret_cast<void*>(&pixel), 1);
 
