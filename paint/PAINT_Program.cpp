@@ -72,8 +72,6 @@ void Program::run()
 	auto toolChildren = screen_->getToolWindow()->getChildren();
 	auto drawWindow = screen_->getDrawWindow();
 	
-	MouseButton button;
-
 
 	bool clicked = false;
 
@@ -112,6 +110,7 @@ void Program::run()
 				}
 			}
 
+			MouseButton button = MouseButton::Left;
 			if (e.type == SDL_MOUSEBUTTONDOWN) {
 				
 				clicked = true;

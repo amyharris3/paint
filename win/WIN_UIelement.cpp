@@ -61,11 +61,6 @@ void UIelement::mouseButtonDown(MouseButton b)
 
 }
 
-void UIelement::mouseButtonDown(MouseButton)
-{
-
-}
-
 void UIelement::setParent(UIelement * parent)
 {
 	parent_ = parent;

@@ -2,6 +2,7 @@
 
 using namespace paint;
 
+/*
 DrawFlags::DrawFlags()
 {
 }
@@ -10,3 +11,4 @@ DrawFlags::DrawFlags()
 DrawFlags::~DrawFlags()
 {
 }
+*/
