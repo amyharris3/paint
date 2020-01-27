@@ -27,13 +27,19 @@
     <ClCompile Include="WIN_Layout.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WIN_RowLayout.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="WIN_UIelement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WIN_Window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WIN_TableLayout.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WIN_GenericBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WIN_ColourDisplay.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,13 +59,19 @@
     <ClInclude Include="WIN_Mouse.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WIN_RowLayout.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="WIN_UIelement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WIN_Window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WIN_TableLayout.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WIN_GenericBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WIN_ColourDisplay.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

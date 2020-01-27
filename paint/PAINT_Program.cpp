@@ -10,6 +10,10 @@
 #include <iostream>
 #include <memory>
 #include "PAINT_ButtonFunctions.h"
+#include <WIN_GenericBox.h>
+#include "WIN_TableLayout.h"
+#include "PAINT_ColourPicker.h"
+
 
 using namespace paint;
 using namespace gfx;
@@ -17,11 +21,11 @@ using namespace win;
 
 using UIelementVector = std::vector<std::shared_ptr<UIelement>>;
 
-static std::shared_ptr<UIelement> GetTopmostElement(const UIelementVector & children, int x, int y)
+static std::shared_ptr<UIelement> GetTopmostElement(const UIelementVector& children, int x, int y)
 {
 	for (const auto& child : children) {
 		const auto& rect = child->getRect();
-		if (rect.ContainsPoint(x, y)) {
+		if (rect.containsPoint(x, y)) {
 			if (auto childContainer = std::dynamic_pointer_cast<Container>(child)) {
 				// The child is a container.
 				if (!childContainer->getChildren().empty()) {
@@ -41,11 +45,18 @@ static std::shared_ptr<UIelement> GetTopmostElement(const UIelementVector & chil
 	return nullptr;
 }
 
+Program::Program()
+	: screen_(nullptr)
+	, renderer_(nullptr)
+{
+	
+}
+
 void Program::initialize(SDL_Renderer* renderer)
 {
 	renderer_ = renderer;
 	auto screenRect = gfx::Rectangle(0, 0, 1200, 800);
-	screen_ = std::make_shared<Screen>(renderer, nullptr, screenRect, "Screen");
+	screen_ = std::make_shared<Screen>(renderer, screenRect, "Screen");
 }
 
 void Program::run()
@@ -57,12 +68,13 @@ void Program::run()
 	int xPrev{ 0 };
 	int yPrev{ 0 };
 
-	MouseButton button;
-
 	auto children = screen_->getChildren();
 	auto toolChildren = screen_->getToolWindow()->getChildren();
 	auto drawWindow = screen_->getDrawWindow();
 	
+	MouseButton button;
+
+
 	bool clicked = false;
 
 
@@ -154,9 +166,9 @@ void Program::run()
 		}
 
 		 // Draw buttons.
-		for (const auto& toolChild : toolChildren) {
+		/*for (const auto& toolChild : toolChildren) {
 			toolChild->draw();
-		}
+		}*/
 
 
 

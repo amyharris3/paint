@@ -30,10 +30,10 @@ namespace paint
 		//ToolWindow * toolWindow_;
 		//StatusBarWindow * statusWindow_;
 		
-		bool quit;
+		//bool quit;
 
 	public:
-		Program() = default;
+		Program();
 		~Program() = default;
 		Program(Program const& that) = default;
 		Program(Program&& that) = default;

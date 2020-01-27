@@ -2,7 +2,8 @@
 
 using namespace paint;
 
-Eraser::Eraser()
+/*
+ *Eraser::Eraser()
 {
 }
 
@@ -10,3 +11,4 @@ Eraser::Eraser()
 Eraser::~Eraser()
 {
 }
+*/

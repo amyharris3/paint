@@ -99,11 +99,14 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)SDL2_ttf-2.0.15\include;$(SolutionDir)gfx;$(SolutionDir)SDL\include;%(AdditionalIncludeDirectories);$(SolutionDir)win</AdditionalIncludeDirectories>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <DisableSpecificWarnings>
+      </DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -111,7 +114,8 @@
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /q /y /s $(SolutionDir)SDL\lib\win64\SDL2.dll $(OutDir)
+      <Command>xcopy /q /y /s $(SolutionDir)SDL\lib\win64\SDL2main.dll $(OutDir)
+xcopy /q /y /s $(SolutionDir)SDL\lib\win64\SDL2.dll $(OutDir)
 xcopy /q /y /s $(SolutionDir)SDL\lib\win64\SDL2_image.dll $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -155,6 +159,7 @@ xcopy /q /y /s $(SolutionDir)SDL\lib\win64\SDL2_image.dll $(OutDir)</Command>
     <ClCompile Include="PAINT_ButtonFunctions.cpp" />
     <ClCompile Include="PAINT_Brush.cpp" />
     <ClCompile Include="PAINT_Circle.cpp" />
+    <ClCompile Include="PAINT_ColourPicker.cpp" />
     <ClCompile Include="PAINT_DrawFlags.cpp" />
     <ClCompile Include="PAINT_DrawWindow.cpp" />
     <ClCompile Include="PAINT_Eraser.cpp" />
@@ -178,6 +183,7 @@ xcopy /q /y /s $(SolutionDir)SDL\lib\win64\SDL2_image.dll $(OutDir)</Command>
     <ClInclude Include="PAINT_Brush.h" />
     <ClInclude Include="PAINT_ButtonFunctions.h" />
     <ClInclude Include="PAINT_Circle.h" />
+    <ClInclude Include="PAINT_ColourPicker.h" />
     <ClInclude Include="PAINT_DrawFlags.h" />
     <ClInclude Include="PAINT_DrawWindow.h" />
     <ClInclude Include="PAINT_Eraser.h" />

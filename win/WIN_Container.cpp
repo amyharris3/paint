@@ -3,35 +3,43 @@
 
 using namespace win;
 
-//Container::Container()
-//	: Container(std::make_shared<FreeLayout>(), rect_)
-//{
-//}
+Container::Container()
+	: Container(std::make_shared<FreeLayout>(), rect_, "container")
+{
+}
 
 Container::Container(std::shared_ptr<Layout> layout, const gfx::Rectangle& rect, const char* name)
 	: UIelement(rect, name)
-	, layout_(layout) 
+	, layout_(std::move(layout))
 	, rect_(rect)
-	, name_(name)
+	, dirty_(false)
 {
 
 }
 
-void Container::AddChild(std::shared_ptr<UIelement> child)
+void Container::addChild(std::shared_ptr<UIelement> const & child)
 {
 	children_.push_back(child);
 	child->setParent(this);
-}
-
-void Container::ApplyLayout()
-{
-	// TODO
+	dirty_ = true;
 }
 
 void Container::draw()
 {
+	if (dirty_) {
+		layout_->Apply(children_, getRect());
+		dirty_ = false;
+	}
+
 	// TODO: draw myself.
-	for (auto child : children_) {
+	for (auto & child : children_) {
+		auto name = child->getName();
+		gfx::Rectangle r = child->getRect();
 		child->draw();
 	}
+}
+
+void Container::applyLayout() const
+{
+	layout_->Apply(children_, getRect());
 }

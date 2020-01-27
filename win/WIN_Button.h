@@ -48,7 +48,6 @@ namespace win
 		gfx::Rectangle rect_;
 		SDL_Rect spriteClips_[4];
 		SDL_Rect* activeClip_;
-		SDL_Rect buttonRect_;
 		bool clicked_;
 
 		SDL_Texture* loadSprite(const char* path);

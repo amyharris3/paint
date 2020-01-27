@@ -2,6 +2,7 @@
 
 using namespace paint;
 
+/*
 ShapeTool::ShapeTool()
 {
 }
@@ -10,3 +11,4 @@ ShapeTool::ShapeTool()
 ShapeTool::~ShapeTool()
 {
 }
+*/

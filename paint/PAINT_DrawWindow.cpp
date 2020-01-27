@@ -1,6 +1,5 @@
 #include "PAINT_DrawWindow.h"
 #include <SDL.h>
-#include <iostream> 
 #include "PAINT_Brush.h"
 #include "WIN_Mouse.h"
 
@@ -11,13 +10,15 @@ DrawWindow::DrawWindow(SDL_Renderer* renderer, gfx::Rectangle const& rect, const
 	: Window( renderer, rect, name)
 	, activeTool_(nullptr)
 	, activeBrush_(nullptr)
+	, primaryColour_(gfx::Colour(255, 255, 255,255))
+	, secondaryColour_(gfx::Colour(255, 255, 255, 255))
 	, name_(name)
 	, renderer_(renderer)
 	, drawToggle_(false)
 {
-
 	texture_ = SDL_CreateTexture(renderer_, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, rect.width, rect.height);
 }
+
 
 DrawWindow::~DrawWindow()
 {
@@ -26,6 +27,7 @@ DrawWindow::~DrawWindow()
 		texture_ = nullptr;
 	}
 }
+
 
 void DrawWindow::setActiveBrush(Brush* brush)
 {	
@@ -47,6 +49,21 @@ void DrawWindow::setPrevCoords(Coords relPrevCoords)
 //	pixels_ = surface->pixels;
 //}
 
+
+void DrawWindow::setPrimaryColour(gfx::Colour colour)
+{
+	primaryColour_ = colour;
+}
+
+void DrawWindow::setSecondaryColour(gfx::Colour colour)
+{
+	secondaryColour_ = colour;
+}
+
+void DrawWindow::swapColours()
+{
+	std::swap(primaryColour_, secondaryColour_);
+}
 
 /*override*/
 void DrawWindow::draw()

@@ -3,11 +3,15 @@
 
 namespace paint
 {
-	class Eraser :
+	class Eraser final :
 		public Tool
 	{
 	public:
-		Eraser();
-		virtual ~Eraser();
+		Eraser() = default;
+		virtual ~Eraser() = default;
+		Eraser(const Eraser& that) = default;
+		Eraser(Eraser && that) = default;
+		Eraser& operator=(const Eraser & that) = default;
+		Eraser& operator=(Eraser && that) = default;
 	};
 }

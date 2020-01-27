@@ -3,7 +3,7 @@
 
 namespace paint
 {
-	class Circle :
+	class Circle final :
 		public Shape
 	{
 	public:

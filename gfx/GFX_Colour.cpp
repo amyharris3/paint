@@ -17,4 +17,3 @@ void Colour::getComponents(uint8_t rgba[])
 	rgba[2] = b_;
 	rgba[3] = a_;
 }
-
