@@ -2,11 +2,14 @@
 #include "WIN_FreeLayout.h"
 #include "WIN_TableLayout.h"
 #include "PAINT_DrawWindow.h"
+#include "WIN_Mouse.h"
+#include <iostream>
 
 using namespace paint;
 
-ColourPicker::ColourPicker::ColourPicker(gfx::Rectangle rect, SDL_Renderer* renderer, std::shared_ptr<DrawWindow> drawWindow)
+ColourPicker::ColourPicker(gfx::Rectangle rect, SDL_Renderer* renderer, std::shared_ptr<DrawWindow> const & drawWindow)
 	: Container(std::make_shared<win::FreeLayout>(), rect, "colourPicker")
+	, drawWindowPtr_(drawWindow)
 	, renderer_(renderer)
 	, displayBox_(std::make_shared<win::TableLayout>(20, 20, 20, 0, 1, 2), gfx::Rectangle(rect.x, rect.y, rect.width, 70), "displayBox")
 	, fgDisplay_(std::make_shared<win::ColourDisplay>(gfx::Rectangle(), "foregroundDisplay", std::make_shared<gfx::Colour>(drawWindow->getPrimaryColour()), renderer, true))
@@ -26,4 +29,17 @@ void ColourPicker::draw()
 	SDL_RenderFillRect(renderer_, &boxRect);
 	
 	displayBox_.draw();
+}
+
+void ColourPicker::mouseButtonDown(win::MouseButton const b, int const xPixel, int const yPixel)
+{
+	if (b == win::MouseButton::Left) {
+		std::cout << "Clicking in ColourPicker area\n";
+		if (fgDisplay_->getRect().containsPoint(xPixel + getRect().x,yPixel + getRect().y) || bgDisplay_->getRect().containsPoint(xPixel + getRect().x, yPixel + getRect().y))
+		{
+			drawWindowPtr_->swapColours();
+			fgDisplay_->updateColour();
+			bgDisplay_->updateColour();
+		}
+	}
 }
