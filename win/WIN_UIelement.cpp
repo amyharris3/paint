@@ -33,7 +33,7 @@ void UIelement::mouseExit()
 	std::cout << "The mouse has left the " << name_ << " UI element. \n";
 }
 
-void UIelement::mouseButtonDown(MouseButton b, int xPixel, int yPixel)
+void UIelement::mouseButtonDown(MouseButton b)
 {
 
 }

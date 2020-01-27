@@ -54,12 +54,15 @@ void Program::run()
 	bool quit = false;
 	int xMouse{ 0 };
 	int yMouse{ 0 };
+	int xPrev{ 0 };
+	int yPrev{ 0 };
 
 	MouseButton button;
 
 	auto children = screen_->getChildren();
 	auto toolChildren = screen_->getToolWindow()->getChildren();
-
+	auto drawWindow = screen_->getDrawWindow();
+	
 	bool clicked = false;
 
 
@@ -82,6 +85,7 @@ void Program::run()
 			if (e.type == SDL_MOUSEMOTION) {
 
 				SDL_GetMouseState(&xMouse, &yMouse);
+
 
 				auto active = GetTopmostElement(screen_->getChildren(), xMouse, yMouse);
 				if (activeElement != active) {
@@ -122,10 +126,11 @@ void Program::run()
 
 			if (clicked) {
 				if (activeElement) {
-					SDL_SetRenderDrawColor(renderer_, 0, 0, 0, 255);
-					const int xRel = xMouse - activeElement->getRect().x;
-					const int yRel = yMouse - activeElement->getRect().y;
-					activeElement->mouseButtonDown(button, xRel, yRel);
+					//SDL_SetRenderDrawColor(renderer_, 0, 0, 0, 255);
+					drawWindow->setMouseCoords({ xMouse, yMouse });
+					drawWindow->setPrevCoords({ xPrev, yPrev });
+
+					activeElement->mouseButtonDown(button);
 				}
 			}
 
@@ -137,6 +142,15 @@ void Program::run()
 				}
 			}
 
+			if (xPrev != xMouse) {
+				xPrev = xMouse;
+			}
+
+			if (yPrev != yMouse)
+			{
+				yPrev = yMouse;
+			}
+
 		}
 
 		 // Draw buttons.
@@ -145,8 +159,8 @@ void Program::run()
 		}
 
 
+
 		SDL_RenderPresent(renderer_);
 	}
 
-	// TODO: dispose of window_
 }

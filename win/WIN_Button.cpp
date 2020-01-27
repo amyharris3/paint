@@ -58,7 +58,7 @@ void Button::mouseExit()
 
 }
 
-void Button::mouseButtonDown(MouseButton b, int xPixel, int yPixel)
+void Button::mouseButtonDown(MouseButton b)
 {
 
 	buttonState_ = ButtonState::BUTTON_SPRITE_MOUSE_DOWN;

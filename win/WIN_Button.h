@@ -36,7 +36,7 @@ namespace win
 		void draw() override;
 		void mouseEnter() override;
 		void mouseExit() override;
-		void mouseButtonDown(MouseButton b, int xPixel, int yPixel) override;
+		void mouseButtonDown(MouseButton b) override;
 		void mouseButtonUp(MouseButton b) override;
 
 		ActionFunction action;

@@ -16,6 +16,8 @@ namespace paint
 	class Screen;
 	//class StatusBarWindow;
 
+
+	
 	class Program
 	{
 	private:

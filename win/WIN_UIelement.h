@@ -42,7 +42,7 @@ namespace win
 		//virtual void mouseMove(int x, int y) {}
 		virtual void mouseEnter();
 		virtual void mouseExit();
-		virtual void mouseButtonDown(MouseButton b, int xPixel, int yPixel);
+		virtual void mouseButtonDown(MouseButton b);
 		virtual void mouseButtonUp(MouseButton b) {};
 	};
 }

@@ -18,6 +18,15 @@ namespace paint
 		int y;
 	};
 
+	struct Line
+	{
+		int x1;
+		int y1;
+		int x2;
+		int y2;
+
+	};
+
 	class Colour;
 	class Tool;
 	class Brush;
@@ -33,7 +42,9 @@ namespace paint
 		SDL_Renderer* renderer_;
 		SDL_Texture* texture_;
 		bool drawToggle_;
-//
+		Coords mouseCoords_;
+		Coords prevMouseCoords_;
+		std::vector<Line> lines_;
 
 
 	public:
@@ -42,9 +53,11 @@ namespace paint
 
 		virtual ~DrawWindow();
 
-		void mouseButtonDown(win::MouseButton button, int xPixel, int yPixel) override;
+		void mouseButtonDown(win::MouseButton button) override;
 		void setActiveBrush(Brush* brush);
 		//void getPixels(SDL_Surface* surface);
+		void setMouseCoords(Coords relCoords);
+		void setPrevCoords(Coords relPrevCoords);
 
 		//void setColor(SDL_Surface* surface);
 		void draw() override;
