@@ -20,10 +20,12 @@ using namespace gfx;
 using namespace win;
 
 using UIelementVector = std::vector<std::shared_ptr<UIelement>>;
+
+static std::shared_ptr<UIelement> GetTopmostElement(const UIelementVector& children, int x, int y)
 {
 	for (const auto& child : children) {
 		const auto& rect = child->getRect();
-		if (rect.ContainsPoint(x, y)) {
+		if (rect.containsPoint(x, y)) {
 			if (auto childContainer = std::dynamic_pointer_cast<Container>(child)) {
 				// The child is a container.
 				if (!childContainer->getChildren().empty()) {
@@ -37,17 +39,24 @@ using UIelementVector = std::vector<std::shared_ptr<UIelement>>;
 			else {
 				return child;
 
-}
-	return nullptr;
-	}
-		}
 			}
+		}
+	}
+	return nullptr;
+}
 
-	auto screenRect = gfx::Rectangle(0, 0, 1200, 800);
-	screen_ = std::make_shared<Screen>(renderer, nullptr, screenRect, "Screen");
-	renderer_ = renderer;
+Program::Program()
+	: screen_(nullptr)
+	, renderer_(nullptr)
 {
+	
+}
+
 void Program::initialize(SDL_Renderer* renderer)
+{
+	renderer_ = renderer;
+	auto screenRect = gfx::Rectangle(0, 0, 1200, 800);
+	screen_ = std::make_shared<Screen>(renderer, screenRect, "Screen");
 }
 
 void Program::run()
@@ -143,9 +152,9 @@ void Program::run()
 		}
 
 		 // Draw buttons.
-		for (const auto& toolChild : toolChildren) {
+		/*for (const auto& toolChild : toolChildren) {
 			toolChild->draw();
-		}
+		}*/
 
 
 		SDL_RenderPresent(renderer_);

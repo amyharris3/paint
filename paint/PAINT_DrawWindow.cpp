@@ -11,7 +11,6 @@ DrawWindow::DrawWindow(SDL_Renderer* renderer, gfx::Rectangle const& rect, const
 	, activeTool_(nullptr)
 	, activeBrush_(nullptr)
 	, primaryColour_(gfx::Colour(255, 255, 255,255))
-	, surface_(surface)
 	, secondaryColour_(gfx::Colour(255, 255, 255, 255))
 	, name_(name)
 	, renderer_(renderer)
@@ -91,7 +90,7 @@ void DrawWindow::mouseButtonDown(MouseButton const b, int const xPixel, int cons
 }
 
 
-{
 void DrawWindow::toggleDraw()
-}
+{
 	drawToggle_ = !drawToggle_;
+}

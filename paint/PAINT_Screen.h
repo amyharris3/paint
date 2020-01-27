@@ -22,7 +22,7 @@ namespace paint {
 	public:
 
 		Screen() = default;
-		Screen(SDL_Renderer* renderer, std::shared_ptr<win::Layout> layout, const gfx::Rectangle& rect, const char* name);
+		Screen(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* name);
 		~Screen() = default;
 		Screen(Screen const& that) = default;
 		Screen(Screen&& that) = default;
