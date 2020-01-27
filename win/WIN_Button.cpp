@@ -16,7 +16,6 @@ Button::Button(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* n
 	texture_ = loadSprite(spritePath);
 	handleSpriteSheet();
 	activeClip_ = &(spriteClips_[1]);
-	buttonRect_ = { rect_.x, rect_.y, rect_.width, rect_.height };
 	clicked_ = false;
 }
 
@@ -30,7 +29,8 @@ Button::~Button()
 
 void Button::draw()
 {
-	SDL_RenderCopy(renderer_, texture_, activeClip_, &buttonRect_);
+	SDL_Rect buttonRect = { getRect().x, getRect().y, getRect().width, getRect().height };
+	SDL_RenderCopy(renderer_, texture_, activeClip_, &buttonRect);
 }
 
 

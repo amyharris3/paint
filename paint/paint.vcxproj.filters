@@ -15,13 +15,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="paint-main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PAINT_Brush.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PAINT_ButtonFunctions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="PAINT_Circle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PAINT_ColourPicker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PAINT_DrawFlags.cpp">
@@ -33,19 +36,22 @@
     <ClCompile Include="PAINT_Eraser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PAINT_MenuWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="PAINT_Program.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PAINT_Rectangle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PAINT_Shape.cpp">
+    <ClCompile Include="PAINT_Screen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PAINT_ShapeTool.cpp">
+    <ClCompile Include="paint-main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PAINT_Tool.cpp">
+    <ClCompile Include="PAINT_Utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PAINT_Triangle.cpp">
@@ -54,30 +60,33 @@
     <ClCompile Include="PAINT_ToolWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PAINT_Tool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="PAINT_StatusBarWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-      <Filter>Source Files</Filter>
-    <ClCompile Include="PAINT_ButtonFunctions.cpp">
-    </ClCompile>
-    <ClCompile Include="PAINT_Utils.cpp">
-      <Filter>Source Files</Filter>
-    <ClCompile Include="PAINT_Screen.cpp">
-    </ClCompile>
+    <ClCompile Include="PAINT_ShapeTool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PAINT_MenuWindow.cpp">
-    </ClCompile>
-      <Filter>Source Files</Filter>
-    <ClCompile Include="PAINT_ColourPicker.cpp">
+    <ClCompile Include="PAINT_Shape.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="PAINT_Utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="PAINT_Brush.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PAINT_ButtonFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="PAINT_Circle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PAINT_ColourPicker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PAINT_DrawFlags.h">
@@ -89,7 +98,16 @@
     <ClInclude Include="PAINT_Eraser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PAINT_MenuWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PAINT_Program.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="PAINT_Rectangle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PAINT_Screen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PAINT_Shape.h">
@@ -98,38 +116,17 @@
     <ClInclude Include="PAINT_ShapeTool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PAINT_Tool.h">
+    <ClInclude Include="PAINT_StatusBarWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PAINT_Triangle.h">
+    <ClInclude Include="PAINT_Tool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PAINT_ToolWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PAINT_StatusBarWindow.h">
+    <ClInclude Include="PAINT_Triangle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PAINT_Program.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PAINT_ButtonFunctions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-      <Filter>Header Files</Filter>
-    <ClInclude Include="PAINT_Utils.h">
-    </ClInclude>
-      <Filter>Header Files</Filter>
-    <ClInclude Include="PAINT_Screen.h">
-    </ClInclude>
-      <Filter>Header Files</Filter>
-    <ClInclude Include="PAINT_MenuWindow.h">
-    </ClInclude>
-    <ClInclude Include="PAINT_ColourPicker.h">
-    </ClInclude>
-      <Filter>Header Files</Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\SDL\lib\win64\SDL2_image.dll" />
   </ItemGroup>
 </Project>

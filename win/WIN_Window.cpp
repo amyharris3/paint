@@ -4,15 +4,18 @@
 
 using namespace win;
 
-Window::Window(SDL_Renderer* renderer, gfx::Rectangle const & rect, const char* name)
-	: Container(nullptr, rect, name)
-	, layout_(nullptr)
-	, rect_(rect)
-	, renderer_(renderer)
-	, name_(name)
+// If initialised without a layout, defaults to FreeLayout
+Window::Window(SDL_Renderer* renderer, gfx::Rectangle const& rect, const char* name)
+	: Window(renderer, rect, name, std::make_shared<FreeLayout>())
 {
 }
 
+Window::Window(SDL_Renderer* renderer, gfx::Rectangle const& rect, const char* name, std::shared_ptr<Layout> layout)
+	: Container(std::move(layout), rect, name)
+	, renderer_(renderer)
+	// TODO , surface_(surface)
+{
+}
 void Window::draw()
 {
 	const auto& rect = getRect();

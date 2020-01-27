@@ -114,7 +114,8 @@
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /q /y /s $(SolutionDir)SDL\lib\win64\SDL2.dll $(OutDir)
+      <Command>xcopy /q /y /s $(SolutionDir)SDL\lib\win64\SDL2main.dll $(OutDir)
+xcopy /q /y /s $(SolutionDir)SDL\lib\win64\SDL2.dll $(OutDir)
 xcopy /q /y /s $(SolutionDir)SDL\lib\win64\SDL2_image.dll $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -205,9 +206,6 @@ xcopy /q /y /s $(SolutionDir)SDL\lib\win64\SDL2_image.dll $(OutDir)</Command>
     <ProjectReference Include="..\win\win.vcxproj">
       <Project>{745d1704-dd48-498e-aeda-d20e78a1b05a}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\SDL\lib\win64\SDL2_image.dll" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -3,10 +3,10 @@
 
 using namespace win;
 
-//Container::Container()
-//	: Container(std::make_shared<FreeLayout>(), rect_)
-//{
-//}
+Container::Container()
+	: Container(std::make_shared<FreeLayout>(), rect_, "container")
+{
+}
 
 Container::Container(std::shared_ptr<Layout> layout, const gfx::Rectangle& rect, const char* name)
 	: UIelement(rect, name)
@@ -24,7 +24,7 @@ void Container::addChild(std::shared_ptr<UIelement> const & child)
 	dirty_ = true;
 }
 
-void Container::ApplyLayout()
+void Container::draw()
 {
 	if (dirty_) {
 		layout_->Apply(children_, getRect());

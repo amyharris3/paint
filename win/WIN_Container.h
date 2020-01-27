@@ -16,7 +16,7 @@ namespace win
 		
 		
 		// Lifecycle
-		Container() = delete;
+		Container();
 		Container(std::shared_ptr<Layout> layout, const gfx::Rectangle& rect, const char* name);
 		~Container() = default;
 		Container(const Container& that) = default;
@@ -24,7 +24,7 @@ namespace win
 		Container& operator=(const Container& that) = default;
 		Container& operator=(Container&& that) = default;
 
-		void AddChild(std::shared_ptr<UIelement> child);
+		void addChild(std::shared_ptr<UIelement> const & child);
 		const std::vector<std::shared_ptr<UIelement>> & getChildren() { return children_; }
 
 		void draw() override;
