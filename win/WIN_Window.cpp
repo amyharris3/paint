@@ -4,17 +4,12 @@
 
 using namespace win;
 
-// If initialised without a layout, defaults to FreeLayout
-Window::Window(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surface* surface, gfx::Rectangle const& rect, const char* name)
-: Window(sdlWindow, renderer, surface, rect, name, std::make_shared<FreeLayout>())
-{
-}
-
-Window::Window(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surface* surface, gfx::Rectangle const & rect, const char* name, std::shared_ptr<Layout> layout)
-	: Container(std::move(layout), rect, name)
-	, sdlWindow_(sdlWindow)
+Window::Window(SDL_Renderer* renderer, gfx::Rectangle const & rect, const char* name)
+	: Container(nullptr, rect, name)
+	, layout_(nullptr)
+	, rect_(rect)
 	, renderer_(renderer)
-	// TODO , surface_(surface)
+	, name_(name)
 {
 }
 
@@ -23,9 +18,9 @@ void Window::draw()
 	const auto& rect = getRect();
 	SDL_Rect sdlRect{ rect.x, rect.y, rect.width, rect.height };
 	SDL_RenderDrawRect(renderer_, &sdlRect);
-	uint8_t rgba[4];
-	getBackgroundColour().getComponents(rgba);
-	SDL_SetRenderDrawColor(renderer_, rgba[0], rgba[1], rgba[2], rgba[3]);
+	uint8_t colourArr[4];
+	getBackgroundColour().getComponents(colourArr);
+	SDL_SetRenderDrawColor(renderer_, colourArr[0], colourArr[1], colourArr[2], colourArr[3]);
 	SDL_RenderFillRect(renderer_, &sdlRect);
 	Container::draw();
 

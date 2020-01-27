@@ -6,15 +6,16 @@
 using namespace paint;
 using namespace win;
 
-DrawWindow::DrawWindow(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surface* surface, gfx::Rectangle const& rect, const char* name)
-	: Window(sdlWindow, renderer, surface, rect, name)
+DrawWindow::DrawWindow(SDL_Renderer* renderer, gfx::Rectangle const& rect, const char* name)
+	: Window( renderer, rect, name)
 	, activeTool_(nullptr)
 	, activeBrush_(nullptr)
 	, primaryColour_(gfx::Colour(255, 255, 255,255))
-	, secondaryColour_(gfx::Colour(255, 255, 255, 255))
 	, surface_(surface)
+	, secondaryColour_(gfx::Colour(255, 255, 255, 255))
+	, name_(name)
 	, renderer_(renderer)
-	, texture_(nullptr)
+	, drawToggle_(false)
 {
 	texture_ = SDL_CreateTexture(renderer_, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, rect.width, rect.height);
 }
@@ -39,12 +40,6 @@ void DrawWindow::setActiveBrush(Brush* brush)
 //	pixels_ = surface->pixels;
 //}
 
-void DrawWindow::addClickedPixels(const int xMouse, const int yMouse)
-{
-	const Coords coord = { xMouse, yMouse };
-	//std::cout << "Adding clicked pixel at x: " << xMouse << ", y: " << yMouse << '\n';
-	clickedPixels_.push_back(coord);
-}
 
 void DrawWindow::setPrimaryColour(gfx::Colour colour)
 {
@@ -64,9 +59,11 @@ void DrawWindow::swapColours()
 /*override*/
 void DrawWindow::draw()
 {
+	//if (drawingToggle_) {
 	const auto& myRect = getRect();
 	SDL_Rect destRect = { myRect.x, myRect.y, myRect.width, myRect.height };
 	SDL_RenderCopy(renderer_, texture_, nullptr, &destRect);
+	//}
 }
 
 void DrawWindow::mouseButtonDown(MouseButton const b, int const xPixel, int const yPixel)
@@ -75,9 +72,13 @@ void DrawWindow::mouseButtonDown(MouseButton const b, int const xPixel, int cons
 	
 	Coords mousePixel{ xPixel, yPixel };
 	if (b == MouseButton::Left) {
-		auto pixel = 0xFFFFFFFF; //uint32_t
-		SDL_Rect pixelRect = { xPixel, yPixel, 1, 1 };
-		SDL_UpdateTexture(texture_, &pixelRect, reinterpret_cast<void*>(&pixel), 1);
+		if (drawToggle_) {
+			uint32_t pixel = 0xFFFFFFFF;
+			SDL_Rect pixelRect = { xPixel, yPixel, 1, 1 };
+			SDL_UpdateTexture(texture_, &pixelRect, reinterpret_cast<void*>(&pixel), 1);
+
+		}
+
 		//auto brushedArea = activeBrush_->brushArea(mousePixel);
 		//for (auto brushedPixel : brushedArea) {
 		//	std::cout << "brushed pixel at x: " << brushedPixel.x << ", y: " << brushedPixel.y << '\n';
@@ -89,17 +90,8 @@ void DrawWindow::mouseButtonDown(MouseButton const b, int const xPixel, int cons
 	}
 }
 
-//void DrawWindow::setColor(SDL_Surface* surface)
-//{
-//	Uint16* pixels = (Uint16*)surface->pixels;            // Get the pixels from the Surface
-//
-//	// Iterate through the pixels and change the color
-//	for (auto pixel : clickedPixels_) {
-//		auto brushedArea = activeBrush.brushArea(pixel);
-//		for (auto brushedPixel : brushedArea) {
-//			pixels[brushedPixel.x + (brushedPixel.y * surface->w)] = SDL_MapRGB(surface->format, 255, 0, 0);
-//		}
-//
-//	}
-//
-//}
+
+{
+void DrawWindow::toggleDraw()
+}
+	drawToggle_ = !drawToggle_;

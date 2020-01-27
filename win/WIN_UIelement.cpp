@@ -1,5 +1,7 @@
 #include "WIN_UIelement.h"
 #include <iostream>
+#include <SDL.h>
+#include "WIN_Container.h"
 
 using namespace win;
 
@@ -8,6 +10,7 @@ UIelement::UIelement(gfx::Rectangle const rect, const char* name)
 	, foregroundColour_()
 	, backgroundColour_()
 	, rect_(rect)
+	, parent_(nullptr)
 {
 }
 
@@ -45,12 +48,12 @@ void UIelement::setRect(const gfx::Rectangle& rect)
 
 void UIelement::mouseEnter()
 {
-	std::cout << "The mouse has entered the " << name_ << " window. \n";
+	std::cout << "The mouse has entered the " << name_ << " UI element. \n";
 }
 
 void UIelement::mouseExit()
 {
-	std::cout << "The mouse has left the " << name_ << " window. \n";
+	std::cout << "The mouse has left the " << name_ << " UI element. \n";
 }
 
 void UIelement::mouseButtonDown(MouseButton, int xPixel, int yPixel)
@@ -61,4 +64,9 @@ void UIelement::mouseButtonDown(MouseButton, int xPixel, int yPixel)
 void UIelement::mouseButtonDown(MouseButton)
 {
 
+}
+
+void UIelement::setParent(UIelement * parent)
+{
+	parent_ = parent;
 }

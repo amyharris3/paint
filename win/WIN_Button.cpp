@@ -6,8 +6,9 @@
 
 using namespace win;
 
-Button::Button(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* name, const char* spritePath)
+Button::Button(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* name, const char* spritePath, ActionFunction act)
 	: UIelement(rect, name)
+	, action(act)
 {
 	renderer_ = renderer;
 	//texture_ = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, rect.width, rect.height);
@@ -16,6 +17,7 @@ Button::Button(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* n
 	handleSpriteSheet();
 	activeClip_ = &(spriteClips_[1]);
 	buttonRect_ = { rect_.x, rect_.y, rect_.width, rect_.height };
+	clicked_ = false;
 }
 
 Button::~Button()
@@ -34,26 +36,50 @@ void Button::draw()
 
 void Button::mouseEnter()
 {
+	if (clicked_) {
+		activeClip_ = &(spriteClips_[2]);
+	}
+	else {
+		activeClip_ = &(spriteClips_[0]);
+	}
 	buttonState_ = ButtonState::BUTTON_SPRITE_MOUSE_OVER;
-	activeClip_ = &(spriteClips_[0]);
+
 }
 
 void Button::mouseExit()
 {
+	if (clicked_) {
+		activeClip_ = &(spriteClips_[2]);
+	}
+	else {
+		activeClip_ = &(spriteClips_[1]);
+	}
 	buttonState_ = ButtonState::BUTTON_SPRITE_MOUSE_OUT;
-	activeClip_ = &(spriteClips_[1]);
+
 }
 
 void Button::mouseButtonDown(MouseButton b, int xPixel, int yPixel)
 {
+
 	buttonState_ = ButtonState::BUTTON_SPRITE_MOUSE_DOWN;
 	activeClip_ = &(spriteClips_[2]);
 }
 
 void Button::mouseButtonUp(MouseButton b)
 {
+	clicked_ = !clicked_;
 	buttonState_ = ButtonState::BUTTON_SPRITE_MOUSE_UP;
-	activeClip_ = &(spriteClips_[3]);
+	if (clicked_) {
+		activeClip_ = &(spriteClips_[2]);
+	}
+	else {
+		activeClip_ = &(spriteClips_[0]);
+	}
+
+	// If mouse is still over button at this point...
+	if (action) {
+		action(this);
+	}
 }
 
 

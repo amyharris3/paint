@@ -20,10 +20,11 @@ Container::Container(std::shared_ptr<Layout> layout, const gfx::Rectangle& rect,
 void Container::addChild(std::shared_ptr<UIelement> const & child)
 {
 	children_.push_back(child);
+	child->setParent(this);
 	dirty_ = true;
 }
 
-void Container::draw()
+void Container::ApplyLayout()
 {
 	if (dirty_) {
 		layout_->Apply(children_, getRect());
