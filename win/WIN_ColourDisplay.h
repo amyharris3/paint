@@ -14,7 +14,7 @@ namespace win
 	public:
 
 		ColourDisplay() = delete;
-		ColourDisplay(gfx::Rectangle rect, const char* name, const std::shared_ptr<gfx::Colour> & displayColour, SDL_Renderer* renderer);
+		ColourDisplay(gfx::Rectangle rect, const char* name, const std::shared_ptr<gfx::Colour> & displayColour, SDL_Renderer* renderer, bool isActive);
 		virtual ~ColourDisplay() = default;
 		ColourDisplay(ColourDisplay const& that) = default;
 		ColourDisplay(ColourDisplay&& that) = default;
@@ -22,13 +22,17 @@ namespace win
 		ColourDisplay& operator=(ColourDisplay&& that) = default;
 
 		void updateColour();
+		void setActive();
+		void setInactive();
 		void setOutlineColour(gfx::Colour outlineColour);
 		
 		void draw() override;
+		void mouseButtonDown(win::MouseButton const b) override;
 
 	private:
 		std::shared_ptr<gfx::Colour> displayColour_;
 		SDL_Renderer* renderer_;
+		bool isActive_;
 	};
 
 }

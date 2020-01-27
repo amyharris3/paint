@@ -1,4 +1,5 @@
 #include "PAINT_ToolWindow.h"
+#include "PAINT_ColourPicker.h"
 
 using namespace paint;
 
@@ -22,4 +23,9 @@ ToolWindow::~ToolWindow()
 void ToolWindow::draw()
 {
 	Window::draw();
+}
+
+void ToolWindow::mouseButtonDown(win::MouseButton const b, int const xPixel, int const yPixel)
+{
+	
 }

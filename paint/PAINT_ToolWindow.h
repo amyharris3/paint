@@ -16,9 +16,9 @@ namespace paint
 		ToolWindow(ToolWindow&& that) = delete;
 		ToolWindow& operator=(const ToolWindow& that) = delete;
 		ToolWindow& operator=(ToolWindow&& that) = delete;
-
-
+		
 		void draw() override;
+		void mouseButtonDown(win::MouseButton const b, int const xPixel, int const yPixel) override;
 
 	};
 }

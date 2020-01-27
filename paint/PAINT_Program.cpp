@@ -9,6 +9,7 @@
 #include <iostream>
 #include "WIN_TableLayout.h"
 #include <WIN_GenericBox.h>
+#include "PAINT_ColourPicker.h"
 
 
 using namespace paint;
@@ -38,6 +39,8 @@ void Program::initialize(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surf
 	auto drawWindow = std::make_shared<DrawWindow>(sdlWindow, renderer, surface, drawRect, "drawWindow");
 	const gfx::Colour drawColour{ 255, 255, 255, 255 };
 	drawWindow->setBackgroundColour(drawColour);
+	drawWindow->setPrimaryColour(gfx::Colour(255, 0, 0, 255));
+	drawWindow->setSecondaryColour(gfx::Colour(0, 255, 0, 255));
 	screen_.addChild(drawWindow);
 
 	drawWindow_ = drawWindow;
@@ -68,10 +71,10 @@ void Program::initialize(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surf
 
 	// Create area for colour picker
 	gfx::Rectangle colourPickerRect(10, 400, 180, 200);
-	auto colourPickerBox= std::make_shared<ToolWindow>(sdlWindow, renderer, surface, colourPickerRect, "colourPickerBox");
+	auto colourPicker = std::make_shared<ColourPicker>(colourPickerRect, renderer, drawWindow);
 	const gfx::Colour colourPickerColour{ 150, 255, 240, 255 };
-	colourPickerBox->setBackgroundColour(colourPickerColour);
-	toolWindow->addChild(colourPickerBox);
+	colourPicker->setBackgroundColour(colourPickerColour);
+	toolWindow->addChild(colourPicker);
 	
 	screen_.addChild(toolWindow);
 

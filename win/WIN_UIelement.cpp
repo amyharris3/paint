@@ -57,3 +57,8 @@ void UIelement::mouseButtonDown(MouseButton, int xPixel, int yPixel)
 {
 
 }
+
+void UIelement::mouseButtonDown(MouseButton)
+{
+
+}

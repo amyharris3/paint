@@ -1,6 +1,5 @@
 #include "PAINT_DrawWindow.h"
 #include <SDL.h>
-#include <iostream> 
 #include "PAINT_Brush.h"
 #include "WIN_Mouse.h"
 
@@ -11,8 +10,8 @@ DrawWindow::DrawWindow(SDL_Window* sdlWindow, SDL_Renderer* renderer, SDL_Surfac
 	: Window(sdlWindow, renderer, surface, rect, name)
 	, activeTool_(nullptr)
 	, activeBrush_(nullptr)
-	, activeColour_(gfx::Colour(255, 255, 255,255))
-	, inactiveColour_(gfx::Colour(255, 255, 255, 255))
+	, primaryColour_(gfx::Colour(255, 255, 255,255))
+	, secondaryColour_(gfx::Colour(255, 255, 255, 255))
 	, surface_(surface)
 	, renderer_(renderer)
 	, texture_(nullptr)
@@ -47,9 +46,19 @@ void DrawWindow::addClickedPixels(const int xMouse, const int yMouse)
 	clickedPixels_.push_back(coord);
 }
 
-void DrawWindow::swapActiveColour()
+void DrawWindow::setPrimaryColour(gfx::Colour colour)
 {
-	std::swap(activeColour_, inactiveColour_);
+	primaryColour_ = colour;
+}
+
+void DrawWindow::setSecondaryColour(gfx::Colour colour)
+{
+	secondaryColour_ = colour;
+}
+
+void DrawWindow::swapColours()
+{
+	std::swap(primaryColour_, secondaryColour_);
 }
 
 /*override*/
