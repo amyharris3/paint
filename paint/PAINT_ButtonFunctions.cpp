@@ -26,5 +26,6 @@ void paint::myAction(win::Button* button)
 void paint::toggleDraw(win::Button* button)
 {
 	auto dw = utils::findDrawWindow(button);
-	dw->toggleDraw();
+	//dw->toggleDraw();
+	dw->activateDrawTool();
 }

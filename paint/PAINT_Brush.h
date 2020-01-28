@@ -24,7 +24,7 @@ namespace paint
 		Brush& operator=(const Brush& that) = default;
 		Brush& operator=(Brush&& that) = default;
 
-		std::vector<Coords> brushArea(Coords pixel) const;
+		//std::vector<Coords> brushArea(Coords pixel) const;
 
 
 	private:

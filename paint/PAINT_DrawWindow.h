@@ -1,6 +1,8 @@
 #pragma once
 
 #include "WIN_Window.h"
+#include "PAINT_DrawTool.h"
+
 
 struct SDL_Texture;
 
@@ -23,14 +25,7 @@ namespace paint
 		int y;
 	};
 
-	struct Line
-	{
-		int x1;
-		int y1;
-		int x2;
-		int y2;
 
-	};
 
 	class Colour;
 	class Tool;
@@ -41,19 +36,18 @@ namespace paint
 	{
 	private:
 		// TODO What sort of pointer?
-		Tool * activeTool_;
-		Brush * activeBrush_;
+		std::shared_ptr<Tool> activeTool_;
 		const char* name_;  
 		gfx::Colour primaryColour_;
 		gfx::Colour secondaryColour_;
-		std::vector<Coords> clickedPixels_;  
-		SDL_Surface* surface_;
 		SDL_Renderer* renderer_;
 		SDL_Texture* texture_;
 		bool drawToggle_;
 		Coords mouseCoords_;
 		Coords prevMouseCoords_;
-		std::vector<Line> lines_;
+
+		std::shared_ptr<Tool> drawTool_;
+		
 
 
 	public:
@@ -67,7 +61,10 @@ namespace paint
 		DrawWindow& operator=(DrawWindow&& that) = delete;
 
 		void mouseButtonDown(win::MouseButton button) override;
-		void setActiveBrush(Brush* brush);
+		void mouseButtonUp(win::MouseButton b) override;
+		//void setActiveBrush(std::shared_ptr<Brush> brush);
+		void setActiveTool(std::shared_ptr<Tool> tool);
+		void activateDrawTool();
 		//void getPixels(SDL_Surface* surface);
 		void setMouseCoords(Coords relCoords);
 		void setPrevCoords(Coords relPrevCoords);
@@ -80,6 +77,5 @@ namespace paint
 
 		//void setColor(SDL_Surface* surface);
 		void draw() override;
-		void toggleDraw();
 	};
 }

@@ -111,12 +111,13 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <AdditionalLibraryDirectories>$(SolutionDir)SDL2_ttf-2.0.15\lib\x64;$(SolutionDir)SDL\lib\win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_gfx.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /q /y /s $(SolutionDir)SDL\lib\win64\SDL2main.dll $(OutDir)
 xcopy /q /y /s $(SolutionDir)SDL\lib\win64\SDL2.dll $(OutDir)
-xcopy /q /y /s $(SolutionDir)SDL\lib\win64\SDL2_image.dll $(OutDir)</Command>
+xcopy /q /y /s $(SolutionDir)SDL\lib\win64\SDL2_image.dll $(OutDir)
+xcopy /q /y /s $(SolutionDir)SDL\lib\win64\SDL2_gfx.dll $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -161,6 +162,7 @@ xcopy /q /y /s $(SolutionDir)SDL\lib\win64\SDL2_image.dll $(OutDir)</Command>
     <ClCompile Include="PAINT_Circle.cpp" />
     <ClCompile Include="PAINT_ColourPicker.cpp" />
     <ClCompile Include="PAINT_DrawFlags.cpp" />
+    <ClCompile Include="PAINT_DrawTool.cpp" />
     <ClCompile Include="PAINT_DrawWindow.cpp" />
     <ClCompile Include="PAINT_Eraser.cpp" />
     <ClCompile Include="paint-main.cpp">
@@ -185,6 +187,7 @@ xcopy /q /y /s $(SolutionDir)SDL\lib\win64\SDL2_image.dll $(OutDir)</Command>
     <ClInclude Include="PAINT_Circle.h" />
     <ClInclude Include="PAINT_ColourPicker.h" />
     <ClInclude Include="PAINT_DrawFlags.h" />
+    <ClInclude Include="PAINT_DrawTool.h" />
     <ClInclude Include="PAINT_DrawWindow.h" />
     <ClInclude Include="PAINT_Eraser.h" />
     <ClInclude Include="PAINT_MenuWindow.h" />

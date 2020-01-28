@@ -112,7 +112,7 @@ void Program::run()
 
 			MouseButton button = MouseButton::Left;
 			if (e.type == SDL_MOUSEBUTTONDOWN) {
-				
+
 				clicked = true;
 
 				switch (e.button.button) {
@@ -146,7 +146,6 @@ void Program::run()
 			}
 
 			if (e.type == SDL_MOUSEBUTTONUP) {
-				std::cout << "Mouse button up \n";
 				clicked = false;
 				if (activeElement) {
 					activeElement->mouseButtonUp(button);
