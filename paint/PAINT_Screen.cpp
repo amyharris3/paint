@@ -47,23 +47,24 @@ Screen::Screen(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* n
 	// Create toolbar inside tool window, allocating 3x2 table for 6 tool elements
 	gfx::Rectangle toolbarRect(10, 50, 180, 260);
 	auto toolbarLayout = std::make_shared<win::TableLayout>(20, 20, 20, 20, 3, 2);
-	auto toolbarBox = std::make_shared<ToolWindow>(renderer,toolbarRect, "toolbarBox", toolbarLayout);
+	auto toolbox = std::make_shared<Window>(renderer,toolbarRect, "toolbarBox", toolbarLayout);
 	const gfx::Colour toolboxColour{ 100, 255, 220, 255 };
-	toolbarBox->setBackgroundColour(toolboxColour);
+	toolbox->setBackgroundColour(toolboxColour);
 	// Create tool window buttons.
 	gfx::Colour yellow(255, 255, 0, 255);
 	for (int i = 0; i < 6; i++) {
 		gfx::Rectangle buttonRect(20, 60, 60, 60);
 		if (i == 0) {
 			auto button = std::make_shared<Button>(renderer, buttonRect, "drawButton", "button_toggle_draw.png", toggleDraw);
-			toolbarBox->addChild(button);
+			toolbox->addChild(button);
 		}
 		else {
 			auto button = std::make_shared<GenericBox>(buttonRect, "genericBox", yellow, yellow, renderer);
-			toolbarBox->addChild(button);
+			toolbox->addChild(button);
 		}
 	}
-	toolWindow->addChild(toolbarBox);
+	toolWindow->addChild(toolbox);
+	toolWindow->setToolbox(toolbox);
 
 	// Create area for colour picker
 	gfx::Rectangle colourPickerRect(10, 320, 180, 200);
@@ -71,7 +72,7 @@ Screen::Screen(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* n
 	const gfx::Colour colourPickerColour{ 150, 255, 240, 255 };
 	colourPicker->setBackgroundColour(colourPickerColour);
 	toolWindow->addChild(colourPicker);
-
+	toolWindow->setColourPicker(colourPicker);
 
 	// Creating statusWindow
 	gfx::Rectangle statusRect(0, 760, 1200, 40);

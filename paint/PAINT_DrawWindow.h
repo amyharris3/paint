@@ -1,6 +1,7 @@
 #pragma once
 
 #include "WIN_Window.h"
+#include "PAINT_ColourPicker.h"
 
 struct SDL_Texture;
 
@@ -43,7 +44,7 @@ namespace paint
 		// TODO What sort of pointer?
 		Tool * activeTool_;
 		Brush * activeBrush_;
-		const char* name_;  
+		const char* name_;
 		gfx::Colour primaryColour_;
 		gfx::Colour secondaryColour_;
 		std::vector<Coords> clickedPixels_;  
@@ -55,6 +56,8 @@ namespace paint
 		Coords prevMouseCoords_;
 		std::vector<Line> lines_;
 
+		//whenever the active colour is changed this should be updated
+		uint8_t rgbaDrawColour_[4]; 
 
 	public:
 		DrawWindow() = delete;
@@ -65,11 +68,12 @@ namespace paint
 		DrawWindow(DrawWindow&& that) = delete;
 		DrawWindow& operator=(const DrawWindow& that) = delete;
 		DrawWindow& operator=(DrawWindow&& that) = delete;
-
+	
 		void mouseButtonDown(win::MouseButton button) override;
 		void setActiveBrush(Brush* brush);
 		//void getPixels(SDL_Surface* surface);
 		void setMouseCoords(Coords relCoords);
+		Coords getMouseCoords() const { return mouseCoords_; }
 		void setPrevCoords(Coords relPrevCoords);
 
 		gfx::Colour getPrimaryColour() const { return primaryColour_; }
@@ -77,6 +81,8 @@ namespace paint
 		void setPrimaryColour(gfx::Colour colour);
 		void setSecondaryColour(gfx::Colour colour);
 		void swapColours();
+		void setDrawColourPrimary();
+		void setDrawColourSecondary();
 
 		//void setColor(SDL_Surface* surface);
 		void draw() override;

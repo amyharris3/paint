@@ -24,7 +24,7 @@ namespace win
 	class Button :
 		public UIelement
 	{
-	public:
+	public:   
 		Button() = default;
 		Button(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* name, const char* spritePath, ActionFunction act);
 		virtual ~Button();

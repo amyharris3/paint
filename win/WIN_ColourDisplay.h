@@ -21,18 +21,21 @@ namespace win
 		ColourDisplay& operator=(ColourDisplay const& that) = default;
 		ColourDisplay& operator=(ColourDisplay&& that) = default;
 
-		void updateColour();
+		void updateColour(gfx::Colour colour);
+		bool isActive() const { return isActive_; }
 		void setActive();
 		void setInactive();
-		void setOutlineColour(gfx::Colour outlineColour);
+		void swapActive();
+		void setOutlineColour(const gfx::Colour outlineColour);
 		
 		void draw() override;
-		void mouseButtonDown(win::MouseButton const b) override;
+		void mouseButtonDown(win::MouseButton const button) override;
+		void mouseButtonUp(MouseButton button) override;
 
 	private:
-		std::shared_ptr<gfx::Colour> displayColour_;
 		SDL_Renderer* renderer_;
 		bool isActive_;
+		bool isClicked_;
 	};
 
 }

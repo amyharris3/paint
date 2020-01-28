@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include "PAINT_Brush.h"
 #include "WIN_Mouse.h"
+#include <iostream>
 
 using namespace paint;
 using namespace win;
@@ -10,13 +11,14 @@ DrawWindow::DrawWindow(SDL_Renderer* renderer, gfx::Rectangle const& rect, const
 	: Window( renderer, rect, name)
 	, activeTool_(nullptr)
 	, activeBrush_(nullptr)
+	, name_(name)
 	, primaryColour_(gfx::Colour(255, 255, 255,255))
 	, secondaryColour_(gfx::Colour(255, 255, 255, 255))
-	, name_(name)
 	, renderer_(renderer)
 	, drawToggle_(false)
 {
 	texture_ = SDL_CreateTexture(renderer_, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, rect.width, rect.height);
+	setDrawColourPrimary();
 }
 
 
@@ -62,8 +64,21 @@ void DrawWindow::setSecondaryColour(gfx::Colour colour)
 
 void DrawWindow::swapColours()
 {
+	std::cout << "Swapping colours\n";
 	std::swap(primaryColour_, secondaryColour_);
 }
+
+// Sets the active colour for drawing, defaults to 
+void DrawWindow::setDrawColourPrimary()
+{
+	primaryColour_.getComponents(rgbaDrawColour_);
+}
+
+void DrawWindow::setDrawColourSecondary()
+{
+	secondaryColour_.getComponents(rgbaDrawColour_);
+}
+
 
 /*override*/
 void DrawWindow::draw()
@@ -72,7 +87,8 @@ void DrawWindow::draw()
 	const auto& myRect = getRect();
 	SDL_Rect destRect = { myRect.x, myRect.y, myRect.width, myRect.height };
 	SDL_RenderCopy(renderer_, texture_, nullptr, &destRect);
-	SDL_SetRenderDrawColor(renderer_, 255, 255, 255, SDL_ALPHA_OPAQUE);
+	//SDL_SetRenderDrawColor(renderer_, 255, 255, 255, SDL_ALPHA_OPAQUE);
+	SDL_SetRenderDrawColor(renderer_, int(rgbaDrawColour_[0]), int(rgbaDrawColour_[1]), int(rgbaDrawColour_[2]), int(rgbaDrawColour_[3]));
 	for (std::vector<Line>::const_iterator i = lines_.begin(); i != lines_.end(); ++i) {
 		Line line = *i;
 		SDL_RenderDrawLine(renderer_, line.x1, line.y1, line.x2, line.y2);

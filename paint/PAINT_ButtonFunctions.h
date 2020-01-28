@@ -12,6 +12,7 @@ namespace paint {
 	//void foo();
 
 	void toggleDraw(win::Button* button);
+	void swapColours(win::Button* button);
 }
 
  
