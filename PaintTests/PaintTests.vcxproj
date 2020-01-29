@@ -100,12 +100,15 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>$(SolutionDir)SDL\lib\win64;$(SolutionDir)SDL2_ttf-2.0.15\lib\x64;$(VCInstallDir)UnitTest\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /q /y /s $(SolutionDir)SDL\lib\win64\SDL2.dll $(OutDir)
 xcopy /q /y /s $(SolutionDir)SDL\lib\win64\SDL2_image.dll $(OutDir)
 xcopy /q /y /s $(SolutionDir)SDL\lib\win64\libpng16-16.dll $(OutDir)
+xcopy /q /y /s $(SolutionDir)SDL2_ttf-2.0.15\lib\x64\SDL2_ttf.dll $(OutDir)
+xcopy /q /y /s $(SolutionDir)SDL2_ttf-2.0.15\lib\x64\zlib1.dll $(OutDir)
+xcopy /q /y /s $(SolutionDir)SDL2_ttf-2.0.15\lib\x64\libfreetype-6.dll $(OutDir)
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

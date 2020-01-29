@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include <iostream>
 #include <SDL_image.h>
+#include "SDL_ttf.h"
 
 using namespace paint;
 static Program s_program;
@@ -13,6 +14,11 @@ int main(int /*argc*/, char ** /* argv*/)
 		return 1;
 	}
 	IMG_Init(IMG_INIT_JPG);
+	// Need to initialise SDL_ttf
+	if (TTF_Init() == -1) {
+		printf("Error: unable to initialise TFF -> SDL_ttf Error: %s\n", TTF_GetError());
+	}
+
 
 	// Create root window.
 	SDL_Window* rootWindow = SDL_CreateWindow("rootWindow", 300, 100, 1200, 800, 0);

@@ -40,6 +40,15 @@ void DrawWindow::setActiveBrush(Brush* brush)
 //	pixels_ = surface->pixels;
 //}
 
+void DrawWindow::setMouseCoords(Coords relCoords)
+{
+	mouseCoords_ = relCoords;
+}
+
+void DrawWindow::setPrevCoords(Coords relPrevCoords)
+{
+	prevMouseCoords_ = relPrevCoords;
+}
 
 void DrawWindow::setPrimaryColour(gfx::Colour colour)
 {
@@ -86,16 +95,23 @@ void DrawWindow::draw()
 	//}
 }
 
-void DrawWindow::mouseButtonDown(MouseButton const b, int const xPixel, int const yPixel)
+void DrawWindow::mouseButtonDown(MouseButton b)
 {
 	//Uint16* pixels = (Uint16*)surface_->pixels;            // Get the pixels from the Surface
-	
-	Coords mousePixel{ xPixel, yPixel };
+
+	//const int xRel = mouseCoords_.x - this->getRect().x;
+	//const int yRel = mouseCoords_.y - this->getRect().y;
+	//const int xPrevRel = prevMouseCoords_.x - this->getRect().x;
+	//const int yPrevRel = prevMouseCoords_.y - this->getRect().y;
+
 	if (b == MouseButton::Left) {
 		if (drawToggle_) {
+			lines_.push_back({ mouseCoords_.x, mouseCoords_.y, prevMouseCoords_.x, prevMouseCoords_.y });
+
 			//uint32_t pixel = 0xFFFFFFFF;
-			SDL_Rect pixelRect = { xPixel, yPixel, 1, 1 };
-			SDL_UpdateTexture(texture_, &pixelRect, reinterpret_cast<void*>(&pixel), 1);
+			//SDL_Rect pixelRect = { xRel, yRel, 1, 1 };
+			//SDL_UpdateTexture(texture_, &pixelRect, reinterpret_cast<void*>(&pixel), 1);
+
 
 		}
 

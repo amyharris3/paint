@@ -4,6 +4,7 @@
 #include "SDL_ttf.h"
 #include <string>
 #include <memory>
+#include "GFX_Text.h"
 
 namespace win
 {
@@ -13,7 +14,7 @@ namespace win
 	{
 	public:
 		EditTextbox() = delete;
-		EditTextbox(gfx::Rectangle rect, const char* name, SDL_Renderer* renderer, std::shared_ptr<int> linkedVariable);
+		EditTextbox(gfx::Rectangle rect, const char* name, SDL_Renderer* renderer, int const textSize, int const xOffset, int const yOffset, std::shared_ptr<int> linkedVariable);
 		~EditTextbox() = default;
 		EditTextbox(const EditTextbox & that) = default;
 		EditTextbox(EditTextbox && that) = default;
@@ -27,10 +28,9 @@ namespace win
 	private:
 
 		SDL_Renderer* renderer_;
-		TTF_Font* textFont_;
-		SDL_Color textColour_;
-		SDL_Texture* textTex_;
-		std::string loadedText_;
+		gfx::Text text_;
+		int xOffset_;
+		int yOffset_;
 
 		std::shared_ptr<int> linkedVariable_;
 

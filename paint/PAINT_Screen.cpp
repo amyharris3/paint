@@ -86,7 +86,7 @@ Screen::Screen(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* n
 
 	// Testing editable textbox
 	auto testVar = std::make_shared<int>(0);
-	auto testTextbox = std::make_shared<win::EditTextbox>(gfx::Rectangle(10, 600, 40, 20), "testTextbox", renderer, testVar);
+	auto testTextbox = std::make_shared<win::EditTextbox>(gfx::Rectangle(10, 600, 40, 20), "testTextbox", renderer, 18, 2, -3, testVar);
 	toolWindow->addChild(testTextbox);
 	
 

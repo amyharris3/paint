@@ -10,6 +10,7 @@
 #include <iostream>
 #include <memory>
 #include "PAINT_ColourPicker.h"
+#include "WIN_EditTextbox.h"
 
 
 using namespace paint;
@@ -54,6 +55,7 @@ void Program::initialize(SDL_Renderer* renderer)
 	renderer_ = renderer;
 	auto screenRect = gfx::Rectangle(0, 0, 1200, 800);
 	screen_ = std::make_shared<Screen>(renderer, screenRect, "Screen");
+	
 }
 
 void Program::run()
