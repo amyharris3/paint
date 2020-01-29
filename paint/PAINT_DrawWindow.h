@@ -87,5 +87,6 @@ namespace paint
 		//void setColor(SDL_Surface* surface);
 		void draw() override;
 		void toggleDraw();
+		void clearScreen() const;
 	};
 }

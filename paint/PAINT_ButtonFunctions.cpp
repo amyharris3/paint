@@ -37,3 +37,9 @@ void paint::swapColours(win::Button* button)
 	cpick->updateFromDrawWindow();
 	cpick->setDrawColour();
 }
+
+void paint::clearScreen(win::Button* button)
+{
+	auto dw = utils::findDrawWindow(button);
+	dw->clearScreen();
+}

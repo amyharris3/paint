@@ -21,7 +21,6 @@ DrawWindow::DrawWindow(SDL_Renderer* renderer, gfx::Rectangle const& rect, const
 	setDrawColourPrimary();
 }
 
-
 DrawWindow::~DrawWindow()
 {
 	if (texture_) {
@@ -131,4 +130,12 @@ void DrawWindow::mouseButtonDown(MouseButton b)
 void DrawWindow::toggleDraw()
 {
 	drawToggle_ = !drawToggle_;
+}
+
+// TODO Needs more work, to properly clear drawWindow
+void DrawWindow::clearScreen() const
+{
+	const auto& myRect = getRect();
+	SDL_Rect destRect = { myRect.x, myRect.y, myRect.width, myRect.height };
+	SDL_RenderCopy(renderer_, texture_, nullptr, &destRect);
 }

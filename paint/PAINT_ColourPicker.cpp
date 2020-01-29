@@ -24,6 +24,8 @@ ColourPicker::ColourPicker::ColourPicker(gfx::Rectangle rect, SDL_Renderer* rend
 	displayBox_->addChild(primaryColourDisplay_);
 	displayBox_->addChild(secondaryColourDisplay_);
 	addChild(displayBox_);
+
+	setDrawColour();
 }
 
 void ColourPicker::setDrawColour()
