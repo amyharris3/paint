@@ -28,7 +28,7 @@ Text::Text(SDL_Renderer* renderer, Colour textColour, const char* fontName, int 
 {
 }
 
-void Text::update(const char* newString)
+void Text::updateString(const char* newString)
 {
 	textString_ = newString;
 }

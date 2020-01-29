@@ -29,6 +29,7 @@ namespace win
 		void setOutlineColour(const gfx::Colour outlineColour);
 		
 		void draw() override;
+		void mouseExit() override;
 		void mouseButtonDown(win::MouseButton const button) override;
 		void mouseButtonUp(MouseButton button) override;
 

@@ -71,6 +71,11 @@ void ColourDisplay::draw()
 	SDL_RenderFillRect(renderer_, &boxRect);
 }
 
+void ColourDisplay::mouseExit()
+{
+	isClicked_ = false;
+}
+
 void ColourDisplay::mouseButtonDown(win::MouseButton const button)
 {
 	isClicked_ = true;
@@ -78,8 +83,9 @@ void ColourDisplay::mouseButtonDown(win::MouseButton const button)
 
 void ColourDisplay::mouseButtonUp(win::MouseButton const button)
 {
-	auto cpick = paint::utils::findToolWindow(this)->getColourPicker();
-	cpick->swapActiveColour();
-	
-	isClicked_ = false;
+	if (isClicked_) {
+		auto cpick = paint::utils::findToolWindow(this)->getColourPicker();
+		cpick->swapActiveColour();
+		isClicked_ = false;
+	}
 }

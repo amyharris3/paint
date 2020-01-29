@@ -94,8 +94,7 @@ void Program::run()
 			if (e.type == SDL_MOUSEMOTION) {
 
 				SDL_GetMouseState(&xMouse, &yMouse);
-
-
+				
 				auto active = GetTopmostElement(screen_->getChildren(), xMouse, yMouse);
 				if (activeElement != active) {
 					if (activeElement) {

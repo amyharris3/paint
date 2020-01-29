@@ -21,18 +21,25 @@ namespace win
 		EditTextbox& operator=(const EditTextbox & that) = default;
 		EditTextbox& operator=(EditTextbox && that) = default;
 
-		bool renderText();
+		static char filterNumerical(const char c[]);
+		void updateAndRerender(std::string newString);
+		void takeTextEntry();
 		
 		void draw() override;
-
+		void mouseButtonDown(win::MouseButton const button) override;
+		void mouseButtonUp(win::MouseButton const button) override;
+		
 	private:
 
 		SDL_Renderer* renderer_;
 		gfx::Text text_;
 		int xOffset_;
 		int yOffset_;
-
+		
 		std::shared_ptr<int> linkedVariable_;
 
+		//dirty flags
+		bool isClicked_;
+		
 	};
 }

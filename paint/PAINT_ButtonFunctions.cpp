@@ -43,3 +43,4 @@ void paint::clearScreen(win::Button* button)
 	auto dw = utils::findDrawWindow(button);
 	dw->clearScreen();
 }
+
