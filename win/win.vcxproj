@@ -22,6 +22,7 @@
     <ClCompile Include="WIN_ColourDisplay.cpp" />
     <ClCompile Include="WIN_Button.cpp" />
     <ClCompile Include="WIN_Container.cpp" />
+    <ClCompile Include="WIN_EditTextbox.cpp" />
     <ClCompile Include="WIN_FreeLayout.cpp" />
     <ClCompile Include="WIN_GenericBox.cpp" />
     <ClCompile Include="WIN_Layout.cpp" />
@@ -33,6 +34,7 @@
     <ClInclude Include="WIN_ColourDisplay.h" />
     <ClInclude Include="WIN_Button.h" />
     <ClInclude Include="WIN_Container.h" />
+    <ClInclude Include="WIN_EditTextbox.h" />
     <ClInclude Include="WIN_FreeLayout.h" />
     <ClInclude Include="WIN_GenericBox.h" />
     <ClInclude Include="WIN_Layout.h" />
@@ -119,12 +121,16 @@
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)SDL/include;$(SolutionDir)gfx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)SDL\include;$(SolutionDir)SDL2_ttf-2.0.15\include;$(SolutionDir)gfx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

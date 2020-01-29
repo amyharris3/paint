@@ -9,9 +9,6 @@
 #include <SDL.h>
 #include <iostream>
 #include <memory>
-#include "PAINT_ButtonFunctions.h"
-#include <WIN_GenericBox.h>
-#include "WIN_TableLayout.h"
 #include "PAINT_ColourPicker.h"
 
 
@@ -140,7 +137,7 @@ void Program::run()
 					//SDL_SetRenderDrawColor(renderer_, 0, 0, 0, 255);
 					drawWindow->setMouseCoords({ xMouse, yMouse });
 					drawWindow->setPrevCoords({ xPrev, yPrev });
-
+					
 					activeElement->mouseButtonDown(button);
 				}
 			}

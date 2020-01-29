@@ -1,6 +1,7 @@
 #pragma once
 #include "WIN_Container.h"
 #include "WIN_ColourDisplay.h"
+#include "WIN_Button.h"
 
 namespace paint
 {
@@ -18,17 +19,24 @@ namespace paint
 		ColourPicker& operator=(const ColourPicker & that) = default;
 		ColourPicker& operator=(ColourPicker && that) = default;
 
+		void setDrawColour();
+		void swapActiveColour();
+		void updateFromDrawWindow();
+		
 		void draw() override;
-		void mouseButtonDown(win::MouseButton const b, int const xPixel, int const yPixel) override;
+		void mouseButtonDown(win::MouseButton const button) override;
+		void mouseButtonUp(win::MouseButton const button) override;
 		
 	private:
 
 		std::shared_ptr<DrawWindow> drawWindowPtr_;
 		SDL_Renderer* renderer_;
-		Container displayBox_;
-		std::shared_ptr<win::ColourDisplay> fgDisplay_;
-		std::shared_ptr<win::ColourDisplay> bgDisplay_;
+		std::shared_ptr<Container> displayBox_;
+		std::shared_ptr<win::ColourDisplay> primaryColourDisplay_;
+		std::shared_ptr<win::ColourDisplay> secondaryColourDisplay_;
+		std::shared_ptr<win::Button> swapButton_;
 		
+		bool clickDownOnColourDisplay_;
 		
 	};
 }

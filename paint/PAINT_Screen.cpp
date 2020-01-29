@@ -11,6 +11,7 @@
 #include "PAINT_MenuWindow.h"
 #include "WIN_GenericBox.h"
 #include "PAINT_ColourPicker.h"
+#include "WIN_EditTextbox.h"
 
 
 using namespace paint;
@@ -23,8 +24,8 @@ Screen::Screen(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* n
 	// Creating drawWindow
 	gfx::Rectangle drawRect(200, 40, 1000, 720);
 	auto drawWindow = std::make_shared<DrawWindow>(renderer, drawRect, "drawWindow");
-	gfx::Colour drawColour{ 255, 255, 255, 255 };
-	drawWindow->setBackgroundColour(drawColour);
+	//gfx::Colour drawColour{ 255, 255, 255, 255 };
+	//drawWindow->setBackgroundColour(drawColour);
 	drawWindow->setPrimaryColour(gfx::Colour(255, 0, 0, 255));
 	drawWindow->setSecondaryColour(gfx::Colour(0, 255, 0, 255));
 	
@@ -47,31 +48,47 @@ Screen::Screen(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* n
 	// Create toolbar inside tool window, allocating 3x2 table for 6 tool elements
 	gfx::Rectangle toolbarRect(10, 50, 180, 260);
 	auto toolbarLayout = std::make_shared<win::TableLayout>(20, 20, 20, 20, 3, 2);
-	auto toolbarBox = std::make_shared<ToolWindow>(renderer,toolbarRect, "toolbarBox", toolbarLayout);
-	const gfx::Colour toolboxColour{ 100, 255, 220, 255 };
-	toolbarBox->setBackgroundColour(toolboxColour);
+	auto toolbox = std::make_shared<Window>(renderer,toolbarRect, "toolbarBox", toolbarLayout);
+	const gfx::Colour toolboxColour{ 150, 255, 240, 255 };
+	toolbox->setBackgroundColour(toolboxColour);
 	// Create tool window buttons.
 	gfx::Colour yellow(255, 255, 0, 255);
 	for (int i = 0; i < 6; i++) {
 		gfx::Rectangle buttonRect(20, 60, 60, 60);
 		if (i == 0) {
 			auto button = std::make_shared<Button>(renderer, buttonRect, "drawButton", "button_toggle_draw.png", toggleDraw);
-			toolbarBox->addChild(button);
+			toolbox->addChild(button);
+		}
+		else if (i == 5){
+			auto button = std::make_shared<Button>(renderer, buttonRect, "clearButton", "button_clear_screen.png", clearScreen);
+			toolbox->addChild(button);
 		}
 		else {
 			auto button = std::make_shared<GenericBox>(buttonRect, "genericBox", yellow, yellow, renderer);
-			toolbarBox->addChild(button);
+			toolbox->addChild(button);
 		}
 	}
-	toolWindow->addChild(toolbarBox);
+	toolWindow->addChild(toolbox);
+	toolWindow->setToolbox(toolbox);
 
+	// Rectangle reserved for brush thickness
+	auto brushOptionsBox = std::make_shared<Window>(renderer, gfx::Rectangle(10, 320, 180, 40), "toolbarBox", toolbarLayout);
+	brushOptionsBox->setBackgroundColour(gfx::Colour(150, 255, 240, 255));
+	toolWindow->addChild(brushOptionsBox);
+	
 	// Create area for colour picker
-	gfx::Rectangle colourPickerRect(10, 320, 180, 200);
+	gfx::Rectangle colourPickerRect(10, 370, 180, 200);
 	auto colourPicker = std::make_shared<ColourPicker>(colourPickerRect, renderer, drawWindow);
 	const gfx::Colour colourPickerColour{ 150, 255, 240, 255 };
 	colourPicker->setBackgroundColour(colourPickerColour);
 	toolWindow->addChild(colourPicker);
+	toolWindow->setColourPicker(colourPicker);
 
+	// Testing editable textbox
+	auto testVar = std::make_shared<int>(0);
+	auto testTextbox = std::make_shared<win::EditTextbox>(gfx::Rectangle(10, 600, 40, 20), "testTextbox", renderer, testVar);
+	toolWindow->addChild(testTextbox);
+	
 
 	// Creating statusWindow
 	gfx::Rectangle statusRect(0, 760, 1200, 40);
