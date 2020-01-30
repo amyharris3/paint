@@ -21,10 +21,12 @@
   <ItemGroup>
     <ClCompile Include="GFX_Colour.cpp" />
     <ClCompile Include="GFX_Rectangle.cpp" />
+    <ClCompile Include="GFX_Text.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GFX_Colour.h" />
     <ClInclude Include="GFX_Rectangle.h" />
+    <ClInclude Include="GFX_Text.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -100,6 +102,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <AdditionalIncludeDirectories>$(SolutionDir)SDL\include;$(SolutionDir)SDL2_ttf-2.0.15\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

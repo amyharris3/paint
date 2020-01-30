@@ -2,6 +2,8 @@
 #include "CppUnitTest.h"
 #include "../gfx/GFX_Rectangle.h"
 #include "../gfx/GFX_colour.h"
+#include "GFX_Text.h"
+#include "SDL.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace gfx;
@@ -188,4 +190,21 @@ namespace PaintTests
 			return Colour(255, 255, 255, 255);
 		}
 	};
+
+	TEST_CLASS(TestGfxText)
+	{
+		//TODO: unfinished
+		TEST_METHOD(TestOpenFont)
+		{
+			Assert::AreNotEqual(SDL_Init(SDL_INIT_VIDEO), -1);
+			Assert::AreNotEqual(TTF_Init(), -1);
+			
+			Text exampleText;
+			auto test1 = exampleText.getFont();		
+			exampleText.loadFont("./Cabin-Regular-TTF.ttf");
+			auto test2 = exampleText.getFont();	
+			//Assert::IsNotNull(exampleText.getFont());
+		}
+	};
+
 }

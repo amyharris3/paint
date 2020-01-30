@@ -35,7 +35,7 @@ namespace win
 		gfx::Colour getForegroundColour() const { return foregroundColour_; }
 		void getForegroundColour(uint8_t rgba[]);
 		void getBackgroundColour(uint8_t rgba[]);
-		void swapColours();
+		virtual void swapColours();
 
 		void setRect(const gfx::Rectangle & rect);
 		gfx::Rectangle getRect() const { return rect_; }
@@ -47,7 +47,7 @@ namespace win
 		//virtual void mouseMove(int x, int y) {}
 		virtual void mouseEnter();
 		virtual void mouseExit();
-		virtual void mouseButtonDown(MouseButton b);
-		virtual void mouseButtonUp(MouseButton b) {};
+		virtual void mouseButtonDown(MouseButton button);
+		virtual void mouseButtonUp(MouseButton button) {};
 	};
 }

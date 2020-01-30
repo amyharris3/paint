@@ -9,10 +9,8 @@
 #include <SDL.h>
 #include <iostream>
 #include <memory>
-#include "PAINT_ButtonFunctions.h"
-#include <WIN_GenericBox.h>
-#include "WIN_TableLayout.h"
 #include "PAINT_ColourPicker.h"
+#include "WIN_EditTextbox.h"
 
 
 using namespace paint;
@@ -57,6 +55,7 @@ void Program::initialize(SDL_Renderer* renderer)
 	renderer_ = renderer;
 	auto screenRect = gfx::Rectangle(0, 0, 1200, 800);
 	screen_ = std::make_shared<Screen>(renderer, screenRect, "Screen");
+	
 }
 
 void Program::run()
@@ -95,8 +94,7 @@ void Program::run()
 			if (e.type == SDL_MOUSEMOTION) {
 
 				SDL_GetMouseState(&xMouse, &yMouse);
-
-
+				
 				auto active = GetTopmostElement(screen_->getChildren(), xMouse, yMouse);
 				if (activeElement != active) {
 					if (activeElement) {
@@ -140,7 +138,7 @@ void Program::run()
 					//SDL_SetRenderDrawColor(renderer_, 0, 0, 0, 255);
 					drawWindow->setMouseCoords({ xMouse, yMouse });
 					drawWindow->setPrevCoords({ xPrev, yPrev });
-
+					
 					activeElement->mouseButtonDown(button);
 				}
 			}

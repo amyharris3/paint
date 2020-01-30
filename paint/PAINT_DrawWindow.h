@@ -1,6 +1,7 @@
 #pragma once
 
 #include "WIN_Window.h"
+#include "PAINT_ColourPicker.h"
 
 struct SDL_Texture;
 
@@ -43,7 +44,7 @@ namespace paint
 		// TODO What sort of pointer?
 		Tool * activeTool_;
 		Brush * activeBrush_;
-		const char* name_;  
+		const char* name_;
 		gfx::Colour primaryColour_;
 		gfx::Colour secondaryColour_;
 		std::vector<Coords> clickedPixels_;  
@@ -55,6 +56,10 @@ namespace paint
 		Coords prevMouseCoords_;
 		std::vector<Line> lines_;
 
+		//whenever the active colour is changed this should be updated
+		uint8_t drawRGBA_[4];
+		uint8_t primaryRGBA_[4];
+		uint8_t secondaryRGBA_[4];
 
 	public:
 		DrawWindow() = delete;
@@ -65,11 +70,12 @@ namespace paint
 		DrawWindow(DrawWindow&& that) = delete;
 		DrawWindow& operator=(const DrawWindow& that) = delete;
 		DrawWindow& operator=(DrawWindow&& that) = delete;
-
+	
 		void mouseButtonDown(win::MouseButton button) override;
 		void setActiveBrush(Brush* brush);
 		//void getPixels(SDL_Surface* surface);
 		void setMouseCoords(Coords relCoords);
+		Coords getMouseCoords() const { return mouseCoords_; }
 		void setPrevCoords(Coords relPrevCoords);
 
 		gfx::Colour getPrimaryColour() const { return primaryColour_; }
@@ -78,8 +84,32 @@ namespace paint
 		void setSecondaryColour(gfx::Colour colour);
 		void swapColours();
 
+		uint8_t* getDrawRGBA() { return drawRGBA_; }
+		uint8_t* getDrawRed() { return &drawRGBA_[0]; }
+		uint8_t* getDrawGreen() { return &drawRGBA_[1]; }
+		uint8_t* getDrawBlue() { return &drawRGBA_[2]; }
+		uint8_t* getDrawAlpha() { return &drawRGBA_[3]; }
+		
+		uint8_t* getPrimaryRGBA() { return primaryRGBA_; }
+		uint8_t* getPrimaryRed() { return &primaryRGBA_[0]; }
+		uint8_t* getPrimaryGreen() { return &primaryRGBA_[1]; }
+		uint8_t* getPrimaryBlue() { return &primaryRGBA_[2]; }
+		uint8_t* getPrimaryAlpha() { return &primaryRGBA_[3]; }
+
+		uint8_t* getSecondaryRGBA() { return secondaryRGBA_; }
+		uint8_t* getSecondaryRed() { return &secondaryRGBA_[0]; }
+		uint8_t* getSecondaryGreen() { return &secondaryRGBA_[1]; }
+		uint8_t* getSecondaryBlue() { return &secondaryRGBA_[2]; }
+		uint8_t* getSecondaryAlpha() { return &secondaryRGBA_[3]; }
+	
+		void setDrawColourAsPrimary();
+		void setDrawColourAsSecondary();
+		void setPrimaryAsDrawColour();
+		void setSecondaryAsDrawColour();
+
 		//void setColor(SDL_Surface* surface);
 		void draw() override;
 		void toggleDraw();
+		void clearScreen() const;
 	};
 }

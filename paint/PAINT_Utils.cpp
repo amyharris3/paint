@@ -30,3 +30,23 @@ DrawWindow * paint::utils::findDrawWindow(UIelement* control)
 	return findDrawWindow(parent);
 }
 
+ToolWindow* paint::utils::findToolWindow(UIelement* control)
+{
+	/* Preconditions. */
+	assert(control != nullptr && "null control in findToolWindow()");
+
+	/* Implementation */
+
+	// Are we already at the DrawWindow?
+	if (auto tw = dynamic_cast<ToolWindow*>(control)) {
+		return tw;
+	}
+
+	// Are we the screen?
+	auto parent = control->getParent();
+	if (!parent) {
+		auto screen = static_cast<Screen*>(control);
+		return screen->getToolWindow();
+	}
+	return findToolWindow(parent);
+}

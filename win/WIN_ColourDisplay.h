@@ -14,25 +14,41 @@ namespace win
 	public:
 
 		ColourDisplay() = delete;
-		ColourDisplay(gfx::Rectangle rect, const char* name, const std::shared_ptr<gfx::Colour> & displayColour, SDL_Renderer* renderer, bool isActive);
+		ColourDisplay(gfx::Rectangle rect, const char* name, uint8_t displayColour[], SDL_Renderer* renderer, bool isActive);
 		virtual ~ColourDisplay() = default;
 		ColourDisplay(ColourDisplay const& that) = default;
 		ColourDisplay(ColourDisplay&& that) = default;
 		ColourDisplay& operator=(ColourDisplay const& that) = default;
 		ColourDisplay& operator=(ColourDisplay&& that) = default;
 
-		void updateColour();
+		//gfx::Colour getColour() const { return { *rPtr_, *gPtr_, *bPtr_, *aPtr_ }; }
+		gfx::Colour getColour() const { return getForegroundColour(); }
+		
+		void updateColour(gfx::Colour colour);
+		//void setRGBA(uint8_t displayColour[]);
+		//void updateColourFromRGBA();
+		bool isActive() const { return isActive_; }
 		void setActive();
 		void setInactive();
-		void setOutlineColour(gfx::Colour outlineColour);
+		void swapIsActive();
+		void setOutlineColour(const gfx::Colour outlineColour);
+		void setClickFalse() { isClicked_ = false; }
 		
 		void draw() override;
-		void mouseButtonDown(win::MouseButton const b) override;
+		void mouseExit() override;
+		void mouseButtonDown(win::MouseButton const button) override;
+		void mouseButtonUp(MouseButton button) override;
 
 	private:
-		std::shared_ptr<gfx::Colour> displayColour_;
 		SDL_Renderer* renderer_;
 		bool isActive_;
+		bool isClicked_;
+
+		/*uint8_t* rPtr_;
+		uint8_t* gPtr_;
+		uint8_t* bPtr_;
+		uint8_t* aPtr_;*/
+		
 	};
 
 }
