@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="WIN_Slider.cpp" />
     <ClCompile Include="WIN_ColourValueTextbox.cpp" />
     <ClCompile Include="WIN_ColourDisplay.cpp" />
     <ClCompile Include="WIN_Button.cpp" />
@@ -41,6 +42,7 @@
     <ClInclude Include="WIN_GenericBox.h" />
     <ClInclude Include="WIN_Layout.h" />
     <ClInclude Include="WIN_Mouse.h" />
+    <ClInclude Include="WIN_Slider.h" />
     <ClInclude Include="WIN_TableLayout.h" />
     <ClInclude Include="WIN_UIelement.h" />
     <ClInclude Include="WIN_Window.h" />

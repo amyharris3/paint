@@ -48,6 +48,9 @@
     <ClCompile Include="WIN_ColourValueTextbox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="WIN_Slider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WIN_Button.h">
@@ -84,6 +87,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WIN_ColourValueTextbox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WIN_Slider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
