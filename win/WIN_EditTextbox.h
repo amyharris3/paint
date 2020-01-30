@@ -14,16 +14,21 @@ namespace win
 	{
 	public:
 		EditTextbox() = delete;
-		EditTextbox(gfx::Rectangle rect, const char* name, SDL_Renderer* renderer, int const textSize, int const xOffset, int const yOffset, std::shared_ptr<int> linkedVariable);
+		EditTextbox(gfx::Rectangle rect, const char* name, SDL_Renderer* renderer, int const textSize, int const xOffset, int const yOffset);
 		~EditTextbox() = default;
 		EditTextbox(const EditTextbox & that) = default;
 		EditTextbox(EditTextbox && that) = default;
 		EditTextbox& operator=(const EditTextbox & that) = default;
 		EditTextbox& operator=(EditTextbox && that) = default;
 
-		static char filterNumerical(const char c[]);
-		void updateAndRerender(std::string newString);
-		void takeTextEntry();
+		SDL_Renderer* getRenderer() const { return renderer_;  }
+		std::shared_ptr<gfx::Text> getText() const { return text_; }
+		bool getClick() const { return isClicked_; }
+		void click();
+
+		void editText(const char* newText);
+		virtual void updateAndRerender(std::string newString);
+		virtual void takeTextEntry();
 		
 		void draw() override;
 		void mouseButtonDown(win::MouseButton const button) override;
@@ -32,12 +37,12 @@ namespace win
 	private:
 
 		SDL_Renderer* renderer_;
-		gfx::Text text_;
+		std::shared_ptr<gfx::Text> text_;
 		int xOffset_;
 		int yOffset_;
-		
-		std::shared_ptr<int> linkedVariable_;
 
+		//ought to define the linked variable in the derived classes
+		
 		//dirty flags
 		bool isClicked_;
 		

@@ -12,6 +12,7 @@
 #include "WIN_GenericBox.h"
 #include "PAINT_ColourPicker.h"
 #include "WIN_EditTextbox.h"
+#include "WIN_ColourValueTextbox.h"
 
 
 using namespace paint;
@@ -77,16 +78,17 @@ Screen::Screen(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* n
 	toolWindow->addChild(brushOptionsBox);
 	
 	// Create area for colour picker
-	gfx::Rectangle colourPickerRect(10, 370, 180, 200);
+	gfx::Rectangle colourPickerRect(10, 370, 180, 220);
 	auto colourPicker = std::make_shared<ColourPicker>(colourPickerRect, renderer, drawWindow);
 	const gfx::Colour colourPickerColour{ 150, 255, 240, 255 };
 	colourPicker->setBackgroundColour(colourPickerColour);
+	colourPicker->updateColourValueBoxes();
 	toolWindow->addChild(colourPicker);
 	toolWindow->setColourPicker(colourPicker);
-
+	
 	// Testing editable textbox
-	auto testVar = std::make_shared<int>(0);
-	auto testTextbox = std::make_shared<win::EditTextbox>(gfx::Rectangle(10, 600, 40, 20), "testTextbox", renderer, 18, 2, -3, testVar);
+	uint8_t testVar = 100;
+	auto testTextbox = std::make_shared<win::ColourValueTextbox>(gfx::Rectangle(10, 600, 40, 20), "testTextbox", renderer, 18, 2, -3, &testVar);
 	toolWindow->addChild(testTextbox);
 	
 

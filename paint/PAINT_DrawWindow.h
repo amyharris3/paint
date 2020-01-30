@@ -57,7 +57,9 @@ namespace paint
 		std::vector<Line> lines_;
 
 		//whenever the active colour is changed this should be updated
-		uint8_t rgbaDrawColour_[4]; 
+		uint8_t drawRGBA_[4];
+		uint8_t primaryRGBA_[4];
+		uint8_t secondaryRGBA_[4];
 
 	public:
 		DrawWindow() = delete;
@@ -81,8 +83,29 @@ namespace paint
 		void setPrimaryColour(gfx::Colour colour);
 		void setSecondaryColour(gfx::Colour colour);
 		void swapColours();
-		void setDrawColourPrimary();
-		void setDrawColourSecondary();
+
+		uint8_t* getDrawRGBA() { return drawRGBA_; }
+		uint8_t* getDrawRed() { return &drawRGBA_[0]; }
+		uint8_t* getDrawGreen() { return &drawRGBA_[1]; }
+		uint8_t* getDrawBlue() { return &drawRGBA_[2]; }
+		uint8_t* getDrawAlpha() { return &drawRGBA_[3]; }
+		
+		uint8_t* getPrimaryRGBA() { return primaryRGBA_; }
+		uint8_t* getPrimaryRed() { return &primaryRGBA_[0]; }
+		uint8_t* getPrimaryGreen() { return &primaryRGBA_[1]; }
+		uint8_t* getPrimaryBlue() { return &primaryRGBA_[2]; }
+		uint8_t* getPrimaryAlpha() { return &primaryRGBA_[3]; }
+
+		uint8_t* getSecondaryRGBA() { return secondaryRGBA_; }
+		uint8_t* getSecondaryRed() { return &secondaryRGBA_[0]; }
+		uint8_t* getSecondaryGreen() { return &secondaryRGBA_[1]; }
+		uint8_t* getSecondaryBlue() { return &secondaryRGBA_[2]; }
+		uint8_t* getSecondaryAlpha() { return &secondaryRGBA_[3]; }
+	
+		void setDrawColourAsPrimary();
+		void setDrawColourAsSecondary();
+		void setPrimaryAsDrawColour();
+		void setSecondaryAsDrawColour();
 
 		//void setColor(SDL_Surface* surface);
 		void draw() override;

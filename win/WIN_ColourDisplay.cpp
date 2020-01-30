@@ -2,18 +2,18 @@
 #include <SDL.h>
 #include <iostream>
 #include "../paint/PAINT_Utils.h"
-#include "../paint/PAINT_DrawWindow.h"
+//#include "../paint/PAINT_DrawWindow.h"
 
 using namespace win;
 
 
-ColourDisplay::ColourDisplay(gfx::Rectangle rect, const char* name, const std::shared_ptr<gfx::Colour> & displayColour, SDL_Renderer* renderer, bool isActive)
+ColourDisplay::ColourDisplay(gfx::Rectangle rect, const char* name, uint8_t displayColour[], SDL_Renderer* renderer, bool isActive)
 	: UIelement(rect, name)
 	, renderer_(renderer)
 	, isActive_(isActive)
 	, isClicked_(false)
 {
-	this->setForegroundColour(*displayColour);
+	this->setForegroundColour(gfx::Colour(displayColour[0], displayColour[1], displayColour[2], displayColour[3]));
 	if (isActive_)
 	{
 		this->setBackgroundColour(gfx::Colour(0, 0, 0, 255));
@@ -26,7 +26,7 @@ ColourDisplay::ColourDisplay(gfx::Rectangle rect, const char* name, const std::s
 
 void ColourDisplay::updateColour(const gfx::Colour colour)
 {
-	this->setForegroundColour(colour);
+	setForegroundColour(colour);
 }
 
 void ColourDisplay::setActive()
@@ -41,7 +41,7 @@ void ColourDisplay::setInactive()
 	setBackgroundColour(gfx::Colour(200, 200, 200, 200));
 }
 
-void ColourDisplay::swapActive()
+void ColourDisplay::swapIsActive()
 {
 	if (isActive_){
 		setInactive();
@@ -53,11 +53,11 @@ void ColourDisplay::swapActive()
 
 void ColourDisplay::setOutlineColour(const gfx::Colour outlineColour)
 {
-	//this->setBackgroundColour(outlineColour);
+	this->setBackgroundColour(outlineColour);
 }
 
 void ColourDisplay::draw()
-{
+{	
 	SDL_Rect outlineRect = { this->getRect().x, this->getRect().y, this->getRect().width, this->getRect().height };
 	uint8_t outlineColour[4];
 	getBackgroundColour().getComponents(outlineColour);

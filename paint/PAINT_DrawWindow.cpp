@@ -18,7 +18,9 @@ DrawWindow::DrawWindow(SDL_Renderer* renderer, gfx::Rectangle const& rect, const
 	, drawToggle_(false)
 {
 	texture_ = SDL_CreateTexture(renderer_, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, rect.width, rect.height);
-	setDrawColourPrimary();
+	setDrawColourAsPrimary();
+	//primaryColour_.getComponents(primaryRGBA_);
+	//secondaryColour_.getComponents(secondaryRGBA_);
 }
 
 DrawWindow::~DrawWindow()
@@ -53,11 +55,13 @@ void DrawWindow::setPrevCoords(Coords relPrevCoords)
 void DrawWindow::setPrimaryColour(gfx::Colour colour)
 {
 	primaryColour_ = colour;
+	primaryColour_.getComponents(primaryRGBA_);
 }
 
 void DrawWindow::setSecondaryColour(gfx::Colour colour)
 {
 	secondaryColour_ = colour;
+	secondaryColour_.getComponents(secondaryRGBA_);
 }
 
 void DrawWindow::swapColours()
@@ -67,17 +71,26 @@ void DrawWindow::swapColours()
 	std::cout << "Colours have been swapped \n";
 }
 
-// Sets the active colour for drawing, defaults to 
-void DrawWindow::setDrawColourPrimary()
+// Sets the active colour for drawing, defaults to primary
+void DrawWindow::setDrawColourAsPrimary()
 {
-	primaryColour_.getComponents(rgbaDrawColour_);
+	primaryColour_.getComponents(drawRGBA_);
 }
 
-void DrawWindow::setDrawColourSecondary()
+void DrawWindow::setDrawColourAsSecondary()
 {
-	secondaryColour_.getComponents(rgbaDrawColour_);
+	secondaryColour_.getComponents(drawRGBA_);
 }
 
+void DrawWindow::setPrimaryAsDrawColour()
+{
+	setPrimaryColour(gfx::Colour(drawRGBA_[0], drawRGBA_[1], drawRGBA_[2], drawRGBA_[3]));
+}
+
+void DrawWindow::setSecondaryAsDrawColour()
+{
+	setSecondaryColour(gfx::Colour(drawRGBA_[0], drawRGBA_[1], drawRGBA_[2], drawRGBA_[3]));
+}
 
 /*override*/
 void DrawWindow::draw()
@@ -87,7 +100,7 @@ void DrawWindow::draw()
 	SDL_Rect destRect = { myRect.x, myRect.y, myRect.width, myRect.height };
 	SDL_RenderCopy(renderer_, texture_, nullptr, &destRect);
 	//SDL_SetRenderDrawColor(renderer_, 255, 255, 255, SDL_ALPHA_OPAQUE);
-	SDL_SetRenderDrawColor(renderer_, int(rgbaDrawColour_[0]), int(rgbaDrawColour_[1]), int(rgbaDrawColour_[2]), int(rgbaDrawColour_[3]));
+	SDL_SetRenderDrawColor(renderer_, int(drawRGBA_[0]), int(drawRGBA_[1]), int(drawRGBA_[2]), int(drawRGBA_[3]));
 	for (std::vector<Line>::const_iterator i = lines_.begin(); i != lines_.end(); ++i) {
 		Line line = *i;
 		SDL_RenderDrawLine(renderer_, line.x1, line.y1, line.x2, line.y2);

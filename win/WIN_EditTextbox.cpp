@@ -4,42 +4,32 @@
 
 using namespace win;
 
-EditTextbox::EditTextbox(gfx::Rectangle rect, const char* name, SDL_Renderer* renderer, int const textSize, int const xOffset, int const yOffset, std::shared_ptr<int> linkedVariable)
+EditTextbox::EditTextbox(gfx::Rectangle rect, const char* name, SDL_Renderer* renderer, int const textSize, int const xOffset, int const yOffset)
 	: UIelement(rect, name)
 	, renderer_(renderer)
-	, text_(renderer, { 0, 0, 0, 0xFF }, "OpenSans-Bold.ttf", textSize,"100")
-	, xOffset_(xOffset)
-	, yOffset_(yOffset)
-	, linkedVariable_(std::move(linkedVariable))
-	, isClicked_(false)
+	, text_(std::make_shared<gfx::Text>(renderer, gfx::Colour { 0, 0, 0, 0xFF }, "OpenSans-Bold.ttf", textSize, "0"))
+    , xOffset_(xOffset)
+    , yOffset_(yOffset)
+    , isClicked_(false)
 {
 	setBackgroundColour(gfx::Colour(255, 255, 255, 255));
 }
 
-char EditTextbox::filterNumerical(const char c[])
+void EditTextbox::click()
 {
-	//slightly more efficient
-	//if (*c > '/' && *c < ':'){
-	if (*c >= '0' && *c <= '9'){
-		return *c;
-	}
-	else {
-		// should return null char
-		return 0;
-	}
+	isClicked_ = !isClicked_;
 }
 
-void EditTextbox::updateAndRerender(std::string newString)
+void EditTextbox::editText(const char* newText)
 {
-	if (std::stoi(newString) < 0) {
-		newString = "0";
-	}
+	text_->updateString(newText);
+}
 
-	if (std::stoi(newString) > 255) {
-		newString = "255";
-	}
-
-	text_.updateString(newString.c_str());
+void EditTextbox::updateAndRerender(std::string const newString)
+{
+	//filters and checks on the input here
+	
+	text_->updateString(newString.c_str());
 
 	draw();
 	SDL_RenderPresent(renderer_);
@@ -85,7 +75,7 @@ void EditTextbox::takeTextEntry()
 				}
 				break;
 			case SDL_TEXTINPUT:
-				newString += filterNumerical(event.text.text);
+				// put here any filters here on the input
 				updateAndRerender(newString);
 				entryCount++;
 				textChanged = true;
@@ -119,7 +109,7 @@ void EditTextbox::draw()
 	SDL_SetRenderDrawColor(renderer_, rgba[0], rgba[1], rgba[2], rgba[3]);
 	SDL_RenderFillRect(renderer_, &boxRect);
 
-	auto renderSuccess = text_.renderText(getRect().x + xOffset_, getRect().y + yOffset_);
+	auto renderSuccess = text_->renderText(getRect().x + xOffset_, getRect().y + yOffset_);
 
 }
 
