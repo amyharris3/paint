@@ -2,7 +2,7 @@
 
 using namespace gfx;
 
-Colour::Colour(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
+Colour::Colour(const uint8_t r, const uint8_t g, const uint8_t b, const uint8_t a)
 	: r_(r)
 	, g_(g)
 	, b_(b)

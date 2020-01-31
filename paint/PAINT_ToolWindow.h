@@ -2,7 +2,7 @@
 #include "WIN_Window.h"
 
 namespace paint {
-	class ToolWindow :
+	class ToolWindow final :
 		public win::Window
 	{
 	public:
@@ -15,10 +15,7 @@ namespace paint {
 		ToolWindow& operator=(ToolWindow&& that) = delete;
 		
 		void draw() override;
-		void mouseButtonDown(win::MouseButton const b) override;
-
-		//void draw() override;
-
+		
 	};
 }
 

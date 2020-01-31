@@ -1,32 +1,33 @@
 #include "PAINT_DrawTool.h"
 #include "PAINT_DrawWindow.h"
 #include <SDL.h>
+#include "PAINT_Brush.h"
+#include "WIN_Coords.h"
 
 using namespace paint;
+using namespace win;
 
 
 DrawTool::DrawTool(SDL_Renderer* renderer, SDL_Texture* texture)
 	: renderer_(renderer)
 	, texture_(texture)
 {
+	// Activate a default brush
+	activeBrush_ = std::make_shared<Brush>(0);
 }
 
-void DrawTool::toolFunction(Coords relCoords, Coords prevRelCoords)
+void DrawTool::toolFunction(win::Coords relCoords, win::Coords prevRelCoords)
 {
-
 	lines_.push_back({ relCoords.x, relCoords.y, prevRelCoords.x, prevRelCoords.y });
 	SDL_SetRenderTarget(renderer_, texture_);
 	renderLines();
-	SDL_SetRenderTarget(renderer_, NULL);
+	SDL_SetRenderTarget(renderer_, nullptr);
 }
 
 void DrawTool::renderLines()
 {
-	int thickness = 2;
+	const auto thickness = activeBrush_->getThickness();
 	for (const auto& line : lines_) {
-
-		//for (std::vector<Line>::const_iterator i = lines_.begin(); i != lines_.end(); ++i) {
-			//Line line = *i;
 		SDL_RenderDrawLine(renderer_, line.x1, line.y1, line.x2, line.y2);
 		if (thickness > 0) {
 			for (auto thick = 0; thick <= thickness; ++thick) {
@@ -56,15 +57,4 @@ void DrawTool::renderLines()
 		}
 	}
 }
-
-//void DrawTool::writeToTexture()
-//{
-//	
-//	//SDL_SetRenderTarget(renderer_, texture_);
-//	//renderLines();
-//	////SDL_GetRenderTarget(renderer_);
-//	//SDL_SetRenderTarget(renderer_, NULL);
-//
-//}
-
 

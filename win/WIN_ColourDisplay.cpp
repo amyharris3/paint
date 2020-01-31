@@ -41,6 +41,7 @@ void ColourDisplay::setOutlineColour(const gfx::Colour outlineColour)
 	//this->setBackgroundColour(outlineColour);
 }
 
+/* override */
 void ColourDisplay::draw()
 {
 	SDL_Rect outlineRect = { this->getRect().x, this->getRect().y, this->getRect().width, this->getRect().height };
@@ -54,9 +55,4 @@ void ColourDisplay::draw()
 	getForegroundColour().getComponents(rgba);
 	SDL_SetRenderDrawColor(renderer_, rgba[0], rgba[1], rgba[2], rgba[3]);
 	SDL_RenderFillRect(renderer_, &boxRect);
-}
-
-void ColourDisplay::mouseButtonDown(win::MouseButton const b)
-{
-
 }

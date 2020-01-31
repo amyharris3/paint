@@ -2,13 +2,3 @@
 
 using namespace paint;
 
-/*
-Rectangle::Rectangle()
-{
-}
-
-
-Rectangle::~Rectangle()
-{
-}
-*/

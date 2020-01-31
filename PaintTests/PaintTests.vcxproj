@@ -92,7 +92,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)SDL2_ttf-2.0.15\include;$(SolutionDir)SDL\include;$(VCInstallDir)UnitTest\include;$(SolutionDir)win;$(SolutionDir)gfx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)SDL2_ttf-2.0.15\include;$(SolutionDir)SDL\include;$(VCInstallDir)UnitTest\include;$(SolutionDir)win;$(SolutionDir)gfx;$(SolutionDir)paint;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -181,6 +181,9 @@ xcopy /q /y /s $(SolutionDir)SDL\lib\win64\libpng16-16.dll $(OutDir)
   <ItemGroup>
     <ProjectReference Include="..\gfx\gfx.vcxproj">
       <Project>{085cee7f-1f0f-4a65-a88a-3c58a3783291}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\paint\paint.vcxproj">
+      <Project>{08a83b89-1788-44dc-abf1-405779f15ab5}</Project>
     </ProjectReference>
     <ProjectReference Include="..\win\win.vcxproj">
       <Project>{745d1704-dd48-498e-aeda-d20e78a1b05a}</Project>

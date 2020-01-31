@@ -6,7 +6,7 @@
 
 using namespace win;
 
-TableLayout::TableLayout(const int xmargin, const  int ymargin, const int xspacing, const int yspacing, int rows, int cols)
+TableLayout::TableLayout(const int xmargin, const int ymargin, const int xspacing, const int yspacing, int rows, int cols)
 	: xmargin_(xmargin)
 	, ymargin_(ymargin)
 	, xspacing_(xspacing)
@@ -16,11 +16,6 @@ TableLayout::TableLayout(const int xmargin, const  int ymargin, const int xspaci
 {
 }
 
-/*
-TableLayout::~TableLayout()
-{
-}
-*/
 
 void TableLayout::setRows(const int rows)
 {

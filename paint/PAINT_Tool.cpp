@@ -3,9 +3,9 @@
 
 using namespace paint;
 
-
 Tool::Tool()
 	: lines_(NULL)
+	, activeBrush_(nullptr)
 {
 }
 

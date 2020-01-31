@@ -6,6 +6,8 @@
 #include "../win/WIN_TableLayout.h"
 #include "../gfx/GFX_Rectangle.h"
 #include <memory>
+#include "WIN_ToggleButton.h"
+
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace gfx;
@@ -246,4 +248,5 @@ namespace PaintTests
 		}
 
 	};
+	
 }

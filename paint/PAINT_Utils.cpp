@@ -17,14 +17,14 @@ DrawWindow * paint::utils::findDrawWindow(UIelement* control)
 	/* Implementation */
 
 	// Are we already at the DrawWindow?
-	if (auto dw = dynamic_cast<DrawWindow *>(control)) {
+	if (const auto dw = dynamic_cast<DrawWindow *>(control)) {
 		return dw;
 	}
 
 	// Are we the screen?
-	auto parent = control->getParent();
+	const auto parent = control->getParent();
 	if (!parent) {
-		auto screen = static_cast<Screen*>(control);
+		const auto screen = static_cast<Screen*>(control);
 		return screen->getDrawWindow();
 	}
 	return findDrawWindow(parent);

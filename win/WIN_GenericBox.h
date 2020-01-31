@@ -25,7 +25,6 @@ namespace win
 
 	private:
 		SDL_Renderer* renderer_;
-		//SDL_Rect boxRect_;
 	};
 	
 }

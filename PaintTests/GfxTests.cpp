@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "CppUnitTest.h"
 #include "../gfx/GFX_Rectangle.h"
-#include "../gfx/GFX_colour.h"
+#include "../gfx/GFX_Colour.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace gfx;

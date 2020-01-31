@@ -9,9 +9,4 @@ StatusBarWindow::StatusBarWindow(SDL_Renderer* renderer, gfx::Rectangle const& r
 
 //void StatusBarWindow::displayMouseCoords(int xMouse, int yMouse)
 //{
-//
-//	//The current input text.
-//	//std::string inputText = "Some Text";
-//	//gInputTextTexture.loadFromRenderedText(inputText.c_str(), textColour_);
-//
 //}

@@ -13,19 +13,9 @@ ToolWindow::ToolWindow(SDL_Renderer* renderer, gfx::Rectangle const& rect, const
 {
 }
 
-/*
-ToolWindow::~ToolWindow()
-{
-}
-*/
-
+/* override */
 //Draw toolbar in NxM table layout
 void ToolWindow::draw()
 {
 	Window::draw();
-}
-
-void ToolWindow::mouseButtonDown(win::MouseButton const b)
-{
-
 }

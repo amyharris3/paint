@@ -5,7 +5,7 @@
 
 using namespace paint;
 
-ColourPicker::ColourPicker::ColourPicker(gfx::Rectangle rect, SDL_Renderer* renderer, std::shared_ptr<DrawWindow> drawWindow)
+ColourPicker::ColourPicker(gfx::Rectangle rect, SDL_Renderer* renderer, std::shared_ptr<DrawWindow> drawWindow)
 	: Container(std::make_shared<win::FreeLayout>(), rect, "colourPicker")
 	, renderer_(renderer)
 	, displayBox_(std::make_shared<win::TableLayout>(20, 20, 20, 0, 1, 2), gfx::Rectangle(rect.x, rect.y, rect.width, 70), "displayBox")

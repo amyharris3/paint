@@ -1,6 +1,5 @@
 #include "WIN_UIelement.h"
 #include <iostream>
-#include <SDL.h>
 #include "WIN_Container.h"
 
 using namespace win;
@@ -45,7 +44,6 @@ void UIelement::setRect(const gfx::Rectangle& rect)
 	rect_ = rect;
 }
 
-
 void UIelement::mouseEnter()
 {
 	std::cout << "The mouse has entered the " << name_ << " UI element. \n";
@@ -54,11 +52,6 @@ void UIelement::mouseEnter()
 void UIelement::mouseExit()
 {
 	std::cout << "The mouse has left the " << name_ << " UI element. \n";
-}
-
-void UIelement::mouseButtonDown(MouseButton b)
-{
-
 }
 
 void UIelement::setParent(UIelement * parent)

@@ -1,24 +1,24 @@
 #pragma once
 #include "PAINT_Tool.h"
-#include <vector>
 
 struct SDL_Renderer;
 struct SDL_Texture;
 
+namespace win
+{
+	struct Coords;
+}
+
 namespace paint
 {
 	class Brush;
-	struct Coords;
 	class DrawWindow;
-
-
-
 	
 	class DrawTool :
 		public Tool
 	{
 	public:;
-		DrawTool() = default;
+		DrawTool() = delete;
 		DrawTool(SDL_Renderer* renderer, SDL_Texture* texture);
 		virtual ~DrawTool() = default;
 		DrawTool(const DrawTool& that) = default;
@@ -26,14 +26,13 @@ namespace paint
 		DrawTool& operator=(const DrawTool& that) = default;
 		DrawTool& operator=(DrawTool&& that) = default;
 
-		void toolFunction(Coords mouseCoords, Coords prevMouseCoords) override;
+		void toolFunction(win::Coords relCoords, win::Coords prevRelCoords) override;
 		void renderLines();
-		void clearLines();
-		//void writeToTexture() override;
 
 	private:
 		SDL_Renderer* renderer_;
 		SDL_Texture* texture_;
+		
 	};
 
 

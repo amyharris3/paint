@@ -3,10 +3,6 @@
 #include <SDL.h>
 #include <memory>
 
-struct SDL_Texture;
-struct SDL_Renderer;
-struct SDL_Rect;
-
 namespace win
 {
 	class ColourDisplay final : public UIelement
@@ -27,7 +23,6 @@ namespace win
 		void setOutlineColour(gfx::Colour outlineColour);
 		
 		void draw() override;
-		void mouseButtonDown(win::MouseButton const b) override;
 
 	private:
 		std::shared_ptr<gfx::Colour> displayColour_;

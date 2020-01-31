@@ -15,8 +15,8 @@ int main(int /*argc*/, char ** /* argv*/)
 	IMG_Init(IMG_INIT_JPG);
 
 	// Create root window.
-	SDL_Window* rootWindow = SDL_CreateWindow("rootWindow", 300, 100, 1200, 800, 0);
-	SDL_Renderer* renderer = SDL_CreateRenderer(rootWindow, -1, SDL_RENDERER_ACCELERATED);
+	auto rootWindow = SDL_CreateWindow("rootWindow", 300, 100, 1200, 800, 0);
+	auto renderer = SDL_CreateRenderer(rootWindow, -1, SDL_RENDERER_ACCELERATED);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 
 	if (!rootWindow) {

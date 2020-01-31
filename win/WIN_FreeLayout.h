@@ -7,8 +7,8 @@ namespace win
 	class FreeLayout final : public Layout
 	{
 	public:
-		FreeLayout();
-		virtual ~FreeLayout();
+		FreeLayout() = default;
+		virtual ~FreeLayout() = default;
 		FreeLayout(FreeLayout const& that) = default;
 		FreeLayout(FreeLayout&& that) = default;
 		FreeLayout& operator=(FreeLayout const& that) = default;

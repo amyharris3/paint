@@ -9,8 +9,6 @@ GenericBox::GenericBox(gfx::Rectangle& rect, const char* name, gfx::Colour foreg
 {
 	this->setForegroundColour(foregroundColour);
 	this->setBackgroundColour(backgroundColour);
-
-	//boxRect_ = { this->getRect().x, this->getRect().y, this->getRect().width, this->getRect().height };
 }
 
 void GenericBox::draw()

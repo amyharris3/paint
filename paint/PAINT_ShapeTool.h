@@ -9,14 +9,15 @@ namespace paint
 	class ShapeTool :
 		public Tool
 	{
-	private:
-		Shape * activeShape_;
 	public:
-		ShapeTool() = default;
+		ShapeTool();
 		virtual ~ShapeTool() = default;
 		ShapeTool(const ShapeTool& that) = default;
 		ShapeTool(ShapeTool && that) = default;
 		ShapeTool& operator=(const ShapeTool & that) = default;
 		ShapeTool& operator=(ShapeTool && that) = default;
+		
+	private:
+		std::shared_ptr<Shape> activeShape_;
 	};
 }

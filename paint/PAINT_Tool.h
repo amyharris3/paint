@@ -2,13 +2,14 @@
 #include <iostream>
 #include <vector>
 
-struct SDL_Renderer;
-struct SDL_Texture;
+namespace win
+{
+	struct Coords;
+}
 
 namespace paint
 {
 	class Brush;
-	struct Coords;
 	struct Line
 	{
 		int x1;
@@ -29,15 +30,12 @@ namespace paint
 
 		void setActiveBrush(std::shared_ptr<Brush> brush);
 		void clearLines();
-		virtual void toolFunction(Coords mouseCoords, Coords prevMouseCoords) = 0;
-		//virtual void writeToTexture() = 0;
+		virtual void toolFunction(win::Coords mouseCoords, win::Coords prevMouseCoords) = 0;
+		std::shared_ptr<Brush> getActiveBrush() const {return activeBrush_;}
 		
-	private:
-		std::shared_ptr<Brush> activeBrush_;
-
-
 	protected:
 		std::vector<Line> lines_;
+		std::shared_ptr<Brush> activeBrush_;
 		
 	};
 }
