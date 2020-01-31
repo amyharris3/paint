@@ -1,4 +1,6 @@
 #include "PAINT_ToolWindow.h"
+
+#include <utility>
 #include "PAINT_ColourPicker.h"
 
 using namespace paint;
@@ -22,12 +24,12 @@ ToolWindow::~ToolWindow()
 
 void ToolWindow::setToolbox(std::shared_ptr<win::Window> toolbox)
 {
-	toolbox_ = toolbox;
+	toolbox_ = std::move(toolbox);
 }
 
 void ToolWindow::setColourPicker(std::shared_ptr<ColourPicker> cpick)
 {
-	colourPicker_ = cpick;
+	colourPicker_ = std::move(cpick);
 }
 
 //Draw toolbar in NxM table layout

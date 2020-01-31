@@ -25,7 +25,7 @@ namespace gfx
 
 		TTF_Font* getFont() const { return textFont_; }
 
-		std::string const getString() { return textString_; }
+		std::string const getString() const { return textString_; }
 		void updateString(const char* newString);
 		void loadFont(const char* fontName);
 		bool renderText(int const xpix, int const ypix);

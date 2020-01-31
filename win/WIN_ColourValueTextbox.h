@@ -19,8 +19,8 @@ namespace win
 		void redirectLinkedVariable(uint8_t* newVariable);
 		void valueChangedByTextEntry();
 		void valueChangedExternally(); //TODO
-		
-		bool filterNumerical(const char c[]);
+
+		static bool filterNumerical(const char c[]);
 		void editTextAndRerender(std::string newString) override;
 		void takeTextEntry() override;
 

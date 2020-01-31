@@ -28,11 +28,11 @@ namespace win
 		void holdOff() { holdMarker_ = false; }
 
 		void positionFromValue(int const val);
-		int valueFromPosition();
+		int valueFromPosition() const;
 
 		void moveMarker();
-		void update();
-		void updateAndRerender();
+		void update() override;
+		void updateAndRerender() override;
 		void draw() override;
 
 		bool mouseExit() override;

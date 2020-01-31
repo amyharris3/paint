@@ -102,14 +102,15 @@ void DrawWindow::draw()
 	SDL_RenderCopy(renderer_, texture_, nullptr, &destRect);
 	//SDL_SetRenderDrawColor(renderer_, 255, 255, 255, SDL_ALPHA_OPAQUE);
 	SDL_SetRenderDrawColor(renderer_, int(drawRGBA_[0]), int(drawRGBA_[1]), int(drawRGBA_[2]), int(drawRGBA_[3]));
+	//for (auto lines : lines_)
 	for (std::vector<Line>::const_iterator i = lines_.begin(); i != lines_.end(); ++i) {
-		Line line = *i;
+		const Line line = *i;
 		SDL_RenderDrawLine(renderer_, line.x1, line.y1, line.x2, line.y2);
 	}
 	//}
 }
 
-bool DrawWindow::mouseButtonDown(MouseButton b)
+bool DrawWindow::mouseButtonDown(const MouseButton button)
 {
 	//Uint16* pixels = (Uint16*)surface_->pixels;            // Get the pixels from the Surface
 
@@ -118,7 +119,7 @@ bool DrawWindow::mouseButtonDown(MouseButton b)
 	//const int xPrevRel = prevMouseCoords_.x - this->getRect().x;
 	//const int yPrevRel = prevMouseCoords_.y - this->getRect().y;
 
-	if (b == MouseButton::Left) {
+	if (button == MouseButton::Left) {
 		if (drawToggle_) {
 			lines_.push_back({ mouseCoords_.x, mouseCoords_.y, prevMouseCoords_.x, prevMouseCoords_.y });
 

@@ -33,14 +33,14 @@ namespace paint
 		void setDrawColourFromActive() const;
 		void setPrimarySecondaryFromActiveDraw() const;
 		void updateColourDisplaysFromDrawWindow() const;
-		void updateColourDisplays();
+		void updateColourDisplays() const;
 		void updateColourValueBoxes() const;
-		void updateColourSliders();
-		void swapActiveColour();
+		void updateColourSliders() const;
+		void swapActiveColour() const;
 		void swapDisplaysSwitch() { swappedDisplays_= !swappedDisplays_; }
 
 		void update() override;
-		void updateAndRerender();
+		void updateAndRerender() override;
 		void draw() override;
 		bool mouseButtonDown(win::MouseButton const button) override;
 		bool mouseButtonUp(win::MouseButton const button) override;

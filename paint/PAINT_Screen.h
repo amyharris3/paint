@@ -29,8 +29,8 @@ namespace paint {
 		Screen& operator=(Screen const& that) = default;
 		Screen& operator=(Screen&& that) = default;
 
-		DrawWindow* getDrawWindow() { return drawWindow_.get(); }
-		ToolWindow* getToolWindow() { return toolWindow_.get(); }
+		DrawWindow* getDrawWindow() const { return drawWindow_.get(); }
+		ToolWindow* getToolWindow() const { return toolWindow_.get(); }
 
 		void updateAndRerender() override;
 		

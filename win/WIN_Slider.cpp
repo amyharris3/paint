@@ -32,10 +32,8 @@ void Slider::positionFromValue(int const val)
 }
 
 // Need to convert scaling from the position
-int Slider::valueFromPosition()
+int Slider::valueFromPosition() const
 {
-	//printf("marker pos %d slide min %d slide max %d line width %d line start x %d\n", markerPos_, slideLineMin_, slideLineMax_, lineRect_.width, lineRect_.x);
-
 	const auto relativeX = markerPos_ - lineRect_.x;
 	return int(double(relativeX) * (double(slideLineMax_) - double(slideLineMin_)) / double(lineRect_.width));
 }

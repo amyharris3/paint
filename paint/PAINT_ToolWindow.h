@@ -23,8 +23,6 @@ namespace paint {
 		void draw() override;
 		bool mouseButtonDown(win::MouseButton const button) override;
 
-		//void draw() override;
-
 	private:
 
 		std::shared_ptr<Window> toolbox_;

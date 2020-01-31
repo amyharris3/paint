@@ -110,7 +110,7 @@ void ColourPicker::setPrimarySecondaryFromActiveDraw() const
 }
 
 
-void ColourPicker::swapActiveColour()
+void ColourPicker::swapActiveColour() const
 {
 	primaryColourDisplay_->swapIsActive();
 	secondaryColourDisplay_->swapIsActive();
@@ -123,8 +123,8 @@ void ColourPicker::swapActiveColour()
 
 void ColourPicker::updateColourDisplaysFromDrawWindow() const
 {
-	auto primaryRGBA = drawWindowPtr_->getPrimaryRGBA();
-	auto secondaryRGBA = drawWindowPtr_->getSecondaryRGBA();
+	const auto primaryRGBA = drawWindowPtr_->getPrimaryRGBA();
+	const auto secondaryRGBA = drawWindowPtr_->getSecondaryRGBA();
 	if (!swappedDisplays_) {
 		//primaryColourDisplay_->setColour(drawWindowPtr_->getPrimaryColour());
 		//secondaryColourDisplay_->setColour(drawWindowPtr_->getSecondaryColour());
@@ -139,7 +139,7 @@ void ColourPicker::updateColourDisplaysFromDrawWindow() const
 	}
 }
 
-void ColourPicker::updateColourDisplays()
+void ColourPicker::updateColourDisplays() const
 {
 	setPrimarySecondaryFromActiveDraw();
 	primaryColourDisplay_->draw();
@@ -149,14 +149,13 @@ void ColourPicker::updateColourDisplays()
 
 void ColourPicker::updateColourValueBoxes() const
 {
-	printf("Updating RGBA for textbox\n");
 	redValueBox_->valueChangedExternally();
 	greenValueBox_->valueChangedExternally();
 	blueValueBox_->valueChangedExternally();
 	alphaValueBox_->valueChangedExternally();
 }
 
-void ColourPicker::updateColourSliders()
+void ColourPicker::updateColourSliders() const
 {
 	redValueSlider_->valueChangedExternally();
 	greenValueSlider_->valueChangedExternally();
@@ -202,17 +201,6 @@ void ColourPicker::draw()
 bool ColourPicker::mouseButtonDown(win::MouseButton const button)
 {
 	std::cout << "Clicking down in ColourPicker area\n";
-	/*auto xPixel = drawWindowPtr_->getMouseCoords().x;
-	auto yPixel = drawWindowPtr_->getMouseCoords().y;
-	//if (primaryColourDisplay_->getRect().containsPoint(xPixel + getRect().x, yPixel + getRect().y) || secondaryColourDisplay_->getRect().containsPoint(xPixel + getRect().x, yPixel + getRect().y))
-	if (primaryColourDisplay_->getRect().containsPoint(xPixel, yPixel) || secondaryColourDisplay_->getRect().containsPoint(xPixel, yPixel))
-	{
-		clickDownOnColourDisplay_ = true;
-		std::cout << "Clicking down in colour display area\n";
-		//drawWindowPtr_->swapColours();
-		//primaryColourDisplay_->setColour();
-		//secondaryColourDisplay_->setColour();
-	}*/
 
 	return false;
 }
@@ -220,22 +208,6 @@ bool ColourPicker::mouseButtonDown(win::MouseButton const button)
 bool ColourPicker::mouseButtonUp(win::MouseButton const button)
 {
 	std::cout << "Clicking up in ColourPicker area\n";
-	/*auto xPixel = drawWindowPtr_->getMouseCoords().x;
-	auto yPixel = drawWindowPtr_->getMouseCoords().y;
-	if (clickDownOnColourDisplay_ == true) {
-		std::cout << "Clicking up in ColourPicker area\n";
-		if (primaryColourDisplay_->getRect().containsPoint(xPixel, yPixel) || secondaryColourDisplay_->getRect().containsPoint(xPixel, yPixel))
-		{
-			std::cout << "Clicking up in colour display area\n";
-			primaryColourDisplay_->swapIsActive();
-			secondaryColourDisplay_->swapIsActive();
-			
-			//drawWindowPtr_->swapColours();
-			//primaryColourDisplay_->setColour();
-			//secondaryColourDisplay_->setColour();
-		}
-		clickDownOnColourDisplay_ = false;
-	}*/
 
 	return false;
 }
