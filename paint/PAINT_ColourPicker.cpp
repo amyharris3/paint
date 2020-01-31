@@ -160,6 +160,14 @@ void ColourPicker::swapActiveColour()
 	setDrawColourFromActive();
 	updateColourValueBoxes();
 	updateColourSliders();
+
+	rerender();
+}
+
+void ColourPicker::rerender()
+{
+	draw();
+	SDL_RenderPresent(renderer_);
 }
 
 void ColourPicker::draw()

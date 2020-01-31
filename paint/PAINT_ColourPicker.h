@@ -38,7 +38,8 @@ namespace paint
 		void updateColourSliders();
 		void swapActiveColour();
 		void swapDisplaysSwitch() { swappedDisplays_= !swappedDisplays_; }
-		
+
+		void rerender();
 		void draw() override;
 		void mouseButtonDown(win::MouseButton const button) override;
 		void mouseButtonUp(win::MouseButton const button) override;
