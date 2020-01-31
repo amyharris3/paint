@@ -46,19 +46,21 @@ void UIelement::setRect(const gfx::Rectangle& rect)
 }
 
 
-void UIelement::mouseEnter()
+bool UIelement::mouseEnter()
 {
 	std::cout << "The mouse has entered the " << name_ << " UI element. \n";
+	return false;
 }
 
-void UIelement::mouseExit()
+bool UIelement::mouseExit()
 {
 	std::cout << "The mouse has left the " << name_ << " UI element. \n";
+	return false;
 }
 
-void UIelement::mouseButtonDown(MouseButton button)
+bool UIelement::mouseButtonDown(MouseButton button)
 {
-
+	return false;
 }
 
 void UIelement::setParent(UIelement * parent)

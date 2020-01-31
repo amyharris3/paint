@@ -34,7 +34,7 @@ void Button::draw()
 }
 
 
-void Button::mouseEnter()
+bool Button::mouseEnter()
 {
 	if (clicked_) {
 		activeClip_ = &(spriteClips_[2]);
@@ -44,9 +44,10 @@ void Button::mouseEnter()
 	}
 	buttonState_ = ButtonState::BUTTON_SPRITE_MOUSE_OVER;
 
+	return true;
 }
 
-void Button::mouseExit()
+bool Button::mouseExit()
 {
 	if (clicked_) {
 		activeClip_ = &(spriteClips_[2]);
@@ -56,16 +57,18 @@ void Button::mouseExit()
 	}
 	buttonState_ = ButtonState::BUTTON_SPRITE_MOUSE_OUT;
 
+	return true;
 }
 
-void Button::mouseButtonDown(MouseButton b)
+bool Button::mouseButtonDown(MouseButton b)
 {
 
 	buttonState_ = ButtonState::BUTTON_SPRITE_MOUSE_DOWN;
 	activeClip_ = &(spriteClips_[2]);
+	return true;
 }
 
-void Button::mouseButtonUp(MouseButton b)
+bool Button::mouseButtonUp(MouseButton b)
 {
 	clicked_ = !clicked_;
 	buttonState_ = ButtonState::BUTTON_SPRITE_MOUSE_UP;
@@ -80,6 +83,7 @@ void Button::mouseButtonUp(MouseButton b)
 	if (action) {
 		action(this);
 	}
+	return true;
 }
 
 

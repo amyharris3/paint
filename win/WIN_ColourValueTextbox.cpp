@@ -1,5 +1,4 @@
 #include "WIN_ColourValueTextbox.h"
-#include "../paint/PAINT_Utils.h"
 
 using namespace win;
 
@@ -20,10 +19,6 @@ void ColourValueTextbox::valueChangedByTextEntry()
 {
 	*linkedVariable_ = std::stoi(getText()->getString());
 
-	auto cpick = paint::utils::findToolWindow(this)->getColourPicker();
-	cpick->setPrimarySecondaryFromActiveDraw();
-	cpick->updateColourSliders();
-	
 	draw();
 	SDL_RenderPresent(getRenderer());
 }
@@ -137,7 +132,7 @@ void ColourValueTextbox::takeTextEntry()
 	}
 }
 
-void ColourValueTextbox::mouseButtonUp(win::MouseButton const button)
+bool ColourValueTextbox::mouseButtonUp(win::MouseButton const button)
 {
 	if (getClick()) {
 		printf("Taking text entry now\n");
@@ -146,7 +141,5 @@ void ColourValueTextbox::mouseButtonUp(win::MouseButton const button)
 		click();
 	}
 
-	//auto cpick = paint::utils::findToolWindow(this)->getColourPicker();
-	//cpick->setPrimarySecondaryFromActiveDraw();
-	//cpick->updateColourSliders();
+	return true;
 }

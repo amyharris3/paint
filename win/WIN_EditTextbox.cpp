@@ -113,12 +113,13 @@ void EditTextbox::draw()
 
 }
 
-void EditTextbox::mouseButtonDown(win::MouseButton const button)
+bool EditTextbox::mouseButtonDown(win::MouseButton const button)
 {
 	isClicked_ = true;
+	return false;
 }
 
-void EditTextbox::mouseButtonUp(win::MouseButton const button)
+bool EditTextbox::mouseButtonUp(win::MouseButton const button)
 {
 	if (isClicked_) {
 		printf("Taking text entry now\n");
@@ -126,4 +127,5 @@ void EditTextbox::mouseButtonUp(win::MouseButton const button)
 		printf("Finished taking text entry\n");
 		isClicked_ = false;
 	}
+	return true;
 }

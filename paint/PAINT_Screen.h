@@ -32,6 +32,8 @@ namespace paint {
 		DrawWindow* getDrawWindow() { return drawWindow_.get(); }
 		ToolWindow* getToolWindow() { return toolWindow_.get(); }
 
+		void updateAndRerender() override;
+		
 		//void setDrawWindow(DrawWindow* drawWindow);
 		//void setToolWindow(ToolWindow* toolWindow);
 

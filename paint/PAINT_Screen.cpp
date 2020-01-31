@@ -1,20 +1,15 @@
 #include "PAINT_Screen.h"
 #include <SDL.h>
+#include <memory>
 #include "PAINT_DrawWindow.h"
 #include "PAINT_ToolWindow.h"
 #include "PAINT_StatusBarWindow.h"
 #include "WIN_Button.h"
 #include "PAINT_ButtonFunctions.h"
-#include <memory>
-#include "WIN_Layout.h"
 #include "WIN_TableLayout.h"
 #include "PAINT_MenuWindow.h"
 #include "WIN_GenericBox.h"
 #include "PAINT_ColourPicker.h"
-#include "WIN_EditTextbox.h"
-#include "WIN_ColourValueTextbox.h"
-#include "WIN_Slider.h"
-
 
 using namespace paint;
 using namespace win;
@@ -87,17 +82,6 @@ Screen::Screen(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* n
 	toolWindow->addChild(colourPicker);
 	toolWindow->setColourPicker(colourPicker);
 	
-	// Testing editable textbox
-	uint8_t testVar = 200;
-	auto testTextbox = std::make_shared<win::ColourValueTextbox>(gfx::Rectangle(10, 600, 40, 20), "testTextbox", renderer, 18, 2, -3, &testVar);
-	toolWindow->addChild(testTextbox);
-
-	// Testing slider
-	//auto testSlider = std::make_shared<win::Slider>(renderer, gfx::Rectangle(10, 640, 100, 20), "testSlider", gfx::Colour(255, 255, 255, 255), gfx::Colour(0, 0, 0, 255), 50, 0, 500);
-	//toolWindow->addChild(testSlider);
-	//auto testColSlider = std::make_shared<win::ColourSlider>(renderer, gfx::Rectangle(10, 660, 100, 20), "testSlider", gfx::Colour(255, 255, 255, 255), gfx::Colour(0, 0, 0, 255), &testVar);
-	//toolWindow->addChild(testColSlider);
-
 	// Creating statusWindow
 	gfx::Rectangle statusRect(0, 760, 1200, 40);
 	auto statusWindow = std::make_shared<StatusBarWindow>(renderer, statusRect, "statusWindow");
@@ -114,6 +98,13 @@ Screen::Screen(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* n
 	this->addChild(menuWindow);
 	menuWindow_ = menuWindow;
 
+}
+
+void Screen::updateAndRerender()
+{
+	for (const auto& child : getChildren()) {
+		child->updateAndRerender();
+	}
 }
 
 

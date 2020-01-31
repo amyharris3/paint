@@ -34,9 +34,9 @@ void Slider::positionFromValue(int const val)
 // Need to convert scaling from the position
 int Slider::valueFromPosition()
 {
-	printf("marker pos %d slide min %d slide max %d line width %d line start x %d\n", markerPos_, slideLineMin_, slideLineMax_, lineRect_.width, lineRect_.x);
-	
-	auto relativeX = markerPos_ - lineRect_.x;
+	//printf("marker pos %d slide min %d slide max %d line width %d line start x %d\n", markerPos_, slideLineMin_, slideLineMax_, lineRect_.width, lineRect_.x);
+
+	const auto relativeX = markerPos_ - lineRect_.x;
 	return int(double(relativeX) * (double(slideLineMax_) - double(slideLineMin_)) / double(lineRect_.width));
 }
 
@@ -56,15 +56,23 @@ void Slider::moveMarker()
 	markerPos_ = xMouse;
 }
 
+void Slider::update()
+{
+	updateLineMarker();
+}
+
+
 void Slider::updateAndRerender()
 {
+	updateLineMarker();
+	
 	draw();
 	SDL_RenderPresent(renderer_);
 }
 
 void Slider::draw()
 {
-	updateLineMarker();
+	//updateLineMarker();
 	uint8_t rgba[4];
 	
 	SDL_Rect boxRect = { getRect().x, getRect().y, getRect().width, getRect().height };
@@ -84,25 +92,28 @@ void Slider::draw()
 
 }
 
-void Slider::mouseExit()
+bool Slider::mouseExit()
 {
 	holdMarker_ = false;
+	return false;
 }
 
-void Slider::mouseMove()
+bool Slider::mouseMove()
 {
 	if (holdMarker_) {
 		moveMarker();
-		updateAndRerender();
+		//updateAndRerender();
 	}
+	return true;
 }
 
-void Slider::mouseButtonDown(MouseButton button)
+bool Slider::mouseButtonDown(MouseButton button)
 {
 	holdMarker_ = true;
+	return false;
 }
 
-void Slider::mouseButtonUp(MouseButton button)
+bool Slider::mouseButtonUp(MouseButton button)
 {
 	if (holdMarker_== true){
 		int xMouse = 0;
@@ -110,8 +121,9 @@ void Slider::mouseButtonUp(MouseButton button)
 		
 		SDL_GetMouseState(&xMouse, &yMouse);
 		markerRect_.x = xMouse;
-		updateAndRerender();
+		//updateAndRerender();
 	}
 	
 	holdMarker_ = false;
+	return true;
 }

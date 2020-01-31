@@ -109,25 +109,37 @@ void ColourPicker::setPrimarySecondaryFromActiveDraw() const
 	}
 }
 
-void ColourPicker::updateColourDisplaysFromDrawWindow()
+
+void ColourPicker::swapActiveColour()
+{
+	primaryColourDisplay_->swapIsActive();
+	secondaryColourDisplay_->swapIsActive();
+
+	setDrawColourFromActive();
+	//update();
+
+	//rerender();
+}
+
+void ColourPicker::updateColourDisplaysFromDrawWindow() const
 {
 	auto primaryRGBA = drawWindowPtr_->getPrimaryRGBA();
 	auto secondaryRGBA = drawWindowPtr_->getSecondaryRGBA();
 	if (!swappedDisplays_) {
-		//primaryColourDisplay_->updateColour(drawWindowPtr_->getPrimaryColour());
-		//secondaryColourDisplay_->updateColour(drawWindowPtr_->getSecondaryColour());
-		primaryColourDisplay_->updateColour(gfx::Colour(primaryRGBA[0], primaryRGBA[1], primaryRGBA[2], primaryRGBA[3]));
-		secondaryColourDisplay_->updateColour(gfx::Colour(secondaryRGBA[0], secondaryRGBA[1], secondaryRGBA[2], secondaryRGBA[3]));
+		//primaryColourDisplay_->setColour(drawWindowPtr_->getPrimaryColour());
+		//secondaryColourDisplay_->setColour(drawWindowPtr_->getSecondaryColour());
+		primaryColourDisplay_->setColour(gfx::Colour(primaryRGBA[0], primaryRGBA[1], primaryRGBA[2], primaryRGBA[3]));
+		secondaryColourDisplay_->setColour(gfx::Colour(secondaryRGBA[0], secondaryRGBA[1], secondaryRGBA[2], secondaryRGBA[3]));
 	}
 	else {
-		//primaryColourDisplay_->updateColour(drawWindowPtr_->getSecondaryColour());
-		//secondaryColourDisplay_->updateColour(drawWindowPtr_->getPrimaryColour());
-		primaryColourDisplay_->updateColour(gfx::Colour(secondaryRGBA[0], secondaryRGBA[1], secondaryRGBA[2], secondaryRGBA[3]));
-		secondaryColourDisplay_->updateColour(gfx::Colour(primaryRGBA[0], primaryRGBA[1], primaryRGBA[2], primaryRGBA[3]));
+		//primaryColourDisplay_->setColour(drawWindowPtr_->getSecondaryColour());
+		//secondaryColourDisplay_->setColour(drawWindowPtr_->getPrimaryColour());
+		primaryColourDisplay_->setColour(gfx::Colour(secondaryRGBA[0], secondaryRGBA[1], secondaryRGBA[2], secondaryRGBA[3]));
+		secondaryColourDisplay_->setColour(gfx::Colour(primaryRGBA[0], primaryRGBA[1], primaryRGBA[2], primaryRGBA[3]));
 	}
 }
 
-void ColourPicker::rerenderColourDisplays()
+void ColourPicker::updateColourDisplays()
 {
 	setPrimarySecondaryFromActiveDraw();
 	primaryColourDisplay_->draw();
@@ -152,20 +164,18 @@ void ColourPicker::updateColourSliders()
 	alphaValueSlider_->valueChangedExternally();
 }
 
-void ColourPicker::swapActiveColour()
+void ColourPicker::update()
 {
-	primaryColourDisplay_->swapIsActive();
-	secondaryColourDisplay_->swapIsActive();
-
-	setDrawColourFromActive();
+	updateColourDisplays();
 	updateColourValueBoxes();
 	updateColourSliders();
-
-	rerender();
 }
 
-void ColourPicker::rerender()
+
+void ColourPicker::updateAndRerender()
 {
+	update();
+	
 	draw();
 	SDL_RenderPresent(renderer_);
 }
@@ -180,8 +190,8 @@ void ColourPicker::draw()
 	SDL_RenderFillRect(renderer_, &boxRect);
 	
 	//update the colour displays to match colour setup in drawWindow
-	primaryColourDisplay_->updateColour(drawWindowPtr_->getPrimaryColour());
-	secondaryColourDisplay_->updateColour(drawWindowPtr_->getSecondaryColour());
+	primaryColourDisplay_->setColour(drawWindowPtr_->getPrimaryColour());
+	secondaryColourDisplay_->setColour(drawWindowPtr_->getSecondaryColour());
 	
 	 for (auto const& child : getChildren())
 	{
@@ -189,7 +199,7 @@ void ColourPicker::draw()
 	}
 }
 
-void ColourPicker::mouseButtonDown(win::MouseButton const button)
+bool ColourPicker::mouseButtonDown(win::MouseButton const button)
 {
 	std::cout << "Clicking down in ColourPicker area\n";
 	/*auto xPixel = drawWindowPtr_->getMouseCoords().x;
@@ -200,12 +210,14 @@ void ColourPicker::mouseButtonDown(win::MouseButton const button)
 		clickDownOnColourDisplay_ = true;
 		std::cout << "Clicking down in colour display area\n";
 		//drawWindowPtr_->swapColours();
-		//primaryColourDisplay_->updateColour();
-		//secondaryColourDisplay_->updateColour();
+		//primaryColourDisplay_->setColour();
+		//secondaryColourDisplay_->setColour();
 	}*/
+
+	return false;
 }
 
-void ColourPicker::mouseButtonUp(win::MouseButton const button)
+bool ColourPicker::mouseButtonUp(win::MouseButton const button)
 {
 	std::cout << "Clicking up in ColourPicker area\n";
 	/*auto xPixel = drawWindowPtr_->getMouseCoords().x;
@@ -219,9 +231,11 @@ void ColourPicker::mouseButtonUp(win::MouseButton const button)
 			secondaryColourDisplay_->swapIsActive();
 			
 			//drawWindowPtr_->swapColours();
-			//primaryColourDisplay_->updateColour();
-			//secondaryColourDisplay_->updateColour();
+			//primaryColourDisplay_->setColour();
+			//secondaryColourDisplay_->setColour();
 		}
 		clickDownOnColourDisplay_ = false;
 	}*/
+
+	return false;
 }

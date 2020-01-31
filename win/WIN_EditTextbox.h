@@ -31,8 +31,8 @@ namespace win
 		virtual void takeTextEntry();
 		
 		void draw() override;
-		void mouseButtonDown(win::MouseButton const button) override;
-		void mouseButtonUp(win::MouseButton const button) override;
+		bool mouseButtonDown(win::MouseButton const button) override;
+		bool mouseButtonUp(win::MouseButton const button) override;
 		
 	private:
 

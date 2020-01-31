@@ -24,7 +24,7 @@ namespace win
 		//gfx::Colour getColour() const { return { *rPtr_, *gPtr_, *bPtr_, *aPtr_ }; }
 		gfx::Colour getColour() const { return getForegroundColour(); }
 		
-		void updateColour(gfx::Colour colour);
+		void setColour(gfx::Colour colour);
 		//void setRGBA(uint8_t displayColour[]);
 		//void updateColourFromRGBA();
 		bool isActive() const { return isActive_; }
@@ -33,11 +33,12 @@ namespace win
 		void swapIsActive();
 		void setOutlineColour(const gfx::Colour outlineColour);
 		void setClickFalse() { isClicked_ = false; }
-		
+
+		void update() override;
 		void draw() override;
-		void mouseExit() override;
-		void mouseButtonDown(win::MouseButton const button) override;
-		void mouseButtonUp(MouseButton button) override;
+		bool mouseExit() override;
+		bool mouseButtonDown(win::MouseButton const button) override;
+		bool mouseButtonUp(MouseButton button) override;
 
 	private:
 		SDL_Renderer* renderer_;

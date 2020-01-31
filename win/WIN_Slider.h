@@ -31,15 +31,14 @@ namespace win
 		int valueFromPosition();
 
 		void moveMarker();
+		void update();
 		void updateAndRerender();
 		void draw() override;
 
-		void mouseExit() override;
-		void mouseMove() override;
-		void mouseButtonDown(MouseButton button) override;
-		void mouseButtonUp(MouseButton button) override;
-
-		void printPos() { printf("marker pos = %d, markerRect.x = %d\n", markerPos_, markerRect_.x); }
+		bool mouseExit() override;
+		bool mouseMove() override;
+		bool mouseButtonDown(MouseButton button) override;
+		bool mouseButtonUp(MouseButton button) override;
 		
 	private:
 

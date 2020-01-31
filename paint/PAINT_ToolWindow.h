@@ -21,10 +21,9 @@ namespace paint {
 		ColourPicker* getColourPicker() const { return colourPicker_.get(); }
 		
 		void draw() override;
-		void mouseButtonDown(win::MouseButton const button) override;
+		bool mouseButtonDown(win::MouseButton const button) override;
 
 		//void draw() override;
-
 
 	private:
 

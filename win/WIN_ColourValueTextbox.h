@@ -24,7 +24,7 @@ namespace win
 		void editTextAndRerender(std::string newString) override;
 		void takeTextEntry() override;
 
-		void mouseButtonUp(win::MouseButton const button) override;
+		bool mouseButtonUp(win::MouseButton const button) override;
 
 	private:
 

@@ -1,5 +1,4 @@
 #include "WIN_ColourSlider.h"
-#include "../paint/PAINT_Utils.h"
 
 using namespace win;
 
@@ -10,38 +9,33 @@ ColourSlider::ColourSlider(SDL_Renderer* renderer, gfx::Rectangle rect, const ch
 	setForegroundColour(fillColour);
 	setBackgroundColour(outlineColour);
 	positionFromValue(*linkedVariable_);
-	printPos();
 }
 
 void ColourSlider::valueChangedByMovement()
 {
 	*linkedVariable_ = valueFromPosition();
-	auto cpick = paint::utils::findToolWindow(this)->getColourPicker();
-	cpick->rerenderColourDisplays();
-	cpick->updateColourValueBoxes();
-	printf("slider changed linked var %s\n", std::to_string(*linkedVariable_).c_str());
 }
 
 void ColourSlider::valueChangedExternally()
 {
 	positionFromValue(*linkedVariable_);
-	updateAndRerender();
+	//updateAndRerender();
 }
 
-void ColourSlider::mouseMove()
+bool ColourSlider::mouseMove()
 {
 	if (getHold()) {
 		moveMarker();
 		valueChangedByMovement();
 		
-		updateAndRerender();
+		//updateAndRerender();
 	}
+
+	return true;
 }
 
-void ColourSlider::mouseButtonUp(MouseButton button)
-{
-	printf("MOUSE UP\n");
-	
+bool ColourSlider::mouseButtonUp(MouseButton button)
+{	
 	if (getHold()) {
 		int xMouse;
 		int yMouse;
@@ -49,8 +43,8 @@ void ColourSlider::mouseButtonUp(MouseButton button)
 		SDL_GetMouseState(&xMouse, &yMouse);
 		moveMarker();
 		valueChangedByMovement();
-		updateAndRerender();
-	}
-	
+		//updateAndRerender();
+	}	
 	holdOff();
+	return true;
 }

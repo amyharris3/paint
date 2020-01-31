@@ -24,9 +24,14 @@ ColourDisplay::ColourDisplay(gfx::Rectangle rect, const char* name, uint8_t disp
 	}
 }
 
-void ColourDisplay::updateColour(const gfx::Colour colour)
+void ColourDisplay::setColour(const gfx::Colour colour)
 {
 	setForegroundColour(colour);
+}
+
+void ColourDisplay::setOutlineColour(const gfx::Colour outlineColour)
+{
+	this->setBackgroundColour(outlineColour);
 }
 
 void ColourDisplay::setActive()
@@ -51,9 +56,9 @@ void ColourDisplay::swapIsActive()
 	}
 }
 
-void ColourDisplay::setOutlineColour(const gfx::Colour outlineColour)
+void ColourDisplay::update()
 {
-	this->setBackgroundColour(outlineColour);
+	
 }
 
 void ColourDisplay::draw()
@@ -71,21 +76,24 @@ void ColourDisplay::draw()
 	SDL_RenderFillRect(renderer_, &boxRect);
 }
 
-void ColourDisplay::mouseExit()
+bool ColourDisplay::mouseExit()
 {
 	isClicked_ = false;
+	return false;
 }
-
-void ColourDisplay::mouseButtonDown(win::MouseButton const button)
+bool ColourDisplay::mouseButtonDown(win::MouseButton const button)
 {
 	isClicked_ = true;
+	return false;
 }
 
-void ColourDisplay::mouseButtonUp(win::MouseButton const button)
+bool ColourDisplay::mouseButtonUp(win::MouseButton const button)
 {
 	if (isClicked_) {
 		auto cpick = paint::utils::findToolWindow(this)->getColourPicker();
 		cpick->swapActiveColour();
 		isClicked_ = false;
 	}
+	printf("clicked colour display\n");
+	return true;
 }

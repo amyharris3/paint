@@ -16,6 +16,17 @@ Window::Window(SDL_Renderer* renderer, gfx::Rectangle const& rect, const char* n
 	// TODO , surface_(surface)
 {
 }
+
+void Window::updateAndRerender()
+{
+	for (auto child : getChildren()){
+		child->update();
+		child->draw();
+		SDL_RenderPresent(renderer_);
+	}
+}
+
+
 void Window::draw()
 {
 	const auto& rect = getRect();

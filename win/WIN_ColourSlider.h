@@ -17,8 +17,8 @@ namespace win
 		void valueChangedByMovement();
 		void valueChangedExternally();
 
-		void mouseMove() override;
-		void mouseButtonUp(MouseButton button) override;
+		bool mouseMove() override;
+		bool mouseButtonUp(MouseButton button) override;
 		
 	private:
 

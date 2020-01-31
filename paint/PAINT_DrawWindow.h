@@ -71,7 +71,8 @@ namespace paint
 		DrawWindow& operator=(const DrawWindow& that) = delete;
 		DrawWindow& operator=(DrawWindow&& that) = delete;
 	
-		void mouseButtonDown(win::MouseButton button) override;
+		bool mouseButtonDown(win::MouseButton button) override;
+		
 		void setActiveBrush(Brush* brush);
 		//void getPixels(SDL_Surface* surface);
 		void setMouseCoords(Coords relCoords);

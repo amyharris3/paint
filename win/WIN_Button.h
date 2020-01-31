@@ -34,10 +34,10 @@ namespace win
 		Button& operator=(Button&& that) = default;
 
 		void draw() override;
-		void mouseEnter() override;
-		void mouseExit() override;
-		void mouseButtonDown(MouseButton b) override;
-		void mouseButtonUp(MouseButton b) override;
+		bool mouseEnter() override;
+		bool mouseExit() override;
+		bool mouseButtonDown(MouseButton b) override;
+		bool mouseButtonUp(MouseButton b) override;
 
 		ActionFunction action;
 

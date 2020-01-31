@@ -40,15 +40,17 @@ namespace win
 		void setRect(const gfx::Rectangle & rect);
 		gfx::Rectangle getRect() const { return rect_; }
 		const char* getName() const { return name_.c_str(); }
-		UIelement* getParent() { return parent_; }
+		UIelement* getParent() const { return parent_; }
 		void setParent(UIelement * parent);
 
 		virtual void draw() = 0;
+		virtual void update() { };
+		virtual void updateAndRerender() { };
 		//virtual void mouseMove(int x, int y) {}
-		virtual void mouseEnter();
-		virtual void mouseExit();
-		virtual void mouseMove() {};
-		virtual void mouseButtonDown(MouseButton button);
-		virtual void mouseButtonUp(MouseButton button) {};
+		virtual bool mouseEnter();
+		virtual bool mouseExit();
+		virtual bool mouseMove() { return false; };
+		virtual bool mouseButtonDown(MouseButton button);
+		virtual bool mouseButtonUp(MouseButton button) { return false; };
 	};
 }

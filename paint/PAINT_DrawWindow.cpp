@@ -109,7 +109,7 @@ void DrawWindow::draw()
 	//}
 }
 
-void DrawWindow::mouseButtonDown(MouseButton b)
+bool DrawWindow::mouseButtonDown(MouseButton b)
 {
 	//Uint16* pixels = (Uint16*)surface_->pixels;            // Get the pixels from the Surface
 
@@ -138,6 +138,7 @@ void DrawWindow::mouseButtonDown(MouseButton b)
 		//	//}
 		//}
 	}
+	return true;
 }
 
 

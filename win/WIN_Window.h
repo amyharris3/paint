@@ -33,6 +33,7 @@ namespace win
 		Window& operator=(Window && that) = delete;
 
 		void draw() override;
-
+		void updateAndRerender() override;
+		
 	};
 }
