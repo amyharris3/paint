@@ -21,7 +21,7 @@ namespace win
 		void valueChangedExternally(); //TODO
 		
 		bool filterNumerical(const char c[]);
-		void updateAndRerender(std::string newString) override;
+		void editTextAndRerender(std::string newString) override;
 		void takeTextEntry() override;
 
 		void mouseButtonUp(win::MouseButton const button) override;

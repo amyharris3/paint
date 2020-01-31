@@ -25,7 +25,7 @@ void EditTextbox::editText(const char* newText)
 	text_->updateString(newText);
 }
 
-void EditTextbox::updateAndRerender(std::string const newString)
+void EditTextbox::editTextAndRerender(std::string const newString)
 {
 	//filters and checks on the input here
 	
@@ -64,7 +64,7 @@ void EditTextbox::takeTextEntry()
 				// case for backspace, deletes last input
 				if (event.key.keysym.sym == SDLK_BACKSPACE && newString.length() > 0){
 					newString.erase(newString.end() - 1);
-					updateAndRerender(newString);
+					editTextAndRerender(newString);
 					textChanged = true;
 				}
 				// case for ctrl+c (copy)
@@ -76,7 +76,7 @@ void EditTextbox::takeTextEntry()
 				break;
 			case SDL_TEXTINPUT:
 				// put here any filters here on the input
-				updateAndRerender(newString);
+				editTextAndRerender(newString);
 				entryCount++;
 				textChanged = true;
 				break;
@@ -93,7 +93,7 @@ void EditTextbox::takeTextEntry()
 	}
 
 	if (textChanged){
-		updateAndRerender(newString);
+		editTextAndRerender(newString);
 	}
 }
 

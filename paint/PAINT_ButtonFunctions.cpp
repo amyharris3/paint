@@ -38,6 +38,7 @@ void paint::swapColours(win::Button* button)
 	cpick->updateColourDisplaysFromDrawWindow();
 	cpick->setDrawColourFromActive();
 	cpick->updateColourValueBoxes();
+	cpick->updateColourSliders();
 }
 
 void paint::clearScreen(win::Button* button)

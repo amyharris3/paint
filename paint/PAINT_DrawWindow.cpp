@@ -3,6 +3,7 @@
 #include "PAINT_Brush.h"
 #include "WIN_Mouse.h"
 #include <iostream>
+#include "PAINT_Utils.h"
 
 using namespace paint;
 using namespace win;

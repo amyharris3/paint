@@ -102,9 +102,14 @@ void Program::run()
 					}
 
 					activeElement = active;
+					
 					if (activeElement) {
 						activeElement->mouseEnter();
 					}
+				}
+
+				if(activeElement){
+					activeElement->mouseMove();
 				}
 			}
 

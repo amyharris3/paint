@@ -27,7 +27,7 @@ namespace win
 		void click();
 
 		void editText(const char* newText);
-		virtual void updateAndRerender(std::string newString);
+		virtual void editTextAndRerender(std::string newString);
 		virtual void takeTextEntry();
 		
 		void draw() override;

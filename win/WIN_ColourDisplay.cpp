@@ -57,7 +57,7 @@ void ColourDisplay::setOutlineColour(const gfx::Colour outlineColour)
 }
 
 void ColourDisplay::draw()
-{	
+{
 	SDL_Rect outlineRect = { this->getRect().x, this->getRect().y, this->getRect().width, this->getRect().height };
 	uint8_t outlineColour[4];
 	getBackgroundColour().getComponents(outlineColour);

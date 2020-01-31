@@ -13,6 +13,7 @@
 #include "PAINT_ColourPicker.h"
 #include "WIN_EditTextbox.h"
 #include "WIN_ColourValueTextbox.h"
+#include "WIN_Slider.h"
 
 
 using namespace paint;
@@ -87,10 +88,15 @@ Screen::Screen(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* n
 	toolWindow->setColourPicker(colourPicker);
 	
 	// Testing editable textbox
-	uint8_t testVar = 100;
+	uint8_t testVar = 200;
 	auto testTextbox = std::make_shared<win::ColourValueTextbox>(gfx::Rectangle(10, 600, 40, 20), "testTextbox", renderer, 18, 2, -3, &testVar);
 	toolWindow->addChild(testTextbox);
-	
+
+	// Testing slider
+	//auto testSlider = std::make_shared<win::Slider>(renderer, gfx::Rectangle(10, 640, 100, 20), "testSlider", gfx::Colour(255, 255, 255, 255), gfx::Colour(0, 0, 0, 255), 50, 0, 500);
+	//toolWindow->addChild(testSlider);
+	//auto testColSlider = std::make_shared<win::ColourSlider>(renderer, gfx::Rectangle(10, 660, 100, 20), "testSlider", gfx::Colour(255, 255, 255, 255), gfx::Colour(0, 0, 0, 255), &testVar);
+	//toolWindow->addChild(testColSlider);
 
 	// Creating statusWindow
 	gfx::Rectangle statusRect(0, 760, 1200, 40);

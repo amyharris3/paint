@@ -7,7 +7,6 @@ ColourValueTextbox::ColourValueTextbox(gfx::Rectangle rect, const char* name, SD
 	: EditTextbox(rect, name, renderer, textSize, xOffset, yOffset)
 	, linkedVariable_(linkedVariable)
 {
-	printf("linked var: %s\n", std::to_string(*linkedVariable_).c_str());
 	setBackgroundColour(gfx::Colour(255, 255, 255, 255));
 	editText(std::to_string(*linkedVariable_).c_str());
 }
@@ -20,11 +19,22 @@ void ColourValueTextbox::redirectLinkedVariable(uint8_t* newVariable)
 void ColourValueTextbox::valueChangedByTextEntry()
 {
 	*linkedVariable_ = std::stoi(getText()->getString());
+
+	auto cpick = paint::utils::findToolWindow(this)->getColourPicker();
+	cpick->setPrimarySecondaryFromActiveDraw();
+	cpick->updateColourSliders();
+	
+	draw();
+	SDL_RenderPresent(getRenderer());
 }
 
 void ColourValueTextbox::valueChangedExternally()
 {
+	printf("box linked var %s\n", std::to_string(*linkedVariable_).c_str());
 	editText(std::to_string(*linkedVariable_).c_str());
+	
+	draw();
+	SDL_RenderPresent(getRenderer());
 }
 
 bool ColourValueTextbox::filterNumerical(const char c[])
@@ -39,7 +49,7 @@ bool ColourValueTextbox::filterNumerical(const char c[])
 	}
 }
 
-void ColourValueTextbox::updateAndRerender(std::string newString)
+void ColourValueTextbox::editTextAndRerender(std::string newString)
 {
 	if (std::stoi(newString) < 0) {
 		newString = "0";
@@ -83,7 +93,7 @@ void ColourValueTextbox::takeTextEntry()
 				// case for backspace, deletes last input
 				if (event.key.keysym.sym == SDLK_BACKSPACE && newString.length() > 0) {
 					newString.erase(newString.end() - 1);
-					this->updateAndRerender(newString);
+					this->editTextAndRerender(newString);
 					textChanged = true;
 				}
 				// case for ctrl+c (copy)
@@ -100,7 +110,7 @@ void ColourValueTextbox::takeTextEntry()
 				printf("IN: %s\n", event.text.text);
 				if (filterNumerical(event.text.text)) {
 					newString += event.text.text;
-					this->updateAndRerender(newString);
+					this->editTextAndRerender(newString);
 					textChanged = true;
 				}
 				entryCount++;
@@ -122,7 +132,7 @@ void ColourValueTextbox::takeTextEntry()
 	}
 	
 	if (textChanged) {
-		this->updateAndRerender(newString);
+		this->editTextAndRerender(newString);
 		valueChangedByTextEntry();
 	}
 }
@@ -135,7 +145,8 @@ void ColourValueTextbox::mouseButtonUp(win::MouseButton const button)
 		printf("Finished taking text entry\n");
 		click();
 	}
-	auto cpick = paint::utils::findToolWindow(this)->getColourPicker();
-	cpick->setPrimarySecondaryFromActiveDraw();
-	
+
+	//auto cpick = paint::utils::findToolWindow(this)->getColourPicker();
+	//cpick->setPrimarySecondaryFromActiveDraw();
+	//cpick->updateColourSliders();
 }
