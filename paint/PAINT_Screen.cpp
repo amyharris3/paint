@@ -78,7 +78,7 @@ Screen::Screen(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* n
 	auto colourPicker = std::make_shared<ColourPicker>(colourPickerRect, renderer, drawWindow);
 	const gfx::Colour colourPickerColour{ 150, 255, 240, 255 };
 	colourPicker->setBackgroundColour(colourPickerColour);
-	colourPicker->updateColourValueBoxes();
+	//colourPicker->updateColourValueBoxes();
 	toolWindow->addChild(colourPicker);
 	toolWindow->setColourPicker(colourPicker);
 	

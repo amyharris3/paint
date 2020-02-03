@@ -21,10 +21,6 @@ namespace paint
 		ColourPicker& operator=(const ColourPicker & that) = default;
 		ColourPicker& operator=(ColourPicker && that) = default;
 
-		void initialiseColourDisplays();
-		void initialiseColourValueBoxes();
-		void initialiseColourSliders();
-		
 		std::shared_ptr<win::ColourValueTextbox> getRedValueBox() const { return redValueBox_;  }
 		std::shared_ptr<win::ColourValueTextbox> getGreenValueBox() const { return greenValueBox_;  }
 		std::shared_ptr<win::ColourValueTextbox> getBlueValueBox() const { return blueValueBox_;  }
@@ -32,18 +28,14 @@ namespace paint
 		
 		void setDrawColourFromActive() const;
 		void setPrimarySecondaryFromActiveDraw() const;
-		void updateColourDisplaysFromDrawWindow() const;
-		void updateColourDisplays() const;
-		void updateColourValueBoxes() const;
-		void updateColourSliders() const;
 		void swapActiveColour() const;
-		void swapDisplaysSwitch() { swappedDisplays_= !swappedDisplays_; }
+		void swapDisplaysSwitch() { swappedDisplays_ = !swappedDisplays_; }
 
-		void update() override;
+		void updateColourDisplaysFromDrawWindow() const;
+
+		
 		void updateAndRerender() override;
 		void draw() override;
-		bool mouseButtonDown(win::MouseButton button) override;
-		bool mouseButtonUp(win::MouseButton button) override;
 		
 	private:
 
@@ -67,7 +59,14 @@ namespace paint
 		std::shared_ptr<win::ColourSlider> greenValueSlider_;
 		std::shared_ptr<win::ColourSlider> blueValueSlider_;
 		std::shared_ptr<win::ColourSlider> alphaValueSlider_;
-		
 
+		inline void initialiseColourDisplays();
+		inline void initialiseColourValueBoxes();
+		inline void initialiseColourSliders();
+
+		void updateColourDisplays() const;
+		void updateColourValueBoxes() const;
+		void updateColourSliders() const;
+		void update() override;
 	};
 }

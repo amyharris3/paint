@@ -26,7 +26,7 @@ namespace gfx
 		int getWidth() const { return textWidth_; }
 		int getHeight() const { return textHeight_; }
 
-		std::string getString() const { return textString_; }
+		std::string& getString() { return textString_; }
 		void changeString(const char* newString);
 		void loadFont(const char* fontName);
 		bool renderText(int xPixel, int yPixel);

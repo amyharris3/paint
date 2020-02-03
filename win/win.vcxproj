@@ -31,6 +31,7 @@
     <ClCompile Include="WIN_Layout.cpp" />
     <ClCompile Include="WIN_TableLayout.cpp" />
     <ClCompile Include="WIN_UIelement.cpp" />
+    <ClCompile Include="WIN_Utils.cpp" />
     <ClCompile Include="WIN_Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -47,6 +48,7 @@
     <ClInclude Include="WIN_Slider.h" />
     <ClInclude Include="WIN_TableLayout.h" />
     <ClInclude Include="WIN_UIelement.h" />
+    <ClInclude Include="WIN_Utils.h" />
     <ClInclude Include="WIN_Window.h" />
   </ItemGroup>
   <ItemGroup>

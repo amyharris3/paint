@@ -7,6 +7,7 @@
 #include "PAINT_ButtonFunctions.h"
 #include "PAINT_Utils.h"
 #include "WIN_ColourValueTextbox.h"
+#include <cassert>
 
 using namespace paint;
 
@@ -23,11 +24,25 @@ ColourPicker::ColourPicker(gfx::Rectangle rect, SDL_Renderer* renderer, std::sha
 	, colourSliders_(std::make_shared<Container>(std::make_shared<win::TableLayout>(0, 0, 0, 20, 4, 1), gfx::Rectangle(rect.x+5, rect.y + 65, 120, 140), "colourSlidersBox"))
 {
 	addChild(swapButton_);
+	
+	initialiseColourDisplays();
+	initialiseColourValueBoxes();
+	initialiseColourSliders();
+	
+	setDrawColourFromActive();
+	updateColourSliders();
+}
+
+inline void ColourPicker::initialiseColourDisplays()
+{
 
 	displayBox_->addChild(primaryColourDisplay_);
 	displayBox_->addChild(secondaryColourDisplay_);
 	addChild(displayBox_);
+}
 
+inline void ColourPicker::initialiseColourValueBoxes()
+{
 	redValueBox_ = std::make_shared<win::ColourValueTextbox>(gfx::Rectangle(), "redValueBox", renderer_, 18, 2, -3, drawWindowPtr_->getDrawRed());
 	redValueBox_->setBackgroundColour({ 255,50,50,200 });
 	greenValueBox_ = std::make_shared<win::ColourValueTextbox>(gfx::Rectangle(), "greenValueBox", renderer_, 18, 2, -3, drawWindowPtr_->getDrawGreen());
@@ -36,12 +51,17 @@ ColourPicker::ColourPicker(gfx::Rectangle rect, SDL_Renderer* renderer, std::sha
 	blueValueBox_->setBackgroundColour({ 50, 50, 255, 200 });
 	alphaValueBox_ = std::make_shared<win::ColourValueTextbox>(gfx::Rectangle(), "alphaValueBox", renderer_, 18, 2, -3, drawWindowPtr_->getDrawAlpha());
 	alphaValueBox_->setBackgroundColour({ 150,150,150,200 });
+	
 	colourValuesBox_->addChild(redValueBox_);
 	colourValuesBox_->addChild(greenValueBox_);
 	colourValuesBox_->addChild(blueValueBox_);
 	colourValuesBox_->addChild(alphaValueBox_);
 	addChild(colourValuesBox_);
+}
 
+
+inline void ColourPicker::initialiseColourSliders()
+{
 	redValueSlider_ = std::make_shared<win::ColourSlider>(renderer_, gfx::Rectangle(15, 660, 105, 20), "redValueSlider", gfx::Colour(255, 255, 255, 255), gfx::Colour(0, 0, 0, 255), drawWindowPtr_->getDrawRed());
 	greenValueSlider_ = std::make_shared<win::ColourSlider>(renderer_, gfx::Rectangle(15, 660, 105, 20), "greenValueSlider", gfx::Colour(255, 255, 255, 255), gfx::Colour(0, 0, 0, 255), drawWindowPtr_->getDrawGreen());
 	blueValueSlider_ = std::make_shared<win::ColourSlider>(renderer_, gfx::Rectangle(15, 660, 105, 20), "blueValueSlider", gfx::Colour(255, 255, 255, 255), gfx::Colour(0, 0, 0, 255), drawWindowPtr_->getDrawBlue());
@@ -56,27 +76,18 @@ ColourPicker::ColourPicker(gfx::Rectangle rect, SDL_Renderer* renderer, std::sha
 	redValueSlider_->updateLineMarker();
 	greenValueSlider_->updateLineMarker();
 	blueValueSlider_->updateLineMarker();
-		alphaValueSlider_->updateLineMarker();
-	
-	setDrawColourFromActive();
-	updateColourSliders();
+	alphaValueSlider_->updateLineMarker();
+
 }
 
 void ColourPicker::setDrawColourFromActive() const
 {
-	if (primaryColourDisplay_->isActive() && secondaryColourDisplay_->isActive()){
-		printf("Error: both colours defined as active\n");
-	}
-	else if (primaryColourDisplay_->isActive()) {
-		printf("Draw colour is primary\n");
+	assert(primaryColourDisplay_->isActive() != secondaryColourDisplay_->isActive());
+	if (primaryColourDisplay_->isActive()) {
 		drawWindowPtr_->setDrawColourAsPrimary();
 	}
 	else if (secondaryColourDisplay_->isActive()) {
-		printf("Draw colour is secondary\n");
 		drawWindowPtr_->setDrawColourAsSecondary();
-	}
-	else {
-		std::cout << "Active colour not changed\n";
 	}
 }
 
@@ -100,9 +111,6 @@ void ColourPicker::swapActiveColour() const
 	secondaryColourDisplay_->swapIsActive();
 
 	setDrawColourFromActive();
-	//update();
-
-	//rerender();
 }
 
 void ColourPicker::updateColourDisplaysFromDrawWindow() const
@@ -110,14 +118,10 @@ void ColourPicker::updateColourDisplaysFromDrawWindow() const
 	const auto primaryRGBA = drawWindowPtr_->getPrimaryRGBA();
 	const auto secondaryRGBA = drawWindowPtr_->getSecondaryRGBA();
 	if (!swappedDisplays_) {
-		//primaryColourDisplay_->setColour(drawWindowPtr_->getPrimaryColour());
-		//secondaryColourDisplay_->setColour(drawWindowPtr_->getSecondaryColour());
 		primaryColourDisplay_->setColour(gfx::Colour(primaryRGBA[0], primaryRGBA[1], primaryRGBA[2], primaryRGBA[3]));
 		secondaryColourDisplay_->setColour(gfx::Colour(secondaryRGBA[0], secondaryRGBA[1], secondaryRGBA[2], secondaryRGBA[3]));
 	}
 	else {
-		//primaryColourDisplay_->setColour(drawWindowPtr_->getSecondaryColour());
-		//secondaryColourDisplay_->setColour(drawWindowPtr_->getPrimaryColour());
 		primaryColourDisplay_->setColour(gfx::Colour(secondaryRGBA[0], secondaryRGBA[1], secondaryRGBA[2], secondaryRGBA[3]));
 		secondaryColourDisplay_->setColour(gfx::Colour(primaryRGBA[0], primaryRGBA[1], primaryRGBA[2], primaryRGBA[3]));
 	}
@@ -128,7 +132,6 @@ void ColourPicker::updateColourDisplays() const
 	setPrimarySecondaryFromActiveDraw();
 	primaryColourDisplay_->draw();
 	secondaryColourDisplay_->draw();
-	SDL_RenderPresent(renderer_);
 }
 
 void ColourPicker::updateColourValueBoxes() const
@@ -153,7 +156,6 @@ void ColourPicker::update()
 	updateColourValueBoxes();
 	updateColourSliders();
 }
-
 
 void ColourPicker::updateAndRerender()
 {
@@ -180,18 +182,4 @@ void ColourPicker::draw()
 	{
 		child->draw();
 	}
-}
-
-bool ColourPicker::mouseButtonDown(win::MouseButton const button)
-{
-	std::cout << "Clicking down in ColourPicker area\n";
-
-	return false;
-}
-
-bool ColourPicker::mouseButtonUp(win::MouseButton const button)
-{
-	std::cout << "Clicking up in ColourPicker area\n";
-
-	return false;
 }

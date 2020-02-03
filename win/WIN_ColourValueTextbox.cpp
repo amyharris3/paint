@@ -1,46 +1,32 @@
 #include "WIN_ColourValueTextbox.h"
+#include <cassert>
+#include "WIN_Utils.h"
 
 using namespace win;
 
 ColourValueTextbox::ColourValueTextbox(gfx::Rectangle rect, const char* name, SDL_Renderer* renderer, int const textSize, int const xOffset, int const yOffset, uint8_t* linkedVariable)
 	: EditTextbox(rect, name, renderer, textSize, xOffset, yOffset)
 	, linkedVariable_(linkedVariable)
+	, rerenderFlag_(false)
 {
+	assert(linkedVariable_);
+	
 	setBackgroundColour(gfx::Colour(255, 255, 255, 255));
 	editText(std::to_string(*linkedVariable_).c_str());
-}
-
-void ColourValueTextbox::redirectLinkedVariable(uint8_t* newVariable)
-{
-	linkedVariable_ = newVariable;
 }
 
 void ColourValueTextbox::valueChangedByTextEntry()
 {
 	*linkedVariable_ = std::stoi(getText()->getString());
 
-	draw();
-	SDL_RenderPresent(getRenderer());
+	rerenderFlag_ = true;
 }
 
 void ColourValueTextbox::valueChangedExternally()
 {
 	editText(std::to_string(*linkedVariable_).c_str());
-	
-	draw();
-	SDL_RenderPresent(getRenderer());
-}
 
-bool ColourValueTextbox::filterNumerical(const char c[])
-{
-	//slightly more efficient
-	//if (*c > '/' && *c < ':'){
-	if ((*c >= '0' && *c <= '9')) {
-		return true;
-	}
-	else {
-		return false;
-	}
+	rerenderFlag_ = true;
 }
 
 void ColourValueTextbox::editTextAndRerender(std::string & newString)
@@ -55,8 +41,7 @@ void ColourValueTextbox::editTextAndRerender(std::string & newString)
 
 	getText()->changeString(newString.c_str());
 
-	draw();
-	SDL_RenderPresent(getRenderer());
+	rerenderFlag_ = true;
 }
 
 void ColourValueTextbox::takeTextEntry()
@@ -102,7 +87,7 @@ void ColourValueTextbox::takeTextEntry()
 				break;
 			case SDL_TEXTINPUT:
 				printf("IN: %s\n", event.text.text);
-				if (filterNumerical(event.text.text)) {
+				if (win::utils::filterNumerical(event.text.text)) {
 					newString += event.text.text;
 					this->editTextAndRerender(newString);
 					textChanged = true;

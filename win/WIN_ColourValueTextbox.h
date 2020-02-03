@@ -29,6 +29,7 @@ namespace win
 	private:
 
 		uint8_t* linkedVariable_;
+		bool rerenderFlag_;
 		
 	};
 }

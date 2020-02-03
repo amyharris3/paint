@@ -72,12 +72,12 @@ void Program::run() const
 	auto clicked = false;
 
 	// if a method causes a change in the visual representation of the program, returns 'true' and calls to rerender the relevant section, else have the method return 'false'
-	auto rerender = false;
+	auto rerenderFlag = false;
 
 	//While application is running
 	std::shared_ptr<UIelement> activeElement = nullptr;
 	while (!quit) {
-		rerender = false;
+		rerenderFlag = false;
 
 		//Handle events on queue
 		while (SDL_PollEvent(&e) != 0) {
@@ -97,22 +97,20 @@ void Program::run() const
 				auto active = GetTopmostElement(screen_->getChildren(), xMouse, yMouse);
 				if (activeElement != active) {
 					if (activeElement) {
-						rerender = activeElement->mouseExit();
+						rerenderFlag = activeElement->mouseExit();
 					}
 
 					activeElement = active;
 					
 					if (activeElement) {
-						rerender = activeElement->mouseEnter();
+						rerenderFlag = activeElement->mouseEnter();
 					}
 				}
 
 				if(activeElement){
-					rerender = activeElement->mouseMove();
+					rerenderFlag = activeElement->mouseMove();
 				}
-				if (rerender) {
-					screen_->updateAndRerender();
-				}
+				
 			}
 
 			MouseButton button = MouseButton::Left;
@@ -146,11 +144,7 @@ void Program::run() const
 					drawWindow->setMouseCoords({ xMouse, yMouse });
 					drawWindow->setPrevCoords({ xPrev, yPrev });
 					
-					rerender = activeElement->mouseButtonDown(button);
-				}
-
-				if (rerender) {
-					screen_->updateAndRerender();
+					rerenderFlag = activeElement->mouseButtonDown(button);
 				}
 				
 			}
@@ -159,11 +153,9 @@ void Program::run() const
 				std::cout << "Mouse button up \n";
 				clicked = false;
 				if (activeElement) {
-					rerender = activeElement->mouseButtonUp(button);
+					rerenderFlag = activeElement->mouseButtonUp(button);
 				}
-				if (rerender) {
-					screen_->updateAndRerender();
-				}
+
 			}
 
 			if (xPrev != xMouse) {
@@ -175,6 +167,10 @@ void Program::run() const
 				yPrev = yMouse;
 			}
 
+			if (rerenderFlag) {
+				screen_->updateAndRerender();
+			}
+			
 		}
 
 		 // Draw buttons.
