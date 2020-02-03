@@ -54,7 +54,7 @@ void ColourValueTextbox::editTextAndRerender(std::string newString)
 		newString = "255";
 	}
 
-	getText()->updateString(newString.c_str());
+	getText()->changeString(newString.c_str());
 
 	draw();
 	SDL_RenderPresent(getRenderer());

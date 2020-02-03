@@ -22,14 +22,14 @@ void EditTextbox::click()
 
 void EditTextbox::editText(const char* newText)
 {
-	text_->updateString(newText);
+	text_->changeString(newText);
 }
 
 void EditTextbox::editTextAndRerender(std::string const newString)
 {
 	//filters and checks on the input here
 	
-	text_->updateString(newString.c_str());
+	text_->changeString(newString.c_str());
 
 	draw();
 	SDL_RenderPresent(renderer_);

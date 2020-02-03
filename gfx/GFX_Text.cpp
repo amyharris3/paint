@@ -26,9 +26,23 @@ Text::Text(SDL_Renderer* renderer, Colour textColour, const char* fontName, int 
 	, textTex_(nullptr)
 	, textColour_({ textColour.getRed(), textColour.getGreen(), textColour.getBlue(), textColour.getAlpha() })
 {
+	SDL_Surface* textSurface = TTF_RenderText_Solid(textFont_, textString_.c_str(), textColour_);
+	if (textSurface == nullptr) {
+		printf("Error: unable to render text -> SDL_ttf Error: %s\n", TTF_GetError());
+	}
+	else {
+		textTex_ = SDL_CreateTextureFromSurface(renderer_, textSurface);
+		if (textTex_ == nullptr) {
+			printf("Error: unable to render text -> SDL Error: %s\n", SDL_GetError());
+		}
+		else {
+			textWidth_ = textSurface->w;
+			textHeight_ = textSurface->h;
+		}
+	}
 }
 
-void Text::updateString(const char* newString)
+void Text::changeString(const char* newString)
 {
 	textString_ = newString;
 }
@@ -41,7 +55,7 @@ void Text::loadFont(const char* fontName)
 	}
 }
 
-bool Text::renderText(int const xpix, int const ypix)
+bool Text::renderText(int const xPixel, int const yPixel)
 {
 	SDL_Surface* textSurface = TTF_RenderText_Solid(textFont_, textString_.c_str(), textColour_);
 	if (textSurface == nullptr) {
@@ -60,7 +74,7 @@ bool Text::renderText(int const xpix, int const ypix)
 		SDL_FreeSurface(textSurface);
 	}
 
-	SDL_Rect textboxRect = { xpix, ypix, textWidth_, textHeight_ };
+	SDL_Rect textboxRect = { xPixel, yPixel, textWidth_, textHeight_ };
 
 	SDL_RenderCopy(renderer_, textTex_, nullptr, &textboxRect);
 

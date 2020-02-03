@@ -12,7 +12,7 @@ DrawWindow::DrawWindow(SDL_Renderer* renderer, gfx::Rectangle const& rect, const
 	: Window( renderer, rect, name)
 	, activeTool_(nullptr)
 	, activeBrush_(nullptr)
-	, name_(name)
+	//, name_(name)
 	, primaryColour_(gfx::Colour(255, 255, 255,255))
 	, secondaryColour_(gfx::Colour(255, 255, 255, 255))
 	, renderer_(renderer)
@@ -20,8 +20,6 @@ DrawWindow::DrawWindow(SDL_Renderer* renderer, gfx::Rectangle const& rect, const
 {
 	texture_ = SDL_CreateTexture(renderer_, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, rect.width, rect.height);
 	setDrawColourAsPrimary();
-	//primaryColour_.getComponents(primaryRGBA_);
-	//secondaryColour_.getComponents(secondaryRGBA_);
 }
 
 DrawWindow::~DrawWindow()
@@ -65,7 +63,7 @@ void DrawWindow::setSecondaryColour(gfx::Colour colour)
 	secondaryColour_.getComponents(secondaryRGBA_);
 }
 
-void DrawWindow::swapColours()
+void DrawWindow::swapPrimarySecondaryColours()
 {
 	std::cout << "Swapping colours\n";
 	std::swap(primaryColour_, secondaryColour_);

@@ -24,11 +24,13 @@ namespace gfx
 		Text& operator=(Text && that) = default;
 
 		TTF_Font* getFont() const { return textFont_; }
+		int getWidth() const { return textWidth_; }
+		int getHeight() const { return textHeight_; }
 
-		std::string const getString() const { return textString_; }
-		void updateString(const char* newString);
+		std::string getString() const { return textString_; }
+		void changeString(const char* newString);
 		void loadFont(const char* fontName);
-		bool renderText(int const xpix, int const ypix);
+		bool renderText(int const xPixel, int const yPixel);
 		
 	private:
 

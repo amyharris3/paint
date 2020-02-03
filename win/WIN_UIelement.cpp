@@ -35,7 +35,7 @@ void UIelement::getBackgroundColour(uint8_t rgba[])
 	backgroundColour_.getComponents(rgba);
 }
 
-void UIelement::swapColours()
+void UIelement::swapFgBgColours()
 {
 	std::swap(foregroundColour_, backgroundColour_);
 }

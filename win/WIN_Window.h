@@ -32,6 +32,8 @@ namespace win
 		Window & operator=(Window const& that) = delete;
 		Window& operator=(Window && that) = delete;
 
+		SDL_Renderer* getRenderer() const { return renderer_; }
+		
 		void draw() override;
 		void updateAndRerender() override;
 		

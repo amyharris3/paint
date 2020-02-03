@@ -44,11 +44,11 @@ namespace paint
 		// TODO What sort of pointer?
 		Tool * activeTool_;
 		Brush * activeBrush_;
-		const char* name_;
+		//const char* name_;
 		gfx::Colour primaryColour_;
 		gfx::Colour secondaryColour_;
 		std::vector<Coords> clickedPixels_;  
-		SDL_Surface* surface_;
+		//SDL_Surface* surface_;
 		SDL_Renderer* renderer_;
 		SDL_Texture* texture_;
 		bool drawToggle_;
@@ -83,7 +83,7 @@ namespace paint
 		gfx::Colour getSecondaryColour() const { return secondaryColour_; }
 		void setPrimaryColour(gfx::Colour colour);
 		void setSecondaryColour(gfx::Colour colour);
-		void swapColours();
+		void swapPrimarySecondaryColours();
 
 		uint8_t* getDrawRGBA() { return drawRGBA_; }
 		uint8_t* getDrawRed() { return &drawRGBA_[0]; }

@@ -32,7 +32,7 @@ void paint::toggleDraw(win::Button* button)
 void paint::swapColours(win::Button* button)
 {
 	auto dw = utils::findDrawWindow(button);
-	dw->swapColours();
+	dw->swapPrimarySecondaryColours();
 	auto cpick = paint::utils::findToolWindow(button)->getColourPicker();
 	cpick->swapDisplaysSwitch();
 	cpick->updateColourDisplaysFromDrawWindow();
