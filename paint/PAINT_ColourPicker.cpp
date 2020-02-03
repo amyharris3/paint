@@ -23,25 +23,11 @@ ColourPicker::ColourPicker(gfx::Rectangle rect, SDL_Renderer* renderer, std::sha
 	, colourSliders_(std::make_shared<Container>(std::make_shared<win::TableLayout>(0, 0, 0, 20, 4, 1), gfx::Rectangle(rect.x+5, rect.y + 65, 120, 140), "colourSlidersBox"))
 {
 	addChild(swapButton_);
-	
-	initialiseColourDisplays();
-	initialiseColourValueBoxes();
-	initialiseColourSliders();
-	
-	setDrawColourFromActive();
-	updateColourSliders();
-}
-
-void ColourPicker::initialiseColourDisplays()
-{
 
 	displayBox_->addChild(primaryColourDisplay_);
 	displayBox_->addChild(secondaryColourDisplay_);
 	addChild(displayBox_);
-}
 
-void ColourPicker::initialiseColourValueBoxes()
-{
 	redValueBox_ = std::make_shared<win::ColourValueTextbox>(gfx::Rectangle(), "redValueBox", renderer_, 18, 2, -3, drawWindowPtr_->getDrawRed());
 	redValueBox_->setBackgroundColour({ 255,50,50,200 });
 	greenValueBox_ = std::make_shared<win::ColourValueTextbox>(gfx::Rectangle(), "greenValueBox", renderer_, 18, 2, -3, drawWindowPtr_->getDrawGreen());
@@ -55,11 +41,7 @@ void ColourPicker::initialiseColourValueBoxes()
 	colourValuesBox_->addChild(blueValueBox_);
 	colourValuesBox_->addChild(alphaValueBox_);
 	addChild(colourValuesBox_);
-}
 
-
-void ColourPicker::initialiseColourSliders()
-{
 	redValueSlider_ = std::make_shared<win::ColourSlider>(renderer_, gfx::Rectangle(15, 660, 105, 20), "redValueSlider", gfx::Colour(255, 255, 255, 255), gfx::Colour(0, 0, 0, 255), drawWindowPtr_->getDrawRed());
 	greenValueSlider_ = std::make_shared<win::ColourSlider>(renderer_, gfx::Rectangle(15, 660, 105, 20), "greenValueSlider", gfx::Colour(255, 255, 255, 255), gfx::Colour(0, 0, 0, 255), drawWindowPtr_->getDrawGreen());
 	blueValueSlider_ = std::make_shared<win::ColourSlider>(renderer_, gfx::Rectangle(15, 660, 105, 20), "blueValueSlider", gfx::Colour(255, 255, 255, 255), gfx::Colour(0, 0, 0, 255), drawWindowPtr_->getDrawBlue());
@@ -74,8 +56,10 @@ void ColourPicker::initialiseColourSliders()
 	redValueSlider_->updateLineMarker();
 	greenValueSlider_->updateLineMarker();
 	blueValueSlider_->updateLineMarker();
-	alphaValueSlider_->updateLineMarker();
-
+		alphaValueSlider_->updateLineMarker();
+	
+	setDrawColourFromActive();
+	updateColourSliders();
 }
 
 void ColourPicker::setDrawColourFromActive() const
