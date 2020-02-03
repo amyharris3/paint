@@ -17,10 +17,17 @@ DrawWindow::DrawWindow(SDL_Renderer* renderer, gfx::Rectangle const& rect, const
 	, secondaryColour_(gfx::Colour(255, 255, 255, 255))
 	, renderer_(renderer)
 	, drawToggle_(false)
+	, mouseCoords_({0,0})
+	, prevMouseCoords_({0,0})
+	, drawRGBA_{}
+	, primaryRGBA_{}
+	, secondaryRGBA_{}
 {
 	texture_ = SDL_CreateTexture(renderer_, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, rect.width, rect.height);
+	primaryColour_.getComponents(primaryRGBA_);
+	secondaryColour_.getComponents(secondaryRGBA_);
 	setDrawColourAsPrimary();
-}
+} 
 
 DrawWindow::~DrawWindow()
 {
@@ -100,9 +107,8 @@ void DrawWindow::draw()
 	SDL_RenderCopy(renderer_, texture_, nullptr, &destRect);
 	//SDL_SetRenderDrawColor(renderer_, 255, 255, 255, SDL_ALPHA_OPAQUE);
 	SDL_SetRenderDrawColor(renderer_, int(drawRGBA_[0]), int(drawRGBA_[1]), int(drawRGBA_[2]), int(drawRGBA_[3]));
-	//for (auto lines : lines_)
-	for (std::vector<Line>::const_iterator i = lines_.begin(); i != lines_.end(); ++i) {
-		const Line line = *i;
+	//for (std::vector<Line>::const_iterator i = lines_.begin(); i != lines_.end(); ++i) {
+	for (auto line : lines_) {
 		SDL_RenderDrawLine(renderer_, line.x1, line.y1, line.x2, line.y2);
 	}
 	//}

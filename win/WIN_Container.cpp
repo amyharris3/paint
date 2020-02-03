@@ -33,8 +33,6 @@ void Container::draw()
 
 	// TODO: draw myself.
 	for (auto & child : children_) {
-		auto name = child->getName();
-		gfx::Rectangle r = child->getRect();
 		child->draw();
 	}
 }

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "WIN_Window.h"
-#include "GFX_Colour.h"
 #include "GFX_Text.h"
 
 namespace paint

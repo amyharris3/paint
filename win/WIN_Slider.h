@@ -1,6 +1,6 @@
 #pragma once
 #include "GFX_Rectangle.h"
-#include "sdl.h"
+#include "SDL.h"
 #include "WIN_Slider.h"
 #include "WIN_UIelement.h"
 
@@ -10,8 +10,8 @@ namespace win
 	class Slider : public UIelement
 	{
 	public:
-		Slider() = default;
-		Slider(SDL_Renderer* renderer, gfx::Rectangle rect, const char* name, gfx::Colour fillColour, gfx::Colour outlineColour, int const initialPos, int const slideMin, int const slideMax);
+		Slider() = delete;
+		Slider(SDL_Renderer* renderer, gfx::Rectangle rect, const char* name, gfx::Colour fillColour, gfx::Colour outlineColour, int initialPos, int slideMin, int slideMax);
 		virtual ~Slider() = default;
 		Slider(Slider const& that) = default;
 		Slider(Slider && that) = default;
@@ -27,7 +27,7 @@ namespace win
 		void holdOn() { holdMarker_ = true; }
 		void holdOff() { holdMarker_ = false; }
 
-		void positionFromValue(int const val);
+		void positionFromValue(int val);
 		int valueFromPosition() const;
 
 		void moveMarker();

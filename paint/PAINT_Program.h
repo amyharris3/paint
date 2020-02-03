@@ -42,7 +42,7 @@ namespace paint
 
 
 		void initialize(SDL_Renderer* renderer);
-		void run();
+		void run() const;
 
 	
 	};

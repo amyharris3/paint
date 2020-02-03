@@ -42,8 +42,8 @@ namespace paint
 		void update() override;
 		void updateAndRerender() override;
 		void draw() override;
-		bool mouseButtonDown(win::MouseButton const button) override;
-		bool mouseButtonUp(win::MouseButton const button) override;
+		bool mouseButtonDown(win::MouseButton button) override;
+		bool mouseButtonUp(win::MouseButton button) override;
 		
 	private:
 

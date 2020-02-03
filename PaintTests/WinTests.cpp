@@ -19,7 +19,7 @@ namespace PaintTests
 
 		TEST_METHOD(TestDefaultConstructionInvariant)
 		{
-			TestElement element;
+			const TestElement element;
 			
 			Assert::AreEqual(element.getName(), "dummy");
 			
@@ -61,7 +61,7 @@ namespace PaintTests
 			Assert::AreEqual(rgbaBack[2], uint8_t(252));
 			Assert::AreEqual(rgbaBack[3], uint8_t(253));
 			
-			element.swapColours();
+			element.swapFgBgColours();
 
 			element.getForegroundColour(rgbaFore);
 			Assert::AreEqual(rgbaFore[0], uint8_t(250));
@@ -83,11 +83,11 @@ namespace PaintTests
 	public:
 		TEST_METHOD(TestDefaultConstructionTableLayout)
 		{
-			TableLayout L(5, 10, 3, 6, 1, 2);
-			Assert::AreEqual(L.getXmargin(), 5);
-			Assert::AreEqual(L.getYmargin(), 10);
-			Assert::AreEqual(L.getXspacing(), 3);
-			Assert::AreEqual(L.getYspacing(), 6);
+			const TableLayout L(5, 10, 3, 6, 1, 2);
+			Assert::AreEqual(L.getXMargin(), 5);
+			Assert::AreEqual(L.getYMargin(), 10);
+			Assert::AreEqual(L.getXSpacing(), 3);
+			Assert::AreEqual(L.getYSpacing(), 6);
 			Assert::AreEqual(L.getRows(), 1);
 			Assert::AreEqual(L.getCols(), 2);
 		}
@@ -133,7 +133,7 @@ namespace PaintTests
 			TableLayout L(1, 2, 0, 0, 1, 1);
 			const gfx::Rectangle boundary(0, 0, 10, 10);
 
-			std::vector<std::shared_ptr<UIelement>> elements;
+			const std::vector<std::shared_ptr<UIelement>> elements;
 
 			L.Apply(elements, boundary);
 		}
@@ -145,7 +145,7 @@ namespace PaintTests
 			const gfx::Rectangle boundary(0, 0, 10, 10);
 
 			std::vector<std::shared_ptr<UIelement>> elements;
-			auto element = std::make_shared<TestElement>();
+			const auto element = std::make_shared<TestElement>();
 			elements.push_back(element);
 
 			L.Apply(elements, boundary);
@@ -171,16 +171,16 @@ namespace PaintTests
 
 			L.Apply(elements, boundary);
 
-			int xcount = 0;
+			int xCount = 0;
 			for (const auto& element : elements) {
 				const auto& box = element->getRect();
-				Assert::AreEqual(box.x, 1 + (5 * xcount));
+				Assert::AreEqual(box.x, 1 + (5 * xCount));
 				Assert::AreEqual(box.y, 2);
 				Assert::AreEqual(box.width, 4);
 				Assert::AreEqual(box.height, 6);
 				Assert::IsTrue(boundary.containsPoint(box.x, box.y));
 
-				xcount++;
+				xCount++;
 			}
 		}
 

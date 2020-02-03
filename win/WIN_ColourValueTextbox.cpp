@@ -25,7 +25,6 @@ void ColourValueTextbox::valueChangedByTextEntry()
 
 void ColourValueTextbox::valueChangedExternally()
 {
-	printf("box linked var %s\n", std::to_string(*linkedVariable_).c_str());
 	editText(std::to_string(*linkedVariable_).c_str());
 	
 	draw();
@@ -44,7 +43,7 @@ bool ColourValueTextbox::filterNumerical(const char c[])
 	}
 }
 
-void ColourValueTextbox::editTextAndRerender(std::string newString)
+void ColourValueTextbox::editTextAndRerender(std::string & newString)
 {
 	if (std::stoi(newString) < 0) {
 		newString = "0";

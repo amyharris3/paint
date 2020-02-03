@@ -10,7 +10,7 @@ Colour::Colour(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
 {
 }
 
-void Colour::getComponents(uint8_t rgba[])
+void Colour::getComponents(uint8_t rgba[]) const
 {
 	rgba[0] = r_;
 	rgba[1] = g_;

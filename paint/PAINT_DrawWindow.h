@@ -33,33 +33,12 @@ namespace paint
 
 	};
 
-	class Colour;
 	class Tool;
 	class Brush;
 
 	class DrawWindow final :
 		public win::Window
 	{
-	private:
-		// TODO What sort of pointer?
-		Tool * activeTool_;
-		Brush * activeBrush_;
-		//const char* name_;
-		gfx::Colour primaryColour_;
-		gfx::Colour secondaryColour_;
-		std::vector<Coords> clickedPixels_;  
-		//SDL_Surface* surface_;
-		SDL_Renderer* renderer_;
-		SDL_Texture* texture_;
-		bool drawToggle_;
-		Coords mouseCoords_;
-		Coords prevMouseCoords_;
-		std::vector<Line> lines_;
-
-		//whenever the active colour is changed this should be updated
-		uint8_t drawRGBA_[4];
-		uint8_t primaryRGBA_[4];
-		uint8_t secondaryRGBA_[4];
 
 	public:
 		DrawWindow() = delete;
@@ -112,5 +91,27 @@ namespace paint
 		void draw() override;
 		void toggleDraw();
 		void clearScreen() const;
+
+	private:
+		// TODO What sort of pointer?
+		Tool* activeTool_;
+		Brush* activeBrush_;
+		//const char* name_;
+		gfx::Colour primaryColour_;
+		gfx::Colour secondaryColour_;
+		std::vector<Coords> clickedPixels_;
+		//SDL_Surface* surface_;
+		SDL_Renderer* renderer_;
+		SDL_Texture* texture_;
+		bool drawToggle_;
+		Coords mouseCoords_;
+		Coords prevMouseCoords_;
+		std::vector<Line> lines_;
+
+		//whenever the active colour is changed this should be updated
+		uint8_t drawRGBA_[4];
+		uint8_t primaryRGBA_[4];
+		uint8_t secondaryRGBA_[4];
+
 	};
 }

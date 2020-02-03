@@ -1,6 +1,5 @@
 #include "WIN_EditTextbox.h"
 #include "SDL.h"
-#include "SDL_ttf.h"
 
 using namespace win;
 
@@ -20,12 +19,12 @@ void EditTextbox::click()
 	isClicked_ = !isClicked_;
 }
 
-void EditTextbox::editText(const char* newText)
+void EditTextbox::editText(const char* newText) const
 {
 	text_->changeString(newText);
 }
 
-void EditTextbox::editTextAndRerender(std::string const newString)
+void EditTextbox::editTextAndRerender(std::string & newString)
 {
 	//filters and checks on the input here
 	

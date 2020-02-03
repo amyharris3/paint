@@ -11,7 +11,7 @@ ColourSlider::ColourSlider(SDL_Renderer* renderer, gfx::Rectangle rect, const ch
 	positionFromValue(*linkedVariable_);
 }
 
-void ColourSlider::valueChangedByMovement()
+void ColourSlider::valueChangedByMovement() const
 {
 	*linkedVariable_ = valueFromPosition();
 }

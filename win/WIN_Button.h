@@ -1,6 +1,5 @@
 #pragma once
 #include "WIN_UIelement.h"
-#include <string>
 #include <SDL.h>
 
 struct SDL_Texture;
@@ -25,7 +24,7 @@ namespace win
 		public UIelement
 	{
 	public:   
-		Button() = default;
+		Button() = delete;
 		Button(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* name, const char* spritePath, ActionFunction act);
 		virtual ~Button();
 		Button(const Button& that) = default;
@@ -43,14 +42,14 @@ namespace win
 
 	private:
 		ButtonState buttonState_;
-		SDL_Texture* texture_;
 		SDL_Renderer* renderer_;
+		SDL_Texture* texture_;
 		gfx::Rectangle rect_;
 		SDL_Rect spriteClips_[4];
 		SDL_Rect* activeClip_;
 		bool clicked_;
 
-		SDL_Texture* loadSprite(const char* path);
+		SDL_Texture* loadSprite(const char* path) const;
 		void handleSpriteSheet();
 	};
 }

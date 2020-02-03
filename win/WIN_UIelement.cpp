@@ -1,6 +1,5 @@
 #include "WIN_UIelement.h"
 #include <iostream>
-#include <SDL.h>
 #include "WIN_Container.h"
 
 using namespace win;
@@ -25,12 +24,12 @@ void UIelement::setBackgroundColour(gfx::Colour const bgColour)
 	backgroundColour_ = bgColour;
 }
 
-void UIelement::getForegroundColour(uint8_t rgba[])
+void UIelement::getForegroundColour(uint8_t rgba[]) const
 {
 	foregroundColour_.getComponents(rgba);
 }
 
-void UIelement::getBackgroundColour(uint8_t rgba[])
+void UIelement::getBackgroundColour(uint8_t rgba[]) const
 {
 	backgroundColour_.getComponents(rgba);
 }

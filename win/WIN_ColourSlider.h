@@ -6,7 +6,7 @@ namespace win
 	class ColourSlider : public Slider
 	{
 	public:
-		ColourSlider() = default;
+		ColourSlider() = delete;
 		ColourSlider(SDL_Renderer * renderer, gfx::Rectangle rect, const char* name, gfx::Colour fillColour, gfx::Colour outlineColour, uint8_t* linkedVariable);
 		virtual ~ColourSlider() = default;
 		ColourSlider(ColourSlider const& that) = default;
@@ -14,7 +14,7 @@ namespace win
 		ColourSlider& operator=(ColourSlider const& that) = default;
 		ColourSlider& operator=(ColourSlider && that) = default;
 
-		void valueChangedByMovement();
+		void valueChangedByMovement() const;
 		void valueChangedExternally();
 
 		bool mouseMove() override;

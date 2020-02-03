@@ -6,17 +6,18 @@
 
 using namespace win;
 
-Button::Button(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* name, const char* spritePath, ActionFunction act)
+Button::Button(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* name, const char* spritePath, const ActionFunction act)
 	: UIelement(rect, name)
 	, action(act)
+	, buttonState_(ButtonState::BUTTON_SPRITE_MOUSE_OUT)
+	, renderer_(renderer)
+	//texture_ = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, rect.width, rect.height)
+	, texture_ (loadSprite(spritePath))
+	, rect_(rect)
+	, clicked_(false)
 {
-	renderer_ = renderer;
-	//texture_ = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, rect.width, rect.height);
-	rect_ = rect;
-	texture_ = loadSprite(spritePath);
 	handleSpriteSheet();
 	activeClip_ = &(spriteClips_[1]);
-	clicked_ = false;
 }
 
 Button::~Button()
@@ -87,7 +88,7 @@ bool Button::mouseButtonUp(MouseButton b)
 }
 
 
-SDL_Texture* Button::loadSprite(const char* path)
+SDL_Texture* Button::loadSprite(const char* path) const
 {
 	//The final texture
 	SDL_Texture* newTexture = nullptr;

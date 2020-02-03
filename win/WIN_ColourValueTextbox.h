@@ -9,7 +9,7 @@ namespace win
 	{
 	public:
 		ColourValueTextbox() = delete;
-		ColourValueTextbox(gfx::Rectangle rect, const char* name, SDL_Renderer* renderer, int const textSize, int const xOffset, int const yOffset, uint8_t* linkedVariable);
+		ColourValueTextbox(gfx::Rectangle rect, const char* name, SDL_Renderer* renderer, int textSize, int xOffset, int yOffset, uint8_t* linkedVariable);
 		~ColourValueTextbox() = default;
 		ColourValueTextbox(const ColourValueTextbox& that) = default;
 		ColourValueTextbox(ColourValueTextbox&& that) = default;
@@ -21,10 +21,10 @@ namespace win
 		void valueChangedExternally(); //TODO
 
 		static bool filterNumerical(const char c[]);
-		void editTextAndRerender(std::string newString) override;
+		void editTextAndRerender(std::string & newString) override;
 		void takeTextEntry() override;
 
-		bool mouseButtonUp(win::MouseButton const button) override;
+		bool mouseButtonUp(win::MouseButton button) override;
 
 	private:
 

@@ -10,18 +10,18 @@ namespace win
 		public Layout
 	{
 	private:
-		int xmargin_;
-		int ymargin_;
+		int xMargin_;
+		int yMargin_;
 
-		int xspacing_;
-		int yspacing_;
+		int xSpacing_;
+		int ySpacing_;
 
 		int rows_;
 		int cols_;
 
 	public:
 		//TableLayout() = default;
-		explicit TableLayout(const int xmargin = 0, const int ymargin = 0, const int xspacing = 0, const int yspacing = 0, int rows = 1, int cols = 1);
+		explicit TableLayout(int xMargin = 0, int yMargin = 0, int xSpacing = 0, int yspacing = 0, int rows = 1, int cols = 1);
 		virtual ~TableLayout() = default;
 		TableLayout(TableLayout const& that) = default;
 		TableLayout(TableLayout && that) = default;
@@ -31,10 +31,10 @@ namespace win
 		void setRows(int rows);
 		void setCols(int cols);
 		
-		int getXmargin() const { return xmargin_; }
-		int getYmargin() const { return ymargin_; }
-		int getXspacing() const { return xspacing_; }
-		int getYspacing() const { return yspacing_; }
+		int getXMargin() const { return xMargin_; }
+		int getYMargin() const { return yMargin_; }
+		int getXSpacing() const { return xSpacing_; }
+		int getYSpacing() const { return ySpacing_; }
 		int getRows() const { return rows_; }
 		int getCols() const { return cols_; }
 

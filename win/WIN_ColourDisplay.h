@@ -1,7 +1,6 @@
 #pragma once
 #include "WIN_UIelement.h"
 #include <SDL.h>
-#include <memory>
 
 struct SDL_Texture;
 struct SDL_Renderer;
@@ -31,13 +30,13 @@ namespace win
 		void setActive();
 		void setInactive();
 		void swapIsActive();
-		void setOutlineColour(const gfx::Colour outlineColour);
+		void setOutlineColour(gfx::Colour outlineColour);
 		void setClickFalse() { isClicked_ = false; }
 
 		void update() override;
 		void draw() override;
 		bool mouseExit() override;
-		bool mouseButtonDown(win::MouseButton const button) override;
+		bool mouseButtonDown(win::MouseButton button) override;
 		bool mouseButtonUp(MouseButton button) override;
 
 	private:

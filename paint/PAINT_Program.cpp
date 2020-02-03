@@ -1,16 +1,13 @@
 #include "PAINT_Program.h"
 #include "PAINT_DrawWindow.h"
 #include "PAINT_ToolWindow.h"
-#include "PAINT_StatusBarWindow.h"
 #include "PAINT_Screen.h"
-#include "WIN_Button.h"
 #include "WIN_Mouse.h"
 #include <cassert>
 #include <SDL.h>
 #include <iostream>
 #include <memory>
 #include "PAINT_ColourPicker.h"
-#include "WIN_EditTextbox.h"
 
 
 using namespace paint;
@@ -24,7 +21,7 @@ static std::shared_ptr<UIelement> GetTopmostElement(const UIelementVector& child
 	for (const auto& child : children) {
 		const auto& rect = child->getRect();
 		if (rect.containsPoint(x, y)) {
-			if (auto childContainer = std::dynamic_pointer_cast<Container>(child)) {
+			if (const auto childContainer = std::dynamic_pointer_cast<Container>(child)) {
 				// The child is a container.
 				if (!childContainer->getChildren().empty()) {
 					// The container has children.
@@ -58,7 +55,7 @@ void Program::initialize(SDL_Renderer* renderer)
 	
 }
 
-void Program::run()
+void Program::run() const
 {
 	SDL_Event e;
 	bool quit = false;
@@ -70,12 +67,12 @@ void Program::run()
 	auto children = screen_->getChildren();
 	auto toolChildren = screen_->getToolWindow()->getChildren();
 	auto drawWindow = screen_->getDrawWindow();
-	
 
-	bool clicked = false;
+
+	auto clicked = false;
 
 	// if a method causes a change in the visual representation of the program, returns 'true' and calls to rerender the relevant section, else have the method return 'false'
-	bool rerender = false;
+	auto rerender = false;
 
 	//While application is running
 	std::shared_ptr<UIelement> activeElement = nullptr;

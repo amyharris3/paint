@@ -1,7 +1,6 @@
 #pragma once
 #include "WIN_UIelement.h"
 #include "SDL.h"
-#include "SDL_ttf.h"
 #include <string>
 #include <memory>
 #include "GFX_Text.h"
@@ -14,7 +13,7 @@ namespace win
 	{
 	public:
 		EditTextbox() = delete;
-		EditTextbox(gfx::Rectangle rect, const char* name, SDL_Renderer* renderer, int const textSize, int const xOffset, int const yOffset);
+		EditTextbox(gfx::Rectangle rect, const char* name, SDL_Renderer* renderer, int textSize, int xOffset, int yOffset);
 		~EditTextbox() = default;
 		EditTextbox(const EditTextbox & that) = default;
 		EditTextbox(EditTextbox && that) = default;
@@ -26,13 +25,13 @@ namespace win
 		bool getClick() const { return isClicked_; }
 		void click();
 
-		void editText(const char* newText);
-		virtual void editTextAndRerender(std::string newString);
+		void editText(const char* newText) const;
+		virtual void editTextAndRerender(std::string & newString);
 		virtual void takeTextEntry();
 		
 		void draw() override;
-		bool mouseButtonDown(win::MouseButton const button) override;
-		bool mouseButtonUp(win::MouseButton const button) override;
+		bool mouseButtonDown(win::MouseButton button) override;
+		bool mouseButtonUp(win::MouseButton button) override;
 		
 	private:
 

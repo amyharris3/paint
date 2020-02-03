@@ -2,7 +2,6 @@
 #include "../SDL/include/SDL.h"
 #include "CppUnitTest.h"
 #include "../paint/PAINT_DrawWindow.h"
-#include <memory>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace gfx;

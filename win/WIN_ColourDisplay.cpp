@@ -90,7 +90,7 @@ bool ColourDisplay::mouseButtonDown(win::MouseButton const button)
 bool ColourDisplay::mouseButtonUp(win::MouseButton const button)
 {
 	if (isClicked_) {
-		auto cpick = paint::utils::findToolWindow(this)->getColourPicker();
+		const auto cpick = paint::utils::findToolWindow(this)->getColourPicker();
 		cpick->swapActiveColour();
 		isClicked_ = false;
 	}

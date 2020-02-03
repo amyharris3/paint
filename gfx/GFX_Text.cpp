@@ -6,10 +6,13 @@ using namespace gfx;
 
 Text::Text()
 	: textString_("")
-	, textFont_(nullptr)
+	, renderer_(nullptr)
 	, textSize_(12)
+	, textFont_(nullptr)
 	, textTex_(nullptr)
 	, textColour_({ 0, 0, 0, 255 })
+	, textWidth_(0)
+	, textHeight_(0)
 {
 }
 
@@ -21,10 +24,12 @@ Text::Text(SDL_Renderer* renderer, Colour textColour, const char* fontName, int 
 Text::Text(SDL_Renderer* renderer, Colour textColour, const char* fontName, int const textSize, const char* textString)
 	: textString_(textString)
 	, renderer_(renderer)
-	, textFont_(TTF_OpenFont(fontName, textSize))
 	, textSize_(textSize)
+	, textFont_(TTF_OpenFont(fontName, textSize_))
 	, textTex_(nullptr)
 	, textColour_({ textColour.getRed(), textColour.getGreen(), textColour.getBlue(), textColour.getAlpha() })
+	, textWidth_(0)
+	, textHeight_(0)
 {
 	SDL_Surface* textSurface = TTF_RenderText_Solid(textFont_, textString_.c_str(), textColour_);
 	if (textSurface == nullptr) {

@@ -42,7 +42,7 @@ void paint::swapColours(win::Button* button)
 
 void paint::clearScreen(win::Button* button)
 {
-	auto dw = utils::findDrawWindow(button);
+	const auto dw = utils::findDrawWindow(button);
 	dw->clearScreen();
 }
 

@@ -20,7 +20,7 @@ namespace gfx
 		Colour(Colour&&) = default;
 		Colour& operator=(Colour&&) = default;
 
-		void getComponents(uint8_t rgba[]);
+		void getComponents(uint8_t rgba[]) const;
 		uint8_t getRed() const { return r_; }
 		uint8_t getGreen() const { return g_; }
 		uint8_t getBlue() const { return b_; }
