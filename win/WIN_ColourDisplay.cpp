@@ -4,7 +4,7 @@
 using namespace win;
 
 
-ColourDisplay::ColourDisplay(gfx::Rectangle rect, const char* name, const std::shared_ptr<gfx::Colour> & displayColour, SDL_Renderer* renderer, bool isActive)
+ColourDisplay::ColourDisplay(gfx::Rectangle rect, const char* name, const std::shared_ptr<gfx::Colour> & displayColour, SDL_Renderer* renderer, const bool isActive)
 	: UIelement(rect, name)
 	, displayColour_(displayColour)
 	, renderer_(renderer)
@@ -34,11 +34,6 @@ void ColourDisplay::setActive()
 void ColourDisplay::setInactive()
 {
 	this->setBackgroundColour(gfx::Colour(200, 200, 200, 200));
-}
-
-void ColourDisplay::setOutlineColour(const gfx::Colour outlineColour)
-{
-	//this->setBackgroundColour(outlineColour);
 }
 
 /* override */

@@ -17,14 +17,12 @@ namespace win
 		ButtonGroup& operator=(const ButtonGroup& that) = default;
 		ButtonGroup& operator=(ButtonGroup&& that) = default;
 
-		void addButtonChild(std::shared_ptr<ToggleButton> const& child);
-		std::vector<std::shared_ptr<ToggleButton>> getButtonChildren() const { return buttonChildren_; }
-		void turnOffOtherChildren();
-		void setSelectedChild(ToggleButton* child);
+		void addButtonChild(std::weak_ptr<ToggleButton> const& child);
+		const std::vector<std::weak_ptr<ToggleButton>>& getButtonChildren() const { return buttonChildren_; }
+		void setSelectedChildAndTurnOffOthers(ToggleButton* child);
 		
-
 	private:
-		std::vector<std::shared_ptr<ToggleButton>> buttonChildren_;
+		std::vector<std::weak_ptr<ToggleButton>> buttonChildren_;
 		ToggleButton * selectedChild_;
 	};
 

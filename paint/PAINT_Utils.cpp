@@ -12,7 +12,18 @@ using namespace utils;
 DrawWindow * paint::utils::findDrawWindow(UIelement* control)
 {
 	/* Preconditions. */
-	assert(control != nullptr && "null control in findDrawWindow()");
+	try
+	{
+		if (!control)
+		{
+			throw std::runtime_error("Null control in findDrawWindow().");
+		}
+	}
+	catch(std::runtime_error &e)
+	{
+		std::cout << e.what() << '\n';
+		throw;
+	}
 
 	/* Implementation */
 
@@ -24,7 +35,12 @@ DrawWindow * paint::utils::findDrawWindow(UIelement* control)
 	// Are we the screen?
 	const auto parent = control->getParent();
 	if (!parent) {
+#if !defined(NDEBUG)
+		const auto screen = dynamic_cast<Screen*>(control);
+#else
 		const auto screen = static_cast<Screen*>(control);
+#endif
+		assert(screen);
 		return screen->getDrawWindow();
 	}
 	return findDrawWindow(parent);

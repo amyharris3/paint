@@ -14,7 +14,7 @@ namespace paint
 	class Brush;
 	class DrawWindow;
 	
-	class DrawTool :
+	class DrawTool final :
 		public Tool
 	{
 	public:;

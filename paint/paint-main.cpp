@@ -3,6 +3,8 @@
 #include <iostream>
 #include <SDL_image.h>
 
+
+
 using namespace paint;
 static Program s_program;
 

@@ -46,12 +46,16 @@ void UIelement::setRect(const gfx::Rectangle& rect)
 
 void UIelement::mouseEnter()
 {
+	#ifdef VERBOSE
 	std::cout << "The mouse has entered the " << name_ << " UI element. \n";
+	#endif
 }
 
 void UIelement::mouseExit()
 {
+	#ifdef VERBOSE
 	std::cout << "The mouse has left the " << name_ << " UI element. \n";
+	#endif
 }
 
 void UIelement::setParent(UIelement * parent)

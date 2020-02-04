@@ -5,27 +5,24 @@
 using namespace win;
 
 ButtonGroup::ButtonGroup()
+	: selectedChild_(nullptr)
 {
-	selectedChild_ = nullptr;
 }
 
-
-void ButtonGroup::addButtonChild(std::shared_ptr<ToggleButton> const& child)
+void ButtonGroup::addButtonChild(std::weak_ptr<ToggleButton> const& child)
 {
 	buttonChildren_.push_back(child);
 }
 
-void ButtonGroup::turnOffOtherChildren()
-{
-	for (auto child : buttonChildren_) {
-		if (child.get() != selectedChild_) {
-			child->turnOff();
-		}
-	}
-}
-
-void ButtonGroup::setSelectedChild(ToggleButton* child)
+void ButtonGroup::setSelectedChildAndTurnOffOthers(ToggleButton* child)
 {
 	selectedChild_ = child;
+	for (auto aChild : buttonChildren_) {
+		if (auto childSp = aChild.lock()) {
+			if (childSp.get() != selectedChild_) {
+				childSp->turnOff();
+			}
+		}
+	}
 }
 

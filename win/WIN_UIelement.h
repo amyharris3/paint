@@ -39,6 +39,9 @@ namespace win
 		virtual void mouseExit();
 		virtual void mouseButtonDown(MouseButton) {};
 		virtual void mouseButtonUp(MouseButton) {};
+		virtual void earlyExit(MouseButton) {};
+
+		typedef void (*ActionFunction)(UIelement* control);
 
 	private:
 		std::string name_;

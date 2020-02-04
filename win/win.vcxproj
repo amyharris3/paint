@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="WIN_ButtonUtils.cpp" />
+    <ClCompile Include="WIN_SDLUtils.cpp" />
     <ClCompile Include="WIN_ToggleButton.cpp" />
     <ClCompile Include="WIN_ButtonGroup.cpp" />
     <ClCompile Include="WIN_ColourDisplay.cpp" />
@@ -33,7 +33,8 @@
     <ClCompile Include="WIN_Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="WIN_ButtonUtils.h" />
+    <ClInclude Include="WIN_ButtonStates.h" />
+    <ClInclude Include="WIN_SDLUtils.h" />
     <ClInclude Include="WIN_Coords.h" />
     <ClInclude Include="WIN_ToggleButton.h" />
     <ClInclude Include="WIN_ButtonGroup.h" />
@@ -169,7 +170,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -178,6 +179,7 @@
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(SolutionDir)gfx;$(SolutionDir)SDL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

@@ -1,7 +1,6 @@
 #include "WIN_Button.h"
 #include <SDL_image.h>
-#include "WIN_ButtonUtils.h"
-
+#include "WIN_SDLUtils.h"
 
 using namespace win;
 
@@ -11,8 +10,8 @@ Button::Button(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* n
 {
 	renderer_ = renderer;
 	rect_ = rect;
-	texture_ = ButtonUtils::loadSprite(renderer_, spritePath);
-	spriteClips_ = ButtonUtils::handleSpriteSheet(texture_);
+	texture_ = SDLUtils::loadSprite(renderer_, spritePath);
+	spriteClips_ = SDLUtils::handleSpriteSheet(texture_);
 	activeClip_ = &(spriteClips_[1]);
 	clicked_ = false;
 }
@@ -41,9 +40,7 @@ void Button::mouseEnter()
 /* override */
 void Button::mouseExit()
 {
-
 	activeClip_ = &(spriteClips_[1]);
-
 }
 
 /* override */

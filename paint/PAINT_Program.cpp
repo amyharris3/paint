@@ -6,7 +6,6 @@
 #include "WIN_Mouse.h"
 #include <cassert>
 #include <SDL.h>
-#include <iostream>
 #include <memory>
 
 using namespace paint;
@@ -27,7 +26,7 @@ static std::shared_ptr<UIelement> GetTopmostElement(const UIelementVector& child
 	for (const auto& child : children) {
 		const auto& rect = child->getRect();
 		if (rect.containsPoint(x, y)) {
-			if (auto childContainer = std::dynamic_pointer_cast<Container>(child)) {
+			if (const auto childContainer = std::dynamic_pointer_cast<Container>(child)) {
 				// The child is a container.
 				if (!childContainer->getChildren().empty()) {
 					// The container has children.
@@ -52,7 +51,7 @@ void Program::initialize(SDL_Renderer* renderer)
 	screen_ = std::make_shared<Screen>(renderer, screenRect, "Screen");
 }
 
-void Program::run()
+void Program::run() const
 {
 	SDL_Event e;
 	bool quit = false;
@@ -66,6 +65,10 @@ void Program::run()
 	auto drawWindow = screen_->getDrawWindow();
 	
 	bool clicked = false;
+
+	MouseButton button;
+
+	
 
 	//While application is running
 	std::shared_ptr<UIelement> activeElement = nullptr;
@@ -97,7 +100,8 @@ void Program::run()
 				}
 			}
 
-			MouseButton button = MouseButton::Left;
+			// If mouse is clicked
+
 			if (e.type == SDL_MOUSEBUTTONDOWN) {
 
 				clicked = true;

@@ -7,18 +7,18 @@
 namespace win
 {
 	class ToggleButton;
-	typedef void (*ToggleActionFunction)(ToggleButton* button);
 	class ButtonGroup;
+	enum class ButtonStates;
 	
 	class ToggleButton final :
 		public UIelement
 	{
 	public:
-		ToggleActionFunction action;
+		ActionFunction action;
 		enum states { off, on };
 		
 		ToggleButton() = delete;
-		ToggleButton(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* name, const char* spritePath, ToggleActionFunction act);
+		ToggleButton(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* name, const char* spritePath, ActionFunction act);
 		virtual ~ToggleButton();
 		ToggleButton(const ToggleButton& that) = default;
 		ToggleButton(ToggleButton&& that) = default;
@@ -34,7 +34,7 @@ namespace win
 
 		void setButtonGroup(std::shared_ptr<ButtonGroup> buttonGroup);
 		void turnOff();
-		states getState() const { return state_; }
+		ButtonStates getState() const { return state_; }
 		void setActivated(bool activated);
 
 	private:
@@ -45,7 +45,7 @@ namespace win
 		SDL_Rect* activeClip_;
 		std::shared_ptr<ButtonGroup> buttonGroup_;
 
-		states state_;
+		ButtonStates state_;
 		bool activated_;
 	};
 

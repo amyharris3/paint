@@ -107,6 +107,7 @@
       <TreatWarningAsError>false</TreatWarningAsError>
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
+      <PreprocessorDefinitions>VERBOSE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -146,15 +147,22 @@ xcopy /q /y /s $(SolutionDir)SDL\lib\win64\SDL2_gfx.dll $(OutDir)</Command>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)gfx;$(SolutionDir)SDL\include;$(SolutionDir)SDL2_ttf-2.0.15\include;%(AdditionalIncludeDirectories);$(SolutionDir)win</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)gfx;$(SolutionDir)SDL\include;$(SolutionDir)win;$(SolutionDir)SDL2_ttf-2.0.15\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)SDL\lib\win64;$(SolutionDir)SDL2_ttf-2.0.15\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib, SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_gfx.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /q /y /s $(SolutionDir)SDL\lib\win64\SDL2main.dll $(OutDir)
+xcopy /q /y /s $(SolutionDir)SDL\lib\win64\SDL2.dll $(OutDir)
+xcopy /q /y /s $(SolutionDir)SDL\lib\win64\SDL2_image.dll $(OutDir)
+xcopy /q /y /s $(SolutionDir)SDL\lib\win64\SDL2_gfx.dll $(OutDir)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="PAINT_ButtonFunctions.cpp" />

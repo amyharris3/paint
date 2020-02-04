@@ -5,6 +5,7 @@
 #include <memory>
 #include "../paint/PAINT_Brush.h"
 #include "../paint/PAINT_Brush.cpp"
+#include "WIN_Button.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace gfx;
@@ -42,36 +43,45 @@ namespace PaintTests
 
 		TEST_METHOD(TestConstructionInvariant)
 		{
-			const Brush brush(7);
+			const Brush brush(1);
 			//Assert::AreEqual(brush.getThickness(), 7);
 		}
 
 		TEST_METHOD(TestCopyConstruction)
 		{
-			const Brush a(7);
+			const Brush a(2);
 			const Brush b(a);
-			Assert::AreEqual(b.getThickness(), 7);
+			Assert::AreEqual(b.getThickness(), 2);
 		}
 
 		TEST_METHOD(TestAssignmentOperator)
 		{
-			const Brush a(7);
+			const Brush a(1);
 			const Brush b = a;
-			Assert::AreEqual(b.getThickness(), 7);
+			Assert::AreEqual(b.getThickness(), 1);
 		}
 
 		TEST_METHOD(TestSetThickness)
 		{
-			Brush a(7);
-			a.setThickness(5);
-			Assert::AreEqual(a.getThickness(), 7);
+			Brush a(0);
+			a.setThickness(2);
+			Assert::AreEqual(a.getThickness(), 2);
 		}
 
 		TEST_METHOD(TestGetThickness)
 		{
-			const Brush a(7);
+			const Brush a(0);
 			const auto thickness = a.getThickness();
-			Assert::AreEqual(thickness, 7);
+			Assert::AreEqual(thickness, 0);
+		}
+
+		TEST_METHOD(TestChangingThicknessOutOfBounds)
+		{
+			Assert::ExpectException<std::runtime_error>(
+				[]() {
+					Brush a(0);
+					a.setThickness(-3);
+				});
 		}
 
 	};

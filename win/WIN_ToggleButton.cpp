@@ -1,21 +1,22 @@
 #include "WIN_ToggleButton.h"
-#include "WIN_ButtonUtils.h"
+#include "WIN_SDLUtils.h"
 #include "WIN_ButtonGroup.h"
 #include <cassert>
+#include "WIN_ButtonStates.h"
 
 using namespace win;
 
-ToggleButton::ToggleButton(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* name, const char* spritePath, ToggleActionFunction const act)
+ToggleButton::ToggleButton(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* name, const char* spritePath, ActionFunction const act)
 	: UIelement(rect, name)
 	, action(act)
 	, renderer_(renderer)
 	, rect_(rect)
 	, buttonGroup_(nullptr)
-	, state_(off)
+	, state_(ButtonStates::off)
 	, activated_(true)
 {
-	texture_ = ButtonUtils::loadSprite(renderer_, spritePath);
-	spriteClips_ = ButtonUtils::handleSpriteSheet(texture_);
+	texture_ = SDLUtils::loadSprite(renderer_, spritePath);
+	spriteClips_ = SDLUtils::handleSpriteSheet(texture_);
 	activeClip_ = &(spriteClips_[1]);
 }
 
@@ -38,17 +39,16 @@ void ToggleButton::draw()
 void ToggleButton::mouseEnter()
 {
 	if (activated_){
-		if (state_ == on) {
+		if (state_ == ButtonStates::on) {
 			activeClip_ = &(spriteClips_[2]);
 		}
-		else if (state_ == off) {
+		else if (state_ == ButtonStates::off) {
 			activeClip_ = &(spriteClips_[0]);
 		}
 		else {
-			assert((state_ == on) | (state_ == off));
+			assert(!"Invalid state");
 		}
 	}
-
 }
 
 /* override */
@@ -56,17 +56,16 @@ void ToggleButton::mouseExit()
 {
 	if (activated_)
 	{
-		if (state_ == on) {
+		if (state_ == ButtonStates::on) {
 			activeClip_ = &(spriteClips_[2]);
 		}
-		else if (state_ == off) {
+		else if (state_ == ButtonStates::off) {
 			activeClip_ = &(spriteClips_[1]);
 		}
 		else {
-			assert((state_ == on) | (state_ == off));
+			assert(!"Invalid state");
 		}
 	}
-
 }
 
 /* override */
@@ -76,7 +75,6 @@ void ToggleButton::mouseButtonDown(MouseButton b)
 	{
 		activeClip_ = &(spriteClips_[2]);
 	}
-
 }
 
 /* override */
@@ -85,36 +83,33 @@ void ToggleButton::mouseButtonUp(MouseButton b)
 	if (activated_)
 	{
 		// set the state of click
-		if (state_ == on) {
-			state_ = off;
+		if (state_ == ButtonStates::on) {
+			state_ = ButtonStates::off;
 		}
-		else if (state_ == off) {
-			state_ = on;
+		else if (state_ == ButtonStates::off) {
+			state_ = ButtonStates::on;
 		}
 		else {
-			assert((state_ == on) | (state_ == off));
+			assert(!"Invalid state");
 		}
 
-		if (state_ == on) {
+		if (state_ == ButtonStates::on) {
 			activeClip_ = &(spriteClips_[2]);
 			if (buttonGroup_) {
-				buttonGroup_->setSelectedChild(this);
-				buttonGroup_->turnOffOtherChildren();
+				buttonGroup_->setSelectedChildAndTurnOffOthers(this);
 			}
 		}
-		else if (state_ == off) {
+		else if (state_ == ButtonStates::off) {
 			activeClip_ = &(spriteClips_[0]);
 		}
 		else {
-			assert((state_ == on) | (state_ == off));
+			assert(!"Invalid state");
 		}
 
 		if (action) {
 			action(this);
 		}
 	}
-
-
 }
 
 void ToggleButton::setButtonGroup(std::shared_ptr<ButtonGroup> buttonGroup)
@@ -124,7 +119,7 @@ void ToggleButton::setButtonGroup(std::shared_ptr<ButtonGroup> buttonGroup)
 
 void ToggleButton::turnOff()
 {
-	state_ = off;
+	state_ = ButtonStates::off;
 	activeClip_ = &(spriteClips_[1]);
 	if (action) {
 		action(this);

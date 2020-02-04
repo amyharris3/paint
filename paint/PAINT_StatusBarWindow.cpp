@@ -6,7 +6,3 @@ StatusBarWindow::StatusBarWindow(SDL_Renderer* renderer, gfx::Rectangle const& r
 	: Window(renderer, rect, name)
 {
 }
-
-//void StatusBarWindow::displayMouseCoords(int xMouse, int yMouse)
-//{
-//}

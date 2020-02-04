@@ -3,15 +3,16 @@
 namespace win {
 	class Button;
 	class ToggleButton;
+	class UIelement;
 }
 
 namespace paint {
 
-	void myAction(win::Button* button);
-	void toggleDraw(win::ToggleButton* button);
-	void setBrushThickness0(win::ToggleButton* button);
-	void setBrushThickness1(win::ToggleButton* button);
-	void setBrushThickness2(win::ToggleButton* button);
+	void toggleDraw(win::UIelement* control);
+	static void setBrushThickness(win::UIelement* control, int thick);
+	void setBrushThickness0(win::UIelement* control);
+	void setBrushThickness1(win::UIelement* control);
+	void setBrushThickness2(win::UIelement* control);
 }
 
  

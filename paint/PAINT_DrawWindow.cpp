@@ -1,10 +1,10 @@
 #include "PAINT_DrawWindow.h"
 #include <SDL.h>
-#include "PAINT_Brush.h"
 #include "WIN_Mouse.h"
 #include "PAINT_DrawTool.h"
 #include <WIN_ToggleButton.h>
 #include "WIN_Coords.h"
+#include "WIN_ButtonStates.h"
 
 using namespace paint;
 using namespace win;
@@ -33,8 +33,8 @@ DrawWindow::~DrawWindow()
 /*override*/
 void DrawWindow::mouseButtonDown(MouseButton const b)
 {	
-	const win::Coords rel = { mouseCoords_.x - this->getRect().x, mouseCoords_.y - this->getRect().y };
-	const win::Coords prevRel = { prevMouseCoords_.x - this->getRect().x, prevMouseCoords_.y - this->getRect().y };
+	const Coords rel = { mouseCoords_.x - this->getRect().x, mouseCoords_.y - this->getRect().y };
+	const Coords prevRel = { prevMouseCoords_.x - this->getRect().x, prevMouseCoords_.y - this->getRect().y };
 	
 	if (b == MouseButton::Left) {
 		if (activeTool_)
@@ -55,6 +55,7 @@ void DrawWindow::mouseButtonUp(win::MouseButton const b)
 	}
 }
 
+
 void DrawWindow::setActiveTool(std::shared_ptr<Tool> tool)
 {
 	activeTool_ = tool;
@@ -62,30 +63,30 @@ void DrawWindow::setActiveTool(std::shared_ptr<Tool> tool)
 
 void DrawWindow::toggleDrawTool(win::ToggleButton* b)
 {
-	if (b->getState() == ToggleButton::on) {
+	if (b->getState() == ButtonStates::on) {
 		activeTool_ = drawTool_;
 	}
-	else if (b->getState() == ToggleButton::off) {
+	else if (b->getState() == ButtonStates::off) {
 		activeTool_ = nullptr;
 	}
 }
 
-void DrawWindow::setMouseCoords(win::Coords relCoords)
+void DrawWindow::setMouseCoords(const win::Coords relCoords)
 {
 	mouseCoords_ = relCoords;
 }
 
-void DrawWindow::setPrevCoords(win::Coords relPrevCoords)
+void DrawWindow::setPrevCoords(const win::Coords relPrevCoords)
 {
 	prevMouseCoords_ = relPrevCoords;
 }
 
-void DrawWindow::setPrimaryColour(gfx::Colour colour)
+void DrawWindow::setPrimaryColour(const gfx::Colour colour)
 {
 	primaryColour_ = colour;
 }
 
-void DrawWindow::setSecondaryColour(gfx::Colour colour)
+void DrawWindow::setSecondaryColour(const gfx::Colour colour)
 {
 	secondaryColour_ = colour;
 }

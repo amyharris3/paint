@@ -11,7 +11,6 @@ namespace win
 {
 
 	class Button;
-	typedef void (*ActionFunction)(Button * button);
 	
 	class Button final:
 		public UIelement

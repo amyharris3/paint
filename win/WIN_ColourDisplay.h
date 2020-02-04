@@ -20,7 +20,6 @@ namespace win
 		void updateColour();
 		void setActive();
 		void setInactive();
-		void setOutlineColour(gfx::Colour outlineColour);
 		
 		void draw() override;
 

@@ -22,7 +22,7 @@ namespace paint
 		Program& operator=(Program&& that) = default;
 
 		void initialize(SDL_Renderer* renderer);
-		void run();
+		void run() const;
 
 	private:
 		std::shared_ptr<Screen> screen_;

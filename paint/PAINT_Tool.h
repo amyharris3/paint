@@ -1,23 +1,12 @@
 #pragma once
 #include <iostream>
 #include <vector>
-
-namespace win
-{
-	struct Coords;
-}
+#include "GFX_Line.h"
+#include "WIN_Coords.h"
 
 namespace paint
 {
 	class Brush;
-	struct Line
-	{
-		int x1;
-		int y1;
-		int x2;
-		int y2;
-
-	};
 	class Tool
 	{
 	public:
@@ -30,11 +19,11 @@ namespace paint
 
 		void setActiveBrush(std::shared_ptr<Brush> brush);
 		void clearLines();
-		virtual void toolFunction(win::Coords mouseCoords, win::Coords prevMouseCoords) = 0;
+		virtual void toolFunction(win::Coords relCoords, win::Coords prevRelCoords) = 0;
 		std::shared_ptr<Brush> getActiveBrush() const {return activeBrush_;}
-		
+
 	protected:
-		std::vector<Line> lines_;
+		std::vector<gfx::Line> lines_;
 		std::shared_ptr<Brush> activeBrush_;
 		
 	};
