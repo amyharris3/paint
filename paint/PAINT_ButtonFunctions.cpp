@@ -34,10 +34,12 @@ void paint::swapColours(win::Button* button)
 	auto dw = utils::findDrawWindow(button);
 	dw->swapPrimarySecondaryColours();
 	auto cpick = paint::utils::findToolWindow(button)->getColourPicker();
-	cpick->swapDisplaysSwitch();
+	cpick->swappedDisplaysSwitch();
 	cpick->updateColourDisplaysFromDrawWindow();
-	cpick->setDrawColourFromActive();
-	cpick->updateAndRerender();
+	cpick->setActiveColourInDrawWindow();
+	cpick->leftActiveSwitchInBoxSlider();
+	//cpick->updateAndRerender();
+	cpick->update();
 }
 
 void paint::clearScreen(win::Button* button)

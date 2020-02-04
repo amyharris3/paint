@@ -2,23 +2,38 @@
 
 using namespace win;
 
-ColourSlider::ColourSlider(SDL_Renderer* renderer, gfx::Rectangle rect, const char* name, gfx::Colour fillColour, gfx::Colour outlineColour, uint8_t* linkedVariable)
+ColourSlider::ColourSlider(SDL_Renderer* renderer, gfx::Rectangle rect, const char* name, gfx::Colour fillColour, gfx::Colour outlineColour, uint8_t* linkedVariablePrimary, uint8_t* linkedVariableSecondary, const bool primaryActive)
 	: Slider(renderer, rect, name, fillColour, outlineColour, 0, 0, 255)
-	, linkedVariable_(linkedVariable)
+	, linkedVariablePrimary_(linkedVariablePrimary)
+	, linkedVariableSecondary_(linkedVariableSecondary)
+	, primaryActive_(primaryActive)
 {
 	setForegroundColour(fillColour);
 	setBackgroundColour(outlineColour);
-	positionFromValue(*linkedVariable_);
+	
+	valueChangedExternally();
 }
 
 void ColourSlider::valueChangedByMovement() const
 {
-	*linkedVariable_ = valueFromPosition();
+	if (primaryActive_) {
+		*linkedVariablePrimary_ = valueFromPosition();
+	}
+	else
+	{
+		*linkedVariableSecondary_ = valueFromPosition();
+	}
 }
 
 void ColourSlider::valueChangedExternally()
 {
-	positionFromValue(*linkedVariable_);
+	if (primaryActive_) {
+		positionFromValue(*linkedVariablePrimary_);
+	}
+	else
+	{
+		positionFromValue(*linkedVariableSecondary_);
+	}
 	//updateAndRerender();
 }
 

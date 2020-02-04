@@ -19,14 +19,13 @@ DrawWindow::DrawWindow(SDL_Renderer* renderer, gfx::Rectangle const& rect, const
 	, drawToggle_(false)
 	, mouseCoords_({0,0})
 	, prevMouseCoords_({0,0})
-	, drawRGBA_{}
+	, primaryActive_(true)
 	, primaryRGBA_{}
 	, secondaryRGBA_{}
 {
 	texture_ = SDL_CreateTexture(renderer_, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, rect.width, rect.height);
 	primaryColour_.getComponents(primaryRGBA_);
 	secondaryColour_.getComponents(secondaryRGBA_);
-	setDrawColourAsPrimary();
 } 
 
 DrawWindow::~DrawWindow()
@@ -78,6 +77,7 @@ void DrawWindow::swapPrimarySecondaryColours()
 }
 
 // Sets the active colour for drawing, defaults to primary
+/*
 void DrawWindow::setDrawColourAsPrimary()
 {
 	primaryColour_.getComponents(drawRGBA_);
@@ -96,7 +96,7 @@ void DrawWindow::setPrimaryAsDrawColour()
 void DrawWindow::setSecondaryAsDrawColour()
 {
 	setSecondaryColour(gfx::Colour(drawRGBA_[0], drawRGBA_[1], drawRGBA_[2], drawRGBA_[3]));
-}
+}*/
 
 /*override*/
 void DrawWindow::draw()
@@ -106,12 +106,31 @@ void DrawWindow::draw()
 	SDL_Rect destRect = { myRect.x, myRect.y, myRect.width, myRect.height };
 	SDL_RenderCopy(renderer_, texture_, nullptr, &destRect);
 	//SDL_SetRenderDrawColor(renderer_, 255, 255, 255, SDL_ALPHA_OPAQUE);
+
+	uint8_t drawRGBA_[4];
+	if (primaryActive_) {
+		for (auto i = 0; i < 4; i++) {
+			drawRGBA_[i] = primaryRGBA_[i];
+		}
+	}
+	else {
+		for (auto i = 0; i < 4; i++) {
+			drawRGBA_[i] = secondaryRGBA_[i];
+		}
+	}
+	
 	SDL_SetRenderDrawColor(renderer_, int(drawRGBA_[0]), int(drawRGBA_[1]), int(drawRGBA_[2]), int(drawRGBA_[3]));
 	//for (std::vector<Line>::const_iterator i = lines_.begin(); i != lines_.end(); ++i) {
 	for (auto line : lines_) {
 		SDL_RenderDrawLine(renderer_, line.x1, line.y1, line.x2, line.y2);
 	}
 	//}
+}
+
+void DrawWindow::updateAndRerender()
+{
+	draw();
+	SDL_RenderPresent(renderer_);
 }
 
 bool DrawWindow::mouseButtonDown(const MouseButton button)

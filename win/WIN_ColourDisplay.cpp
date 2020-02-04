@@ -94,6 +94,5 @@ bool ColourDisplay::mouseButtonUp(win::MouseButton const button)
 		cpick->swapActiveColour();
 		isClicked_ = false;
 	}
-	printf("clicked colour display\n");
 	return true;
 }

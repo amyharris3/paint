@@ -26,14 +26,15 @@ namespace paint
 		std::shared_ptr<win::ColourValueTextbox> getBlueValueBox() const { return blueValueBox_;  }
 		std::shared_ptr<win::ColourValueTextbox> getAlphaValueBox() const { return alphaValueBox_;  }
 		
-		void setDrawColourFromActive() const;
-		void setPrimarySecondaryFromActiveDraw() const;
+		void setActiveColourInDrawWindow() const;
+
+		void leftActiveSwitchInBoxSlider() const;
 		void swapActiveColour() const;
-		void swapDisplaysSwitch() { swappedDisplays_ = !swappedDisplays_; }
+		void swappedDisplaysSwitch() { swappedDisplays_ = !swappedDisplays_; }
 
 		void updateColourDisplaysFromDrawWindow() const;
 
-		
+		void update() override;
 		void updateAndRerender() override;
 		void draw() override;
 		
@@ -43,8 +44,8 @@ namespace paint
 		SDL_Renderer* renderer_;
 		
 		std::shared_ptr<Container> displayBox_;
-		std::shared_ptr<win::ColourDisplay> primaryColourDisplay_;
-		std::shared_ptr<win::ColourDisplay> secondaryColourDisplay_;
+		std::shared_ptr<win::ColourDisplay> leftColourDisplay_;
+		std::shared_ptr<win::ColourDisplay> rightColourDisplay_;
 		std::shared_ptr<win::Button> swapButton_;
 		bool swappedDisplays_;
 
@@ -67,6 +68,5 @@ namespace paint
 		void updateColourDisplays() const;
 		void updateColourValueBoxes() const;
 		void updateColourSliders() const;
-		void update() override;
 	};
 }

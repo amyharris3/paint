@@ -4,28 +4,41 @@
 
 using namespace win;
 
-ColourValueTextbox::ColourValueTextbox(gfx::Rectangle rect, const char* name, SDL_Renderer* renderer, int const textSize, int const xOffset, int const yOffset, uint8_t* linkedVariable)
+ColourValueTextbox::ColourValueTextbox(gfx::Rectangle rect, const char* name, SDL_Renderer* renderer, int const textSize, int const xOffset, int const yOffset, uint8_t* linkedVariablePrimary, uint8_t* linkedVariableSecondary, const bool primaryActive)
 	: EditTextbox(rect, name, renderer, textSize, xOffset, yOffset)
-	, linkedVariable_(linkedVariable)
+	, linkedVariablePrimary_(linkedVariablePrimary)
+	, linkedVariableSecondary_(linkedVariableSecondary)
+	, primaryActive_(primaryActive)
 	, rerenderFlag_(false)
 {
-	assert(linkedVariable_);
+	assert(linkedVariablePrimary_);
+	assert(linkedVariableSecondary_);
 	
 	setBackgroundColour(gfx::Colour(255, 255, 255, 255));
-	editText(std::to_string(*linkedVariable_).c_str());
+	valueChangedExternally();
 }
 
 void ColourValueTextbox::valueChangedByTextEntry()
 {
-	*linkedVariable_ = std::stoi(getText()->getString());
+	if (primaryActive_) {
+		*linkedVariablePrimary_ = std::stoi(getText()->getString());
+	}
+	else{
+		*linkedVariableSecondary_ = std::stoi(getText()->getString());
+	}
 
 	rerenderFlag_ = true;
 }
 
 void ColourValueTextbox::valueChangedExternally()
 {
-	editText(std::to_string(*linkedVariable_).c_str());
-
+	if (primaryActive_) {
+		editText(std::to_string(*linkedVariablePrimary_).c_str());
+	}
+	else {
+		editText(std::to_string(*linkedVariableSecondary_).c_str());
+	}
+	
 	rerenderFlag_ = true;
 }
 
