@@ -14,7 +14,7 @@ namespace paint
 	public:
 		
 		ColourPicker() = delete;
-		ColourPicker(gfx::Rectangle rect, SDL_Renderer* renderer, std::shared_ptr<DrawWindow> drawWindow);
+		ColourPicker(gfx::Rectangle rect, gfx::Renderer* renderer, std::shared_ptr<DrawWindow> drawWindow);
 		~ColourPicker() = default;
 		ColourPicker(const ColourPicker & that) = default;
 		ColourPicker(ColourPicker && that) = default;
@@ -41,7 +41,7 @@ namespace paint
 	private:
 
 		std::shared_ptr<DrawWindow> drawWindowPtr_;
-		SDL_Renderer* renderer_;
+		gfx::Renderer* renderer_;
 		
 		std::shared_ptr<Container> displayBox_;
 		std::shared_ptr<win::ColourDisplay> leftColourDisplay_;

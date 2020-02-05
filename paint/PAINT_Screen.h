@@ -1,6 +1,10 @@
 #pragma once
 #include "WIN_Container.h"
 
+namespace gfx {
+	class Renderer;
+}
+
 struct SDL_Window;
 struct SDL_Renderer;
 struct SDL_Surface;
@@ -22,7 +26,7 @@ namespace paint {
 	public:
 
 		Screen() = default;
-		Screen(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* name);
+		Screen(gfx::Renderer* renderer, const gfx::Rectangle& rect, const char* name);
 		~Screen() = default;
 		Screen(Screen const& that) = default;
 		Screen(Screen&& that) = default;

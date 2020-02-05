@@ -1,8 +1,11 @@
 #pragma once
 #include "GFX_Rectangle.h"
-#include "SDL.h"
 #include "WIN_Slider.h"
 #include "WIN_UIelement.h"
+
+namespace gfx {
+	class Renderer;
+}
 
 namespace win
 {
@@ -11,7 +14,7 @@ namespace win
 	{
 	public:
 		Slider() = delete;
-		Slider(SDL_Renderer* renderer, gfx::Rectangle rect, const char* name, gfx::Colour fillColour, gfx::Colour outlineColour, int initialPos, int slideMin, int slideMax);
+		Slider(gfx::Renderer* renderer, gfx::Rectangle rect, const char* name, gfx::Colour fillColour, gfx::Colour outlineColour, int initialPos, int slideMin, int slideMax);
 		virtual ~Slider() = default;
 		Slider(Slider const& that) = default;
 		Slider(Slider && that) = default;
@@ -19,7 +22,8 @@ namespace win
 		Slider& operator=(Slider && that) = default;
 
 		void updateLineMarker();
-		
+
+		gfx::Renderer* getRenderer() const { return renderer_; }
 		gfx::Rectangle getLineRect() const { return lineRect_; }
 		gfx::Rectangle getMarkerRect() const { return markerRect_; }
 		
@@ -43,7 +47,7 @@ namespace win
 		
 	private:
 
-		SDL_Renderer* renderer_;
+		gfx::Renderer* renderer_;
 		
 		int slideLineMin_;
 		int slideLineMax_;

@@ -6,11 +6,12 @@
 
 using namespace win;
 
-Button::Button(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* name, const char* spritePath, const ActionFunction act)
+Button::Button(gfx::Renderer* renderer, const gfx::Rectangle& rect, const char* name, const char* spritePath, const ActionFunction act)
 	: UIelement(rect, name)
 	, action(act)
 	, buttonState_(ButtonState::BUTTON_SPRITE_MOUSE_OUT)
-	, renderer_(renderer)
+	, renderer_(renderer->getRendererSDL())
+	//texture_ = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, rect.width, rect.height)
 	, texture_ (loadSprite(spritePath))
 	, rect_(rect)
 	, spriteClips_()

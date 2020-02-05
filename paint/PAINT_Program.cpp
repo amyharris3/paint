@@ -49,9 +49,13 @@ Program::Program()
 
 void Program::initialize(SDL_Renderer* renderer)
 {
-	renderer_ = renderer;
+	//Create gfx::Renderer from SDL renderer
+	//renderer_ = renderer;
+
+	renderer_ = new Renderer(renderer);
+	
 	auto screenRect = gfx::Rectangle(0, 0, 1200, 800);
-	screen_ = std::make_shared<Screen>(renderer, screenRect, "Screen");
+	screen_ = std::make_shared<Screen>(renderer_, screenRect, "Screen");
 	
 }
 
@@ -68,7 +72,6 @@ void Program::run() const
 	auto toolChildren = screen_->getToolWindow()->getChildren();
 	auto drawWindow = screen_->getDrawWindow();
 
-
 	auto clicked = false;
 
 	// if a method causes a change in the visual representation of the program, returns 'true' and calls to rerender the relevant section, else have the method return 'false'
@@ -78,9 +81,12 @@ void Program::run() const
 	while (!quit) {
 		auto rerenderFlag = false;
 
+		// if a method causes a change in the visual representation of the program, returns 'true' and calls to rerender the relevant section, else have the method return 'false'
+		auto rerenderFlag = false;
+
 		//Handle events on queue
 		while (SDL_PollEvent(&e) != 0) {
-			SDL_RenderClear(renderer_);
+			SDL_RenderClear(renderer_->getRendererSDL());
 			screen_->draw();
 
 			//User requests quit
@@ -139,7 +145,7 @@ void Program::run() const
 
 			if (clicked) {
 				if (activeElement) {
-					//SDL_SetRenderDrawColor(renderer_, 0, 0, 0, 255);
+					//SDL_SetRenderDrawColor(SDLrenderer_, 0, 0, 0, 255);
 					drawWindow->setMouseCoords({ xMouse, yMouse });
 					drawWindow->setPrevCoords({ xPrev, yPrev });
 					
@@ -177,9 +183,7 @@ void Program::run() const
 			toolChild->draw();
 		}*/
 
-
-
-		SDL_RenderPresent(renderer_);
+		renderer_->renderPresent();
 	}
 
 }

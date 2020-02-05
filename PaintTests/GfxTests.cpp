@@ -188,4 +188,21 @@ namespace PaintTests
 			return {255, 255, 255, 255};
 		}
 	};
+
+	TEST_CLASS(TestGfxText)
+	{
+		//TODO: unfinished
+		TEST_METHOD(TestOpenFont)
+		{/*
+			Assert::AreNotEqual(SDL_Init(SDL_INIT_VIDEO), -1);
+			Assert::AreNotEqual(TTF_Init(), -1);
+			
+			Text exampleText;
+			auto test1 = exampleText.getFont();		
+			exampleText.loadFont("./Cabin-Regular-TTF.ttf");
+			auto test2 = exampleText.getFont();	*/
+			//Assert::IsNotNull(exampleText.getFont());
+		}
+	};
+
 }

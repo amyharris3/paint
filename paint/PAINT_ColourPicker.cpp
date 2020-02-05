@@ -11,8 +11,9 @@
 
 using namespace win;
 using namespace paint;
+using namespace win;
 
-ColourPicker::ColourPicker(gfx::Rectangle rect, SDL_Renderer* renderer, std::shared_ptr<DrawWindow> drawWindow)
+ColourPicker::ColourPicker(gfx::Rectangle rect, gfx::Renderer* renderer, std::shared_ptr<DrawWindow> drawWindow)
 	: Container(std::make_shared<win::FreeLayout>(), rect, "colourPicker")
 	, drawWindowPtr_(std::move(drawWindow))
 	, renderer_(renderer)
@@ -172,21 +173,12 @@ void ColourPicker::updateAndRerender()
 	update();
 	
 	draw();
-	SDL_RenderPresent(renderer_);
+	renderer_->renderPresent();
 }
 
 void ColourPicker::draw()
 {	
-	//Background colour picker box
-	SDL_Rect boxRect = { this->getRect().x, this->getRect().y, this->getRect().width, this->getRect().height };
-	uint8_t rgba[4];
-	getBackgroundColour().getComponents(rgba);
-	SDL_SetRenderDrawColor(renderer_, rgba[0], rgba[1], rgba[2], rgba[3]);
-	SDL_RenderFillRect(renderer_, &boxRect);
-	
-	//update the colour displays to match colour setup in drawWindow
-	//leftColourDisplay_->setColour(drawWindowPtr_->getPrimaryColour());
-	//rightColourDisplay_->setColour(drawWindowPtr_->getSecondaryColour());
+	renderer_->renderBox(getRect(), getBackgroundColour());
 
 	updateColourDisplaysFromDrawWindow();
 	

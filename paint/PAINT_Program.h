@@ -23,7 +23,8 @@ namespace paint
 	private:
 		std::shared_ptr<Screen> screen_;
 		//win::Container screen_;
-		SDL_Renderer* renderer_;
+		//SDL_Renderer* renderer_;
+		gfx::Renderer* renderer_;
 		//std::shared_ptr<DrawWindow> drawWindow_;
 		//std::shared_ptr<ToolWindow> toolWindow_;
 		

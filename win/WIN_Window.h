@@ -3,10 +3,11 @@
 #include "GFX_Rectangle.h"
 #include "WIN_Container.h"
 #include "WIN_FreeLayout.h"
+#include "GFX_Renderer.h"
 
-struct SDL_Window;
-struct SDL_Renderer;
-struct SDL_Surface;
+//struct SDL_Window;
+//struct SDL_Renderer;
+//struct SDL_Surface;
 
 namespace win 
 {
@@ -18,19 +19,19 @@ namespace win
 	{
 	private:
 		gfx::Rectangle rect_;
-		SDL_Renderer* renderer_;
+		gfx::Renderer* renderer_;
 
 	public:
 		Window() = delete;
 		virtual ~Window() = default;
-		Window(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* name);
-		Window(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* name, std::shared_ptr<Layout> layout);
+		Window(gfx::Renderer* renderer, const gfx::Rectangle& rect, const char* name);
+		Window(gfx::Renderer* renderer, const gfx::Rectangle& rect, const char* name, std::shared_ptr<Layout> layout);
 		Window(Window const& that) = delete;
 		Window(Window && that) = delete;
 		Window & operator=(Window const& that) = delete;
 		Window& operator=(Window && that) = delete;
 
-		SDL_Renderer* getRenderer() const { return renderer_; }
+		gfx::Renderer* getRenderer() const { return renderer_; }
 		
 		void draw() override;
 		void updateAndRerender() override;
