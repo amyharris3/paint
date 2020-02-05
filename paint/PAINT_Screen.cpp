@@ -16,7 +16,7 @@ using namespace paint;
 using namespace win;
 using namespace gfx;
 
-Screen::Screen(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* name)
+Screen::Screen(gfx::Renderer* renderer, const gfx::Rectangle& rect, const char* name)
 : Container(std::make_shared<FreeLayout>(), rect, name)
 {
 	// Creating drawWindow

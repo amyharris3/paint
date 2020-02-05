@@ -43,9 +43,13 @@ static std::shared_ptr<UIelement> GetTopmostElement(const UIelementVector& child
 
 void Program::initialize(SDL_Renderer* renderer)
 {
-	renderer_ = renderer;
+	//Create gfx::Renderer from SDL renderer
+	//renderer_ = renderer;
+
+	renderer_ = new Renderer(renderer);
+	
 	auto screenRect = gfx::Rectangle(0, 0, 1200, 800);
-	screen_ = std::make_shared<Screen>(renderer, screenRect, "Screen");
+	screen_ = std::make_shared<Screen>(renderer_, screenRect, "Screen");
 	
 }
 
@@ -69,9 +73,12 @@ void Program::run() const
 	while (!quit) {
 		auto rerenderFlag = false;
 
+		// if a method causes a change in the visual representation of the program, returns 'true' and calls to rerender the relevant section, else have the method return 'false'
+		auto rerenderFlag = false;
+
 		//Handle events on queue
 		while (SDL_PollEvent(&e) != 0) {
-			SDL_RenderClear(renderer_);
+			SDL_RenderClear(renderer_->getRendererSDL());
 			screen_->draw();
 
 			//User requests quit
@@ -160,6 +167,12 @@ void Program::run() const
 			}
 			
 		}
-		SDL_RenderPresent(renderer_);
+
+		 // Draw buttons.
+		/*for (const auto& toolChild : toolChildren) {
+			toolChild->draw();
+		}*/
+
+		renderer_->renderPresent();
 	}
 }

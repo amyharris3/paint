@@ -10,6 +10,7 @@ struct SDL_Texture;
 namespace gfx
 {
 	class Colour;
+	//class Line;
 }
 
 namespace win
@@ -28,7 +29,8 @@ namespace paint
 
 	public:
 		DrawWindow() = delete;
-		DrawWindow(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* name);
+		DrawWindow(gfx::Renderer* renderer, const gfx::Rectangle& rect, const char* name);
+
 		virtual ~DrawWindow();
 		DrawWindow(const DrawWindow& that) = delete;
 		DrawWindow(DrawWindow&& that) = delete;
@@ -68,13 +70,21 @@ namespace paint
 		void clearScreen() const;
 
 	private:
-		std::shared_ptr<Tool> activeTool_;
+		gfx::Renderer* renderer_;
+		
+		// TODO What sort of pointer?
+		Brush* activeBrush_;
+		//const char* name_;
 		gfx::Colour primaryColour_;
 		gfx::Colour secondaryColour_;
-		SDL_Renderer* renderer_;
-		SDL_Texture* texture_;
-		win::Coords mouseCoords_;
-		win::Coords prevMouseCoords_;
+		std::vector<Coords> clickedPixels_;
+		//SDL_Surface* surface_;
+		//SDL_Renderer* renderer_;
+		//SDL_Texture* texture_;
+		bool drawToggle_;
+		Coords mouseCoords_;
+		Coords prevMouseCoords_;
+		std::vector<gfx::Line> lines_;
 		std::shared_ptr<Tool> drawTool_;
 
 		//whenever the active colour is changed this should be updated

@@ -25,6 +25,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="GFX_Rectangle.cpp" />
+    <ClCompile Include="GFX_Renderer.cpp" />
     <ClCompile Include="GFX_Text.cpp" />
   </ItemGroup>
   <ItemGroup>

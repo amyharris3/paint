@@ -1,9 +1,10 @@
 #include "WIN_pch.h"
 #include "WIN_Slider.h"
+#include "GFX_Renderer.h"
 
 using namespace win;
 
-Slider::Slider(SDL_Renderer* renderer, gfx::Rectangle rect, const char* name, gfx::Colour fillColour, gfx::Colour outlineColour, int const initialPos, int const slideMin, int const slideMax)
+Slider::Slider(gfx::Renderer* renderer, gfx::Rectangle rect, const char* name, gfx::Colour fillColour, gfx::Colour outlineColour, int const initialPos, int const slideMin, int const slideMax)
 	: UIelement(rect, name)
 	, renderer_(renderer)
 	, slideLineMin_(slideMin)
@@ -45,7 +46,8 @@ void Slider::moveMarker()
 	int xMouse = 0;
 	int yMouse = 0;
 
-	SDL_GetMouseState(&xMouse, &yMouse);
+	renderer_->getMouseState(xMouse, yMouse);
+	
 	if (xMouse > lineRect_.x + lineRect_.width - 2) {
 		xMouse = lineRect_.x + lineRect_.width;
 	}
@@ -67,15 +69,18 @@ void Slider::updateAndRerender()
 	updateLineMarker();
 	
 	draw();
-	SDL_RenderPresent(renderer_);
+	renderer_->renderPresent();
 }
 
 void Slider::draw()
 {
 	//updateLineMarker();
-	uint8_t rgba[4];
 	
-	SDL_Rect boxRect = { getRect().x, getRect().y, getRect().width, getRect().height };
+	renderer_->renderBox(getRect(), getForegroundColour());
+	renderer_->renderBox(lineRect_, lineColour_);
+	renderer_->renderBox({ markerRect_.x - 2, markerRect_.y, markerRect_.width, markerRect_.height }, markerColour_);
+
+	/*SDL_Rect boxRect = { getRect().x, getRect().y, getRect().width, getRect().height };
 	getForegroundColour().getComponents(rgba);
 	SDL_SetRenderDrawColor(renderer_, rgba[0], rgba[1], rgba[2], rgba[3]);
 	SDL_RenderFillRect(renderer_, &boxRect);
@@ -88,7 +93,7 @@ void Slider::draw()
 	SDL_Rect markerRect = { markerRect_.x-2, markerRect_.y, markerRect_.width, markerRect_.height };
 	markerColour_.getComponents(rgba);
 	SDL_SetRenderDrawColor(renderer_, rgba[0], rgba[1], rgba[2], rgba[3]);
-	SDL_RenderFillRect(renderer_, &markerRect);
+	SDL_RenderFillRect(renderer_, &markerRect);*/
 
 }
 

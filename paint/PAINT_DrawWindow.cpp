@@ -1,27 +1,33 @@
 #include "PAINT_pch.h"
 #include "PAINT_DrawWindow.h"
+#include "PAINT_Brush.h"
 #include "WIN_Mouse.h"
 #include "PAINT_DrawTool.h"
 #include "WIN_ToggleButton.h"
 #include "WIN_Coords.h"
 #include "WIN_ButtonStates.h"
+#include "PAINT_Utils.h"
+#include "GFX_Line.h"
 
 using namespace paint;
 using namespace win;
 
-DrawWindow::DrawWindow(SDL_Renderer* renderer, gfx::Rectangle const& rect, const char* name)
-	: Window(renderer, rect, name)
-	, activeTool_(nullptr)
-	, primaryColour_(gfx::Colour(255, 255, 255, 255))
-	, secondaryColour_(gfx::Colour(255, 255, 255, 255))
+DrawWindow::DrawWindow(gfx::Renderer* renderer, gfx::Rectangle const& rect, const char* name)
+	: Window( renderer, rect, name)
 	, renderer_(renderer)
-	, mouseCoords_({ 0,0 })
-	, prevMouseCoords_({ 0,0 })
+	, activeTool_(nullptr)
+	, activeBrush_(nullptr)
+	, primaryColour_(gfx::Colour(255, 255, 255,255))
+	, secondaryColour_(gfx::Colour(255, 255, 255, 255))
+	, drawToggle_(false)
+	, mouseCoords_({0,0})
+	, prevMouseCoords_({0,0})
 	, primaryActive_(true)
 	, primaryRGBA_{}
 	, secondaryRGBA_{}
 {
-	texture_ = SDL_CreateTexture(renderer_, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, rect.width, rect.height);
+	//texture_ = SDL_CreateTexture(renderer_, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, rect.width, rect.height);
+	renderer_->createDrawWindowTexture(rect);
 	primaryColour_.getComponents(primaryRGBA_);
 	secondaryColour_.getComponents(secondaryRGBA_);
 	drawTool_ = std::make_shared<DrawTool>(renderer_, texture_);
@@ -29,10 +35,7 @@ DrawWindow::DrawWindow(SDL_Renderer* renderer, gfx::Rectangle const& rect, const
 
 DrawWindow::~DrawWindow()
 {
-	if (texture_) {
-		SDL_DestroyTexture(texture_);
-		texture_ = nullptr;
-	}
+	renderer_->destroyDrawWindowTexture();
 }
 
 /*override*/
@@ -128,18 +131,17 @@ void DrawWindow::draw()
 	}
 
 	SDL_SetRenderDrawColor(renderer_, int(drawRGBA_[0]), int(drawRGBA_[1]), int(drawRGBA_[2]), int(drawRGBA_[3]));
+	renderer_->renderDrawWindow(getRect(), drawRGBA_, lines_);
 }
 
 void DrawWindow::updateAndRerender()
 {
 	draw();
-	SDL_RenderPresent(renderer_);
+	renderer_->renderPresent();
 }
 
 // TODO Needs more work, to properly clear drawWindow
 void DrawWindow::clearScreen() const
 {
-	const auto& myRect = getRect();
-	SDL_Rect destRect = { myRect.x, myRect.y, myRect.width, myRect.height };
-	SDL_RenderCopy(renderer_, texture_, nullptr, &destRect);
+	renderer_->clearDrawWindow(getRect());
 }

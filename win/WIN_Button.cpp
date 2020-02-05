@@ -4,10 +4,11 @@
 
 using namespace win;
 
-Button::Button(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* name, const char* spritePath, const ActionFunction act)
+Button::Button(gfx::Renderer* renderer, const gfx::Rectangle& rect, const char* name, const char* spritePath, const ActionFunction act)
 	: UIelement(rect, name)
 	, action(act)
-	, renderer_(renderer)
+	, buttonState_(ButtonState::BUTTON_SPRITE_MOUSE_OUT)
+	, renderer_(renderer->getRendererSDL())
 	, texture_ (SDLUtils::loadSprite(renderer, spritePath))
 	, rect_(rect)
 {

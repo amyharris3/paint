@@ -11,6 +11,10 @@ namespace paint
 
 	class Program
 	{
+	private:
+		std::shared_ptr<Screen> screen_;
+		gfx::Renderer* renderer_;
+
 	public:
 		Program();
 		~Program() = default;

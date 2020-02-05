@@ -5,7 +5,7 @@
 using namespace win;
 
 
-ColourDisplay::ColourDisplay(gfx::Rectangle rect, const char* name, uint8_t displayColour[], SDL_Renderer* renderer, bool isActive)
+ColourDisplay::ColourDisplay(gfx::Rectangle rect, const char* name, uint8_t displayColour[], gfx::Renderer* renderer, bool isActive)
 	: UIelement(rect, name)
 	, renderer_(renderer)
 	, isActive_(isActive)
@@ -61,7 +61,10 @@ void ColourDisplay::update()
 
 void ColourDisplay::draw()
 {
-	SDL_Rect outlineRect = { this->getRect().x, this->getRect().y, this->getRect().width, this->getRect().height };
+	renderer_->renderBox(getRect(), getBackgroundColour());
+	renderer_->renderBox({ getRect().x + 5, getRect().y + 5, getRect().width - 10, getRect().height - 10 }, getForegroundColour());
+	
+	/*SDL_Rect outlineRect = { this->getRect().x, this->getRect().y, this->getRect().width, this->getRect().height };
 	uint8_t outlineColour[4];
 	getBackgroundColour().getComponents(outlineColour);
 	SDL_SetRenderDrawColor(renderer_, outlineColour[0], outlineColour[1], outlineColour[2], outlineColour[3]);
@@ -71,7 +74,7 @@ void ColourDisplay::draw()
 	uint8_t rgba[4];
 	getForegroundColour().getComponents(rgba);
 	SDL_SetRenderDrawColor(renderer_, rgba[0], rgba[1], rgba[2], rgba[3]);
-	SDL_RenderFillRect(renderer_, &boxRect);
+	SDL_RenderFillRect(renderer_, &boxRect);*/
 }
 
 bool ColourDisplay::mouseExit()

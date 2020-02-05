@@ -1,6 +1,10 @@
 #pragma once
 #include "WIN_UIelement.h"
 
+namespace gfx
+{
+	class Renderer;
+}
 namespace win
 {
 	class ColourDisplay final : public UIelement
@@ -8,7 +12,7 @@ namespace win
 	public:
 
 		ColourDisplay() = delete;
-		ColourDisplay(gfx::Rectangle rect, const char* name, uint8_t displayColour[], SDL_Renderer* renderer, bool isActive);
+		ColourDisplay(gfx::Rectangle rect, const char* name, uint8_t displayColour[], gfx::Renderer* renderer, bool isActive);
 		virtual ~ColourDisplay() = default;
 		ColourDisplay(ColourDisplay const& that) = default;
 		ColourDisplay(ColourDisplay&& that) = default;
@@ -32,7 +36,7 @@ namespace win
 		bool mouseButtonUp(MouseButton button) override;
 
 	private:
-		SDL_Renderer* renderer_;
+		gfx::Renderer* renderer_;
 		bool isActive_;
 		bool isClicked_;
 		

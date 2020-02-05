@@ -1,12 +1,13 @@
 #include "WIN_pch.h"
 #include "WIN_EditTextbox.h"
+#include "GFX_Renderer.h"
 
 using namespace win;
 
-EditTextbox::EditTextbox(gfx::Rectangle rect, const char* name, SDL_Renderer* renderer, int const textSize, int const xOffset, int const yOffset)
+EditTextbox::EditTextbox(gfx::Rectangle rect, const char* name, gfx::Renderer* renderer, int const textSize, int const xOffset, int const yOffset)
 	: UIelement(rect, name)
 	, renderer_(renderer)
-	, text_(std::make_shared<gfx::Text>(renderer, gfx::Colour { 0, 0, 0, 0xFF }, "OpenSans-Bold.ttf", textSize, "0"))
+	, text_(std::make_shared<gfx::Text>(gfx::Colour { 0, 0, 0, 0xFF }, "OpenSans-Bold.ttf", textSize, "0"))
     , xOffset_(xOffset)
     , yOffset_(yOffset)
     , isClicked_(false)
@@ -31,7 +32,7 @@ void EditTextbox::editTextAndRerender(std::string & newString)
 	text_->changeString(newString.c_str());
 
 	draw();
-	SDL_RenderPresent(renderer_);
+	getRenderer()->renderPresent();
 }
 
 // Simple text entry, TODO copy, paste, highlight, cursor position, ect
@@ -98,7 +99,9 @@ void EditTextbox::takeTextEntry()
 
 void EditTextbox::draw()
 {
-	SDL_Rect outlineRect = { getRect().x-2, getRect().y-2, getRect().width+4, getRect().height+4 };
+	renderer_->renderTextbox(getRect(), getBackgroundColour(), text_.get(), xOffset_, yOffset_);
+	
+	/*SDL_Rect outlineRect = { getRect().x-2, getRect().y-2, getRect().width+4, getRect().height+4 };
 	SDL_SetRenderDrawColor(renderer_, 0,0,0,255);
 	SDL_RenderFillRect(renderer_, &outlineRect);
 	

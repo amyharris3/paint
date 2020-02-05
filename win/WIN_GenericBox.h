@@ -1,6 +1,7 @@
 #pragma once
 
 #include "WIN_UIelement.h"
+#include "GFX_Renderer.h"
 
 struct SDL_Texture;
 struct SDL_Renderer;
@@ -13,7 +14,7 @@ namespace win
 	public:
 
 		GenericBox() = delete;
-		GenericBox(gfx::Rectangle& rect, const char* name, gfx::Colour foregroundColour, gfx::Colour backgroundColour, SDL_Renderer* renderer);
+		GenericBox(gfx::Rectangle& rect, const char* name, gfx::Colour foregroundColour, gfx::Colour backgroundColour, gfx::Renderer* renderer);
 		virtual ~GenericBox() = default;
 		GenericBox(GenericBox const& that) = default;
 		GenericBox(GenericBox && that) = default;
@@ -23,7 +24,7 @@ namespace win
 		void draw() override;
 
 	private:
-		SDL_Renderer* renderer_;
+		gfx::Renderer* renderer_;
 	};
 	
 }
