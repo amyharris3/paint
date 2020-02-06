@@ -10,6 +10,7 @@
 #include "WIN_EditTextbox.h"
 #include "WIN_ColourValueTextbox.h"
 #include "WIN_Slider.h"
+#include "WIN_Utils.h"
 
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -681,10 +682,7 @@ namespace PaintTests
 			Assert::AreEqual(slider.getLineRect().width, 95);
 			Assert::AreEqual(slider.getLineRect().height, 3);
 
-			Assert::AreEqual(slider.getMarkerValue(), 50);
-			Assert::AreEqual(slider.getMarkerPos(), slider.getPositionFromValue());
-			Assert::AreEqual(slider.getMarkerValue(), slider.getValueFromPosition());
-			
+			Assert::AreEqual(slider.getMarkerValue(), 50);		
 			Assert::AreEqual(slider.getMarkerRect().x, 26);
 			Assert::AreEqual(slider.getMarkerRect().y, 0);
 			Assert::AreEqual(slider.getMarkerRect().width, 5);
@@ -699,7 +697,11 @@ namespace PaintTests
 
 			slider.setMarkerPos(20);
 			Assert::AreEqual(slider.getMarkerPos(), 20);
-			Assert::AreEqual(slider.getMarkerValue(), 37);
+			Assert::AreEqual(slider.getMarkerValue(), 38);
+
+			slider.setMarkerPos(55);
+			Assert::AreEqual(slider.getMarkerPos(), 55);
+			Assert::AreEqual(slider.getMarkerValue(), 112);
 			
 			slider.setMarkerPos(250);
 			Assert::AreEqual(slider.getMarkerPos(), 100 - 3);
@@ -718,44 +720,46 @@ namespace PaintTests
 
 			slider.setMarkerValue(20);
 			Assert::AreEqual(slider.getMarkerValue(), 20);
-			Assert::AreEqual(slider.getMarkerPos(), 20);
+			Assert::AreEqual(slider.getMarkerPos(), 12);
+
+			slider.setMarkerValue(123);
+			Assert::AreEqual(slider.getMarkerValue(), 123);
+			Assert::AreEqual(slider.getMarkerPos(), 60);
 
 			slider.setMarkerValue(500);
-			Assert::AreEqual(slider.getMarkerValue(), 100);
-
+			Assert::AreEqual(slider.getMarkerValue(), 200);
+			Assert::AreEqual(slider.getMarkerPos(), 100 - 3);
+			
 			slider.setMarkerValue(-100);
 			Assert::AreEqual(slider.getMarkerValue(), 0);
+			Assert::AreEqual(slider.getMarkerPos(), 2);
 
 		}
-		TEST_METHOD(TestPositionValueConversion)
+	/*	TEST_METHOD(TestPositionValueConversion)
 		{
 			Renderer dummyRenderer;
 			Renderer* rendererPtr = &dummyRenderer;
 			Slider slider(rendererPtr, gfx::Rectangle(0, 0, 100, 20), "slider", gfx::Colour(210, 220, 230, 240), gfx::Colour(1, 2, 3, 4), 50, 0, 200);
 
-			Assert::AreEqual(slider.getValueFromPosition(), 101);
-
-			slider.setMarkerPos(49);
-			Assert::AreEqual(slider.getValueFromPosition(), 99);
-
-			slider.setMarkerPos(25);
-			Assert::AreEqual(slider.getValueFromPosition(), 48);
-
-			slider.setMarkerValue(0);
-			Assert::AreEqual(slider.getMarkerValue(), 0);
-			Assert::AreEqual(slider.getMarkerPos(), 2);
-			Assert::AreEqual(slider.getValueFromPosition(), 0);
+			Assert::AreEqual(slider.getMarkerValue(), 50);
+			Assert::AreEqual(slider.getApproxValueFromPosition(), 50);
+			Assert::AreEqual(slider.getMarkerPos(), 26);
+			Assert::AreEqual(slider.getApproxPositionFromValue(), 26);
+			Assert::AreEqual(slider.getMarkerValue(), slider.getApproxValueFromPosition());
+			Assert::AreEqual(slider.getMarkerPos(), slider.getApproxPositionFromValue());
 			
-			slider.setMarkerValue(75);
-			Assert::AreEqual(slider.getMarkerValue(), 75);
-			Assert::AreEqual(slider.getMarkerPos(), 38);
-			Assert::AreEqual(slider.getValueFromPosition(), 75);
+			slider.setMarkerPos(25);
+			Assert::AreEqual(slider.getApproxValueFromPosition(), 48);
+			Assert::AreEqual(slider.getMarkerPos(), 25);
+			Assert::AreEqual(slider.getMarkerValue(), slider.getApproxValueFromPosition());
+			Assert::AreEqual(slider.getMarkerPos(), slider.getApproxPositionFromValue());
 
-			slider.setMarkerValue(150);
-			Assert::AreEqual(slider.getMarkerValue(), 150);
-			Assert::AreEqual(slider.getMarkerPos(), 73);
-			Assert::AreEqual(slider.getValueFromPosition(), 150);
-		}
+			slider.setMarkerValue(48);
+			Assert::AreEqual(slider.getApproxValueFromPosition(), 48);
+			Assert::AreEqual(slider.getMarkerPos(), 25);
+			Assert::AreEqual(slider.getMarkerValue(), slider.getApproxValueFromPosition());
+			Assert::AreEqual(slider.getMarkerPos(), slider.getApproxPositionFromValue());
+		}*/
 
 	};
 	
@@ -840,6 +844,24 @@ namespace PaintTests
 			Assert::AreEqual(ColB, uint8_t(220));
 		}
 
+	};
+
+	TEST_CLASS(TestUtilsNamespace)
+	{
+		TEST_METHOD(TestFilterNumerical)
+		{
+			Assert::IsFalse(utils::filterNumerical('a'));
+			Assert::IsFalse(utils::filterNumerical('A'));
+			Assert::IsTrue(utils::filterNumerical('1'));
+			Assert::IsTrue(utils::filterNumerical('9'));
+			Assert::IsTrue(utils::filterNumerical('0'));
+			Assert::IsFalse (utils::filterNumerical('/'));
+			Assert::IsFalse(utils::filterNumerical('.'));
+			Assert::IsFalse(utils::filterNumerical('['));
+			Assert::IsFalse(utils::filterNumerical('+'));
+			Assert::IsFalse(utils::filterNumerical('!'));
+		}
+		
 	};
 	
 }

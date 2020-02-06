@@ -1,6 +1,6 @@
 #pragma once
 #include "WIN_Container.h"
-#include "WIN_ColourDisplay.h"
+#include "PAINT_ColourDisplay.h"
 #include "WIN_Button.h"
 #include "WIN_ColourValueTextbox.h"
 #include "WIN_ColourSlider.h"
@@ -28,7 +28,7 @@ namespace paint
 		
 		void setActiveColourInDrawWindow() const;
 
-		void leftActiveSwitchInBoxSlider() const;
+		void PrimaryActiveSwitchInBoxSlider() const;
 		void swapActiveColour() const;
 		void swappedDisplaysSwitch() { swappedDisplays_ = !swappedDisplays_; }
 
@@ -44,8 +44,8 @@ namespace paint
 		gfx::Renderer* renderer_;
 		
 		std::shared_ptr<Container> displayBox_;
-		std::shared_ptr<win::ColourDisplay> leftColourDisplay_;
-		std::shared_ptr<win::ColourDisplay> rightColourDisplay_;
+		std::shared_ptr<ColourDisplay> leftColourDisplay_;
+		std::shared_ptr<ColourDisplay> rightColourDisplay_;
 		std::shared_ptr<win::Button> swapButton_;
 		bool swappedDisplays_;
 

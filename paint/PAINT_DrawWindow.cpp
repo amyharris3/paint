@@ -15,7 +15,7 @@ using namespace win;
 DrawWindow::DrawWindow(gfx::Renderer* renderer, gfx::Rectangle const& rect, const char* name)
 	: Window( renderer, rect, name)
 	, renderer_(renderer)
-	, activeTool_(nullptr)
+	//, activeTool_(nullptr)
 	, activeBrush_(nullptr)
 	, primaryColour_(gfx::Colour(255, 255, 255,255))
 	, secondaryColour_(gfx::Colour(255, 255, 255, 255))
@@ -103,12 +103,12 @@ void DrawWindow::setSecondaryColour(const gfx::Colour colour)
 	secondaryColour_.getComponents(secondaryRGBA_);
 }
 
-void DrawWindow::swapPrimarySecondaryColours()
-{
-	std::cout << "Swapping colours\n";
-	std::swap(primaryColour_, secondaryColour_);
-	std::cout << "Colours have been swapped \n";
-}
+//void DrawWindow::swapPrimarySecondaryColours()
+//{
+//	std::cout << "Swapping colours\n";
+//	std::swap(primaryColour_, secondaryColour_);
+//	std::cout << "Colours have been swapped \n";
+//}
 
 /*override*/
 void DrawWindow::draw()
@@ -120,11 +120,13 @@ void DrawWindow::draw()
 
 	uint8_t drawRGBA_[4];
 	if (primaryActive_) {
+		printf("primary colour used\n");
 		for (auto i = 0; i < 4; i++) {
 			drawRGBA_[i] = primaryRGBA_[i];
 		}
 	}
 	else {
+		printf("secondary colour used\n");
 		for (auto i = 0; i < 4; i++) {
 			drawRGBA_[i] = secondaryRGBA_[i];
 		}

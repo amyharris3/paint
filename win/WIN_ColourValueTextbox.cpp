@@ -118,7 +118,7 @@ void ColourValueTextbox::takeTextEntry()
 				break;
 			case SDL_TEXTINPUT:
 				printf("IN: %s\n", event.text.text);
-				if (win::utils::filterNumerical(event.text.text)) {
+				if (win::utils::filterNumerical(*(event.text.text))) {
 					newString += event.text.text;
 					this->editTextAndRerender(newString);
 					textChanged = true;

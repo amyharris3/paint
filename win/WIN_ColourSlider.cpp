@@ -19,11 +19,11 @@ ColourSlider::ColourSlider(gfx::Renderer* renderer, gfx::Rectangle rect, const c
 void ColourSlider::valueChangedByMovement() const
 {
 	if (primaryActive_) {
-		*linkedVariablePrimary_ = getValueFromPosition();
+		*linkedVariablePrimary_ = getApproxValueFromPosition();
 	}
 	else
 	{
-		*linkedVariableSecondary_ = getValueFromPosition();
+		*linkedVariableSecondary_ = getApproxValueFromPosition();
 	}
 }
 

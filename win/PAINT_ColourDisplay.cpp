@@ -1,8 +1,7 @@
-#include "WIN_pch.h"
-#include "WIN_ColourDisplay.h"
+#include "PAINT_ColourDisplay.h"
 #include "../paint/PAINT_Utils.h"
 
-using namespace win;
+using namespace paint;
 
 
 ColourDisplay::ColourDisplay(gfx::Rectangle rect, const char* name, uint8_t displayColour[], gfx::Renderer* renderer, bool isActive)
@@ -91,8 +90,8 @@ bool ColourDisplay::mouseButtonDown(win::MouseButton const button)
 bool ColourDisplay::mouseButtonUp(win::MouseButton const button)
 {
 	if (isClicked_) {
-		const auto cPick = paint::utils::findToolWindow(this)->getColourPicker();
-		cPick->swapActiveColour();
+		const auto cpick = paint::utils::findToolWindow(this)->getColourPicker();
+		cpick->swapActiveColour();
 		isClicked_ = false;
 	}
 	return true;

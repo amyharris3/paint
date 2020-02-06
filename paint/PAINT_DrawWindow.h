@@ -48,9 +48,9 @@ namespace paint
 		gfx::Colour getSecondaryColour() const { return secondaryColour_; }
 		void setPrimaryColour(gfx::Colour colour);
 		void setSecondaryColour(gfx::Colour colour);
-		void swapPrimarySecondaryColours();
 		bool isPrimaryActive() const { return primaryActive_; }
 		void setIfPrimaryColourActive(const bool b) { primaryActive_ = b; }
+		void swapPrimarySecondaryColours();
 
 		uint8_t* getPrimaryRGBA() { return primaryRGBA_; }
 		uint8_t* getPrimaryRed() { return &primaryRGBA_[0]; }

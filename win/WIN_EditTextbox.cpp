@@ -106,18 +106,6 @@ void EditTextbox::draw()
 {
 	renderer_->renderTextbox(getRect(), getBackgroundColour(), text_.get(), xOffset_, yOffset_);
 	
-	/*SDL_Rect outlineRect = { getRect().x-2, getRect().y-2, getRect().width+4, getRect().height+4 };
-	SDL_SetRenderDrawColor(renderer_, 0,0,0,255);
-	SDL_RenderFillRect(renderer_, &outlineRect);
-	
-	SDL_Rect boxRect = { getRect().x, getRect().y, getRect().width, getRect().height };
-	uint8_t rgba[4];
-	getBackgroundColour().getComponents(rgba);
-	SDL_SetRenderDrawColor(renderer_, rgba[0], rgba[1], rgba[2], rgba[3]);
-	SDL_RenderFillRect(renderer_, &boxRect);
-
-	(void)text_->renderText(getRect().x + xOffset_, getRect().y + yOffset_);
-
 }
 
 bool EditTextbox::mouseButtonDown(win::MouseButton const button)
