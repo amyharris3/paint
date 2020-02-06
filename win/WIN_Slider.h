@@ -27,11 +27,9 @@ namespace win
 		void holdOn() { holdMarker_ = true; }
 		void holdOff() { holdMarker_ = false; }
 		
-		int getPositionFromValue() const;
 		int getValueFromPosition() const;
 
 		void positionFromValue(int val);
-		int valueFromPosition() const;
 
 		void moveMarker();
 		void update() override;

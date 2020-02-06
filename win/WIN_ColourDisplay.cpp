@@ -1,6 +1,5 @@
 #include "WIN_ColourDisplay.h"
 #include <SDL.h>
-#include <iostream>
 #include "../paint/PAINT_Utils.h"
 //#include "../paint/PAINT_DrawWindow.h"
 

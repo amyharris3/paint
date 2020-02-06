@@ -20,8 +20,6 @@ namespace win
 		gfx::Rectangle rect_;
 		SDL_Renderer* renderer_;
 
-		bool quit{ false };
-
 	public:
 		Window() = delete;
 		virtual ~Window() = default;

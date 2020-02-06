@@ -1,7 +1,6 @@
 #pragma once
 
 #include "WIN_Window.h"
-#include "PAINT_ColourPicker.h"
 
 struct SDL_Texture;
 
@@ -86,7 +85,6 @@ namespace paint
 
 	private:
 		// TODO What sort of pointer?
-		Tool* activeTool_;
 		Brush* activeBrush_;
 		//const char* name_;
 		gfx::Colour primaryColour_;

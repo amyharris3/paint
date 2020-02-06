@@ -7,33 +7,22 @@
 using namespace win;
 using namespace paint;
 
-//void myAction(win::Button* button)
-//{
-//	std::cout << "Im doing an action yay! \n";
-//}
-//
-//void paint::foo()
-//{
-//	Button b;
-//	b.action = myAction;
-//}
-
-void paint::myAction(win::Button* button)
+void paint::myAction(Button*)
 {
 	std::cout << "Im doing an action yay! \n";
 }
 
-void paint::toggleDraw(win::Button* button)
+void paint::toggleDraw(Button* button)
 {
 	auto dw = utils::findDrawWindow(button);
 	dw->toggleDraw();
 }
 
-void paint::swapColours(win::Button* button)
+void paint::swapColours(Button* button)
 {
 	auto dw = utils::findDrawWindow(button);
 	dw->swapPrimarySecondaryColours();
-	auto cpick = paint::utils::findToolWindow(button)->getColourPicker();
+	auto cpick = utils::findToolWindow(button)->getColourPicker();
 	cpick->swappedDisplaysSwitch();
 	cpick->updateColourDisplaysFromDrawWindow();
 	cpick->setActiveColourInDrawWindow();
@@ -42,7 +31,7 @@ void paint::swapColours(win::Button* button)
 	cpick->update();
 }
 
-void paint::clearScreen(win::Button* button)
+void paint::clearScreen(Button* button)
 {
 	const auto dw = utils::findDrawWindow(button);
 	dw->clearScreen();

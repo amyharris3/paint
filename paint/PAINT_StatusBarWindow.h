@@ -16,7 +16,7 @@ namespace paint
 		StatusBarWindow& operator=(const StatusBarWindow & that) = delete;
 		StatusBarWindow& operator=(StatusBarWindow && that) = delete;
 
-		void displayMouseCoords(int xMouse, int yMouse);
+		void displayMouseCoords(int x, int y);
 
 		void draw() override;
 

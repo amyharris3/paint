@@ -10,7 +10,6 @@ using namespace win;
 
 DrawWindow::DrawWindow(SDL_Renderer* renderer, gfx::Rectangle const& rect, const char* name)
 	: Window( renderer, rect, name)
-	, activeTool_(nullptr)
 	, activeBrush_(nullptr)
 	, primaryColour_(gfx::Colour(255, 255, 255,255))
 	, secondaryColour_(gfx::Colour(255, 255, 255, 255))

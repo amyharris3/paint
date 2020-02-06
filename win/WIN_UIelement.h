@@ -50,6 +50,6 @@ namespace win
 		virtual bool mouseExit();
 		virtual bool mouseMove() { return false; };
 		virtual bool mouseButtonDown(MouseButton button);
-		virtual bool mouseButtonUp(MouseButton button) { return false; };
+		virtual bool mouseButtonUp(MouseButton) { return false; };
 	};
 }

@@ -28,11 +28,11 @@ void ColourSlider::valueChangedByMovement() const
 void ColourSlider::valueChangedExternally()
 {
 	if (primaryActive_) {
-		setMarkerValue(*linkedVariablePrimary_);
+		positionFromValue(*linkedVariablePrimary_);
 	}
 	else
 	{
-		setMarkerValue(*linkedVariableSecondary_);
+		positionFromValue(*linkedVariableSecondary_);
 	}
 	//updateAndRerender();
 }

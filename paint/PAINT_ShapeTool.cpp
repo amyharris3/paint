@@ -2,13 +2,9 @@
 
 using namespace paint;
 
-/*
 ShapeTool::ShapeTool()
+	: activeShape_(nullptr)
 {
 }
 
 
-ShapeTool::~ShapeTool()
-{
-}
-*/

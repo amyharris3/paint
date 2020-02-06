@@ -10,16 +10,16 @@ StatusBarWindow::StatusBarWindow(SDL_Renderer* renderer, gfx::Rectangle const& r
 {
 }
 
-void StatusBarWindow::displayMouseCoords(int xMouse, int yMouse)
+void StatusBarWindow::displayMouseCoords(int x, int y)
 {
 
 	//The current input text.
 	//std::string inputText = "Some Text";
 	//gInputTextTexture.loadFromRenderedText(inputText.c_str(), textColour_);
 
-	SDL_GetMouseState(&xMouse, &yMouse);
+	SDL_GetMouseState(&x, &y);
 	char text[20];
-	sprintf_s(text,"(%d,%d)", xMouse, yMouse);
+	sprintf_s(text,"(%d,%d)", x, y);
 	mouseCoordsText_.changeString(text);
 	mouseCoordsText_.renderText(getRect().x + getRect().width - mouseCoordsText_.getWidth() - 10, getRect().y + 5);
 }

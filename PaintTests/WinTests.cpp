@@ -197,16 +197,16 @@ namespace PaintTests
 
 			L.Apply(elements, boundary);
 
-			int ycount = 0;
+			int yCount = 0;
 			for (const auto& element : elements) {
 				const auto& box = element->getRect();
 				Assert::AreEqual(box.x, 2);
-				Assert::AreEqual(box.y, 1 + (5 * ycount));
+				Assert::AreEqual(box.y, 1 + (5 * yCount));
 				Assert::AreEqual(box.width, 6);
 				Assert::AreEqual(box.height, 4);
 				Assert::IsTrue(boundary.containsPoint(box.x, box.y));
 
-				ycount++;
+				yCount++;
 			}
 		}
 
@@ -223,23 +223,23 @@ namespace PaintTests
 
 			L.Apply(elements, boundary);
 
-			int xcount = 0;
-			int ycount = 0;
+			int xCount = 0;
+			int yCount = 0;
 
 			//test to ensure that all elements have correct position and dimensions, 
 			//and that they are still within boundaries, after layout is applied
 			for (const auto& element : elements) {
 				const auto& box = element->getRect();
-				Assert::AreEqual(box.x, 10 + (25 * xcount));
-				Assert::AreEqual(box.y, 10 + (25 * ycount));
+				Assert::AreEqual(box.x, 10 + (25 * xCount));
+				Assert::AreEqual(box.y, 10 + (25 * yCount));
 				Assert::AreEqual(box.width, 20);
 				Assert::AreEqual(box.height, 20);
 				Assert::IsTrue(boundary.containsPoint(box.x, box.y));
 
-				xcount++;
-				if (xcount == 2) {
-					xcount = 0;
-					ycount++;
+				xCount++;
+				if (xCount == 2) {
+					xCount = 0;
+					yCount++;
 				}
 
 			}

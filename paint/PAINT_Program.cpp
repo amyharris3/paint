@@ -72,12 +72,11 @@ void Program::run() const
 	auto clicked = false;
 
 	// if a method causes a change in the visual representation of the program, returns 'true' and calls to rerender the relevant section, else have the method return 'false'
-	auto rerenderFlag = false;
 
 	//While application is running
 	std::shared_ptr<UIelement> activeElement = nullptr;
 	while (!quit) {
-		rerenderFlag = false;
+		auto rerenderFlag = false;
 
 		//Handle events on queue
 		while (SDL_PollEvent(&e) != 0) {

@@ -2,24 +2,25 @@
 #include "WIN_FreeLayout.h"
 #include "WIN_TableLayout.h"
 #include "PAINT_DrawWindow.h"
-#include "WIN_Mouse.h"
-#include <iostream>
 #include "PAINT_ButtonFunctions.h"
 #include "PAINT_Utils.h"
 #include "WIN_ColourValueTextbox.h"
 #include <cassert>
+#include <utility>
+#include "WIN_ColourDisplay.h"
 
+using namespace win;
 using namespace paint;
 
-ColourPicker::ColourPicker(gfx::Rectangle rect, SDL_Renderer* renderer, std::shared_ptr<DrawWindow> const & drawWindow)
+ColourPicker::ColourPicker(gfx::Rectangle rect, SDL_Renderer* renderer, std::shared_ptr<DrawWindow> drawWindow)
 	: Container(std::make_shared<win::FreeLayout>(), rect, "colourPicker")
-	, drawWindowPtr_(drawWindow)
+	, drawWindowPtr_(std::move(drawWindow))
 	, renderer_(renderer)
-	, displayBox_(std::make_shared<Container>(std::make_shared<win::TableLayout>(20, 20, 60, 0, 1, 2), gfx::Rectangle(rect.x, rect.y, rect.width, 70), "displayBox"))
+	, displayBox_(std::make_shared<win::Container>(std::make_shared<win::TableLayout>(20, 20, 60, 0, 1, 2), gfx::Rectangle(rect.x, rect.y, rect.width, 70), "displayBox"))
 	, swapButton_(std::make_shared<win::Button>(renderer, gfx::Rectangle(rect.x + 75, rect.y + 20, 30, 30), "swapColourButton", "button_swap_colours.png", paint::swapColours))
 	, swappedDisplays_(false)
-	, colourValuesBox_(std::make_shared<Container>(std::make_shared<win::TableLayout>(0, 0, 0, 20, 4, 1), gfx::Rectangle(rect.x + rect.width - 50, rect.y + 65, 40, 140), "colourValuesBox"))
-	, colourSliders_(std::make_shared<Container>(std::make_shared<win::TableLayout>(0, 0, 0, 20, 4, 1), gfx::Rectangle(rect.x+5, rect.y + 65, 120, 140), "colourSlidersBox"))
+	, colourValuesBox_(std::make_shared<win::Container>(std::make_shared<win::TableLayout>(0, 0, 0, 20, 4, 1), gfx::Rectangle(rect.x + rect.width - 50, rect.y + 65, 40, 140), "colourValuesBox"))
+	, colourSliders_(std::make_shared<win::Container>(std::make_shared<win::TableLayout>(0, 0, 0, 20, 4, 1), gfx::Rectangle(rect.x+5, rect.y + 65, 120, 140), "colourSlidersBox"))
 {
 	addChild(swapButton_);
 	

@@ -11,9 +11,9 @@ Button::Button(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* n
 	, action(act)
 	, buttonState_(ButtonState::BUTTON_SPRITE_MOUSE_OUT)
 	, renderer_(renderer)
-	//texture_ = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, rect.width, rect.height)
 	, texture_ (loadSprite(spritePath))
 	, rect_(rect)
+	, spriteClips_()
 	, clicked_(false)
 {
 	handleSpriteSheet();

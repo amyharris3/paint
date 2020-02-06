@@ -21,7 +21,7 @@ namespace win
 
 	public:
 		//TableLayout() = default;
-		explicit TableLayout(int xMargin = 0, int yMargin = 0, int xSpacing = 0, int yspacing = 0, int rows = 1, int cols = 1);
+		explicit TableLayout(int xMargin = 0, int yMargin = 0, int xSpacing = 0, int ySpacing = 0, int rows = 1, int cols = 1);
 		virtual ~TableLayout() = default;
 		TableLayout(TableLayout const& that) = default;
 		TableLayout(TableLayout && that) = default;

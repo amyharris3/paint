@@ -37,20 +37,20 @@ void TableLayout::Apply(std::vector<std::shared_ptr<UIelement>> const& elements,
 	const auto elementHeight = int(round(
 		(double(bounds.height) - (double(yMargin_) * 2) - (double(ySpacing_) * (double(rows_) - 1))) / double(rows_)));
 
-	int xcount = 0;
-	int ycount = 0;
+	int xCount = 0;
+	int yCount = 0;
 	for (const auto& elem : elements) {
 
-		gfx::Rectangle rect(bounds.x + xMargin_ + ((elementWidth + xSpacing_) * xcount), 
-						bounds.y + yMargin_ + ((elementHeight + ySpacing_) * ycount),
+		gfx::Rectangle rect(bounds.x + xMargin_ + ((elementWidth + xSpacing_) * xCount), 
+						bounds.y + yMargin_ + ((elementHeight + ySpacing_) * yCount),
 						elementWidth,
 						elementHeight);
 		elem->setRect(rect);
 
-		xcount++;
-		if (xcount == cols_) {
-			xcount = 0;
-			ycount++;
+		xCount++;
+		if (xCount == cols_) {
+			xCount = 0;
+			yCount++;
 		}
 
 	}

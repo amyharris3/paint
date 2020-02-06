@@ -108,7 +108,7 @@ void EditTextbox::draw()
 	SDL_SetRenderDrawColor(renderer_, rgba[0], rgba[1], rgba[2], rgba[3]);
 	SDL_RenderFillRect(renderer_, &boxRect);
 
-	auto renderSuccess = text_->renderText(getRect().x + xOffset_, getRect().y + yOffset_);
+	(void)text_->renderText(getRect().x + xOffset_, getRect().y + yOffset_);
 
 }
 
