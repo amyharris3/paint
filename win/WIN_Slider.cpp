@@ -12,7 +12,7 @@ Slider::Slider(gfx::Renderer* renderer, gfx::Rectangle rect, const char* name, g
 	, lineRect_(rect.x+2, int(rect.y+rect.height/2)-2, rect.width-5, 3)
 	, lineColour_({0,0,0,255})
 	, markerVal_(initialVal)
-	, markerRect_(initialPos, rect.y, 5, rect.height)
+	, markerRect_(getPositionFromValue(), rect.y, 5, rect.height)
 	, markerColour_({ 0,0,0,255 })
 	, holdMarker_(false)
 
@@ -24,6 +24,7 @@ Slider::Slider(gfx::Renderer* renderer, gfx::Rectangle rect, const char* name, g
 	if(rect.width < 5){
 		lineRect_.x = rect.x;
 		lineRect_.width = rect.width;
+		markerRect_.x = getPositionFromValue();
 		markerRect_.width = 1;
 	}
 	if(rect.height < 3 ){
@@ -39,7 +40,6 @@ void Slider::updateLineMarker()
 	lineRect_ = gfx::Rectangle(getRect().x + 2, (getRect().y + getRect().height / 2) - 2, getRect().width - 5, 3);
 	markerRect_ = gfx::Rectangle(getPositionFromValue(), getRect().y, 5, getRect().height);
 }
-
 int Slider::getPositionFromValue() const
 {
 	return lineRect_.x + static_cast<int>(round((static_cast<double>(markerVal_) * static_cast<double>(lineRect_.width) / (static_cast<double>(slideLineMax_) - static_cast<double>(slideLineMin_)))));
@@ -51,25 +51,50 @@ int Slider::getValueFromPosition() const
 {
 	const auto relativeX = markerRect_.x - lineRect_.x;
 	//return relativeX * int(round((double(slideLineMax_) - double(slideLineMin_)) / double(lineRect_.width)));
-	return static_cast<int>(round(static_cast<double>(relativeX) *(static_cast<double>(slideLineMax_) - static_cast<double>(slideLineMin_)) / static_cast<double>(lineRect_.width)));
+	return static_cast<int>(round(static_cast<double>(relativeX) *(static_cast<double>(slideLineMax_) - static_cast<double>(slideLineMin_)) / static_cast<double>(lineRect_.width))) - 1;
 }
 
-void Slider::setMarkerValue(int const val)
+//When changing marker value or position, always want to change the other at the same time, don't let them get out of sync
+void Slider::setMarkerValue(int val)
 {
+	if (val > slideLineMax_){
+		val = slideLineMax_;
+	}
+	else if (val < slideLineMin_){
+		val = slideLineMin_;
+	}
 	markerVal_ = val;
-	setMarkerPos(val);
+
+	auto x = getPositionFromValue();
+	if (x > lineRect_.x + lineRect_.width - 2) {
+		x = lineRect_.x + lineRect_.width;
+	}
+	else if (x < lineRect_.x + 2) {
+		x = lineRect_.x;
+	}
+	markerRect_.x = x;
 }
 
+// marker position is absolute relative to the global (x,y) scale
 // Should be within range of rectangle, else set to range
 void Slider::setMarkerPos(int x)
 {
 	if (x > lineRect_.x + lineRect_.width - 2) {
 		x = lineRect_.x + lineRect_.width;
 	}
-	if (x < lineRect_.x + 2) {
+	else if (x < lineRect_.x + 2) {
 		x = lineRect_.x;
 	}
 	markerRect_.x = x;
+
+	auto val = getValueFromPosition();
+	if (val > slideLineMax_) {
+		val = slideLineMax_;
+	}
+	else if (val < slideLineMin_) {
+		val = slideLineMin_;
+	}
+	markerVal_ = val;
 }
 
 void Slider::moveMarker()
