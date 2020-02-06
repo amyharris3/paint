@@ -13,6 +13,7 @@ namespace win
 	public:
 		EditTextbox() = delete;
 		EditTextbox(gfx::Rectangle rect, const char* name, gfx::Renderer* renderer, int textSize, int xOffset, int yOffset);
+		EditTextbox(gfx::Rectangle rect, const char* name, gfx::Renderer* renderer, int textSize, int xOffset, int yOffset, const char* initialText);
 		~EditTextbox() = default;
 		EditTextbox(const EditTextbox & that) = default;
 		EditTextbox(EditTextbox && that) = default;
@@ -21,10 +22,12 @@ namespace win
 
 		gfx::Renderer* getRenderer() const { return renderer_;  }
 		std::shared_ptr<gfx::Text> getText() const { return text_; }
+		int getXOffset() const { return xOffset_; }
+		int getYOffset() const { return yOffset_; }
 		bool getClick() const { return isClicked_; }
 		void click();
 
-		void editText(const char* newText) const;
+		virtual void editText(const char* newText);
 		virtual void editTextAndRerender(std::string & newString);
 		virtual void takeTextEntry();
 		

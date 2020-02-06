@@ -4,14 +4,14 @@
 using namespace win;
 
 Container::Container()
-	: Container(std::make_shared<FreeLayout>(), rect_, "container")
+	: Container(std::make_shared<FreeLayout>(), gfx::Rectangle(), "container")
 {
 }
 
 Container::Container(std::shared_ptr<Layout> layout, const gfx::Rectangle& rect, const char* name)
 	: UIelement(rect, name)
 	, layout_(std::move(layout))
-	, rect_(rect)
+	//, rect_(rect)
 	, dirty_(false)
 {
 

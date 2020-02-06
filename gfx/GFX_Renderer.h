@@ -41,7 +41,6 @@ namespace gfx
 		
 	private:
 		SDL_Renderer* rendererSDL_;
-
 		SDL_Texture* textureDW_;
 		
 	};

@@ -3,14 +3,15 @@
 
 using namespace win;
 
-Slider::Slider(gfx::Renderer* renderer, gfx::Rectangle rect, const char* name, gfx::Colour fillColour, gfx::Colour outlineColour, int const initialPos, int const slideMin, int const slideMax)
+//Demanding minimum dimensions for the slider box, if input parameters are below the minimum size then it will re-adjust
+Slider::Slider(gfx::Renderer* renderer, gfx::Rectangle rect, const char* name, gfx::Colour fillColour, gfx::Colour outlineColour, int const initialVal, int const slideMin, int const slideMax)
 	: UIelement(rect, name)
 	, renderer_(renderer)
 	, slideLineMin_(slideMin)
 	, slideLineMax_(slideMax)
 	, lineRect_(rect.x+2, int(rect.y+rect.height/2)-2, rect.width-5, 3)
 	, lineColour_({0,0,0,255})
-	, markerPos_(initialPos)
+	, markerVal_(initialVal)
 	, markerRect_(initialPos, rect.y, 5, rect.height)
 	, markerColour_({ 0,0,0,255 })
 	, holdMarker_(false)
@@ -18,26 +19,57 @@ Slider::Slider(gfx::Renderer* renderer, gfx::Rectangle rect, const char* name, g
 {
 	setForegroundColour(fillColour);
 	setBackgroundColour(outlineColour);
+
+	//accounting for ridiculously tiny boxes that shouldn't be used
+	if(rect.width < 5){
+		lineRect_.x = rect.x;
+		lineRect_.width = rect.width;
+		markerRect_.width = 1;
+	}
+	if(rect.height < 3 ){
+		lineRect_.y = rect.y;
+		lineRect_.height = 1;
+	}
+	
 }
 
+//Good to call this to automatically scale if the dimensions of the slider rect have been changed
 void Slider::updateLineMarker()
 {
 	lineRect_ = gfx::Rectangle(getRect().x + 2, (getRect().y + getRect().height / 2) - 2, getRect().width - 5, 3);
-	markerRect_ = gfx::Rectangle(markerPos_, getRect().y, 5, getRect().height);
+	markerRect_ = gfx::Rectangle(xPositionFromValue(), getRect().y, 5, getRect().height);
 }
 
-void Slider::positionFromValue(int const val)
+int Slider::xPositionFromValue() const
 {
-	markerPos_ = lineRect_.x +  int(double(val) * double(lineRect_.width) / (double(slideLineMax_) - double(slideLineMin_)));
-	markerRect_.x = markerPos_;
+	return lineRect_.x + static_cast<int>(round((static_cast<double>(markerVal_) * static_cast<double>(lineRect_.width) / (static_cast<double>(slideLineMax_) - static_cast<double>(slideLineMin_)))));
 }
 
 // Need to convert scaling from the position
 // subtracts 1 to deal with int/double/rounding errors that are introduced
 int Slider::getValueFromPosition() const
 {
-	const auto relativeX = markerPos_ - lineRect_.x;
-	return int(double(relativeX) * (double(slideLineMax_) - double(slideLineMin_)) / double(lineRect_.width));
+	const auto relativeX = markerRect_.x - lineRect_.x;
+	//return relativeX * int(round((double(slideLineMax_) - double(slideLineMin_)) / double(lineRect_.width)));
+	return static_cast<int>(round(static_cast<double>(relativeX) *(static_cast<double>(slideLineMax_) - static_cast<double>(slideLineMin_)) / static_cast<double>(lineRect_.width)));
+}
+
+void Slider::setMarkerValue(int const val)
+{
+	markerVal_ = val;
+	setMarkerPos(val);
+}
+
+// Should be within range of rectangle, else set to range
+void Slider::setMarkerPos(int x)
+{
+	if (x > lineRect_.x + lineRect_.width - 2) {
+		x = lineRect_.x + lineRect_.width;
+	}
+	if (x < lineRect_.x + 2) {
+		x = lineRect_.x;
+	}
+	markerRect_.x = x;
 }
 
 void Slider::moveMarker()
@@ -46,15 +78,8 @@ void Slider::moveMarker()
 	int yMouse = 0;
 
 	renderer_->getMouseState(xMouse, yMouse);
-	
-	if (xMouse > lineRect_.x + lineRect_.width - 2) {
-		xMouse = lineRect_.x + lineRect_.width;
-	}
-	if (xMouse < lineRect_.x + 2) {
-		xMouse = lineRect_.x;
-	}
-	markerRect_.x = xMouse;
-	markerPos_ = xMouse;
+
+	setMarkerPos(xMouse);
 }
 
 void Slider::update()
