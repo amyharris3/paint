@@ -17,22 +17,22 @@ ColourSlider::ColourSlider(SDL_Renderer* renderer, gfx::Rectangle rect, const ch
 void ColourSlider::valueChangedByMovement() const
 {
 	if (primaryActive_) {
-		*linkedVariablePrimary_ = valueFromPosition();
+		*linkedVariablePrimary_ = getValueFromPosition();
 	}
 	else
 	{
-		*linkedVariableSecondary_ = valueFromPosition();
+		*linkedVariableSecondary_ = getValueFromPosition();
 	}
 }
 
 void ColourSlider::valueChangedExternally()
 {
 	if (primaryActive_) {
-		positionFromValue(*linkedVariablePrimary_);
+		setMarkerValue(*linkedVariablePrimary_);
 	}
 	else
 	{
-		positionFromValue(*linkedVariableSecondary_);
+		setMarkerValue(*linkedVariableSecondary_);
 	}
 	//updateAndRerender();
 }

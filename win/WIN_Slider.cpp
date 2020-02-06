@@ -32,7 +32,8 @@ void Slider::positionFromValue(int const val)
 }
 
 // Need to convert scaling from the position
-int Slider::valueFromPosition() const
+// subtracts 1 to deal with int/double/rounding errors that are introduced
+int Slider::getValueFromPosition() const
 {
 	const auto relativeX = markerPos_ - lineRect_.x;
 	return int(double(relativeX) * (double(slideLineMax_) - double(slideLineMin_)) / double(lineRect_.width));
