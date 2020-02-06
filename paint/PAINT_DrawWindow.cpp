@@ -1,22 +1,22 @@
+#include "PAINT_pch.h"
 #include "PAINT_DrawWindow.h"
-#include <SDL.h>
-#include "PAINT_Brush.h"
 #include "WIN_Mouse.h"
-#include <iostream>
-#include "PAINT_Utils.h"
+#include "PAINT_DrawTool.h"
+#include "WIN_ToggleButton.h"
+#include "WIN_Coords.h"
+#include "WIN_ButtonStates.h"
 
 using namespace paint;
 using namespace win;
 
 DrawWindow::DrawWindow(SDL_Renderer* renderer, gfx::Rectangle const& rect, const char* name)
-	: Window( renderer, rect, name)
-	, activeBrush_(nullptr)
-	, primaryColour_(gfx::Colour(255, 255, 255,255))
+	: Window(renderer, rect, name)
+	, activeTool_(nullptr)
+	, primaryColour_(gfx::Colour(255, 255, 255, 255))
 	, secondaryColour_(gfx::Colour(255, 255, 255, 255))
 	, renderer_(renderer)
-	, drawToggle_(false)
-	, mouseCoords_({0,0})
-	, prevMouseCoords_({0,0})
+	, mouseCoords_({ 0,0 })
+	, prevMouseCoords_({ 0,0 })
 	, primaryActive_(true)
 	, primaryRGBA_{}
 	, secondaryRGBA_{}
@@ -24,7 +24,8 @@ DrawWindow::DrawWindow(SDL_Renderer* renderer, gfx::Rectangle const& rect, const
 	texture_ = SDL_CreateTexture(renderer_, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, rect.width, rect.height);
 	primaryColour_.getComponents(primaryRGBA_);
 	secondaryColour_.getComponents(secondaryRGBA_);
-} 
+	drawTool_ = std::make_shared<DrawTool>(renderer_, texture_);
+}
 
 DrawWindow::~DrawWindow()
 {
@@ -34,29 +35,66 @@ DrawWindow::~DrawWindow()
 	}
 }
 
+/*override*/
+bool DrawWindow::mouseButtonDown(MouseButton const b)
+{
+	const Coords rel = { mouseCoords_.x - this->getRect().x, mouseCoords_.y - this->getRect().y };
+	const Coords prevRel = { prevMouseCoords_.x - this->getRect().x, prevMouseCoords_.y - this->getRect().y };
 
-void DrawWindow::setActiveBrush(Brush* brush)
-{	
-	activeBrush_ = brush;
+	if (b == MouseButton::Left) {
+		if (activeTool_) {
+			activeTool_->toolFunction(rel, prevRel);
+		}
+	}
+
+	return false;
 }
 
-void DrawWindow::setMouseCoords(Coords relCoords)
+/*override*/
+bool DrawWindow::mouseButtonUp(win::MouseButton const b)
+{
+	if (b == MouseButton::Left) {
+		if (activeTool_) {
+			activeTool_->clearLines();
+		}
+	}
+
+	return false;
+}
+
+
+void DrawWindow::setActiveTool(std::shared_ptr<Tool> tool)
+{
+	activeTool_ = std::move(tool);
+}
+
+void DrawWindow::toggleDrawTool(win::ToggleButton* b)
+{
+	if (b->getState() == ButtonStates::on) {
+		activeTool_ = drawTool_;
+	}
+	else if (b->getState() == ButtonStates::off) {
+		activeTool_ = nullptr;
+	}
+}
+
+void DrawWindow::setMouseCoords(const win::Coords relCoords)
 {
 	mouseCoords_ = relCoords;
 }
 
-void DrawWindow::setPrevCoords(Coords relPrevCoords)
+void DrawWindow::setPrevCoords(const win::Coords relPrevCoords)
 {
 	prevMouseCoords_ = relPrevCoords;
 }
 
-void DrawWindow::setPrimaryColour(gfx::Colour colour)
+void DrawWindow::setPrimaryColour(const gfx::Colour colour)
 {
 	primaryColour_ = colour;
 	primaryColour_.getComponents(primaryRGBA_);
 }
 
-void DrawWindow::setSecondaryColour(gfx::Colour colour)
+void DrawWindow::setSecondaryColour(const gfx::Colour colour)
 {
 	secondaryColour_ = colour;
 	secondaryColour_.getComponents(secondaryRGBA_);
@@ -72,7 +110,6 @@ void DrawWindow::swapPrimarySecondaryColours()
 /*override*/
 void DrawWindow::draw()
 {
-	//if (drawingToggle_) {
 	const auto& myRect = getRect();
 	SDL_Rect destRect = { myRect.x, myRect.y, myRect.width, myRect.height };
 	SDL_RenderCopy(renderer_, texture_, nullptr, &destRect);
@@ -89,38 +126,14 @@ void DrawWindow::draw()
 			drawRGBA_[i] = secondaryRGBA_[i];
 		}
 	}
-	
+
 	SDL_SetRenderDrawColor(renderer_, int(drawRGBA_[0]), int(drawRGBA_[1]), int(drawRGBA_[2]), int(drawRGBA_[3]));
-	//for (std::vector<Line>::const_iterator i = lines_.begin(); i != lines_.end(); ++i) {
-	for (auto line : lines_) {
-		SDL_RenderDrawLine(renderer_, line.x1, line.y1, line.x2, line.y2);
-	}
-	//}
 }
 
 void DrawWindow::updateAndRerender()
 {
 	draw();
 	SDL_RenderPresent(renderer_);
-}
-
-bool DrawWindow::mouseButtonDown(const MouseButton button)
-{
-	
-	if (button == MouseButton::Left) {
-		if (drawToggle_) {
-			lines_.push_back({ mouseCoords_.x, mouseCoords_.y, prevMouseCoords_.x, prevMouseCoords_.y });
-
-		}
-
-	}
-	return true;
-}
-
-
-void DrawWindow::toggleDraw()
-{
-	drawToggle_ = !drawToggle_;
 }
 
 // TODO Needs more work, to properly clear drawWindow

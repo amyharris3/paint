@@ -1,3 +1,4 @@
+#include "WIN_pch.h"
 #include "WIN_Container.h"
 #include "WIN_FreeLayout.h"
 
@@ -14,7 +15,6 @@ Container::Container(std::shared_ptr<Layout> layout, const gfx::Rectangle& rect,
 	, rect_(rect)
 	, dirty_(false)
 {
-
 }
 
 void Container::addChild(std::shared_ptr<UIelement> const & child)
@@ -24,6 +24,7 @@ void Container::addChild(std::shared_ptr<UIelement> const & child)
 	dirty_ = true;
 }
 
+/* override */
 void Container::draw()
 {
 	if (dirty_) {
@@ -31,7 +32,6 @@ void Container::draw()
 		dirty_ = false;
 	}
 
-	// TODO: draw myself.
 	for (auto & child : children_) {
 		child->draw();
 	}

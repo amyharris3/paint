@@ -1,13 +1,7 @@
 #pragma once
 #include "WIN_Container.h"
 
-struct SDL_Window;
 struct SDL_Renderer;
-struct SDL_Surface;
-
-namespace win {
-	class Layout;
-}
 
 namespace paint {
 
@@ -16,11 +10,10 @@ namespace paint {
 	class StatusBarWindow;
 	class MenuWindow;
 
-	class Screen :
+	class Screen final :
 		public win::Container
 	{
 	public:
-
 		Screen() = default;
 		Screen(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* name);
 		~Screen() = default;
@@ -33,17 +26,9 @@ namespace paint {
 		ToolWindow* getToolWindow() const { return toolWindow_.get(); }
 
 		void updateAndRerender() override;
-		
-		//void setDrawWindow(DrawWindow* drawWindow);
-		//void setToolWindow(ToolWindow* toolWindow);
-
-
 	private:
 		std::shared_ptr<DrawWindow> drawWindow_;
 		std::shared_ptr<ToolWindow> toolWindow_;
-		std::shared_ptr<StatusBarWindow> statusWindow_;
-		std::shared_ptr<MenuWindow> menuWindow_;
-
 
 	};
 }

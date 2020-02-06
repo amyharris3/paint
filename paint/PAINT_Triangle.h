@@ -3,12 +3,12 @@
 
 namespace paint
 {
-	class Triangle :
+	class Triangle final : 
 		public Shape
 	{
 	public:
-		Triangle();
-		virtual ~Triangle();
+		Triangle() = default;
+		virtual ~Triangle() = default;
 		Triangle(const Triangle& that) = default;
 		Triangle(Triangle && that) = default;
 		Triangle& operator=(const Triangle & that) = default;

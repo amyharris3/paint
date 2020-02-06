@@ -1,6 +1,6 @@
+#include "PAINT_pch.h"
 #include "PAINT_MenuWindow.h"
 #include "WIN_Window.h"
-#include <SDL.h>
 
 using namespace paint;
 using namespace win;

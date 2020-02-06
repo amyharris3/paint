@@ -92,7 +92,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)SDL2_ttf-2.0.15\include;$(SolutionDir)SDL\include;$(VCInstallDir)UnitTest\include;$(SolutionDir)win;$(SolutionDir)gfx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)SDL2_ttf-2.0.15\include;$(SolutionDir)SDL\include;$(VCInstallDir)UnitTest\include;$(SolutionDir)win;$(SolutionDir)gfx;$(SolutionDir)paint;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -168,7 +168,10 @@ xcopy /q /y /s $(SolutionDir)SDL2_ttf-2.0.15\lib\x64\libfreetype-6.dll $(OutDir)
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GfxTests.cpp" />
-    <ClCompile Include="PaintTests.cpp" />
+    <ClCompile Include="PaintTests.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

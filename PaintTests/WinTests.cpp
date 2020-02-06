@@ -1,11 +1,11 @@
 #include "pch.h"
 #include "CppUnitTest.h"
 #include "TestElement.h"
-#include "../win/WIN_Layout.h"
 #include "../win/WIN_FreeLayout.h"
 #include "../win/WIN_TableLayout.h"
 #include "../gfx/GFX_Rectangle.h"
-#include <memory>
+#include "WIN_ToggleButton.h"
+
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace gfx;
@@ -197,7 +197,7 @@ namespace PaintTests
 
 			L.Apply(elements, boundary);
 
-			int yCount = 0;
+			auto yCount = 0;
 			for (const auto& element : elements) {
 				const auto& box = element->getRect();
 				Assert::AreEqual(box.x, 2);
@@ -223,8 +223,8 @@ namespace PaintTests
 
 			L.Apply(elements, boundary);
 
-			int xCount = 0;
-			int yCount = 0;
+			auto xCount = 0;
+			auto yCount = 0;
 
 			//test to ensure that all elements have correct position and dimensions, 
 			//and that they are still within boundaries, after layout is applied
@@ -246,4 +246,5 @@ namespace PaintTests
 		}
 
 	};
+	
 }

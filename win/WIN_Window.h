@@ -16,10 +16,6 @@ namespace win
 
 	class Window : public Container
 	{
-	private:
-		gfx::Rectangle rect_;
-		SDL_Renderer* renderer_;
-
 	public:
 		Window() = delete;
 		virtual ~Window() = default;
@@ -33,7 +29,11 @@ namespace win
 		SDL_Renderer* getRenderer() const { return renderer_; }
 		
 		void draw() override;
-		void updateAndRerender() override;
 		
+	private:
+		gfx::Rectangle rect_;
+		SDL_Renderer* renderer_;
+
+		void updateAndRerender() override;
 	};
 }

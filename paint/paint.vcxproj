@@ -107,6 +107,9 @@
       <TreatWarningAsError>false</TreatWarningAsError>
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
+      <PreprocessorDefinitions>VERBOSE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>PAINT_pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -150,13 +153,16 @@ xcopy /q /y /s $(SolutionDir)SDL2_ttf-2.0.15\lib\x64\zlib1.dll $(OutDir)
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)SDL2_ttf-2.0.15\include;$(SolutionDir)gfx;$(SolutionDir)SDL\include;%(AdditionalIncludeDirectories);$(SolutionDir)win</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>PAINT_pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)SDL2_ttf-2.0.15\lib\x64;$(SolutionDir)SDL\lib\win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)SDL\lib\win64;$(SolutionDir)SDL2_ttf-2.0.15\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_gfx.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /q /y /s $(SolutionDir)SDL\lib\win64\SDL2main.dll $(OutDir)
@@ -174,6 +180,7 @@ xcopy /q /y /s $(SolutionDir)SDL2_ttf-2.0.15\lib\x64\zlib1.dll $(OutDir)
     <ClCompile Include="PAINT_Circle.cpp" />
     <ClCompile Include="PAINT_ColourPicker.cpp" />
     <ClCompile Include="PAINT_DrawFlags.cpp" />
+    <ClCompile Include="PAINT_DrawTool.cpp" />
     <ClCompile Include="PAINT_DrawWindow.cpp" />
     <ClCompile Include="PAINT_Eraser.cpp" />
     <ClCompile Include="paint-main.cpp">
@@ -181,6 +188,10 @@ xcopy /q /y /s $(SolutionDir)SDL2_ttf-2.0.15\lib\x64\zlib1.dll $(OutDir)
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\amyha\source\repos\paint\SDL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <ClCompile Include="PAINT_MenuWindow.cpp" />
+    <ClCompile Include="PAINT_pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="PAINT_Program.cpp" />
     <ClCompile Include="PAINT_Rectangle.cpp" />
     <ClCompile Include="PAINT_Screen.cpp" />
@@ -198,9 +209,11 @@ xcopy /q /y /s $(SolutionDir)SDL2_ttf-2.0.15\lib\x64\zlib1.dll $(OutDir)
     <ClInclude Include="PAINT_Circle.h" />
     <ClInclude Include="PAINT_ColourPicker.h" />
     <ClInclude Include="PAINT_DrawFlags.h" />
+    <ClInclude Include="PAINT_DrawTool.h" />
     <ClInclude Include="PAINT_DrawWindow.h" />
     <ClInclude Include="PAINT_Eraser.h" />
     <ClInclude Include="PAINT_MenuWindow.h" />
+    <ClInclude Include="PAINT_pch.h" />
     <ClInclude Include="PAINT_Program.h" />
     <ClInclude Include="PAINT_Rectangle.h" />
     <ClInclude Include="PAINT_Screen.h" />

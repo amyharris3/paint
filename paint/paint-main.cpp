@@ -1,8 +1,6 @@
+#include "PAINT_pch.h"
 #include "PAINT_Program.h"
-#include <SDL.h>
-#include <iostream>
-#include <SDL_image.h>
-#include "SDL_ttf.h"
+
 
 using namespace paint;
 static Program s_program;
@@ -21,8 +19,8 @@ int main(int /*argc*/, char ** /* argv*/)
 
 
 	// Create root window.
-	SDL_Window* rootWindow = SDL_CreateWindow("rootWindow", 300, 100, 1200, 800, 0);
-	SDL_Renderer* renderer = SDL_CreateRenderer(rootWindow, -1, SDL_RENDERER_ACCELERATED);
+	auto rootWindow = SDL_CreateWindow("rootWindow", 300, 100, 1200, 800, 0);
+	auto renderer = SDL_CreateRenderer(rootWindow, -1, SDL_RENDERER_ACCELERATED);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 
 	if (!rootWindow) {

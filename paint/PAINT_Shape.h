@@ -2,7 +2,7 @@
 
 namespace paint
 {
-	class DrawFlags;
+	//class DrawFlags;
 	
 	class Shape
 	{

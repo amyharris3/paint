@@ -1,7 +1,6 @@
+#include "WIN_pch.h"
 #include "WIN_ColourDisplay.h"
-#include <SDL.h>
 #include "../paint/PAINT_Utils.h"
-//#include "../paint/PAINT_DrawWindow.h"
 
 using namespace win;
 
@@ -89,8 +88,8 @@ bool ColourDisplay::mouseButtonDown(win::MouseButton const button)
 bool ColourDisplay::mouseButtonUp(win::MouseButton const button)
 {
 	if (isClicked_) {
-		const auto cpick = paint::utils::findToolWindow(this)->getColourPicker();
-		cpick->swapActiveColour();
+		const auto cPick = paint::utils::findToolWindow(this)->getColourPicker();
+		cPick->swapActiveColour();
 		isClicked_ = false;
 	}
 	return true;

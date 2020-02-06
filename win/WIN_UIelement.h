@@ -2,23 +2,16 @@
 
 #include "GFX_Colour.h"
 #include "GFX_Rectangle.h"
-#include <string>
 
 namespace win
 {
 	enum class MouseButton;
-	class Container;
 
 	class UIelement
 	{
-	private:
-		std::string name_;
-		gfx::Colour foregroundColour_;
-		gfx::Colour backgroundColour_;
-		gfx::Rectangle rect_;
-		UIelement * parent_;
-
 	public:
+
+		typedef void (*ActionFunction)(UIelement* control);
 
 		UIelement() = delete;
 		UIelement(gfx::Rectangle rect, const char* name);
@@ -37,7 +30,7 @@ namespace win
 		virtual void swapFgBgColours();
 
 		void setRect(const gfx::Rectangle & rect);
-		gfx::Rectangle getRect() const { return rect_; }
+		const gfx::Rectangle & getRect() const { return rect_; }
 		const char* getName() const { return name_.c_str(); }
 		UIelement* getParent() const { return parent_; }
 		void setParent(UIelement * parent);
@@ -45,11 +38,17 @@ namespace win
 		virtual void draw() = 0;
 		virtual void update() { };
 		virtual void updateAndRerender() { };
-		//virtual void mouseMove(int x, int y) {}
 		virtual bool mouseEnter();
 		virtual bool mouseExit();
 		virtual bool mouseMove() { return false; };
 		virtual bool mouseButtonDown(MouseButton button);
 		virtual bool mouseButtonUp(MouseButton) { return false; };
+
+	private:
+		std::string name_;
+		gfx::Colour foregroundColour_;
+		gfx::Colour backgroundColour_;
+		gfx::Rectangle rect_;
+		UIelement* parent_;
 	};
 }

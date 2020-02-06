@@ -1,14 +1,9 @@
+#include "PAINT_pch.h"
 #include "PAINT_Eraser.h"
 
 using namespace paint;
 
-/*
- *Eraser::Eraser()
+void Eraser::toolFunction(win::Coords , win::Coords )
 {
+	// TODO
 }
-
-
-Eraser::~Eraser()
-{
-}
-*/

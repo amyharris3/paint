@@ -1,14 +1,9 @@
+#include "PAINT_pch.h"
 #include "PAINT_Program.h"
 #include "PAINT_DrawWindow.h"
-#include "PAINT_ToolWindow.h"
 #include "PAINT_Screen.h"
 #include "WIN_Mouse.h"
-#include <cassert>
-#include <SDL.h>
-#include <iostream>
-#include <memory>
 #include "PAINT_ColourPicker.h"
-
 
 using namespace paint;
 using namespace gfx;
@@ -16,7 +11,14 @@ using namespace win;
 
 using UIelementVector = std::vector<std::shared_ptr<UIelement>>;
 
-static std::shared_ptr<UIelement> GetTopmostElement(const UIelementVector& children, int x, int y)
+Program::Program()
+	: screen_(nullptr)
+	, renderer_(nullptr)
+{
+
+}
+
+static std::shared_ptr<UIelement> GetTopmostElement(const UIelementVector& children, const int x, const int y)
 {
 	for (const auto& child : children) {
 		const auto& rect = child->getRect();
@@ -33,18 +35,10 @@ static std::shared_ptr<UIelement> GetTopmostElement(const UIelementVector& child
 			}
 			else {
 				return child;
-
 			}
 		}
 	}
 	return nullptr;
-}
-
-Program::Program()
-	: screen_(nullptr)
-	, renderer_(nullptr)
-{
-	
 }
 
 void Program::initialize(SDL_Renderer* renderer)
@@ -58,21 +52,18 @@ void Program::initialize(SDL_Renderer* renderer)
 void Program::run() const
 {
 	SDL_Event e;
-	bool quit = false;
-	int xMouse{ 0 };
-	int yMouse{ 0 };
-	int xPrev{ 0 };
-	int yPrev{ 0 };
+	auto quit = false;
+	auto xMouse{ 0 };
+	auto yMouse{ 0 };
+	auto xPrev{ 0 };
+	auto yPrev{ 0 };
 
-	auto children = screen_->getChildren();
-	auto toolChildren = screen_->getToolWindow()->getChildren();
 	auto drawWindow = screen_->getDrawWindow();
-
 
 	auto clicked = false;
 
-	// if a method causes a change in the visual representation of the program, returns 'true' and calls to rerender the relevant section, else have the method return 'false'
-
+	auto button = MouseButton::Left;
+	
 	//While application is running
 	std::shared_ptr<UIelement> activeElement = nullptr;
 	while (!quit) {
@@ -92,13 +83,11 @@ void Program::run() const
 			if (e.type == SDL_MOUSEMOTION) {
 
 				SDL_GetMouseState(&xMouse, &yMouse);
-				
 				auto active = GetTopmostElement(screen_->getChildren(), xMouse, yMouse);
 				if (activeElement != active) {
 					if (activeElement) {
 						rerenderFlag = activeElement->mouseExit();
 					}
-
 					activeElement = active;
 					
 					if (activeElement) {
@@ -112,9 +101,10 @@ void Program::run() const
 				
 			}
 
-			MouseButton button = MouseButton::Left;
+			// If mouse is clicked
+
 			if (e.type == SDL_MOUSEBUTTONDOWN) {
-				
+
 				clicked = true;
 
 				switch (e.button.button) {
@@ -134,14 +124,14 @@ void Program::run() const
 					assert(false);
 					break;
 				}
-
 			}
 
 			if (clicked) {
 				if (activeElement) {
-					//SDL_SetRenderDrawColor(renderer_, 0, 0, 0, 255);
 					drawWindow->setMouseCoords({ xMouse, yMouse });
 					drawWindow->setPrevCoords({ xPrev, yPrev });
+					// ReSharper disable once CppLocalVariableMightNotBeInitialized
+					activeElement->mouseButtonDown(button);
 					
 					rerenderFlag = activeElement->mouseButtonDown(button);
 				}
@@ -149,7 +139,6 @@ void Program::run() const
 			}
 
 			if (e.type == SDL_MOUSEBUTTONUP) {
-				std::cout << "Mouse button up \n";
 				clicked = false;
 				if (activeElement) {
 					rerenderFlag = activeElement->mouseButtonUp(button);
@@ -171,15 +160,6 @@ void Program::run() const
 			}
 			
 		}
-
-		 // Draw buttons.
-		/*for (const auto& toolChild : toolChildren) {
-			toolChild->draw();
-		}*/
-
-
-
 		SDL_RenderPresent(renderer_);
 	}
-
 }

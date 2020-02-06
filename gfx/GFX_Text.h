@@ -1,8 +1,6 @@
 #pragma once
+
 #include "GFX_Colour.h"
-#include "SDL.h"
-#include "SDL_ttf.h"
-#include <string>
 
 // Handling text loading and rendering
 namespace gfx

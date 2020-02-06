@@ -1,7 +1,6 @@
 #pragma once
 
 #include "WIN_UIelement.h"
-#include <SDL.h>
 
 struct SDL_Texture;
 struct SDL_Renderer;
@@ -25,7 +24,6 @@ namespace win
 
 	private:
 		SDL_Renderer* renderer_;
-		//SDL_Rect boxRect_;
 	};
 	
 }

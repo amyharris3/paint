@@ -1,3 +1,4 @@
+#include "WIN_pch.h"
 #include "WIN_TableLayout.h"
 #include "GFX_Rectangle.h"
 #include "WIN_UIelement.h"
@@ -14,11 +15,6 @@ TableLayout::TableLayout(const int xMargin, const  int yMargin, const int xSpaci
 {
 }
 
-/*
-TableLayout::~TableLayout()
-{
-}
-*/
 
 void TableLayout::setRows(const int rows)
 {

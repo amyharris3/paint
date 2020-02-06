@@ -1,3 +1,4 @@
+#include "PAINT_pch.h"
 #include "PAINT_ColourPicker.h"
 #include "WIN_FreeLayout.h"
 #include "WIN_TableLayout.h"
@@ -12,7 +13,7 @@
 using namespace win;
 using namespace paint;
 
-ColourPicker::ColourPicker(gfx::Rectangle rect, SDL_Renderer* renderer, std::shared_ptr<DrawWindow> drawWindow)
+ColourPicker::ColourPicker(gfx::Rectangle rect, SDL_Renderer* renderer, std::shared_ptr<DrawWindow>& drawWindow)
 	: Container(std::make_shared<win::FreeLayout>(), rect, "colourPicker")
 	, drawWindowPtr_(std::move(drawWindow))
 	, renderer_(renderer)

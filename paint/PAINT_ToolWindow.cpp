@@ -1,3 +1,4 @@
+#include "PAINT_pch.h"
 #include "PAINT_ToolWindow.h"
 
 #include <utility>
@@ -16,20 +17,14 @@ ToolWindow::ToolWindow(SDL_Renderer* renderer, gfx::Rectangle const& rect, const
 {
 }
 
-/*
-ToolWindow::~ToolWindow()
-{
-}
-*/
-
 void ToolWindow::setToolbox(std::shared_ptr<win::Window> toolbox)
 {
 	toolbox_ = std::move(toolbox);
 }
 
-void ToolWindow::setColourPicker(std::shared_ptr<ColourPicker> cpick)
+void ToolWindow::setColourPicker(std::shared_ptr<ColourPicker> cPick)
 {
-	colourPicker_ = std::move(cpick);
+	colourPicker_ = std::move(cPick);
 }
 
 //Draw toolbar in NxM table layout

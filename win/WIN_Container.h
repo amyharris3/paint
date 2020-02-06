@@ -2,20 +2,14 @@
 
 #include "WIN_UIelement.h"
 #include "WIN_Layout.h"
-#include <memory>
-#include <vector>
 
 namespace win
 {
-	//class Layout;
-
 	// Every container now needs to have a layout, or cannot draw
-	class Container : public UIelement
+	class Container
+	: public UIelement
 	{
 	public:
-		
-		
-		// Lifecycle
 		Container();
 		Container(std::shared_ptr<Layout> layout, const gfx::Rectangle& rect, const char* name);
 		~Container() = default;

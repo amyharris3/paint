@@ -1,6 +1,5 @@
+#include "WIN_pch.h"
 #include "WIN_UIelement.h"
-#include <iostream>
-#include "WIN_Container.h"
 
 using namespace win;
 
@@ -47,13 +46,17 @@ void UIelement::setRect(const gfx::Rectangle& rect)
 
 bool UIelement::mouseEnter()
 {
+	#ifdef VERBOSE
 	std::cout << "The mouse has entered the " << name_ << " UI element. \n";
+	#endif
 	return false;
 }
 
 bool UIelement::mouseExit()
 {
+	#ifdef VERBOSE
 	std::cout << "The mouse has left the " << name_ << " UI element. \n";
+	#endif
 	return false;
 }
 

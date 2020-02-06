@@ -9,18 +9,7 @@ namespace win
 	class TableLayout final :
 		public Layout
 	{
-	private:
-		int xMargin_;
-		int yMargin_;
-
-		int xSpacing_;
-		int ySpacing_;
-
-		int rows_;
-		int cols_;
-
 	public:
-		//TableLayout() = default;
 		explicit TableLayout(int xMargin = 0, int yMargin = 0, int xSpacing = 0, int ySpacing = 0, int rows = 1, int cols = 1);
 		virtual ~TableLayout() = default;
 		TableLayout(TableLayout const& that) = default;
@@ -39,6 +28,16 @@ namespace win
 		int getCols() const { return cols_; }
 
 		void Apply(std::vector<std::shared_ptr<UIelement>> const& elements, gfx::Rectangle const& bounds) override;
+
+	private:
+		int xMargin_;
+		int yMargin_;
+
+		int xSpacing_;
+		int ySpacing_;
+
+		int rows_;
+		int cols_;
 
 	};
 }

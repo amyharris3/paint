@@ -1,3 +1,4 @@
+#include "PAINT_pch.h"
 #include "PAINT_StatusBarWindow.h"
 
 using namespace paint;

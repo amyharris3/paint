@@ -3,7 +3,7 @@
 #include "PAINT_ColourPicker.h"
 
 namespace paint {
-	class ToolWindow :
+	class ToolWindow final :
 		public win::Window
 	{
 	public:
@@ -17,7 +17,7 @@ namespace paint {
 
 		void setToolbox(std::shared_ptr<win::Window> toolbox);
 		Window* getToolbox() const { return toolbox_.get(); }
-		void setColourPicker(std::shared_ptr<ColourPicker> cpick);
+		void setColourPicker(std::shared_ptr<ColourPicker> cPick);
 		ColourPicker* getColourPicker() const { return colourPicker_.get(); }
 		
 		void draw() override;

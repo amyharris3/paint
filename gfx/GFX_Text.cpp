@@ -1,6 +1,6 @@
+#include "GFX_pch.h"
 #include "GFX_Text.h"
 #include "GFX_Colour.h"
-#include "SDL_ttf.h"
 
 using namespace gfx;
 
@@ -79,9 +79,9 @@ bool Text::renderText(int const xPixel, int const yPixel)
 		SDL_FreeSurface(textSurface);
 	}
 
-	SDL_Rect textboxRect = { xPixel, yPixel, textWidth_, textHeight_ };
+	SDL_Rect textBoxRect = { xPixel, yPixel, textWidth_, textHeight_ };
 
-	SDL_RenderCopy(renderer_, textTex_, nullptr, &textboxRect);
+	SDL_RenderCopy(renderer_, textTex_, nullptr, &textBoxRect);
 
 	return (textTex_ != nullptr);
 }

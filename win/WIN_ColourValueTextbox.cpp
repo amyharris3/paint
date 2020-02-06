@@ -1,5 +1,5 @@
+#include "WIN_pch.h"
 #include "WIN_ColourValueTextbox.h"
-#include <cassert>
 #include "WIN_Utils.h"
 
 using namespace win;

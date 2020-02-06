@@ -9,8 +9,6 @@ namespace paint
 	class ShapeTool :
 		public Tool
 	{
-	private:
-		Shape * activeShape_;  // NOLINT(clang-diagnostic-unused-private-field)
 	public:
 		ShapeTool();
 		virtual ~ShapeTool() = default;
@@ -18,5 +16,11 @@ namespace paint
 		ShapeTool(ShapeTool && that) = default;
 		ShapeTool& operator=(const ShapeTool & that) = default;
 		ShapeTool& operator=(ShapeTool && that) = default;
+
+		void setActiveShape(Shape* shape);
+		Shape* getActiveShape() const { return activeShape_; }
+		
+	private:
+		Shape* activeShape_;
 	};
 }

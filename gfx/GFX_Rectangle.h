@@ -6,21 +6,9 @@ namespace gfx
 	{
 	public:
 		// Lifecycle.
-		Rectangle()
-		: Rectangle(0, 0, 1, 1)
-		{
-
-		}
-		
-		Rectangle(const int rx, const int ry, const int w, const int h)
-		: x(rx)
-		, y(ry)
-		, width(w)
-		, height(h)
-		{
-		}
-
+		Rectangle();
 		~Rectangle() = default;
+		Rectangle(int rx, int ry, int w, int h);
 		Rectangle(Rectangle const&) = default;
 		Rectangle& operator=(Rectangle const&) = default;
 		Rectangle(Rectangle &&) = default;

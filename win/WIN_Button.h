@@ -1,29 +1,19 @@
 #pragma once
 #include "WIN_UIelement.h"
-#include <SDL.h>
 
 struct SDL_Texture;
 struct SDL_Renderer;
 struct SDL_Rect;
 
-
 namespace win
 {
-	enum class ButtonState
-	{
-		BUTTON_SPRITE_MOUSE_OUT,
-		BUTTON_SPRITE_MOUSE_OVER,
-		BUTTON_SPRITE_MOUSE_DOWN,
-		BUTTON_SPRITE_MOUSE_UP,
-	};
 
 	class Button;
-	typedef void (*ActionFunction)(Button * button);
-
-	class Button :
+	
+	class Button final:
 		public UIelement
 	{
-	public:   
+	public:
 		Button() = delete;
 		Button(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* name, const char* spritePath, ActionFunction act);
 		virtual ~Button();
@@ -41,15 +31,10 @@ namespace win
 		ActionFunction action;
 
 	private:
-		ButtonState buttonState_;
 		SDL_Renderer* renderer_;
 		SDL_Texture* texture_;
 		gfx::Rectangle rect_;
-		SDL_Rect spriteClips_[4];
+		std::vector<SDL_Rect> spriteClips_;
 		SDL_Rect* activeClip_;
-		bool clicked_;
-
-		SDL_Texture* loadSprite(const char* path) const;
-		void handleSpriteSheet();
 	};
 }

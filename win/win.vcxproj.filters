@@ -48,13 +48,25 @@
     <ClCompile Include="WIN_ColourValueTextbox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WIN_Slider.cpp">
+    <ClCompile Include="WIN_Utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WIN_ButtonGroup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WIN_ToggleButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WIN_SDLUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WIN_pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WIN_ColourSlider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WIN_Utils.cpp">
+    <ClCompile Include="WIN_Slider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -87,6 +99,24 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WIN_ColourDisplay.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WIN_ButtonGroup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WIN_ToggleButton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WIN_Coords.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WIN_SDLUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WIN_ButtonStates.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WIN_pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WIN_EditTextbox.h">

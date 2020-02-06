@@ -1,3 +1,4 @@
+#include "WIN_pch.h"
 #include "WIN_Slider.h"
 
 using namespace win;

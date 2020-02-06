@@ -1,6 +1,5 @@
+#include "PAINT_pch.h"
 #include "PAINT_Screen.h"
-#include <SDL.h>
-#include <memory>
 #include "PAINT_DrawWindow.h"
 #include "PAINT_ToolWindow.h"
 #include "PAINT_StatusBarWindow.h"
@@ -10,6 +9,8 @@
 #include "PAINT_MenuWindow.h"
 #include "WIN_GenericBox.h"
 #include "PAINT_ColourPicker.h"
+#include "WIN_ButtonGroup.h"
+#include "WIN_ToggleButton.h"
 
 using namespace paint;
 using namespace win;
@@ -21,8 +22,6 @@ Screen::Screen(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* n
 	// Creating drawWindow
 	gfx::Rectangle drawRect(200, 40, 1000, 720);
 	auto drawWindow = std::make_shared<DrawWindow>(renderer, drawRect, "drawWindow");
-	//gfx::Colour drawColour{ 255, 255, 255, 255 };
-	//drawWindow->setBackgroundColour(drawColour);
 	drawWindow->setPrimaryColour(gfx::Colour(255, 0, 0, 255));
 	drawWindow->setSecondaryColour(gfx::Colour(0, 255, 0, 255));
 	
@@ -37,11 +36,6 @@ Screen::Screen(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* n
 	this->addChild(toolWindow);
 	toolWindow_ = toolWindow;
 
-	// Creating tool window buttons
-	//gfx::Rectangle drawButtonRect(20, 60, 60, 60);
-	//auto drawButton = std::make_shared<Button>(renderer, drawButtonRect, "drawButton", "button_toggle_draw.png", toggleDraw);
-	//toolWindow->addChild(drawButton);
-
 	// Create toolbar inside tool window, allocating 3x2 table for 6 tool elements
 	gfx::Rectangle toolbarRect(10, 50, 180, 260);
 	auto toolbarLayout = std::make_shared<win::TableLayout>(20, 20, 20, 20, 3, 2);
@@ -53,11 +47,11 @@ Screen::Screen(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* n
 	for (int i = 0; i < 6; i++) {
 		gfx::Rectangle buttonRect(20, 60, 60, 60);
 		if (i == 0) {
-			auto button = std::make_shared<Button>(renderer, buttonRect, "drawButton", "button_toggle_draw.png", toggleDraw);
+			auto button = std::make_shared<ToggleButton>(renderer, buttonRect, "drawButton", "button_toggle_draw.png", toggleDraw);
 			toolbox->addChild(button);
 		}
 		else if (i == 5){
-			auto button = std::make_shared<Button>(renderer, buttonRect, "clearButton", "button_clear_screen.png", clearScreen);
+			auto button = std::make_shared<Button>(renderer, buttonRect, "clearButton", "button_clear_screen.png", paint::clearScreen);
 			toolbox->addChild(button);
 		}
 		else {
@@ -67,14 +61,38 @@ Screen::Screen(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* n
 	}
 	toolWindow->addChild(toolbox);
 	toolWindow->setToolbox(toolbox);
-
-	// Rectangle reserved for brush thickness
-	auto brushOptionsBox = std::make_shared<Window>(renderer, gfx::Rectangle(10, 320, 180, 40), "toolbarBox", toolbarLayout);
-	brushOptionsBox->setBackgroundColour(gfx::Colour(150, 255, 240, 255));
-	toolWindow->addChild(brushOptionsBox);
 	
+	// Create thickness window inside tool window, allocating 3x1 table for 3 thickness choices
+	gfx::Rectangle thicknessRect(10, 320, 180, 70);
+	auto thicknessLayout = std::make_shared<win::TableLayout>(20, 20, 20, 20, 1, 3);
+	auto thicknessBox = std::make_shared<ToolWindow>(renderer, thicknessRect, "thicknessBox", thicknessLayout);
+	const gfx::Colour thicknessColour{ 150, 255, 240, 255 };
+	thicknessBox->setBackgroundColour(thicknessColour);
+	
+	// Create button group for thickness buttons.
+	auto thicknessButtonGroup = std::make_shared<ButtonGroup>();
+	
+	// Create thickness buttons.
+	gfx::Rectangle buttonRect(20, 60, 60, 60);
+	auto buttonThick1 = std::make_shared<ToggleButton>(renderer, buttonRect, "thickness1Button", "button_thickness1.png", setBrushThickness0);
+	thicknessBox->addChild(buttonThick1);
+	buttonThick1->setButtonGroup(thicknessButtonGroup);
+	thicknessButtonGroup->addButtonChild(buttonThick1);
+	
+	auto buttonThick2 = std::make_shared<ToggleButton>(renderer, buttonRect, "thickness2Button", "button_thickness2.png", setBrushThickness1);
+	thicknessBox->addChild(buttonThick2);
+	buttonThick2->setButtonGroup(thicknessButtonGroup);
+	thicknessButtonGroup->addButtonChild(buttonThick2);
+	
+	auto buttonThick3 = std::make_shared<ToggleButton>(renderer, buttonRect, "thickness3Button", "button_thickness3.png", setBrushThickness2);
+	thicknessBox->addChild(buttonThick3);
+	buttonThick3->setButtonGroup(thicknessButtonGroup);
+	thicknessButtonGroup->addButtonChild(buttonThick3);
+
+	toolWindow->addChild(thicknessBox);
+
 	// Create area for colour picker
-	gfx::Rectangle colourPickerRect(10, 370, 180, 220);
+	gfx::Rectangle colourPickerRect(10, 400, 180, 220);
 	auto colourPicker = std::make_shared<ColourPicker>(colourPickerRect, renderer, drawWindow);
 	const gfx::Colour colourPickerColour{ 150, 255, 240, 255 };
 	colourPicker->setBackgroundColour(colourPickerColour);
@@ -88,7 +106,6 @@ Screen::Screen(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* n
 	gfx::Colour statusColour{ 40, 115, 103, 255 };
 	statusWindow->setBackgroundColour(statusColour);
 	this->addChild(statusWindow);
-	statusWindow_ = statusWindow;
 
 	// Creating menuWindow
 	gfx::Rectangle menuRect(0, 0, 1200, 40);
@@ -96,8 +113,7 @@ Screen::Screen(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* n
 	gfx::Colour menuColour{113, 114, 117, 255 };
 	menuWindow->setBackgroundColour(menuColour);
 	this->addChild(menuWindow);
-	menuWindow_ = menuWindow;
-
+	
 }
 
 void Screen::updateAndRerender()
@@ -107,23 +123,3 @@ void Screen::updateAndRerender()
 	}
 }
 
-
-//void Screen::setDrawWindow(DrawWindow* drawWindow)
-//{
-//	drawWindow_ = drawWindow;
-//}
-//
-//void Screen::setToolWindow(ToolWindow* toolWindow)
-//{
-//	toolWindow_ = toolWindow;
-//}
-
-//DrawWindow* Screen::getDrawWindow()
-//{
-//
-//}
-//
-//ToolWindow* Screen::getToolWindow()
-//{
-//
-//}

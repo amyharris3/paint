@@ -111,6 +111,7 @@ namespace PaintTests
 		}
 	};
 
+	// ReSharper disable CppCStyleCast
 	TEST_CLASS(TestGfxColour)
 	{
 	public:
@@ -188,4 +189,5 @@ namespace PaintTests
 			return {255, 255, 255, 255};
 		}
 	};
+	// ReSharper restore CppCStyleCast
 }
