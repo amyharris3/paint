@@ -26,6 +26,8 @@ namespace win
 		gfx::Renderer* getRenderer() const { return renderer_; }
 		gfx::Rectangle getLineRect() const { return lineRect_; }
 		gfx::Rectangle getMarkerRect() const { return markerRect_; }
+		int getMarkerVal() const { return markerVal_; }
+		int getMarkerPos() const { return markerRect_.x; }
 		
 		bool getHold() const { return holdMarker_; }
 		void holdOn() { holdMarker_ = true; }
@@ -33,8 +35,11 @@ namespace win
 		
 		int getValueFromPosition() const;
 
-		void positionFromValue(int val);
+		int xPositionFromValue() const;
+		int valueFromPosition() const;
 
+		void setMarkerValue(int const val);
+		void setMarkerPos(int const x);
 		void moveMarker();
 		void update() override;
 		void updateAndRerender() override;
@@ -54,7 +59,10 @@ namespace win
 		gfx::Rectangle lineRect_;
 		gfx::Colour lineColour_;
 
-		int markerPos_;
+		// the position of the marker is stored in markerVal_ (for abstract value) and markerRect_.x (for physical pixel location)
+		// markerVal_ should be used as the 'true' value, with markerRect_.x being a representation of it
+		//int markerPos_;
+		int markerVal_;
 		gfx::Rectangle markerRect_;
 		gfx::Colour markerColour_;
 		bool holdMarker_;

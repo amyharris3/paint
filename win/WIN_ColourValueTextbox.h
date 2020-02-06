@@ -16,13 +16,17 @@ namespace win
 		ColourValueTextbox& operator=(const ColourValueTextbox& that) = default;
 		ColourValueTextbox& operator=(ColourValueTextbox&& that) = default;
 
+		uint8_t* getLinkedPrimary() const { return linkedVariablePrimary_; }
+		uint8_t* getLinkedSecondary() const { return linkedVariableSecondary_; }
+		
 		void valueChangedByTextEntry();
 		void valueChangedExternally(); //TODO
 
+		void editText(const char* newText) override;
 		void editTextAndRerender(std::string & newString) override;
 		void takeTextEntry() override;
 
-		void primaryActiveSwitch() { primaryActive_ = !primaryActive_; }
+		void primaryActiveSwitch();
 		
 		bool mouseButtonUp(win::MouseButton button) override;
 

@@ -5,9 +5,14 @@
 using namespace win;
 
 EditTextbox::EditTextbox(gfx::Rectangle rect, const char* name, gfx::Renderer* renderer, int const textSize, int const xOffset, int const yOffset)
+	: EditTextbox(rect, name, renderer, textSize, xOffset, yOffset, "")
+{
+}
+
+EditTextbox::EditTextbox(gfx::Rectangle rect, const char* name, gfx::Renderer* renderer, int const textSize, int const xOffset, int const yOffset, const char* initialText)
 	: UIelement(rect, name)
 	, renderer_(renderer)
-	, text_(std::make_shared<gfx::Text>(gfx::Colour { 0, 0, 0, 0xFF }, "OpenSans-Bold.ttf", textSize, "0"))
+	, text_(std::make_shared<gfx::Text>(gfx::Colour { 0, 0, 0, 0xFF }, "OpenSans-Bold.ttf", textSize, initialText))
     , xOffset_(xOffset)
     , yOffset_(yOffset)
     , isClicked_(false)
@@ -20,7 +25,7 @@ void EditTextbox::click()
 	isClicked_ = !isClicked_;
 }
 
-void EditTextbox::editText(const char* newText) const
+void EditTextbox::editText(const char* newText)
 {
 	text_->changeString(newText);
 }

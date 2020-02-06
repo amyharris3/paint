@@ -18,7 +18,7 @@ namespace win
 	class Window : public Container
 	{
 	private:
-		gfx::Rectangle rect_;
+		//gfx::Rectangle rect_;
 		gfx::Renderer* renderer_;
 
 	public:
