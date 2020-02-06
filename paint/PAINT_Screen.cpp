@@ -1,11 +1,10 @@
+#include "PAINT_pch.h"
 #include "PAINT_Screen.h"
-#include <SDL.h>
 #include "PAINT_DrawWindow.h"
 #include "PAINT_ToolWindow.h"
 #include "PAINT_StatusBarWindow.h"
 #include "WIN_Button.h"
 #include "PAINT_ButtonFunctions.h"
-#include <memory>
 #include "WIN_TableLayout.h"
 #include "PAINT_MenuWindow.h"
 #include "WIN_GenericBox.h"

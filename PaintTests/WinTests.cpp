@@ -1,11 +1,9 @@
 #include "pch.h"
 #include "CppUnitTest.h"
 #include "TestElement.h"
-#include "../win/WIN_Layout.h"
 #include "../win/WIN_FreeLayout.h"
 #include "../win/WIN_TableLayout.h"
 #include "../gfx/GFX_Rectangle.h"
-#include <memory>
 #include "WIN_ToggleButton.h"
 
 
@@ -21,7 +19,7 @@ namespace PaintTests
 
 		TEST_METHOD(TestDefaultConstructionInvariant)
 		{
-			TestElement element;
+			const TestElement element;
 			
 			Assert::AreEqual(element.getName(), "dummy");
 			
@@ -85,11 +83,11 @@ namespace PaintTests
 	public:
 		TEST_METHOD(TestDefaultConstructionTableLayout)
 		{
-			TableLayout L(5, 10, 3, 6, 1, 2);
-			Assert::AreEqual(L.getXmargin(), 5);
-			Assert::AreEqual(L.getYmargin(), 10);
-			Assert::AreEqual(L.getXspacing(), 3);
-			Assert::AreEqual(L.getYspacing(), 6);
+			const TableLayout L(5, 10, 3, 6, 1, 2);
+			Assert::AreEqual(L.getXMargin(), 5);
+			Assert::AreEqual(L.getYMargin(), 10);
+			Assert::AreEqual(L.getXSpacing(), 3);
+			Assert::AreEqual(L.getYSpacing(), 6);
 			Assert::AreEqual(L.getRows(), 1);
 			Assert::AreEqual(L.getCols(), 2);
 		}
@@ -135,7 +133,7 @@ namespace PaintTests
 			TableLayout L(1, 2, 0, 0, 1, 1);
 			const gfx::Rectangle boundary(0, 0, 10, 10);
 
-			std::vector<std::shared_ptr<UIelement>> elements;
+			const std::vector<std::shared_ptr<UIelement>> elements;
 
 			L.Apply(elements, boundary);
 		}
@@ -147,7 +145,7 @@ namespace PaintTests
 			const gfx::Rectangle boundary(0, 0, 10, 10);
 
 			std::vector<std::shared_ptr<UIelement>> elements;
-			auto element = std::make_shared<TestElement>();
+			const auto element = std::make_shared<TestElement>();
 			elements.push_back(element);
 
 			L.Apply(elements, boundary);
@@ -173,16 +171,16 @@ namespace PaintTests
 
 			L.Apply(elements, boundary);
 
-			int xcount = 0;
+			int xCount = 0;
 			for (const auto& element : elements) {
 				const auto& box = element->getRect();
-				Assert::AreEqual(box.x, 1 + (5 * xcount));
+				Assert::AreEqual(box.x, 1 + (5 * xCount));
 				Assert::AreEqual(box.y, 2);
 				Assert::AreEqual(box.width, 4);
 				Assert::AreEqual(box.height, 6);
 				Assert::IsTrue(boundary.containsPoint(box.x, box.y));
 
-				xcount++;
+				xCount++;
 			}
 		}
 
@@ -199,16 +197,16 @@ namespace PaintTests
 
 			L.Apply(elements, boundary);
 
-			int ycount = 0;
+			auto yCount = 0;
 			for (const auto& element : elements) {
 				const auto& box = element->getRect();
 				Assert::AreEqual(box.x, 2);
-				Assert::AreEqual(box.y, 1 + (5 * ycount));
+				Assert::AreEqual(box.y, 1 + (5 * yCount));
 				Assert::AreEqual(box.width, 6);
 				Assert::AreEqual(box.height, 4);
 				Assert::IsTrue(boundary.containsPoint(box.x, box.y));
 
-				ycount++;
+				yCount++;
 			}
 		}
 
@@ -225,23 +223,23 @@ namespace PaintTests
 
 			L.Apply(elements, boundary);
 
-			int xcount = 0;
-			int ycount = 0;
+			auto xCount = 0;
+			auto yCount = 0;
 
 			//test to ensure that all elements have correct position and dimensions, 
 			//and that they are still within boundaries, after layout is applied
 			for (const auto& element : elements) {
 				const auto& box = element->getRect();
-				Assert::AreEqual(box.x, 10 + (25 * xcount));
-				Assert::AreEqual(box.y, 10 + (25 * ycount));
+				Assert::AreEqual(box.x, 10 + (25 * xCount));
+				Assert::AreEqual(box.y, 10 + (25 * yCount));
 				Assert::AreEqual(box.width, 20);
 				Assert::AreEqual(box.height, 20);
 				Assert::IsTrue(boundary.containsPoint(box.x, box.y));
 
-				xcount++;
-				if (xcount == 2) {
-					xcount = 0;
-					ycount++;
+				xCount++;
+				if (xCount == 2) {
+					xCount = 0;
+					yCount++;
 				}
 
 			}

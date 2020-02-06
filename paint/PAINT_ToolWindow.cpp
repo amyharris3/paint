@@ -1,3 +1,4 @@
+#include "PAINT_pch.h"
 #include "PAINT_ToolWindow.h"
 #include "PAINT_ColourPicker.h"
 

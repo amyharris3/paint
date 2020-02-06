@@ -8,7 +8,7 @@ namespace gfx
 		// Lifecycle.
 		Rectangle();
 		~Rectangle() = default;
-		Rectangle(const int rx, const int ry, const int w, const int h);
+		Rectangle(int rx, int ry, int w, int h);
 		Rectangle(Rectangle const&) = default;
 		Rectangle& operator=(Rectangle const&) = default;
 		Rectangle(Rectangle &&) = default;

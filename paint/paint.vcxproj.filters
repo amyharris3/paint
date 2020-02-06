@@ -75,6 +75,9 @@
     <ClCompile Include="PAINT_DrawTool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PAINT_pch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PAINT_Utils.h">
@@ -132,6 +135,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PAINT_DrawTool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PAINT_pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

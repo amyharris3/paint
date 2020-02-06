@@ -1,6 +1,5 @@
+#include "PAINT_pch.h"
 #include "PAINT_Brush.h"
-#include <iostream>
-#include <cassert>
 
 using namespace paint;
 
@@ -19,7 +18,12 @@ void Brush::setThickness(const int thickness)
 	}
 	catch(std::runtime_error &e)
 	{
-		std::cout << e.what() << '\n';
+		// Note: suppresses release build warning.
+		if (e.what()) {
+#		if defined(_DEBUG)
+			std::cout << e.what() << '\n';
+#		endif
+		}
 		throw;
 	}
 	thickness_ = thickness;

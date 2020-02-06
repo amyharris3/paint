@@ -1,9 +1,7 @@
+#include "PAINT_pch.h"
 #include "PAINT_DrawTool.h"
-#include "PAINT_DrawWindow.h"
-#include <SDL.h>
 #include "PAINT_Brush.h"
 #include "WIN_Coords.h"
-#include <cassert>
 
 using namespace paint;
 using namespace win;

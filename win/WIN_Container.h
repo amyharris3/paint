@@ -2,8 +2,6 @@
 
 #include "WIN_UIelement.h"
 #include "WIN_Layout.h"
-#include <memory>
-#include <vector>
 
 namespace win
 {

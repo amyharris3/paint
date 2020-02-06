@@ -1,7 +1,6 @@
 #pragma once
 #include "WIN_UIelement.h"
-#include <SDL.h>
-#include <vector>
+
 
 struct SDL_Texture;
 struct SDL_Renderer;

@@ -108,6 +108,8 @@
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
       <PreprocessorDefinitions>VERBOSE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>PAINT_pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -149,6 +151,8 @@ xcopy /q /y /s $(SolutionDir)SDL\lib\win64\SDL2_gfx.dll $(OutDir)</Command>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)gfx;$(SolutionDir)SDL\include;$(SolutionDir)win;$(SolutionDir)SDL2_ttf-2.0.15\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>PAINT_pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -178,6 +182,10 @@ xcopy /q /y /s $(SolutionDir)SDL\lib\win64\SDL2_gfx.dll $(OutDir)</Command>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\amyha\source\repos\paint\SDL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <ClCompile Include="PAINT_MenuWindow.cpp" />
+    <ClCompile Include="PAINT_pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="PAINT_Program.cpp" />
     <ClCompile Include="PAINT_Rectangle.cpp" />
     <ClCompile Include="PAINT_Screen.cpp" />
@@ -199,6 +207,7 @@ xcopy /q /y /s $(SolutionDir)SDL\lib\win64\SDL2_gfx.dll $(OutDir)</Command>
     <ClInclude Include="PAINT_DrawWindow.h" />
     <ClInclude Include="PAINT_Eraser.h" />
     <ClInclude Include="PAINT_MenuWindow.h" />
+    <ClInclude Include="PAINT_pch.h" />
     <ClInclude Include="PAINT_Program.h" />
     <ClInclude Include="PAINT_Rectangle.h" />
     <ClInclude Include="PAINT_Screen.h" />

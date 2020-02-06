@@ -1,5 +1,5 @@
+#include "WIN_pch.h"
 #include "WIN_ColourDisplay.h"
-#include <SDL.h>
 
 using namespace win;
 

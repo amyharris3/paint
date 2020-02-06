@@ -1,8 +1,5 @@
+#include "PAINT_pch.h"
 #include "PAINT_Program.h"
-#include <SDL.h>
-#include <iostream>
-#include <SDL_image.h>
-
 
 
 using namespace paint;

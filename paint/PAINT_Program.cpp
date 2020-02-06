@@ -1,12 +1,10 @@
+#include "PAINT_pch.h"
 #include "PAINT_Program.h"
 #include "PAINT_DrawWindow.h"
 #include "PAINT_ToolWindow.h"
 #include "PAINT_Screen.h"
 #include "WIN_Button.h"
 #include "WIN_Mouse.h"
-#include <cassert>
-#include <SDL.h>
-#include <memory>
 
 using namespace paint;
 using namespace gfx;
@@ -54,22 +52,20 @@ void Program::initialize(SDL_Renderer* renderer)
 void Program::run() const
 {
 	SDL_Event e;
-	bool quit = false;
-	int xMouse{ 0 };
-	int yMouse{ 0 };
-	int xPrev{ 0 };
-	int yPrev{ 0 };
+	auto quit = false;
+	auto xMouse{ 0 };
+	auto yMouse{ 0 };
+	auto xPrev{ 0 };
+	auto yPrev{ 0 };
 
 	auto children = screen_->getChildren();
 	auto toolChildren = screen_->getToolWindow()->getChildren();
 	auto drawWindow = screen_->getDrawWindow();
+
+	auto clicked = false;
+
+	auto button = MouseButton::Left;
 	
-	bool clicked = false;
-
-	MouseButton button;
-
-	
-
 	//While application is running
 	std::shared_ptr<UIelement> activeElement = nullptr;
 	while (!quit) {
@@ -129,6 +125,7 @@ void Program::run() const
 				if (activeElement) {
 					drawWindow->setMouseCoords({ xMouse, yMouse });
 					drawWindow->setPrevCoords({ xPrev, yPrev });
+					// ReSharper disable once CppLocalVariableMightNotBeInitialized
 					activeElement->mouseButtonDown(button);
 				}
 			}
@@ -136,6 +133,7 @@ void Program::run() const
 			if (e.type == SDL_MOUSEBUTTONUP) {
 				clicked = false;
 				if (activeElement) {
+					// ReSharper disable once CppLocalVariableMightNotBeInitialized
 					activeElement->mouseButtonUp(button);
 				}
 			}

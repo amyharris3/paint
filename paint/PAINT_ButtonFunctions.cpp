@@ -1,10 +1,9 @@
+#include "PAINT_pch.h"
 #include "PAINT_ButtonFunctions.h"
-#include "WIN_Button.h"
 #include "PAINT_Utils.h"
 #include "PAINT_DrawWindow.h"
 #include "PAINT_Brush.h"
 #include "WIN_ToggleButton.h"
-#include <cassert>
 #include "WIN_ButtonStates.h"
 
 using namespace win;
@@ -32,15 +31,15 @@ static void paint::setBrushThickness(UIelement* control, int thick)
 	assert((thick == 0) || (thick == 1) || (thick == 2) && "Brush thickness set to value other than 0, 1, or 2 in ButtonFunctions.");
 	const auto dw = utils::findDrawWindow(button);
 	assert(dw && "findDrawWindow in setBrushThickness returned nullptr.");
-	const auto activetool = dw->getActiveTool();
-	if (activetool) {
-		const auto activebrush = activetool->getActiveBrush();
-		if (activebrush) {
+	const auto activeTool = dw->getActiveTool();
+	if (activeTool) {
+		const auto activeBrush = activeTool->getActiveBrush();
+		if (activeBrush) {
 			if (button->getState() == ButtonStates::on) {
-				activebrush->setThickness(thick);
+				activeBrush->setThickness(thick);
 			}
 			else {
-				activebrush->setThickness(0);
+				activeBrush->setThickness(0);
 			}
 		}
 	}

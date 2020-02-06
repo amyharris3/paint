@@ -1,8 +1,8 @@
+#include "PAINT_pch.h"
 #include "PAINT_DrawWindow.h"
-#include <SDL.h>
 #include "WIN_Mouse.h"
 #include "PAINT_DrawTool.h"
-#include <WIN_ToggleButton.h>
+#include "WIN_ToggleButton.h"
 #include "WIN_Coords.h"
 #include "WIN_ButtonStates.h"
 
@@ -58,7 +58,7 @@ void DrawWindow::mouseButtonUp(win::MouseButton const b)
 
 void DrawWindow::setActiveTool(std::shared_ptr<Tool> tool)
 {
-	activeTool_ = tool;
+	activeTool_ = std::move(tool);
 }
 
 void DrawWindow::toggleDrawTool(win::ToggleButton* b)

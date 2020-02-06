@@ -8,14 +8,14 @@ namespace gfx
 	{
 	public:
 		Colour() = default;
-		Colour(const uint8_t r, const uint8_t g, const uint8_t b, const uint8_t a);
+		Colour(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
 		~Colour() = default;
 		Colour(Colour const&) = default;
 		Colour& operator=(Colour const&) = default;
 		Colour(Colour&&) = default;
 		Colour& operator=(Colour&&) = default;
 
-		void getComponents(uint8_t rgba[]);
+		void getComponents(uint8_t rgba[]) const;
 		
 	private:
 		uint8_t r_;

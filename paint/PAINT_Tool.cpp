@@ -1,3 +1,4 @@
+#include "PAINT_pch.h"
 #include "PAINT_Tool.h"
 #include "PAINT_Brush.h"
 
@@ -12,7 +13,7 @@ Tool::Tool()
 
 void Tool::setActiveBrush(std::shared_ptr<Brush> brush)
 {
-	activeBrush_ = brush;
+	activeBrush_ = std::move(brush);
 }
 
 

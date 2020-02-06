@@ -1,6 +1,4 @@
 #pragma once
-#include <iostream>
-#include <vector>
 #include "GFX_Line.h"
 #include "WIN_Coords.h"
 

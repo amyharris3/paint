@@ -111,13 +111,14 @@ namespace PaintTests
 		}
 	};
 
+	// ReSharper disable CppCStyleCast
 	TEST_CLASS(TestGfxColour)
 	{
 	public:
 
 		TEST_METHOD(TestDefaultConstructor)
 		{
-			Colour c(10, 20, 30, 40);
+			const Colour c(10, 20, 30, 40);
 			uint8_t rgba[4];
 			c.getComponents(rgba);
 			Assert::AreEqual(rgba[0], (uint8_t)10);
@@ -128,19 +129,21 @@ namespace PaintTests
 		TEST_METHOD(TestCopyConstruction)
 		{
 			const Colour c1(10, 20, 30, 40);
-			Colour c2(c1);
+			const auto c2(c1);
 			uint8_t rgba[4];
 			c2.getComponents(rgba);
+			// ReSharper disable CppCStyleCast
 			Assert::AreEqual(rgba[0], (uint8_t)10);
 			Assert::AreEqual(rgba[1], (uint8_t)20);
 			Assert::AreEqual(rgba[2], (uint8_t)30);
 			Assert::AreEqual(rgba[3], (uint8_t)40);
+			// ReSharper restore CppCStyleCast
 		}
 
 		TEST_METHOD(TestAsssignmentOperator)
 		{
 			const  Colour c1(10, 20, 30, 40);
-			Colour c2 = c1;
+			const auto c2 = c1;
 			uint8_t rgba[4];
 			c2.getComponents(rgba);
 			Assert::AreEqual(rgba[0], (uint8_t)10);
@@ -151,7 +154,7 @@ namespace PaintTests
 
 		TEST_METHOD(TestMoveConstructor)
 		{
-			Colour c(makeWhite());
+			const auto c(makeWhite());
 			uint8_t rgba[4];
 			c.getComponents(rgba);
 			Assert::AreEqual(rgba[0], (uint8_t)255);
@@ -162,7 +165,7 @@ namespace PaintTests
 
 		TEST_METHOD(TestMoveAssignmentOperator)
 		{
-			Colour c = makeWhite();
+			const auto c = makeWhite();
 			uint8_t rgba[4];
 			c.getComponents(rgba);
 			Assert::AreEqual(rgba[0], (uint8_t)255);
@@ -173,7 +176,7 @@ namespace PaintTests
 
 		TEST_METHOD(TestGetComponents)
 		{
-			Colour c(10, 20, 30, 40);
+			const Colour c(10, 20, 30, 40);
 			uint8_t rgba[4];
 			c.getComponents(rgba);
 			Assert::AreEqual(rgba[0], (uint8_t)10);
@@ -188,4 +191,5 @@ namespace PaintTests
 			return Colour(255, 255, 255, 255);
 		}
 	};
+	// ReSharper restore CppCStyleCast
 }

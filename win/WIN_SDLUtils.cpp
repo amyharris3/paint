@@ -1,9 +1,5 @@
+#include "WIN_pch.h"
 #include "WIN_SDLUtils.h"
-#include <SDL.h>
-#include <SDL_image.h>
-#include <stdexcept>
-#include <iostream>
-#include <cassert>
 
 using namespace win;
 

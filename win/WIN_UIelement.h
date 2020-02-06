@@ -2,7 +2,6 @@
 
 #include "GFX_Colour.h"
 #include "GFX_Rectangle.h"
-#include <string>
 
 namespace win
 {
@@ -24,8 +23,8 @@ namespace win
 		void setBackgroundColour(gfx::Colour bgColour);
 		gfx::Colour getBackgroundColour() const { return backgroundColour_; }
 		gfx::Colour getForegroundColour() const { return foregroundColour_; }
-		void getForegroundColour(uint8_t rgba[]);
-		void getBackgroundColour(uint8_t rgba[]);
+		void getForegroundColour(uint8_t rgba[]) const;
+		void getBackgroundColour(uint8_t rgba[]) const;
 		virtual void swapColours();
 
 		void setRect(const gfx::Rectangle & rect);

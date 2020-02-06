@@ -1,8 +1,5 @@
 #pragma once
 #include "WIN_UIelement.h"
-#include <SDL.h>
-#include <vector>
-#include <memory>
 
 namespace win
 {

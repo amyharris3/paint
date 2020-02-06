@@ -1,7 +1,7 @@
+#include "WIN_pch.h"
 #include "WIN_ToggleButton.h"
 #include "WIN_SDLUtils.h"
 #include "WIN_ButtonGroup.h"
-#include <cassert>
 #include "WIN_ButtonStates.h"
 
 using namespace win;
@@ -114,7 +114,7 @@ void ToggleButton::mouseButtonUp(MouseButton b)
 
 void ToggleButton::setButtonGroup(std::shared_ptr<ButtonGroup> buttonGroup)
 {
-	buttonGroup_ = buttonGroup;
+	buttonGroup_ = std::move(buttonGroup);
 }
 
 void ToggleButton::turnOff()

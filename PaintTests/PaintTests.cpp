@@ -1,8 +1,6 @@
 #include "pch.h"
 #include "../SDL/include/SDL.h"
 #include "CppUnitTest.h"
-#include "../paint/PAINT_DrawWindow.h"
-#include <memory>
 #include "../paint/PAINT_Brush.h"
 #include "../paint/PAINT_Brush.cpp"
 #include "WIN_Button.h"
@@ -44,20 +42,20 @@ namespace PaintTests
 		TEST_METHOD(TestConstructionInvariant)
 		{
 			const Brush brush(1);
-			//Assert::AreEqual(brush.getThickness(), 7);
+			Assert::AreEqual(brush.getThickness(), 1);
 		}
 
 		TEST_METHOD(TestCopyConstruction)
 		{
 			const Brush a(2);
-			const Brush b(a);
+			const auto b(a);
 			Assert::AreEqual(b.getThickness(), 2);
 		}
 
 		TEST_METHOD(TestAssignmentOperator)
 		{
 			const Brush a(1);
-			const Brush b = a;
+			const auto b = a;
 			Assert::AreEqual(b.getThickness(), 1);
 		}
 
