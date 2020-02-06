@@ -34,9 +34,7 @@ namespace win
 		void holdOff() { holdMarker_ = false; }
 		
 		int getValueFromPosition() const;
-
-		int xPositionFromValue() const;
-		int valueFromPosition() const;
+		int getPositionFromValue() const;
 
 		void setMarkerValue(int const val);
 		void setMarkerPos(int const x);
