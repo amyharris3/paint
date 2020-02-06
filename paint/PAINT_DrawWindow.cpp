@@ -37,7 +37,6 @@ DrawWindow::~DrawWindow()
 {
 	renderer_->destroyDrawWindowTexture();
 }
-
 /*override*/
 bool DrawWindow::mouseButtonDown(MouseButton const b)
 {
