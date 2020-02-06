@@ -12,7 +12,6 @@ DrawWindow::DrawWindow(SDL_Renderer* renderer, gfx::Rectangle const& rect, const
 	: Window( renderer, rect, name)
 	, activeTool_(nullptr)
 	, activeBrush_(nullptr)
-	//, name_(name)
 	, primaryColour_(gfx::Colour(255, 255, 255,255))
 	, secondaryColour_(gfx::Colour(255, 255, 255, 255))
 	, renderer_(renderer)
@@ -42,11 +41,6 @@ void DrawWindow::setActiveBrush(Brush* brush)
 	activeBrush_ = brush;
 }
 
-//void DrawWindow::getPixels(SDL_Surface* surface)
-//{
-//	pixels_ = surface->pixels;
-//}
-
 void DrawWindow::setMouseCoords(Coords relCoords)
 {
 	mouseCoords_ = relCoords;
@@ -75,28 +69,6 @@ void DrawWindow::swapPrimarySecondaryColours()
 	std::swap(primaryColour_, secondaryColour_);
 	std::cout << "Colours have been swapped \n";
 }
-
-// Sets the active colour for drawing, defaults to primary
-/*
-void DrawWindow::setDrawColourAsPrimary()
-{
-	primaryColour_.getComponents(drawRGBA_);
-}
-
-void DrawWindow::setDrawColourAsSecondary()
-{
-	secondaryColour_.getComponents(drawRGBA_);
-}
-
-void DrawWindow::setPrimaryAsDrawColour()
-{
-	setPrimaryColour(gfx::Colour(drawRGBA_[0], drawRGBA_[1], drawRGBA_[2], drawRGBA_[3]));
-}
-
-void DrawWindow::setSecondaryAsDrawColour()
-{
-	setSecondaryColour(gfx::Colour(drawRGBA_[0], drawRGBA_[1], drawRGBA_[2], drawRGBA_[3]));
-}*/
 
 /*override*/
 void DrawWindow::draw()
@@ -135,32 +107,13 @@ void DrawWindow::updateAndRerender()
 
 bool DrawWindow::mouseButtonDown(const MouseButton button)
 {
-	//Uint16* pixels = (Uint16*)surface_->pixels;            // Get the pixels from the Surface
-
-	//const int xRel = mouseCoords_.x - this->getRect().x;
-	//const int yRel = mouseCoords_.y - this->getRect().y;
-	//const int xPrevRel = prevMouseCoords_.x - this->getRect().x;
-	//const int yPrevRel = prevMouseCoords_.y - this->getRect().y;
-
+	
 	if (button == MouseButton::Left) {
 		if (drawToggle_) {
 			lines_.push_back({ mouseCoords_.x, mouseCoords_.y, prevMouseCoords_.x, prevMouseCoords_.y });
 
-			//uint32_t pixel = 0xFFFFFFFF;
-			//SDL_Rect pixelRect = { xRel, yRel, 1, 1 };
-			//SDL_UpdateTexture(texture_, &pixelRect, reinterpret_cast<void*>(&pixel), 1);
-
-
 		}
 
-		//auto brushedArea = activeBrush_->brushArea(mousePixel);
-		//for (auto brushedPixel : brushedArea) {
-		//	std::cout << "brushed pixel at x: " << brushedPixel.x << ", y: " << brushedPixel.y << '\n';
-
-		//	SDL_RenderDrawPoint(renderer_, brushedPixel.x, brushedPixel.y);
-		//	
-		//	//}
-		//}
 	}
 	return true;
 }

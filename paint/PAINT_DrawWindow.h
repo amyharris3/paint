@@ -78,12 +78,6 @@ namespace paint
 		uint8_t* getSecondaryBlue() { return &secondaryRGBA_[2]; }
 		uint8_t* getSecondaryAlpha() { return &secondaryRGBA_[3]; }
 	
-		/*void setDrawColourAsPrimary();
-		void setDrawColourAsSecondary();
-		void setPrimaryAsDrawColour();
-		void setSecondaryAsDrawColour();
-*/
-
 		//void setColor(SDL_Surface* surface);
 		void draw() override;
 		void updateAndRerender() override;
