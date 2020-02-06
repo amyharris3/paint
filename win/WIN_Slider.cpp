@@ -37,10 +37,10 @@ Slider::Slider(gfx::Renderer* renderer, gfx::Rectangle rect, const char* name, g
 void Slider::updateLineMarker()
 {
 	lineRect_ = gfx::Rectangle(getRect().x + 2, (getRect().y + getRect().height / 2) - 2, getRect().width - 5, 3);
-	markerRect_ = gfx::Rectangle(xPositionFromValue(), getRect().y, 5, getRect().height);
+	markerRect_ = gfx::Rectangle(getPositionFromValue(), getRect().y, 5, getRect().height);
 }
 
-int Slider::xPositionFromValue() const
+int Slider::getPositionFromValue() const
 {
 	return lineRect_.x + static_cast<int>(round((static_cast<double>(markerVal_) * static_cast<double>(lineRect_.width) / (static_cast<double>(slideLineMax_) - static_cast<double>(slideLineMin_)))));
 }
