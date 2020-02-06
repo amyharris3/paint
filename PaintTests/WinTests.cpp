@@ -681,7 +681,11 @@ namespace PaintTests
 			Assert::AreEqual(slider.getLineRect().width, 95);
 			Assert::AreEqual(slider.getLineRect().height, 3);
 
-			Assert::AreEqual(slider.getMarkerRect().x, 50);
+			Assert::AreEqual(slider.getMarkerValue(), 50);
+			Assert::AreEqual(slider.getMarkerPos(), slider.getPositionFromValue());
+			Assert::AreEqual(slider.getMarkerValue(), slider.getValueFromPosition());
+			
+			Assert::AreEqual(slider.getMarkerRect().x, 26);
 			Assert::AreEqual(slider.getMarkerRect().y, 0);
 			Assert::AreEqual(slider.getMarkerRect().width, 5);
 			Assert::AreEqual(slider.getMarkerRect().height, 20);
@@ -695,41 +699,62 @@ namespace PaintTests
 
 			slider.setMarkerPos(20);
 			Assert::AreEqual(slider.getMarkerPos(), 20);
-			Assert::AreEqual(slider.getMarkerRect().x, 20);
-
-			slider.setMarkerPos(200);
-			Assert::AreEqual(slider.getMarkerPos(), 100);
+			Assert::AreEqual(slider.getMarkerValue(), 37);
+			
+			slider.setMarkerPos(250);
+			Assert::AreEqual(slider.getMarkerPos(), 100 - 3);
+			Assert::AreEqual(slider.getMarkerValue(), 200);
 
 			slider.setMarkerPos(-100);
-			Assert::AreEqual(slider.getMarkerPos(), 0);
-			
+			Assert::AreEqual(slider.getMarkerPos(), 2);
+			Assert::AreEqual(slider.getMarkerValue(), 0);
 		}
 
+		TEST_METHOD(TestChangeValue)
+		{
+			Renderer dummyRenderer;
+			Renderer* rendererPtr = &dummyRenderer;
+			Slider slider(rendererPtr, gfx::Rectangle(0, 0, 100, 20), "slider", gfx::Colour(210, 220, 230, 240), gfx::Colour(1, 2, 3, 4), 50, 0, 200);
+
+			slider.setMarkerValue(20);
+			Assert::AreEqual(slider.getMarkerValue(), 20);
+			Assert::AreEqual(slider.getMarkerPos(), 20);
+
+			slider.setMarkerValue(500);
+			Assert::AreEqual(slider.getMarkerValue(), 100);
+
+			slider.setMarkerValue(-100);
+			Assert::AreEqual(slider.getMarkerValue(), 0);
+
+		}
 		TEST_METHOD(TestPositionValueConversion)
 		{
 			Renderer dummyRenderer;
 			Renderer* rendererPtr = &dummyRenderer;
 			Slider slider(rendererPtr, gfx::Rectangle(0, 0, 100, 20), "slider", gfx::Colour(210, 220, 230, 240), gfx::Colour(1, 2, 3, 4), 50, 0, 200);
 
-			Assert::AreEqual(slider.valueFromPosition(), 101);
+			Assert::AreEqual(slider.getValueFromPosition(), 101);
 
 			slider.setMarkerPos(49);
-			Assert::AreEqual(slider.valueFromPosition(), 99);
+			Assert::AreEqual(slider.getValueFromPosition(), 99);
 
 			slider.setMarkerPos(25);
-			Assert::AreEqual(slider.valueFromPosition(), 48);
+			Assert::AreEqual(slider.getValueFromPosition(), 48);
 
-			slider.positionFromValue(0);
+			slider.setMarkerValue(0);
+			Assert::AreEqual(slider.getMarkerValue(), 0);
 			Assert::AreEqual(slider.getMarkerPos(), 2);
-			Assert::AreEqual(slider.valueFromPosition(), 0);
+			Assert::AreEqual(slider.getValueFromPosition(), 0);
 			
-			slider.positionFromValue(75);
+			slider.setMarkerValue(75);
+			Assert::AreEqual(slider.getMarkerValue(), 75);
 			Assert::AreEqual(slider.getMarkerPos(), 38);
-			Assert::AreEqual(slider.valueFromPosition(), 75);
+			Assert::AreEqual(slider.getValueFromPosition(), 75);
 
-			slider.positionFromValue(150);
+			slider.setMarkerValue(150);
+			Assert::AreEqual(slider.getMarkerValue(), 150);
 			Assert::AreEqual(slider.getMarkerPos(), 73);
-			Assert::AreEqual(slider.valueFromPosition(), 150);
+			Assert::AreEqual(slider.getValueFromPosition(), 150);
 		}
 
 	};

@@ -14,7 +14,7 @@ namespace win
 	{
 	public:
 		Slider() = delete;
-		Slider(gfx::Renderer* renderer, gfx::Rectangle rect, const char* name, gfx::Colour fillColour, gfx::Colour outlineColour, int initialPos, int slideMin, int slideMax);
+		Slider(gfx::Renderer* renderer, gfx::Rectangle rect, const char* name, gfx::Colour fillColour, gfx::Colour outlineColour, int initialVal, int slideMin, int slideMax);
 		virtual ~Slider() = default;
 		Slider(Slider const& that) = default;
 		Slider(Slider && that) = default;
@@ -26,18 +26,18 @@ namespace win
 		gfx::Renderer* getRenderer() const { return renderer_; }
 		gfx::Rectangle getLineRect() const { return lineRect_; }
 		gfx::Rectangle getMarkerRect() const { return markerRect_; }
-		int getMarkerVal() const { return markerVal_; }
+		int getMarkerValue() const { return markerVal_; }
 		int getMarkerPos() const { return markerRect_.x; }
 		
 		bool getHold() const { return holdMarker_; }
 		void holdOn() { holdMarker_ = true; }
 		void holdOff() { holdMarker_ = false; }
 		
-		int getValueFromPosition() const;
 		int getPositionFromValue() const;
+		int getValueFromPosition() const;
 
-		void setMarkerValue(int const val);
-		void setMarkerPos(int const x);
+		void setMarkerValue(int val);
+		void setMarkerPos(int x);
 		void moveMarker();
 		void update() override;
 		void updateAndRerender() override;
