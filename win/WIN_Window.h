@@ -26,11 +26,14 @@ namespace win
 		Window & operator=(Window const& that) = delete;
 		Window& operator=(Window && that) = delete;
 
+		SDL_Renderer* getRenderer() const { return renderer_; }
+		
 		void draw() override;
 		
 	private:
 		gfx::Rectangle rect_;
 		SDL_Renderer* renderer_;
 
+		void updateAndRerender() override;
 	};
 }

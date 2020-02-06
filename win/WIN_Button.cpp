@@ -7,13 +7,15 @@ using namespace win;
 Button::Button(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* name, const char* spritePath, const ActionFunction act)
 	: UIelement(rect, name)
 	, action(act)
+	, renderer_(renderer)
+	, texture_ (SDLUtils::loadSprite(renderer, spritePath))
+	, rect_(rect)
 {
 	renderer_ = renderer;
 	rect_ = rect;
 	texture_ = SDLUtils::loadSprite(renderer_, spritePath);
 	spriteClips_ = SDLUtils::handleSpriteSheet(texture_);
 	activeClip_ = &(spriteClips_[1]);
-	clicked_ = false;
 }
 
 Button::~Button()
@@ -32,30 +34,34 @@ void Button::draw()
 }
 
 /* override */
-void Button::mouseEnter()
+bool Button::mouseEnter()
 {
-		activeClip_ = &(spriteClips_[0]);
+	activeClip_ = &(spriteClips_[0]);
+	return true;
 }
 
 /* override */
-void Button::mouseExit()
+bool Button::mouseExit()
 {
 	activeClip_ = &(spriteClips_[1]);
+	return true;
 }
 
 /* override */
-void Button::mouseButtonDown(MouseButton b)
+bool Button::mouseButtonDown(MouseButton b)
 {
 	activeClip_ = &(spriteClips_[2]);
+	return true;
 }
 
 /* override */
-void Button::mouseButtonUp(MouseButton b)
+bool Button::mouseButtonUp(MouseButton b)
 {
 	activeClip_ = &(spriteClips_[0]);
 
 	if (action) {
 		action(this);
 	}
+	return true;
 }
 

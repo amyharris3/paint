@@ -1,16 +1,17 @@
 #include "WIN_pch.h"
 #include "WIN_ColourDisplay.h"
+#include "../paint/PAINT_Utils.h"
 
 using namespace win;
 
 
-ColourDisplay::ColourDisplay(gfx::Rectangle rect, const char* name, const std::shared_ptr<gfx::Colour> & displayColour, SDL_Renderer* renderer, const bool isActive)
+ColourDisplay::ColourDisplay(gfx::Rectangle rect, const char* name, uint8_t displayColour[], SDL_Renderer* renderer, bool isActive)
 	: UIelement(rect, name)
-	, displayColour_(displayColour)
 	, renderer_(renderer)
 	, isActive_(isActive)
+	, isClicked_(false)
 {
-	this->setForegroundColour(*displayColour);
+	this->setForegroundColour(gfx::Colour(displayColour[0], displayColour[1], displayColour[2], displayColour[3]));
 	if (isActive_)
 	{
 		this->setBackgroundColour(gfx::Colour(0, 0, 0, 255));
@@ -21,22 +22,43 @@ ColourDisplay::ColourDisplay(gfx::Rectangle rect, const char* name, const std::s
 	}
 }
 
-void ColourDisplay::updateColour()
+void ColourDisplay::setColour(const gfx::Colour colour)
 {
-	this->setForegroundColour(*displayColour_);
+	setForegroundColour(colour);
+}
+
+void ColourDisplay::setOutlineColour(const gfx::Colour outlineColour)
+{
+	this->setBackgroundColour(outlineColour);
 }
 
 void ColourDisplay::setActive()
 {
-	this->setBackgroundColour(gfx::Colour(0, 0, 0, 255));
+	isActive_ = true;
+	setBackgroundColour(gfx::Colour(0, 0, 0, 255));
 }
 
 void ColourDisplay::setInactive()
 {
-	this->setBackgroundColour(gfx::Colour(200, 200, 200, 200));
+	isActive_ = false;
+	setBackgroundColour(gfx::Colour(200, 200, 200, 200));
 }
 
-/* override */
+void ColourDisplay::swapIsActive()
+{
+	if (isActive_){
+		setInactive();
+	}
+	else {
+		setActive();
+	}
+}
+
+void ColourDisplay::update()
+{
+	
+}
+
 void ColourDisplay::draw()
 {
 	SDL_Rect outlineRect = { this->getRect().x, this->getRect().y, this->getRect().width, this->getRect().height };
@@ -50,4 +72,25 @@ void ColourDisplay::draw()
 	getForegroundColour().getComponents(rgba);
 	SDL_SetRenderDrawColor(renderer_, rgba[0], rgba[1], rgba[2], rgba[3]);
 	SDL_RenderFillRect(renderer_, &boxRect);
+}
+
+bool ColourDisplay::mouseExit()
+{
+	isClicked_ = false;
+	return false;
+}
+bool ColourDisplay::mouseButtonDown(win::MouseButton const button)
+{
+	isClicked_ = true;
+	return false;
+}
+
+bool ColourDisplay::mouseButtonUp(win::MouseButton const button)
+{
+	if (isClicked_) {
+		const auto cPick = paint::utils::findToolWindow(this)->getColourPicker();
+		cPick->swapActiveColour();
+		isClicked_ = false;
+	}
+	return true;
 }

@@ -11,6 +11,8 @@ namespace win
 	{
 	public:
 
+		typedef void (*ActionFunction)(UIelement* control);
+
 		UIelement() = delete;
 		UIelement(gfx::Rectangle rect, const char* name);
 		virtual ~UIelement() = default;
@@ -25,22 +27,22 @@ namespace win
 		gfx::Colour getForegroundColour() const { return foregroundColour_; }
 		void getForegroundColour(uint8_t rgba[]) const;
 		void getBackgroundColour(uint8_t rgba[]) const;
-		virtual void swapColours();
+		virtual void swapFgBgColours();
 
 		void setRect(const gfx::Rectangle & rect);
-		gfx::Rectangle getRect() const { return rect_; }
+		const gfx::Rectangle & getRect() const { return rect_; }
 		const char* getName() const { return name_.c_str(); }
 		UIelement* getParent() const { return parent_; }
 		void setParent(UIelement * parent);
 
 		virtual void draw() = 0;
-		virtual void mouseEnter();
-		virtual void mouseExit();
-		virtual void mouseButtonDown(MouseButton) {};
-		virtual void mouseButtonUp(MouseButton) {};
-		virtual void earlyExit(MouseButton) {};
-
-		typedef void (*ActionFunction)(UIelement* control);
+		virtual void update() { };
+		virtual void updateAndRerender() { };
+		virtual bool mouseEnter();
+		virtual bool mouseExit();
+		virtual bool mouseMove() { return false; };
+		virtual bool mouseButtonDown(MouseButton button);
+		virtual bool mouseButtonUp(MouseButton) { return false; };
 
 	private:
 		std::string name_;

@@ -8,3 +8,9 @@ ShapeTool::ShapeTool()
 {
 	
 }
+
+void ShapeTool::setActiveShape(Shape* shape)
+{
+	activeShape_ = shape;
+}
+

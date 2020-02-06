@@ -1,10 +1,9 @@
 #include "PAINT_pch.h"
 #include "PAINT_Program.h"
 #include "PAINT_DrawWindow.h"
-#include "PAINT_ToolWindow.h"
 #include "PAINT_Screen.h"
-#include "WIN_Button.h"
 #include "WIN_Mouse.h"
+#include "PAINT_ColourPicker.h"
 
 using namespace paint;
 using namespace gfx;
@@ -47,6 +46,7 @@ void Program::initialize(SDL_Renderer* renderer)
 	renderer_ = renderer;
 	auto screenRect = gfx::Rectangle(0, 0, 1200, 800);
 	screen_ = std::make_shared<Screen>(renderer, screenRect, "Screen");
+	
 }
 
 void Program::run() const
@@ -58,8 +58,6 @@ void Program::run() const
 	auto xPrev{ 0 };
 	auto yPrev{ 0 };
 
-	auto children = screen_->getChildren();
-	auto toolChildren = screen_->getToolWindow()->getChildren();
 	auto drawWindow = screen_->getDrawWindow();
 
 	auto clicked = false;
@@ -69,6 +67,7 @@ void Program::run() const
 	//While application is running
 	std::shared_ptr<UIelement> activeElement = nullptr;
 	while (!quit) {
+		auto rerenderFlag = false;
 
 		//Handle events on queue
 		while (SDL_PollEvent(&e) != 0) {
@@ -87,13 +86,19 @@ void Program::run() const
 				auto active = GetTopmostElement(screen_->getChildren(), xMouse, yMouse);
 				if (activeElement != active) {
 					if (activeElement) {
-						activeElement->mouseExit();
+						rerenderFlag = activeElement->mouseExit();
 					}
 					activeElement = active;
+					
 					if (activeElement) {
-						activeElement->mouseEnter();
+						rerenderFlag = activeElement->mouseEnter();
 					}
 				}
+
+				if(activeElement){
+					rerenderFlag = activeElement->mouseMove();
+				}
+				
 			}
 
 			// If mouse is clicked
@@ -127,15 +132,18 @@ void Program::run() const
 					drawWindow->setPrevCoords({ xPrev, yPrev });
 					// ReSharper disable once CppLocalVariableMightNotBeInitialized
 					activeElement->mouseButtonDown(button);
+					
+					rerenderFlag = activeElement->mouseButtonDown(button);
 				}
+				
 			}
 
 			if (e.type == SDL_MOUSEBUTTONUP) {
 				clicked = false;
 				if (activeElement) {
-					// ReSharper disable once CppLocalVariableMightNotBeInitialized
-					activeElement->mouseButtonUp(button);
+					rerenderFlag = activeElement->mouseButtonUp(button);
 				}
+
 			}
 
 			if (xPrev != xMouse) {
@@ -146,6 +154,11 @@ void Program::run() const
 			{
 				yPrev = yMouse;
 			}
+
+			if (rerenderFlag) {
+				screen_->updateAndRerender();
+			}
+			
 		}
 		SDL_RenderPresent(renderer_);
 	}

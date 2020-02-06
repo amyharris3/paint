@@ -36,9 +36,9 @@ void ToggleButton::draw()
 }
 
 /* override */
-void ToggleButton::mouseEnter()
+bool ToggleButton::mouseEnter()
 {
-	if (activated_){
+	if (activated_) {
 		if (state_ == ButtonStates::on) {
 			activeClip_ = &(spriteClips_[2]);
 		}
@@ -49,13 +49,14 @@ void ToggleButton::mouseEnter()
 			assert(!"Invalid state");
 		}
 	}
+
+	return false;
 }
 
 /* override */
-void ToggleButton::mouseExit()
+bool ToggleButton::mouseExit()
 {
-	if (activated_)
-	{
+	if (activated_) {
 		if (state_ == ButtonStates::on) {
 			activeClip_ = &(spriteClips_[2]);
 		}
@@ -66,22 +67,24 @@ void ToggleButton::mouseExit()
 			assert(!"Invalid state");
 		}
 	}
+
+	return false;
 }
 
 /* override */
-void ToggleButton::mouseButtonDown(MouseButton b)
+bool ToggleButton::mouseButtonDown(MouseButton b)
 {
-	if (activated_)
-	{
+	if (activated_) {
 		activeClip_ = &(spriteClips_[2]);
 	}
+
+	return false;
 }
 
 /* override */
-void ToggleButton::mouseButtonUp(MouseButton b)
+bool ToggleButton::mouseButtonUp(MouseButton b)
 {
-	if (activated_)
-	{
+	if (activated_) {
 		// set the state of click
 		if (state_ == ButtonStates::on) {
 			state_ = ButtonStates::off;
@@ -110,6 +113,8 @@ void ToggleButton::mouseButtonUp(MouseButton b)
 			action(this);
 		}
 	}
+
+	return false;
 }
 
 void ToggleButton::setButtonGroup(std::shared_ptr<ButtonGroup> buttonGroup)

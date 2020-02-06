@@ -24,10 +24,10 @@ namespace win
 
 
 		void draw() override;
-		void mouseEnter() override;
-		void mouseExit() override;
-		void mouseButtonDown(MouseButton b) override;
-		void mouseButtonUp(MouseButton b) override;
+		bool mouseEnter() override;
+		bool mouseExit() override;
+		bool mouseButtonDown(MouseButton b) override;
+		bool mouseButtonUp(MouseButton b) override;
 
 		void setButtonGroup(std::shared_ptr<ButtonGroup> buttonGroup);
 		void turnOff();

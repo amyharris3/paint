@@ -1,16 +1,11 @@
 #pragma once
 
-//#include "PAINT_DrawFlags.h"
-
 namespace paint
 {
 	//class DrawFlags;
 	
 	class Shape
 	{
-	private:
-		//DrawFlags * drawFlag_;
-		
 	public:
 		Shape() = default;
 		virtual ~Shape() = default;

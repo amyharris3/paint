@@ -16,8 +16,11 @@ namespace paint
 		ShapeTool(ShapeTool && that) = default;
 		ShapeTool& operator=(const ShapeTool & that) = default;
 		ShapeTool& operator=(ShapeTool && that) = default;
+
+		void setActiveShape(Shape* shape);
+		Shape* getActiveShape() const { return activeShape_; }
 		
 	private:
-		std::shared_ptr<Shape> activeShape_;
+		Shape* activeShape_;
 	};
 }

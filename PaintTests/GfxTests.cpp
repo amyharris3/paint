@@ -107,7 +107,7 @@ namespace PaintTests
 	private:
 		static Rectangle makeUnitRectangle()
 		{
-			return Rectangle();
+			return {};
 		}
 	};
 
@@ -121,10 +121,10 @@ namespace PaintTests
 			const Colour c(10, 20, 30, 40);
 			uint8_t rgba[4];
 			c.getComponents(rgba);
-			Assert::AreEqual(rgba[0], (uint8_t)10);
-			Assert::AreEqual(rgba[1], (uint8_t)20);
-			Assert::AreEqual(rgba[2], (uint8_t)30);
-			Assert::AreEqual(rgba[3], (uint8_t)40);
+			Assert::AreEqual(rgba[0], static_cast<uint8_t>(10));
+			Assert::AreEqual(rgba[1], static_cast<uint8_t>(20));
+			Assert::AreEqual(rgba[2], static_cast<uint8_t>(30));
+			Assert::AreEqual(rgba[3], static_cast<uint8_t>(40));
 		}
 		TEST_METHOD(TestCopyConstruction)
 		{
@@ -132,12 +132,10 @@ namespace PaintTests
 			const auto c2(c1);
 			uint8_t rgba[4];
 			c2.getComponents(rgba);
-			// ReSharper disable CppCStyleCast
-			Assert::AreEqual(rgba[0], (uint8_t)10);
-			Assert::AreEqual(rgba[1], (uint8_t)20);
-			Assert::AreEqual(rgba[2], (uint8_t)30);
-			Assert::AreEqual(rgba[3], (uint8_t)40);
-			// ReSharper restore CppCStyleCast
+			Assert::AreEqual(rgba[0], static_cast<uint8_t>(10));
+			Assert::AreEqual(rgba[1], static_cast<uint8_t>(20));
+			Assert::AreEqual(rgba[2], static_cast<uint8_t>(30));
+			Assert::AreEqual(rgba[3], static_cast<uint8_t>(40));
 		}
 
 		TEST_METHOD(TestAsssignmentOperator)
@@ -146,10 +144,10 @@ namespace PaintTests
 			const auto c2 = c1;
 			uint8_t rgba[4];
 			c2.getComponents(rgba);
-			Assert::AreEqual(rgba[0], (uint8_t)10);
-			Assert::AreEqual(rgba[1], (uint8_t)20);
-			Assert::AreEqual(rgba[2], (uint8_t)30);
-			Assert::AreEqual(rgba[3], (uint8_t)40);
+			Assert::AreEqual(rgba[0], static_cast<uint8_t>(10));
+			Assert::AreEqual(rgba[1], static_cast<uint8_t>(20));
+			Assert::AreEqual(rgba[2], static_cast<uint8_t>(30));
+			Assert::AreEqual(rgba[3], static_cast<uint8_t>(40));
 		}
 
 		TEST_METHOD(TestMoveConstructor)
@@ -157,10 +155,10 @@ namespace PaintTests
 			const auto c(makeWhite());
 			uint8_t rgba[4];
 			c.getComponents(rgba);
-			Assert::AreEqual(rgba[0], (uint8_t)255);
-			Assert::AreEqual(rgba[1], (uint8_t)255);
-			Assert::AreEqual(rgba[2], (uint8_t)255);
-			Assert::AreEqual(rgba[3], (uint8_t)255);
+			Assert::AreEqual(rgba[0], static_cast<uint8_t>(255));
+			Assert::AreEqual(rgba[1], static_cast<uint8_t>(255));
+			Assert::AreEqual(rgba[2], static_cast<uint8_t>(255));
+			Assert::AreEqual(rgba[3], static_cast<uint8_t>(255));
 		}
 
 		TEST_METHOD(TestMoveAssignmentOperator)
@@ -168,10 +166,10 @@ namespace PaintTests
 			const auto c = makeWhite();
 			uint8_t rgba[4];
 			c.getComponents(rgba);
-			Assert::AreEqual(rgba[0], (uint8_t)255);
-			Assert::AreEqual(rgba[1], (uint8_t)255);
-			Assert::AreEqual(rgba[2], (uint8_t)255);
-			Assert::AreEqual(rgba[3], (uint8_t)255);
+			Assert::AreEqual(rgba[0], static_cast<uint8_t>(255));
+			Assert::AreEqual(rgba[1], static_cast<uint8_t>(255));
+			Assert::AreEqual(rgba[2], static_cast<uint8_t>(255));
+			Assert::AreEqual(rgba[3], static_cast<uint8_t>(255));
 		}
 
 		TEST_METHOD(TestGetComponents)
@@ -179,16 +177,16 @@ namespace PaintTests
 			const Colour c(10, 20, 30, 40);
 			uint8_t rgba[4];
 			c.getComponents(rgba);
-			Assert::AreEqual(rgba[0], (uint8_t)10);
-			Assert::AreEqual(rgba[1], (uint8_t)20);
-			Assert::AreEqual(rgba[2], (uint8_t)30);
-			Assert::AreEqual(rgba[3], (uint8_t)40);
+			Assert::AreEqual(rgba[0], static_cast<uint8_t>(10));
+			Assert::AreEqual(rgba[1], static_cast<uint8_t>(20));
+			Assert::AreEqual(rgba[2], static_cast<uint8_t>(30));
+			Assert::AreEqual(rgba[3], static_cast<uint8_t>(40));
 		}
 
 	private:
 		static Colour makeWhite()
 		{
-			return Colour(255, 255, 255, 255);
+			return {255, 255, 255, 255};
 		}
 	};
 	// ReSharper restore CppCStyleCast

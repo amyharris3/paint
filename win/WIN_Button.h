@@ -1,7 +1,6 @@
 #pragma once
 #include "WIN_UIelement.h"
 
-
 struct SDL_Texture;
 struct SDL_Renderer;
 struct SDL_Rect;
@@ -24,19 +23,18 @@ namespace win
 		Button& operator=(Button&& that) = default;
 
 		void draw() override;
-		void mouseEnter() override;
-		void mouseExit() override;
-		void mouseButtonDown(MouseButton b) override;
-		void mouseButtonUp(MouseButton b) override;
+		bool mouseEnter() override;
+		bool mouseExit() override;
+		bool mouseButtonDown(MouseButton b) override;
+		bool mouseButtonUp(MouseButton b) override;
 
 		ActionFunction action;
 
 	private:
-		SDL_Texture* texture_;
 		SDL_Renderer* renderer_;
+		SDL_Texture* texture_;
 		gfx::Rectangle rect_;
 		std::vector<SDL_Rect> spriteClips_;
 		SDL_Rect* activeClip_;
-		bool clicked_;
 	};
 }

@@ -7,18 +7,15 @@ using namespace paint;
 using namespace win;
 using namespace utils;
 
-DrawWindow * paint::utils::findDrawWindow(UIelement* control)
+DrawWindow* paint::utils::findDrawWindow(UIelement* control)
 {
 	/* Preconditions. */
-	try
-	{
-		if (!control)
-		{
+	try {
+		if (!control) {
 			throw std::runtime_error("Null control in findDrawWindow().");
 		}
 	}
-	catch(std::runtime_error &e)
-	{
+	catch (std::runtime_error & e) {
 		std::cout << e.what() << '\n';
 		throw;
 	}
@@ -26,7 +23,7 @@ DrawWindow * paint::utils::findDrawWindow(UIelement* control)
 	/* Implementation */
 
 	// Are we already at the DrawWindow?
-	if (const auto dw = dynamic_cast<DrawWindow *>(control)) {
+	if (const auto dw = dynamic_cast<DrawWindow*>(control)) {
 		return dw;
 	}
 
@@ -36,7 +33,7 @@ DrawWindow * paint::utils::findDrawWindow(UIelement* control)
 #if !defined(NDEBUG)
 		const auto screen = dynamic_cast<Screen*>(control);
 #else
-		const auto screen = static_cast<Screen*>(control);
+		const auto screen = static_cast<Screen*>(control);  // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
 #endif
 		assert(screen);
 		return screen->getDrawWindow();
@@ -44,3 +41,23 @@ DrawWindow * paint::utils::findDrawWindow(UIelement* control)
 	return findDrawWindow(parent);
 }
 
+ToolWindow* paint::utils::findToolWindow(UIelement* control)
+{
+	/* Preconditions. */
+	assert(control != nullptr && "null control in findToolWindow()");
+
+	/* Implementation */
+
+	// Are we already at the DrawWindow?
+	if (const auto tw = dynamic_cast<ToolWindow*>(control)) {
+		return tw;
+	}
+
+	// Are we the screen?
+	const auto parent = control->getParent();
+	if (!parent) {
+		const auto screen = dynamic_cast<Screen*>(control);
+		return screen->getToolWindow();
+	}
+	return findToolWindow(parent);
+}

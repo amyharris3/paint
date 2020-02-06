@@ -25,6 +25,7 @@ namespace paint {
 		DrawWindow* getDrawWindow() const { return drawWindow_.get(); }
 		ToolWindow* getToolWindow() const { return toolWindow_.get(); }
 
+		void updateAndRerender() override;
 	private:
 		std::shared_ptr<DrawWindow> drawWindow_;
 		std::shared_ptr<ToolWindow> toolWindow_;

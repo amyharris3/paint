@@ -21,6 +21,12 @@
     <ClCompile Include="GFX_Rectangle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GFX_Text.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GFX_pch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GFX_Colour.h">
@@ -29,7 +35,13 @@
     <ClInclude Include="GFX_Rectangle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GFX_Text.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="GFX_Line.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GFX_pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

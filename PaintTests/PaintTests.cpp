@@ -1,9 +1,8 @@
 #include "pch.h"
 #include "../SDL/include/SDL.h"
 #include "CppUnitTest.h"
+#include "../paint/PAINT_DrawWindow.h"
 #include "../paint/PAINT_Brush.h"
-#include "../paint/PAINT_Brush.cpp"
-#include "WIN_Button.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace gfx;

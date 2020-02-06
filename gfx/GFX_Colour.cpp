@@ -1,3 +1,4 @@
+#include "GFX_pch.h"
 #include "GFX_Colour.h"
 
 using namespace gfx;

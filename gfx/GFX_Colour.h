@@ -1,7 +1,5 @@
 #pragma once
 
-#include <cstdint>
-
 namespace gfx
 {
 	class Colour
@@ -16,6 +14,10 @@ namespace gfx
 		Colour& operator=(Colour&&) = default;
 
 		void getComponents(uint8_t rgba[]) const;
+		uint8_t getRed() const { return r_; }
+		uint8_t getGreen() const { return g_; }
+		uint8_t getBlue() const { return b_; }
+		uint8_t getAlpha() const { return a_; }
 		
 	private:
 		uint8_t r_;

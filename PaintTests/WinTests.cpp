@@ -61,7 +61,7 @@ namespace PaintTests
 			Assert::AreEqual(rgbaBack[2], uint8_t(252));
 			Assert::AreEqual(rgbaBack[3], uint8_t(253));
 			
-			element.swapColours();
+			element.swapFgBgColours();
 
 			element.getForegroundColour(rgbaFore);
 			Assert::AreEqual(rgbaFore[0], uint8_t(250));

@@ -1,3 +1,4 @@
+#include "GFX_pch.h"
 #include "GFX_Rectangle.h"
 
 using namespace gfx;

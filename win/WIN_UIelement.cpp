@@ -33,7 +33,7 @@ void UIelement::getBackgroundColour(uint8_t rgba[]) const
 	backgroundColour_.getComponents(rgba);
 }
 
-void UIelement::swapColours()
+void UIelement::swapFgBgColours()
 {
 	std::swap(foregroundColour_, backgroundColour_);
 }
@@ -43,18 +43,26 @@ void UIelement::setRect(const gfx::Rectangle& rect)
 	rect_ = rect;
 }
 
-void UIelement::mouseEnter()
+
+bool UIelement::mouseEnter()
 {
 	#ifdef VERBOSE
 	std::cout << "The mouse has entered the " << name_ << " UI element. \n";
 	#endif
+	return false;
 }
 
-void UIelement::mouseExit()
+bool UIelement::mouseExit()
 {
 	#ifdef VERBOSE
 	std::cout << "The mouse has left the " << name_ << " UI element. \n";
 	#endif
+	return false;
+}
+
+bool UIelement::mouseButtonDown(MouseButton button)
+{
+	return false;
 }
 
 void UIelement::setParent(UIelement * parent)
