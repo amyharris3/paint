@@ -79,8 +79,6 @@ void Program::run() const
 	//While application is running
 	std::shared_ptr<UIelement> activeElement = nullptr;
 	while (!quit) {
-		auto rerenderFlag = false;
-
 		// if a method causes a change in the visual representation of the program, returns 'true' and calls to rerender the relevant section, else have the method return 'false'
 		auto rerenderFlag = false;
 

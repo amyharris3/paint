@@ -4,7 +4,7 @@ namespace win
 {
 	namespace utils
 	{
-		bool filterNumerical(const char c[]);
+		bool filterNumerical(const char c);
 		
 	}
 }

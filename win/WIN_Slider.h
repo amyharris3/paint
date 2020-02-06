@@ -10,6 +10,7 @@ namespace gfx {
 namespace win
 {
 	// Currently set to work horizontally along X axis
+	// Conversion between value <-> marker position is only approximate unless pixel<->value scaling is exact
 	class Slider : public UIelement
 	{
 	public:
@@ -33,11 +34,12 @@ namespace win
 		void holdOn() { holdMarker_ = true; }
 		void holdOff() { holdMarker_ = false; }
 		
-		int getPositionFromValue() const;
-		int getValueFromPosition() const;
+		int getApproxPositionFromValue() const;
+		int getApproxValueFromPosition() const;
 
 		void setMarkerValue(int val);
 		void setMarkerPos(int x);
+		
 		void moveMarker();
 		void update() override;
 		void updateAndRerender() override;
@@ -52,14 +54,14 @@ namespace win
 
 		gfx::Renderer* renderer_;
 		
-		int slideLineMin_;
-		int slideLineMax_;
+		int slideValueMin_;
+		int slideValueMax_;
 		gfx::Rectangle lineRect_;
 		gfx::Colour lineColour_;
 
 		// the position of the marker is stored in markerVal_ (for abstract value) and markerRect_.x (for physical pixel location)
-		// markerVal_ should be used as the 'true' value, with markerRect_.x being a representation of it
-		//int markerPos_;
+		// markerVal_ should be used as the 'real' value, with markerRect_.x being a representation of it
+		// also have 'true' values to keep internally, as otherwise causes rounding issues when converting between double and int
 		int markerVal_;
 		gfx::Rectangle markerRect_;
 		gfx::Colour markerColour_;

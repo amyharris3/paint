@@ -7,12 +7,12 @@ using namespace win;
 Slider::Slider(gfx::Renderer* renderer, gfx::Rectangle rect, const char* name, gfx::Colour fillColour, gfx::Colour outlineColour, int const initialVal, int const slideMin, int const slideMax)
 	: UIelement(rect, name)
 	, renderer_(renderer)
-	, slideLineMin_(slideMin)
-	, slideLineMax_(slideMax)
+	, slideValueMin_(slideMin)
+	, slideValueMax_(slideMax)
 	, lineRect_(rect.x+2, int(rect.y+rect.height/2)-2, rect.width-5, 3)
 	, lineColour_({0,0,0,255})
 	, markerVal_(initialVal)
-	, markerRect_(getPositionFromValue(), rect.y, 5, rect.height)
+	, markerRect_(getApproxPositionFromValue(), rect.y, 5, rect.height)
 	, markerColour_({ 0,0,0,255 })
 	, holdMarker_(false)
 
@@ -24,7 +24,7 @@ Slider::Slider(gfx::Renderer* renderer, gfx::Rectangle rect, const char* name, g
 	if(rect.width < 5){
 		lineRect_.x = rect.x;
 		lineRect_.width = rect.width;
-		markerRect_.x = getPositionFromValue();
+		markerRect_.x = getApproxPositionFromValue();
 		markerRect_.width = 1;
 	}
 	if(rect.height < 3 ){
@@ -38,34 +38,36 @@ Slider::Slider(gfx::Renderer* renderer, gfx::Rectangle rect, const char* name, g
 void Slider::updateLineMarker()
 {
 	lineRect_ = gfx::Rectangle(getRect().x + 2, (getRect().y + getRect().height / 2) - 2, getRect().width - 5, 3);
-	markerRect_ = gfx::Rectangle(getPositionFromValue(), getRect().y, 5, getRect().height);
-}
-int Slider::getPositionFromValue() const
-{
-	return lineRect_.x + static_cast<int>(round((static_cast<double>(markerVal_) * static_cast<double>(lineRect_.width) / (static_cast<double>(slideLineMax_) - static_cast<double>(slideLineMin_)))));
+	markerRect_ = gfx::Rectangle(getApproxPositionFromValue(), getRect().y, 5, getRect().height);
 }
 
-// Need to convert scaling from the position
-// subtracts 1 to deal with int/double/rounding errors that are introduced
-int Slider::getValueFromPosition() const
+// Need to convert scaling from the position and vice versa, must note this is only approximate
+// position<-value scaling is only approximate due to storing input and output data as int instead of double
+int Slider::getApproxPositionFromValue() const
+{
+	return lineRect_.x + static_cast<int>(round((static_cast<double>(markerVal_) * static_cast<double>(lineRect_.width) / (static_cast<double>(slideValueMax_) - static_cast<double>(slideValueMin_)))));
+}
+
+// value<-position scaling is only approximate due to storing input and output data as int instead of double
+int Slider::getApproxValueFromPosition() const
 {
 	const auto relativeX = markerRect_.x - lineRect_.x;
 	//return relativeX * int(round((double(slideLineMax_) - double(slideLineMin_)) / double(lineRect_.width)));
-	return static_cast<int>(round(static_cast<double>(relativeX) *(static_cast<double>(slideLineMax_) - static_cast<double>(slideLineMin_)) / static_cast<double>(lineRect_.width))) - 1;
+	return static_cast<int>(round(static_cast<double>(relativeX) *(static_cast<double>(slideValueMax_) - static_cast<double>(slideValueMin_)) / static_cast<double>(lineRect_.width)));
 }
 
 //When changing marker value or position, always want to change the other at the same time, don't let them get out of sync
 void Slider::setMarkerValue(int val)
 {
-	if (val > slideLineMax_){
-		val = slideLineMax_;
+	if (val > slideValueMax_){
+		val = slideValueMax_;
 	}
-	else if (val < slideLineMin_){
-		val = slideLineMin_;
+	else if (val < slideValueMin_){
+		val = slideValueMin_;
 	}
 	markerVal_ = val;
 
-	auto x = getPositionFromValue();
+	auto x = getApproxPositionFromValue();
 	if (x > lineRect_.x + lineRect_.width - 2) {
 		x = lineRect_.x + lineRect_.width;
 	}
@@ -87,12 +89,12 @@ void Slider::setMarkerPos(int x)
 	}
 	markerRect_.x = x;
 
-	auto val = getValueFromPosition();
-	if (val > slideLineMax_) {
-		val = slideLineMax_;
+	auto val = getApproxValueFromPosition();
+	if (val > slideValueMax_) {
+		val = slideValueMax_;
 	}
-	else if (val < slideLineMin_) {
-		val = slideLineMin_;
+	else if (val < slideValueMin_) {
+		val = slideValueMin_;
 	}
 	markerVal_ = val;
 }

@@ -72,6 +72,9 @@
     <ClCompile Include="PAINT_Shape.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\win\PAINT_ColourDisplay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PAINT_Utils.h">
@@ -126,6 +129,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PAINT_Triangle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\win\PAINT_ColourDisplay.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

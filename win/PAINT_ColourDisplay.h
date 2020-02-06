@@ -10,9 +10,9 @@ namespace gfx
 	class Renderer;
 }
 
-namespace win
+namespace paint
 {
-	class ColourDisplay final : public UIelement
+	class ColourDisplay final : public win::UIelement
 	{
 	public:
 
@@ -41,7 +41,7 @@ namespace win
 		void draw() override;
 		bool mouseExit() override;
 		bool mouseButtonDown(win::MouseButton button) override;
-		bool mouseButtonUp(MouseButton button) override;
+		bool mouseButtonUp(win::MouseButton button) override;
 
 	private:
 		gfx::Renderer* renderer_;

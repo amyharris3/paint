@@ -83,7 +83,7 @@ Screen::Screen(gfx::Renderer* renderer, const gfx::Rectangle& rect, const char* 
 	
 	// Creating statusWindow
 	gfx::Rectangle statusRect(0, 760, 1200, 40);
-	auto statusWindow = std::make_shared<StatusBarWindow>(renderer, statusRect, "statusWindow");
+	auto statusWindow = std::make_shared<StatusBarWindow>(renderer, statusRect, "statusWindow", 200, 40);
 	gfx::Colour statusColour{ 40, 115, 103, 255 };
 	statusWindow->setBackgroundColour(statusColour);
 	this->addChild(statusWindow);

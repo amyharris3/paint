@@ -1,8 +1,7 @@
-#include "WIN_ColourDisplay.h"
+#include "PAINT_ColourDisplay.h"
 #include "../paint/PAINT_Utils.h"
-//#include "../paint/PAINT_DrawWindow.h"
 
-using namespace win;
+using namespace paint;
 
 
 ColourDisplay::ColourDisplay(gfx::Rectangle rect, const char* name, uint8_t displayColour[], gfx::Renderer* renderer, bool isActive)

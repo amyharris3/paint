@@ -20,14 +20,13 @@ void paint::toggleDraw(Button* button)
 
 void paint::swapColours(Button* button)
 {
-	auto dw = utils::findDrawWindow(button);
-	dw->swapPrimarySecondaryColours();
+	//auto dw = utils::findDrawWindow(button);
+	//dw->swapPrimarySecondaryColours();
 	auto cpick = utils::findToolWindow(button)->getColourPicker();
 	cpick->swappedDisplaysSwitch();
 	cpick->updateColourDisplaysFromDrawWindow();
+	cpick->PrimaryActiveSwitchInBoxSlider();
 	cpick->setActiveColourInDrawWindow();
-	cpick->leftActiveSwitchInBoxSlider();
-	//cpick->updateAndRerender();
 	cpick->update();
 }
 

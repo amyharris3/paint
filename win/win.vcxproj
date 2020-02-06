@@ -22,7 +22,6 @@
     <ClCompile Include="WIN_ColourSlider.cpp" />
     <ClCompile Include="WIN_Slider.cpp" />
     <ClCompile Include="WIN_ColourValueTextbox.cpp" />
-    <ClCompile Include="WIN_ColourDisplay.cpp" />
     <ClCompile Include="WIN_Button.cpp" />
     <ClCompile Include="WIN_Container.cpp" />
     <ClCompile Include="WIN_EditTextbox.cpp" />
@@ -37,7 +36,6 @@
   <ItemGroup>
     <ClInclude Include="WIN_ColourSlider.h" />
     <ClInclude Include="WIN_ColourValueTextbox.h" />
-    <ClInclude Include="WIN_ColourDisplay.h" />
     <ClInclude Include="WIN_Button.h" />
     <ClInclude Include="WIN_Container.h" />
     <ClInclude Include="WIN_EditTextbox.h" />

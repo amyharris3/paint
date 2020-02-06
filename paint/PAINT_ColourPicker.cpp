@@ -7,11 +7,10 @@
 #include "WIN_ColourValueTextbox.h"
 #include <cassert>
 #include <utility>
-#include "WIN_ColourDisplay.h"
+#include "PAINT_ColourDisplay.h"
 
 using namespace win;
 using namespace paint;
-using namespace win;
 
 ColourPicker::ColourPicker(gfx::Rectangle rect, gfx::Renderer* renderer, std::shared_ptr<DrawWindow> drawWindow)
 	: Container(std::make_shared<win::FreeLayout>(), rect, "colourPicker")
@@ -35,8 +34,8 @@ ColourPicker::ColourPicker(gfx::Rectangle rect, gfx::Renderer* renderer, std::sh
 
 inline void ColourPicker::initialiseColourDisplays()
 {
-	leftColourDisplay_ = std::make_shared<win::ColourDisplay>(gfx::Rectangle(), "primaryColourDisplay", drawWindowPtr_->getPrimaryRGBA(), renderer_, true);
-	rightColourDisplay_ = std::make_shared<win::ColourDisplay>(gfx::Rectangle(), "secondaryColourDisplay", drawWindowPtr_->getSecondaryRGBA(), renderer_, false);
+	leftColourDisplay_ = std::make_shared<ColourDisplay>(gfx::Rectangle(), "primaryColourDisplay", drawWindowPtr_->getPrimaryRGBA(), renderer_, true);
+	rightColourDisplay_ = std::make_shared<ColourDisplay>(gfx::Rectangle(), "secondaryColourDisplay", drawWindowPtr_->getSecondaryRGBA(), renderer_, false);
 
 	displayBox_->addChild(leftColourDisplay_);
 	displayBox_->addChild(rightColourDisplay_);
@@ -93,15 +92,18 @@ void ColourPicker::setActiveColourInDrawWindow() const
 			drawWindowPtr_->setIfPrimaryColourActive(false);
 		}
 	}
-	else if (rightColourDisplay_->isActive()) {
-		drawWindowPtr_->setIfPrimaryColourActive(false);
-	}
-	else {
-		drawWindowPtr_->setIfPrimaryColourActive(true);
+	else
+	{
+		if (!swappedDisplays_) {
+			drawWindowPtr_->setIfPrimaryColourActive(false);
+		}
+		else {
+			drawWindowPtr_->setIfPrimaryColourActive(true);
+		}
 	}
 }
 
-void ColourPicker::leftActiveSwitchInBoxSlider() const
+void ColourPicker::PrimaryActiveSwitchInBoxSlider() const
 {
 	redValueBox_->primaryActiveSwitch();
 	greenValueBox_->primaryActiveSwitch();
@@ -119,7 +121,7 @@ void ColourPicker::swapActiveColour() const
 	leftColourDisplay_->swapIsActive();
 	rightColourDisplay_->swapIsActive();
 
-	leftActiveSwitchInBoxSlider();
+	PrimaryActiveSwitchInBoxSlider();
 
 	setActiveColourInDrawWindow();
 }
