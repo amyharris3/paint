@@ -16,6 +16,7 @@ namespace gfx
 namespace win
 {
 	enum class MouseButton;
+	struct Coords;
 }
 
 namespace paint 
@@ -50,19 +51,10 @@ namespace paint
 		void setSecondaryColour(gfx::Colour colour);
 		bool isPrimaryActive() const { return primaryActive_; }
 		void setIfPrimaryColourActive(const bool b) { primaryActive_ = b; }
-		void swapPrimarySecondaryColours();
+		//void swapPrimarySecondaryColours();
 
 		uint8_t* getPrimaryRGBA() { return primaryRGBA_; }
-		uint8_t* getPrimaryRed() { return &primaryRGBA_[0]; }
-		uint8_t* getPrimaryGreen() { return &primaryRGBA_[1]; }
-		uint8_t* getPrimaryBlue() { return &primaryRGBA_[2]; }
-		uint8_t* getPrimaryAlpha() { return &primaryRGBA_[3]; }
-
 		uint8_t* getSecondaryRGBA() { return secondaryRGBA_; }
-		uint8_t* getSecondaryRed() { return &secondaryRGBA_[0]; }
-		uint8_t* getSecondaryGreen() { return &secondaryRGBA_[1]; }
-		uint8_t* getSecondaryBlue() { return &secondaryRGBA_[2]; }
-		uint8_t* getSecondaryAlpha() { return &secondaryRGBA_[3]; }
 	
 		//void setColor(SDL_Surface* surface);
 		void draw() override;
@@ -72,18 +64,13 @@ namespace paint
 	private:
 		gfx::Renderer* renderer_;
 		
-		// TODO What sort of pointer?
-		Brush* activeBrush_;
-		//const char* name_;
+		std::shared_ptr<Tool> activeTool_;
 		gfx::Colour primaryColour_;
 		gfx::Colour secondaryColour_;
-		std::vector<Coords> clickedPixels_;
-		//SDL_Surface* surface_;
-		//SDL_Renderer* renderer_;
-		//SDL_Texture* texture_;
+		std::vector<win::Coords> clickedPixels_;
 		bool drawToggle_;
-		Coords mouseCoords_;
-		Coords prevMouseCoords_;
+		win::Coords mouseCoords_;
+		win::Coords prevMouseCoords_;
 		std::vector<gfx::Line> lines_;
 		std::shared_ptr<Tool> drawTool_;
 
