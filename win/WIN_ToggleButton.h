@@ -1,6 +1,10 @@
 #pragma once
 #include "WIN_UIelement.h"
 
+namespace gfx {
+	class Renderer;
+}
+
 namespace win
 {
 	class ToggleButton;
@@ -15,7 +19,7 @@ namespace win
 		enum states { off, on };
 		
 		ToggleButton() = delete;
-		ToggleButton(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* name, const char* spritePath, ActionFunction act);
+		ToggleButton(gfx::Renderer* renderer, const gfx::Rectangle& rect, const char* name, const char* spritePath, ActionFunction act);
 		virtual ~ToggleButton();
 		ToggleButton(const ToggleButton& that) = default;
 		ToggleButton(ToggleButton&& that) = default;
@@ -37,6 +41,8 @@ namespace win
 	private:
 		SDL_Texture* texture_;
 		SDL_Renderer* renderer_;
+
+		
 		gfx::Rectangle rect_;
 		std::vector<SDL_Rect> spriteClips_;
 		SDL_Rect* activeClip_;

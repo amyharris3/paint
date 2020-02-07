@@ -23,16 +23,22 @@ namespace gfx
 		Renderer& operator=(const Renderer & that) = default;
 		Renderer& operator=(Renderer && that) = default;
 
+		bool notDummy() const;
+		
 		SDL_Renderer* getRendererSDL() const { return rendererSDL_; }
 		
 		void createDrawWindowTexture(Rectangle rect);
 		void destroyDrawWindowTexture();
 		
+		void setRenderTargetDWTexture() const;
+		void setRenderTargetNull() const;
+
 		void renderPresent() const;
 		
 		void renderBox(Rectangle rect, Colour) const;
 		void renderText(Text* text, int const xPixel, int const yPixel) const;
 		void renderTextbox(Rectangle rect, Colour colour, Text* text, const int xOffset, const int yOffset);
+		void renderLines(const std::vector<gfx::Line>& lines, int thickness);
 		
 		void renderDrawWindow(Rectangle rect, const uint8_t drawRGBA_[], std::vector<Line> lines) const;
 		void clearDrawWindow(Rectangle rect) const;

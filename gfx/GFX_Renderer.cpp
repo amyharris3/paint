@@ -1,5 +1,5 @@
+#include "GFX_pch.h"
 #include "GFX_Renderer.h"
-#include <cassert>
 #include "GFX_Rectangle.h"
 #include "GFX_Colour.h"
 #include "GFX_Text.h"
@@ -26,6 +26,14 @@ Renderer::~Renderer()
 	rendererSDL_ = nullptr;
 }
 
+bool Renderer::notDummy() const
+{
+	if (rendererSDL_ != nullptr) {
+		return true;
+	}
+	return false;
+}
+
 void Renderer::createDrawWindowTexture(gfx::Rectangle rect)
 {
 	assert(rendererSDL_);
@@ -39,6 +47,16 @@ void Renderer::destroyDrawWindowTexture()
 		SDL_DestroyTexture(textureDW_);
 		textureDW_ = nullptr;
 	}
+}
+
+void Renderer::setRenderTargetDWTexture() const
+{
+	SDL_SetRenderTarget(rendererSDL_, textureDW_);
+}
+
+void Renderer::setRenderTargetNull() const
+{
+	SDL_SetRenderTarget(rendererSDL_, nullptr);
 }
 
 void Renderer::renderPresent() const
@@ -106,6 +124,35 @@ void Renderer::renderText(gfx::Text * text, int const xPixel, int const yPixel) 
 	assert(textTex_);
 }
 
+void Renderer::renderLines(const std::vector<gfx::Line>& lines, const int thickness)
+{
+	for (const auto& line : lines) {
+		SDL_RenderDrawLine(rendererSDL_, line.x1, line.y1, line.x2, line.y2);
+		for (auto sign : { -1, 1 })
+		{
+			if (thickness > 0) {
+				for (auto thick = 0; thick <= thickness; ++thick) {
+					SDL_RenderDrawLine(rendererSDL_, line.x1 + (sign * thick), line.y1, line.x2 + (sign * thick), line.y2);
+					SDL_RenderDrawLine(rendererSDL_, line.x1, line.y1 + (sign * thick), line.x2, line.y2 + (sign * thick));
+				}
+			}
+
+			if (thickness > 1) {
+
+				SDL_RenderDrawLine(rendererSDL_, line.x1 + (sign * 1), line.y1 + (sign * 1), line.x2 + (sign * 1), line.y2 + (sign * 1));
+				SDL_RenderDrawLine(rendererSDL_, line.x1 + (sign * 2), line.y1 + (sign * 1), line.x2 + (sign * 2), line.y2 + (sign * 1));
+				SDL_RenderDrawLine(rendererSDL_, line.x1 + (sign * 1), line.y1 + (sign * 2), line.x2 + (sign * 1), line.y2 + (sign * 2));
+
+				SDL_RenderDrawLine(rendererSDL_, line.x1 - (sign * 1), line.y1 + (sign * 1), line.x2 - (sign * 1), line.y2 + (sign * 1));
+				SDL_RenderDrawLine(rendererSDL_, line.x1 - (sign * 2), line.y1 + (sign * 1), line.x2 - (sign * 2), line.y2 + (sign * 1));
+				SDL_RenderDrawLine(rendererSDL_, line.x1 - (sign * 1), line.y1 + (sign * 2), line.x2 - (sign * 1), line.y2 + (sign * 2));
+			}
+
+		}
+	}
+}
+
+
 void Renderer::renderDrawWindow(gfx::Rectangle rect, const uint8_t drawRGBA_[], std::vector<Line> lines) const
 {
 	assert(rendererSDL_);
@@ -113,11 +160,9 @@ void Renderer::renderDrawWindow(gfx::Rectangle rect, const uint8_t drawRGBA_[], 
 	SDL_RenderCopy(rendererSDL_, textureDW_, nullptr, &destRect);
 
 	SDL_SetRenderDrawColor(rendererSDL_, int(drawRGBA_[0]), int(drawRGBA_[1]), int(drawRGBA_[2]), int(drawRGBA_[3]));
-	//for (std::vector<Line>::const_iterator i = lines_.begin(); i != lines_.end(); ++i) {
-	for (auto line : lines) {
+	/*for (auto line : lines) {
 		SDL_RenderDrawLine(rendererSDL_, line.x1, line.y1, line.x2, line.y2);
-	}
-	//}
+	}*/
 }
 
 void Renderer::clearDrawWindow(gfx::Rectangle rect) const

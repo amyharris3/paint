@@ -63,12 +63,12 @@ void paint::setBrushThickness2(UIelement* control)
 void paint::swapColours(UIelement* control)
 {
 	auto dw = utils::findDrawWindow(control);
-	dw->swapPrimarySecondaryColours();
+	//dw->swapPrimarySecondaryColours();
 	auto cPick = utils::findToolWindow(control)->getColourPicker();
 	cPick->swappedDisplaysSwitch();
 	cPick->updateColourDisplaysFromDrawWindow();
 	cPick->setActiveColourInDrawWindow();
-	cPick->leftActiveSwitchInBoxSlider();
+	cPick->primaryActiveSwitchInBoxSlider();
 	//cPick->updateAndRerender();
 	cPick->update();
 }

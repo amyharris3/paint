@@ -29,13 +29,6 @@ void Window::draw()
 {
 	getRenderer()->renderBox(getRect(), getBackgroundColour());
 	
-	/*SDL_Rect sdlRect{ rect.x, rect.y, rect.width, rect.height };
-	SDL_RenderDrawRect(renderer_, &sdlRect);
-	uint8_t colourArr[4];
-	getBackgroundColour().getComponents(colourArr);
-	SDL_SetRenderDrawColor(renderer_, colourArr[0], colourArr[1], colourArr[2], colourArr[3]);
-	SDL_RenderFillRect(renderer_, &sdlRect);*/
-	
 	Container::draw();
 
 }

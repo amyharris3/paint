@@ -15,8 +15,7 @@ using namespace win;
 DrawWindow::DrawWindow(gfx::Renderer* renderer, gfx::Rectangle const& rect, const char* name)
 	: Window( renderer, rect, name)
 	, renderer_(renderer)
-	//, activeTool_(nullptr)
-	, activeBrush_(nullptr)
+	, activeTool_(nullptr)
 	, primaryColour_(gfx::Colour(255, 255, 255,255))
 	, secondaryColour_(gfx::Colour(255, 255, 255, 255))
 	, drawToggle_(false)
@@ -30,7 +29,7 @@ DrawWindow::DrawWindow(gfx::Renderer* renderer, gfx::Rectangle const& rect, cons
 	renderer_->createDrawWindowTexture(rect);
 	primaryColour_.getComponents(primaryRGBA_);
 	secondaryColour_.getComponents(secondaryRGBA_);
-	drawTool_ = std::make_shared<DrawTool>(renderer_, texture_);
+	drawTool_ = std::make_shared<DrawTool>(renderer_);
 }
 
 DrawWindow::~DrawWindow()
@@ -112,26 +111,18 @@ void DrawWindow::setSecondaryColour(const gfx::Colour colour)
 /*override*/
 void DrawWindow::draw()
 {
-	const auto& myRect = getRect();
-	SDL_Rect destRect = { myRect.x, myRect.y, myRect.width, myRect.height };
-	SDL_RenderCopy(renderer_, texture_, nullptr, &destRect);
-	//SDL_SetRenderDrawColor(renderer_, 255, 255, 255, SDL_ALPHA_OPAQUE);
-
 	uint8_t drawRGBA_[4];
 	if (primaryActive_) {
-		printf("primary colour used\n");
 		for (auto i = 0; i < 4; i++) {
 			drawRGBA_[i] = primaryRGBA_[i];
 		}
 	}
 	else {
-		printf("secondary colour used\n");
 		for (auto i = 0; i < 4; i++) {
 			drawRGBA_[i] = secondaryRGBA_[i];
 		}
 	}
 
-	SDL_SetRenderDrawColor(renderer_, int(drawRGBA_[0]), int(drawRGBA_[1]), int(drawRGBA_[2]), int(drawRGBA_[3]));
 	renderer_->renderDrawWindow(getRect(), drawRGBA_, lines_);
 }
 

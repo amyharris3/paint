@@ -28,7 +28,7 @@ namespace paint
 		
 		void setActiveColourInDrawWindow() const;
 
-		void PrimaryActiveSwitchInBoxSlider() const;
+		void primaryActiveSwitchInBoxSlider() const;
 		void swapActiveColour() const;
 		void swappedDisplaysSwitch() { swappedDisplays_ = !swappedDisplays_; }
 

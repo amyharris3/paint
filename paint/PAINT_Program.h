@@ -1,4 +1,5 @@
 #pragma once
+#include "GFX_Renderer.h"
 
 struct SDL_Window;
 struct SDL_Renderer;
@@ -11,10 +12,6 @@ namespace paint
 
 	class Program
 	{
-	private:
-		std::shared_ptr<Screen> screen_;
-		gfx::Renderer* renderer_;
-
 	public:
 		Program();
 		~Program() = default;
@@ -28,6 +25,6 @@ namespace paint
 
 	private:
 		std::shared_ptr<Screen> screen_;
-		SDL_Renderer* renderer_;
+		gfx::Renderer* renderer_;
 	};
 }
