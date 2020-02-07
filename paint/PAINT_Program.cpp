@@ -87,8 +87,7 @@ void Program::run() const
 
 			//If the mouse moved
 			if (e.type == SDL_MOUSEMOTION) {
-				screen_->getStatusBarWindow()->outputMessage("Moving mouse");
-				
+					
 				SDL_GetMouseState(&xMouse, &yMouse);
 				auto active = GetTopmostElement(screen_->getChildren(), xMouse, yMouse);
 				if (activeElement != active) {
@@ -111,7 +110,7 @@ void Program::run() const
 			// If mouse is clicked
 
 			if (e.type == SDL_MOUSEBUTTONDOWN) {
-				screen_->getStatusBarWindow()->outputMessage("Clicking down");
+
 				clicked = true;
 
 				switch (e.button.button) {

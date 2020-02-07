@@ -153,7 +153,6 @@ void Renderer::renderLines(const std::vector<gfx::Line>& lines, const int thickn
 	}
 }
 
-
 void Renderer::renderDrawWindow(gfx::Rectangle rect, const uint8_t drawRGBA_[], std::vector<Line> lines) const
 {
 	assert(rendererSDL_);
@@ -166,11 +165,20 @@ void Renderer::renderDrawWindow(gfx::Rectangle rect, const uint8_t drawRGBA_[], 
 	}*/
 }
 
-void Renderer::clearDrawWindow(gfx::Rectangle rect) const
+void Renderer::clearDrawWindow(gfx::Rectangle rect, gfx::Colour colour)
 {
-	assert(rendererSDL_);
-	SDL_Rect destRect = { rect.x, rect.y, rect.width, rect.height };
-	SDL_RenderCopy(rendererSDL_, textureDW_, nullptr, &destRect);
+	if (textureDW_) {
+		assert(rendererSDL_);
+		SDL_Rect destRect = { 0, 0, rect.width, rect.height };
+		uint8_t rgba[4];
+		colour.getComponents(rgba);
+		SDL_SetRenderDrawColor(rendererSDL_, rgba[0], rgba[1], rgba[2], uint8_t(255));
+
+		setRenderTargetDWTexture();
+		SDL_RenderDrawRect(rendererSDL_, &destRect);
+		SDL_RenderFillRect(rendererSDL_, &destRect);
+		setRenderTargetNull();
+	}
 }
 
 // Handles mouse states from SDL for rest of code, also allows setting dummy values for xMouse and yMouse for unit testing

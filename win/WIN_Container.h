@@ -30,7 +30,6 @@ namespace win
 	private:
 		std::vector<std::shared_ptr<UIelement>> children_;
 		std::shared_ptr<Layout> layout_;
-		//gfx::Rectangle rect_;
 		bool dirty_;
 	};
 }

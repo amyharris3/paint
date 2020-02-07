@@ -85,6 +85,6 @@ void paint::swapColours(UIelement* control)
 void paint::clearScreen(UIelement* control)
 {
 	const auto dw = utils::findDrawWindow(control);
-	dw->clearScreen();
+	dw->clearWindow();
 }
 

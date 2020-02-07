@@ -41,7 +41,7 @@ namespace gfx
 		void renderLines(const std::vector<gfx::Line>& lines, int thickness, const uint8_t drawRGBA_[]);
 		
 		void renderDrawWindow(Rectangle rect, const uint8_t drawRGBA_[], std::vector<Line> lines) const;
-		void clearDrawWindow(Rectangle rect) const;
+		void clearDrawWindow(Rectangle rect, gfx::Colour colour);
 
 		void getMouseState(int& xMouse, int& yMouse, bool dummyValues = false, int dummyX=0, int dummyY=0);
 		

@@ -43,24 +43,28 @@ namespace paint
 		void setActiveTool(std::shared_ptr<Tool> tool);
 		std::shared_ptr<Tool> getActiveTool() const { return activeTool_; };
 		void toggleDrawTool(win::ToggleButton* b);
+		
 		void setMouseCoords(win::Coords relCoords);
 		void setPrevCoords(win::Coords relPrevCoords);
-		gfx::Colour getPrimaryColour() const { return primaryColour_; }
-		gfx::Colour getSecondaryColour() const { return secondaryColour_; }
+
+		void setCanvasColour(gfx::Colour colour);
 		void setPrimaryColour(gfx::Colour colour);
 		void setSecondaryColour(gfx::Colour colour);
-		bool isPrimaryActive() const { return primaryActive_; }
-		void setIfPrimaryColourActive(const bool b) { primaryActive_ = b; }
-		//void swapPrimarySecondaryColours();
-
-		void updateDrawToolRGBA();
+		gfx::Colour getPrimaryColour() const { return primaryColour_; }
+		gfx::Colour getSecondaryColour() const { return secondaryColour_; }
 		uint8_t* getPrimaryRGBA() { return primaryRGBA_; }
 		uint8_t* getSecondaryRGBA() { return secondaryRGBA_; }
+		
+		bool isPrimaryActive() const { return primaryActive_; }
+		void setIfPrimaryColourActive(const bool b) { primaryActive_ = b; }
+
+		void updateDrawToolRGBA();
+
 	
 		//void setColor(SDL_Surface* surface);
 		void draw() override;
 		void updateAndRerender() override;
-		void clearScreen() const;
+		void clearWindow() const;
 
 	private:
 		gfx::Renderer* renderer_;
@@ -79,5 +83,7 @@ namespace paint
 		bool primaryActive_;
 		uint8_t primaryRGBA_[4];
 		uint8_t secondaryRGBA_[4];
+
+		//For reference, as DrawWindow is  Window, backgroundColour is used as the canvas colour
 	};
 }

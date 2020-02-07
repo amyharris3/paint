@@ -30,12 +30,14 @@ DrawWindow::DrawWindow(gfx::Renderer* renderer, gfx::Rectangle const& rect, cons
 	renderer_->createDrawWindowTexture(rect);
 	primaryColour_.getComponents(primaryRGBA_);
 	secondaryColour_.getComponents(secondaryRGBA_);
+	auto test = getBackgroundColour();
 }
 
 DrawWindow::~DrawWindow()
 {
 	renderer_->destroyDrawWindowTexture();
 }
+
 /*override*/
 bool DrawWindow::mouseButtonDown(MouseButton const b)
 {
@@ -104,6 +106,11 @@ void DrawWindow::setPrevCoords(const win::Coords relPrevCoords)
 	prevMouseCoords_ = relPrevCoords;
 }
 
+void DrawWindow::setCanvasColour(gfx::Colour colour)
+{
+	setBackgroundColour(colour);
+}
+
 void DrawWindow::setPrimaryColour(const gfx::Colour colour)
 {
 	primaryColour_ = colour;
@@ -148,7 +155,9 @@ void DrawWindow::updateAndRerender()
 }
 
 // TODO Needs more work, to properly clear drawWindow
-void DrawWindow::clearScreen() const
+void DrawWindow::clearWindow() const
 {
-	renderer_->clearDrawWindow(getRect());
+	renderer_->clearDrawWindow(getRect(), getBackgroundColour());
 }
+
+
