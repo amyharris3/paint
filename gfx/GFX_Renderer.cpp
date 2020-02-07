@@ -165,7 +165,7 @@ void Renderer::renderDrawWindow(gfx::Rectangle rect, const uint8_t drawRGBA_[], 
 	}*/
 }
 
-void Renderer::clearDrawWindow(gfx::Rectangle rect, gfx::Colour colour)
+void Renderer::clearDrawWindow(gfx::Rectangle rect, gfx::Colour colour) const
 {
 	if (textureDW_) {
 		assert(rendererSDL_);
