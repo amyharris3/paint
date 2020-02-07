@@ -17,5 +17,6 @@ namespace paint
 		 DrawWindow* findDrawWindow(win::UIelement * control);
 		 ToolWindow* findToolWindow(win::UIelement* control);
 		 StatusBarWindow* findStatusBarWindow(win::UIelement* control);
+
 	}
 }

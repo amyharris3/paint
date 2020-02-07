@@ -846,7 +846,7 @@ namespace PaintTests
 
 	};
 
-	TEST_CLASS(TestUtilsNamespace)
+	TEST_CLASS(TestWinUtils)
 	{
 		TEST_METHOD(TestFilterNumerical)
 		{
@@ -860,6 +860,22 @@ namespace PaintTests
 			Assert::IsFalse(utils::filterNumerical('['));
 			Assert::IsFalse(utils::filterNumerical('+'));
 			Assert::IsFalse(utils::filterNumerical('!'));
+		}
+
+		TEST_METHOD(TestOutcode)
+		{
+			const gfx::Rectangle rect(10, 10, 10, 10);
+
+			Assert::AreEqual(win::utils::findOutcode(rect, 15, 15), 0);
+			Assert::AreEqual(win::utils::findOutcode(rect, 5, 15), 1);
+			Assert::AreEqual(win::utils::findOutcode(rect, 25, 15), 2);
+			Assert::AreEqual(win::utils::findOutcode(rect, 15, 5), 8);
+			Assert::AreEqual(win::utils::findOutcode(rect, 15, 25), 4);
+			Assert::AreEqual(win::utils::findOutcode(rect, 5, 5), 9);
+			Assert::AreEqual(win::utils::findOutcode(rect, 5, 25), 5);
+			Assert::AreEqual(win::utils::findOutcode(rect, 25, 5), 10);
+			Assert::AreEqual(win::utils::findOutcode(rect, 25, 25), 6);
+			
 		}
 		
 	};
