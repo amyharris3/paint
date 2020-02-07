@@ -4,7 +4,7 @@
 
 using namespace win;
 
-ColourValueTextbox::ColourValueTextbox(gfx::Rectangle rect, const char* name, SDL_Renderer* renderer, int const textSize, int const xOffset, int const yOffset, uint8_t* linkedVariablePrimary, uint8_t* linkedVariableSecondary, const bool primaryActive)
+ColourValueTextbox::ColourValueTextbox(gfx::Rectangle rect, const char* name, gfx::Renderer* renderer, int const textSize, int const xOffset, int const yOffset, uint8_t* linkedVariablePrimary, uint8_t* linkedVariableSecondary, const bool primaryActive)
 	: EditTextbox(rect, name, renderer, textSize, xOffset, yOffset)
 	, linkedVariablePrimary_(linkedVariablePrimary)
 	, linkedVariableSecondary_(linkedVariableSecondary)
@@ -16,6 +16,17 @@ ColourValueTextbox::ColourValueTextbox(gfx::Rectangle rect, const char* name, SD
 	
 	setBackgroundColour(gfx::Colour(255, 255, 255, 255));
 	valueChangedExternally();
+}
+
+void ColourValueTextbox::primaryActiveSwitch()
+{
+	primaryActive_ = !primaryActive_;
+	if (primaryActive_) {
+		editText(std::to_string(*linkedVariablePrimary_).c_str());
+	}
+	else {
+		editText(std::to_string(*linkedVariableSecondary_).c_str());
+	}
 }
 
 void ColourValueTextbox::valueChangedByTextEntry()
@@ -42,6 +53,12 @@ void ColourValueTextbox::valueChangedExternally()
 	rerenderFlag_ = true;
 }
 
+void ColourValueTextbox::editText(const char* newText)
+{
+	getText()->changeString(newText);
+	valueChangedByTextEntry();
+}
+
 void ColourValueTextbox::editTextAndRerender(std::string & newString)
 {
 	if (std::stoi(newString) < 0) {
@@ -52,7 +69,8 @@ void ColourValueTextbox::editTextAndRerender(std::string & newString)
 		newString = "255";
 	}
 
-	getText()->changeString(newString.c_str());
+	//getText()->changeString(newString.c_str());
+	editText(newString.c_str());
 
 	rerenderFlag_ = true;
 }
@@ -100,7 +118,7 @@ void ColourValueTextbox::takeTextEntry()
 				break;
 			case SDL_TEXTINPUT:
 				printf("IN: %s\n", event.text.text);
-				if (win::utils::filterNumerical(event.text.text)) {
+				if (win::utils::filterNumerical(*(event.text.text))) {
 					newString += event.text.text;
 					this->editTextAndRerender(newString);
 					textChanged = true;
@@ -125,7 +143,6 @@ void ColourValueTextbox::takeTextEntry()
 	
 	if (textChanged) {
 		this->editTextAndRerender(newString);
-		valueChangedByTextEntry();
 	}
 }
 

@@ -4,14 +4,13 @@
 
 using namespace win;
 
-Button::Button(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* name, const char* spritePath, const ActionFunction act)
+Button::Button(gfx::Renderer* renderer, const gfx::Rectangle& rect, const char* name, const char* spritePath, const ActionFunction act)
 	: UIelement(rect, name)
 	, action(act)
-	, renderer_(renderer)
-	, texture_ (SDLUtils::loadSprite(renderer, spritePath))
+	, renderer_(renderer->getRendererSDL())
+	, texture_ (SDLUtils::loadSprite(renderer->getRendererSDL(), spritePath))
 	, rect_(rect)
 {
-	renderer_ = renderer;
 	rect_ = rect;
 	texture_ = SDLUtils::loadSprite(renderer_, spritePath);
 	spriteClips_ = SDLUtils::handleSpriteSheet(texture_);

@@ -1,6 +1,6 @@
 #pragma once
 #include "WIN_Container.h"
-#include "WIN_ColourDisplay.h"
+#include "PAINT_ColourDisplay.h"
 #include "WIN_Button.h"
 #include "WIN_ColourValueTextbox.h"
 #include "WIN_ColourSlider.h"
@@ -14,7 +14,7 @@ namespace paint
 	public:
 		
 		ColourPicker() = delete;
-		ColourPicker(gfx::Rectangle rect, SDL_Renderer* renderer, std::shared_ptr<DrawWindow>& drawWindow);
+		ColourPicker(gfx::Rectangle rect, gfx::Renderer* renderer, std::shared_ptr<DrawWindow> drawWindow);
 		~ColourPicker() = default;
 		ColourPicker(const ColourPicker & that) = default;
 		ColourPicker(ColourPicker && that) = default;
@@ -28,7 +28,7 @@ namespace paint
 		
 		void setActiveColourInDrawWindow() const;
 
-		void leftActiveSwitchInBoxSlider() const;
+		void primaryActiveSwitchInBoxSlider() const;
 		void swapActiveColour() const;
 		void swappedDisplaysSwitch() { swappedDisplays_ = !swappedDisplays_; }
 
@@ -41,11 +41,11 @@ namespace paint
 	private:
 
 		std::shared_ptr<DrawWindow> drawWindowPtr_;
-		SDL_Renderer* renderer_;
+		gfx::Renderer* renderer_;
 		
 		std::shared_ptr<Container> displayBox_;
-		std::shared_ptr<win::ColourDisplay> leftColourDisplay_;
-		std::shared_ptr<win::ColourDisplay> rightColourDisplay_;
+		std::shared_ptr<ColourDisplay> leftColourDisplay_;
+		std::shared_ptr<ColourDisplay> rightColourDisplay_;
 		std::shared_ptr<win::Button> swapButton_;
 		bool swappedDisplays_;
 

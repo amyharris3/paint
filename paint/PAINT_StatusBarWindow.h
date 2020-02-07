@@ -9,7 +9,7 @@ namespace paint
 	{
 	public:
 		StatusBarWindow() = delete;
-		StatusBarWindow(SDL_Renderer* renderer, gfx::Rectangle const& rect, const char* name);
+		StatusBarWindow(gfx::Renderer* renderer, gfx::Rectangle const& rect, const char* name, const int drawWinX, const int drawWinY);
 		virtual ~StatusBarWindow() = default;
 		StatusBarWindow(const StatusBarWindow& that) = delete;
 		StatusBarWindow(StatusBarWindow && that) = delete;
@@ -17,14 +17,22 @@ namespace paint
 		StatusBarWindow& operator=(StatusBarWindow && that) = delete;
 
 		void displayMouseCoords(int x, int y);
+		void displayMouseCoordsRelative(int x, int y);
+		void outputMessage(const char* message);
 
 		void draw() override;
 
-	private:
-
+	private:	
+		
 		int xMouse;
 		int yMouse;
 		gfx::Text mouseCoordsText_;
+
+		gfx::Text outputMessageText_;
+
+		//info from the other windows useful for status bar output
+		int drawWinX_;
+		int drawWinY_;
 		
 	};
 }

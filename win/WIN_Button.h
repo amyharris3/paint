@@ -1,5 +1,10 @@
 #pragma once
 #include "WIN_UIelement.h"
+#include "GFX_Renderer.h"
+
+namespace gfx {
+	class Renderer;
+}
 
 struct SDL_Texture;
 struct SDL_Renderer;
@@ -15,7 +20,7 @@ namespace win
 	{
 	public:
 		Button() = delete;
-		Button(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* name, const char* spritePath, ActionFunction act);
+		Button(gfx::Renderer* renderer, const gfx::Rectangle& rect, const char* name, const char* spritePath, ActionFunction act);
 		virtual ~Button();
 		Button(const Button& that) = default;
 		Button(Button&& that) = default;

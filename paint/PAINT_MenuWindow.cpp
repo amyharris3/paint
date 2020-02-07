@@ -5,7 +5,7 @@
 using namespace paint;
 using namespace win;
 
-MenuWindow::MenuWindow(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* name)
+MenuWindow::MenuWindow(gfx::Renderer* renderer, const gfx::Rectangle& rect, const char* name)
 	: Window(renderer, rect, name)
 {
 

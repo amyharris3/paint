@@ -1,8 +1,6 @@
 #pragma once
 #include "PAINT_Tool.h"
-
-struct SDL_Renderer;
-struct SDL_Texture;
+#include <GFX_Renderer.h>
 
 namespace win
 {
@@ -19,20 +17,21 @@ namespace paint
 	{
 	public:;
 		DrawTool() = delete;
-		DrawTool(SDL_Renderer* renderer, SDL_Texture* texture);
+		DrawTool(gfx::Renderer* renderer);
 		virtual ~DrawTool() = default;
 		DrawTool(const DrawTool& that) = default;
 		DrawTool(DrawTool&& that) = default;
 		DrawTool& operator=(const DrawTool& that) = default;
 		DrawTool& operator=(DrawTool&& that) = default;
 
+		void setToolColour(const uint8_t RGBA[]) override;
 		void toolFunction(win::Coords relCoords, win::Coords prevRelCoords) override;
-		void renderLines();
+		void renderLines() const;
 
 	private:
-		SDL_Renderer* renderer_;
-		SDL_Texture* texture_;
-		
+		gfx::Renderer* renderer_;
+		uint8_t drawRGBA_[4];
+
 	};
 
 

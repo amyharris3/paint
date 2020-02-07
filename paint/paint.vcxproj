@@ -175,6 +175,7 @@ xcopy /q /y /s $(SolutionDir)SDL2_ttf-2.0.15\lib\x64\zlib1.dll $(OutDir)
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\win\PAINT_ColourDisplay.cpp" />
     <ClCompile Include="PAINT_ButtonFunctions.cpp" />
     <ClCompile Include="PAINT_Brush.cpp" />
     <ClCompile Include="PAINT_Circle.cpp" />
@@ -204,6 +205,7 @@ xcopy /q /y /s $(SolutionDir)SDL2_ttf-2.0.15\lib\x64\zlib1.dll $(OutDir)
     <ClCompile Include="PAINT_Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\win\PAINT_ColourDisplay.h" />
     <ClInclude Include="PAINT_Brush.h" />
     <ClInclude Include="PAINT_ButtonFunctions.h" />
     <ClInclude Include="PAINT_Circle.h" />

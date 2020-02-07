@@ -41,8 +41,8 @@ namespace win
 		virtual bool mouseEnter();
 		virtual bool mouseExit();
 		virtual bool mouseMove() { return false; };
-		virtual bool mouseButtonDown(MouseButton button);
-		virtual bool mouseButtonUp(MouseButton) { return false; };
+		virtual bool mouseButtonDown(MouseButton button) { return false; };
+		virtual bool mouseButtonUp(MouseButton button) { return false; };
 
 	private:
 		std::string name_;

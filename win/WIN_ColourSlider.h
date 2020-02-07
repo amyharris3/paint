@@ -7,7 +7,7 @@ namespace win
 	{
 	public:
 		ColourSlider() = delete;
-		ColourSlider(SDL_Renderer * renderer, gfx::Rectangle rect, const char* name, gfx::Colour fillColour, gfx::Colour outlineColour, uint8_t* linkedVariablePrimary, uint8_t* linkedVariableSecondary, bool primaryActive);
+		ColourSlider(gfx::Renderer* renderer, gfx::Rectangle rect, const char* name, gfx::Colour fillColour, gfx::Colour outlineColour, uint8_t* linkedVariablePrimary, uint8_t* linkedVariableSecondary, bool primaryActive);
 		virtual ~ColourSlider() = default;
 		ColourSlider(ColourSlider const& that) = default;
 		ColourSlider(ColourSlider && that) = default;

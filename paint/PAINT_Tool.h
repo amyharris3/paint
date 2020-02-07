@@ -20,6 +20,8 @@ namespace paint
 		virtual void toolFunction(win::Coords relCoords, win::Coords prevRelCoords) = 0;
 		std::shared_ptr<Brush> getActiveBrush() const {return activeBrush_;}
 
+		virtual void setToolColour(const uint8_t RGBA[]) = 0;
+		
 	protected:
 		std::vector<gfx::Line> lines_;
 		std::shared_ptr<Brush> activeBrush_;

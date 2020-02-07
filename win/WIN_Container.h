@@ -21,13 +21,15 @@ namespace win
 		void addChild(std::shared_ptr<UIelement> const & child);
 		const std::vector<std::shared_ptr<UIelement>> & getChildren() const { return children_; }
 
+		std::shared_ptr<Layout> getLayout() const { return layout_; }
+		bool getDirtyFlag() const { return dirty_; }
+		
 		void draw() override;
 		void applyLayout() const;
 
 	private:
 		std::vector<std::shared_ptr<UIelement>> children_;
 		std::shared_ptr<Layout> layout_;
-		gfx::Rectangle rect_;
 		bool dirty_;
 	};
 }

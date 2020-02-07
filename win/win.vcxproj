@@ -29,7 +29,6 @@
     <ClCompile Include="WIN_ToggleButton.cpp" />
     <ClCompile Include="WIN_ButtonGroup.cpp" />
     <ClCompile Include="WIN_ColourValueTextbox.cpp" />
-    <ClCompile Include="WIN_ColourDisplay.cpp" />
     <ClCompile Include="WIN_Button.cpp" />
     <ClCompile Include="WIN_Container.cpp" />
     <ClCompile Include="WIN_EditTextbox.cpp" />

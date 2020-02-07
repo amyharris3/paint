@@ -27,6 +27,9 @@
     <ClCompile Include="GFX_pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GFX_Renderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GFX_Colour.h">
@@ -42,6 +45,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GFX_pch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GFX_Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

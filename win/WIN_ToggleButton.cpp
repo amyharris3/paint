@@ -3,13 +3,14 @@
 #include "WIN_SDLUtils.h"
 #include "WIN_ButtonGroup.h"
 #include "WIN_ButtonStates.h"
+#include "GFX_Renderer.h"
 
 using namespace win;
 
-ToggleButton::ToggleButton(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* name, const char* spritePath, ActionFunction const act)
+ToggleButton::ToggleButton(gfx::Renderer* renderer, const gfx::Rectangle& rect, const char* name, const char* spritePath, ActionFunction const act)
 	: UIelement(rect, name)
 	, action(act)
-	, renderer_(renderer)
+	, renderer_(renderer->getRendererSDL())
 	, rect_(rect)
 	, buttonGroup_(nullptr)
 	, state_(ButtonStates::off)

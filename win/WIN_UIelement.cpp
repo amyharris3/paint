@@ -60,11 +60,6 @@ bool UIelement::mouseExit()
 	return false;
 }
 
-bool UIelement::mouseButtonDown(MouseButton button)
-{
-	return false;
-}
-
 void UIelement::setParent(UIelement * parent)
 {
 	parent_ = parent;

@@ -16,7 +16,7 @@ using namespace paint;
 using namespace win;
 using namespace gfx;
 
-Screen::Screen(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* name)
+Screen::Screen(gfx::Renderer* renderer, const gfx::Rectangle& rect, const char* name)
 : Container(std::make_shared<FreeLayout>(), rect, name)
 {
 	// Creating drawWindow
@@ -24,6 +24,7 @@ Screen::Screen(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* n
 	auto drawWindow = std::make_shared<DrawWindow>(renderer, drawRect, "drawWindow");
 	drawWindow->setPrimaryColour(gfx::Colour(255, 0, 0, 255));
 	drawWindow->setSecondaryColour(gfx::Colour(0, 255, 0, 255));
+	drawWindow->updateDrawToolRGBA();
 	
 	this->addChild(drawWindow);
 	drawWindow_ = drawWindow;
@@ -102,10 +103,11 @@ Screen::Screen(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* n
 	
 	// Creating statusWindow
 	gfx::Rectangle statusRect(0, 760, 1200, 40);
-	auto statusWindow = std::make_shared<StatusBarWindow>(renderer, statusRect, "statusWindow");
+	auto statusWindow = std::make_shared<StatusBarWindow>(renderer, statusRect, "statusWindow", 200, 40);
 	gfx::Colour statusColour{ 40, 115, 103, 255 };
 	statusWindow->setBackgroundColour(statusColour);
 	this->addChild(statusWindow);
+	statusBarWindow_ = statusWindow;
 
 	// Creating menuWindow
 	gfx::Rectangle menuRect(0, 0, 1200, 40);
