@@ -10,6 +10,7 @@ StatusBarWindow::StatusBarWindow(gfx::Renderer* renderer, gfx::Rectangle const& 
 	, mouseCoordsText_(gfx::Colour(0,0,0,255),"OpenSans-Regular.ttf", 16, "(0,0)")
 	, drawWinX_(drawWinX)
 	, drawWinY_(drawWinY)
+	, outputMessageText_(gfx::Colour(0, 0, 0, 255), "OpenSans-Regular.ttf", 16, "Status Bar Window initialised")
 {
 }
 
@@ -33,10 +34,17 @@ void StatusBarWindow::displayMouseCoordsRelative(int x, int y)
 	mouseCoordsText_.render(getRenderer(), getRect().x + getRect().width - 2 * mouseCoordsText_.getWidth() - 25, getRect().y + 5);
 }
 
+// change output message to display on the status bar
+void StatusBarWindow::outputMessage(const char* message)
+{
+	outputMessageText_.changeString(message);
+}
+
 // Status bar should contain only text
 void StatusBarWindow::draw()
 {
 	getRenderer()->renderBox(getRect(), getBackgroundColour());
 	displayMouseCoords(xMouse, yMouse);
 	displayMouseCoordsRelative(xMouse, yMouse);
+	outputMessageText_.render(getRenderer(), getRect().x + 10, getRect().y + 5);
 }

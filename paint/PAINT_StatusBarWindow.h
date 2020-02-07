@@ -18,7 +18,7 @@ namespace paint
 
 		void displayMouseCoords(int x, int y);
 		void displayMouseCoordsRelative(int x, int y);
-
+		void outputMessage(const char* message);
 
 		void draw() override;
 
@@ -27,6 +27,8 @@ namespace paint
 		int xMouse;
 		int yMouse;
 		gfx::Text mouseCoordsText_;
+
+		gfx::Text outputMessageText_;
 
 		//info from the other windows useful for status bar output
 		int drawWinX_;
