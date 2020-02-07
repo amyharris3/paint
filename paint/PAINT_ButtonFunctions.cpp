@@ -5,6 +5,7 @@
 #include "PAINT_Brush.h"
 #include "WIN_ToggleButton.h"
 #include "WIN_ButtonStates.h"
+#include "PAINT_StatusBarWindow.h"
 
 using namespace win;
 using namespace paint;
@@ -19,6 +20,9 @@ void paint::toggleDraw(UIelement* control)
 	auto dw = utils::findDrawWindow(button);
 	assert(dw && "findDrawWindow in toggleDraw returned nullptr.");
 	dw->toggleDrawTool(button);
+
+	auto sw = utils::findStatusBarWindow(button);
+	sw->outputMessage("Toggled draw");
 }
 
 static void paint::setBrushThickness(UIelement* control, int thick)
@@ -43,6 +47,10 @@ static void paint::setBrushThickness(UIelement* control, int thick)
 			}
 		}
 	}
+	auto sw = utils::findStatusBarWindow(button);
+	char message[30];
+	sprintf_s(message, "Set brush thickness to %d", thick);
+	sw->outputMessage(message);
 }
 
 void paint::setBrushThickness0(UIelement* control)
@@ -62,8 +70,6 @@ void paint::setBrushThickness2(UIelement* control)
 
 void paint::swapColours(UIelement* control)
 {
-	auto dw = utils::findDrawWindow(control);
-	//dw->swapPrimarySecondaryColours();
 	auto cPick = utils::findToolWindow(control)->getColourPicker();
 	cPick->swappedDisplaysSwitch();
 	cPick->updateColourDisplaysFromDrawWindow();
@@ -71,6 +77,9 @@ void paint::swapColours(UIelement* control)
 	cPick->primaryActiveSwitchInBoxSlider();
 	//cPick->updateAndRerender();
 	cPick->update();
+
+	auto sw = utils::findStatusBarWindow(control);
+	sw->outputMessage("Toggled colour swap");
 }
 
 void paint::clearScreen(UIelement* control)

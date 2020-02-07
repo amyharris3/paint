@@ -4,6 +4,7 @@
 #include "PAINT_Screen.h"
 #include "WIN_Mouse.h"
 #include "PAINT_ColourPicker.h"
+#include "PAINT_StatusBarWindow.h"
 
 using namespace paint;
 using namespace gfx;
@@ -73,7 +74,7 @@ void Program::run() const
 	while (!quit) {
 		// if a method causes a change in the visual representation of the program, returns 'true' and calls to rerender the relevant section, else have the method return 'false'
 		auto rerenderFlag = false;
-
+		
 		//Handle events on queue
 		while (SDL_PollEvent(&e) != 0) {
 			SDL_RenderClear(renderer_->getRendererSDL());
@@ -86,7 +87,8 @@ void Program::run() const
 
 			//If the mouse moved
 			if (e.type == SDL_MOUSEMOTION) {
-
+				screen_->getStatusBarWindow()->outputMessage("Moving mouse");
+				
 				SDL_GetMouseState(&xMouse, &yMouse);
 				auto active = GetTopmostElement(screen_->getChildren(), xMouse, yMouse);
 				if (activeElement != active) {
@@ -109,7 +111,7 @@ void Program::run() const
 			// If mouse is clicked
 
 			if (e.type == SDL_MOUSEBUTTONDOWN) {
-
+				screen_->getStatusBarWindow()->outputMessage("Clicking down");
 				clicked = true;
 
 				switch (e.button.button) {
@@ -133,6 +135,7 @@ void Program::run() const
 
 			if (clicked) {
 				if (activeElement) {
+
 					drawWindow->setMouseCoords({ xMouse, yMouse });
 					drawWindow->setPrevCoords({ xPrev, yPrev });
 					// ReSharper disable once CppLocalVariableMightNotBeInitialized

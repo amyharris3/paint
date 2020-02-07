@@ -24,11 +24,13 @@ namespace paint
 		DrawTool& operator=(const DrawTool& that) = default;
 		DrawTool& operator=(DrawTool&& that) = default;
 
+		void setToolColour(const uint8_t RGBA[]) override;
 		void toolFunction(win::Coords relCoords, win::Coords prevRelCoords) override;
 		void renderLines() const;
 
 	private:
 		gfx::Renderer* renderer_;
+		uint8_t drawRGBA_[4];
 
 	};
 

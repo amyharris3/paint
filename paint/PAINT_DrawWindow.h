@@ -53,6 +53,7 @@ namespace paint
 		void setIfPrimaryColourActive(const bool b) { primaryActive_ = b; }
 		//void swapPrimarySecondaryColours();
 
+		void updateDrawToolRGBA();
 		uint8_t* getPrimaryRGBA() { return primaryRGBA_; }
 		uint8_t* getSecondaryRGBA() { return secondaryRGBA_; }
 	
@@ -65,6 +66,7 @@ namespace paint
 		gfx::Renderer* renderer_;
 		
 		std::shared_ptr<Tool> activeTool_;
+		std::shared_ptr<Tool> drawTool_;
 		gfx::Colour primaryColour_;
 		gfx::Colour secondaryColour_;
 		std::vector<win::Coords> clickedPixels_;
@@ -72,7 +74,6 @@ namespace paint
 		win::Coords mouseCoords_;
 		win::Coords prevMouseCoords_;
 		std::vector<gfx::Line> lines_;
-		std::shared_ptr<Tool> drawTool_;
 
 		//whenever the active colour is changed this should be updated
 		bool primaryActive_;

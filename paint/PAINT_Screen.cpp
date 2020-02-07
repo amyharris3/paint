@@ -24,6 +24,7 @@ Screen::Screen(gfx::Renderer* renderer, const gfx::Rectangle& rect, const char* 
 	auto drawWindow = std::make_shared<DrawWindow>(renderer, drawRect, "drawWindow");
 	drawWindow->setPrimaryColour(gfx::Colour(255, 0, 0, 255));
 	drawWindow->setSecondaryColour(gfx::Colour(0, 255, 0, 255));
+	drawWindow->updateDrawToolRGBA();
 	
 	this->addChild(drawWindow);
 	drawWindow_ = drawWindow;
@@ -106,6 +107,7 @@ Screen::Screen(gfx::Renderer* renderer, const gfx::Rectangle& rect, const char* 
 	gfx::Colour statusColour{ 40, 115, 103, 255 };
 	statusWindow->setBackgroundColour(statusColour);
 	this->addChild(statusWindow);
+	statusBarWindow_ = statusWindow;
 
 	// Creating menuWindow
 	gfx::Rectangle menuRect(0, 0, 1200, 40);

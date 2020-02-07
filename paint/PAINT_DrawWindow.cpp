@@ -16,6 +16,7 @@ DrawWindow::DrawWindow(gfx::Renderer* renderer, gfx::Rectangle const& rect, cons
 	: Window( renderer, rect, name)
 	, renderer_(renderer)
 	, activeTool_(nullptr)
+	, drawTool_(std::make_shared<DrawTool>(renderer_))
 	, primaryColour_(gfx::Colour(255, 255, 255,255))
 	, secondaryColour_(gfx::Colour(255, 255, 255, 255))
 	, drawToggle_(false)
@@ -29,7 +30,6 @@ DrawWindow::DrawWindow(gfx::Renderer* renderer, gfx::Rectangle const& rect, cons
 	renderer_->createDrawWindowTexture(rect);
 	primaryColour_.getComponents(primaryRGBA_);
 	secondaryColour_.getComponents(secondaryRGBA_);
-	drawTool_ = std::make_shared<DrawTool>(renderer_);
 }
 
 DrawWindow::~DrawWindow()
@@ -63,10 +63,25 @@ bool DrawWindow::mouseButtonUp(win::MouseButton const b)
 	return false;
 }
 
-
 void DrawWindow::setActiveTool(std::shared_ptr<Tool> tool)
 {
 	activeTool_ = std::move(tool);
+}
+
+void DrawWindow::updateDrawToolRGBA()
+{
+	uint8_t drawRGBA_[4];
+	if (primaryActive_) {
+		for (auto i = 0; i < 4; i++) {
+			drawRGBA_[i] = primaryRGBA_[i];
+		}
+	}
+	else {
+		for (auto i = 0; i < 4; i++) {
+			drawRGBA_[i] = secondaryRGBA_[i];
+		}
+	}
+	drawTool_->setToolColour(drawRGBA_);
 }
 
 void DrawWindow::toggleDrawTool(win::ToggleButton* b)
@@ -122,7 +137,7 @@ void DrawWindow::draw()
 			drawRGBA_[i] = secondaryRGBA_[i];
 		}
 	}
-
+	
 	renderer_->renderDrawWindow(getRect(), drawRGBA_, lines_);
 }
 

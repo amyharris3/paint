@@ -38,7 +38,7 @@ namespace gfx
 		void renderBox(Rectangle rect, Colour) const;
 		void renderText(Text* text, int const xPixel, int const yPixel) const;
 		void renderTextbox(Rectangle rect, Colour colour, Text* text, const int xOffset, const int yOffset);
-		void renderLines(const std::vector<gfx::Line>& lines, int thickness);
+		void renderLines(const std::vector<gfx::Line>& lines, int thickness, const uint8_t drawRGBA_[]);
 		
 		void renderDrawWindow(Rectangle rect, const uint8_t drawRGBA_[], std::vector<Line> lines) const;
 		void clearDrawWindow(Rectangle rect) const;

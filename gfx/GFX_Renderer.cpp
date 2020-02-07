@@ -124,8 +124,9 @@ void Renderer::renderText(gfx::Text * text, int const xPixel, int const yPixel) 
 	assert(textTex_);
 }
 
-void Renderer::renderLines(const std::vector<gfx::Line>& lines, const int thickness)
+void Renderer::renderLines(const std::vector<gfx::Line>& lines, const int thickness, const uint8_t drawRGBA_[])
 {
+	SDL_SetRenderDrawColor(rendererSDL_, int(drawRGBA_[0]), int(drawRGBA_[1]), int(drawRGBA_[2]), int(drawRGBA_[3]));
 	for (const auto& line : lines) {
 		SDL_RenderDrawLine(rendererSDL_, line.x1, line.y1, line.x2, line.y2);
 		for (auto sign : { -1, 1 })
