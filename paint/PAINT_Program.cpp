@@ -102,7 +102,7 @@ void Program::run() const
 				}
 
 				if(activeElement){
-					rerenderFlag = activeElement->mouseMove();
+					rerenderFlag = activeElement->mouseMove(e.motion);
 				}
 				
 			}

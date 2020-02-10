@@ -19,7 +19,7 @@ namespace win
 
 		void primaryActiveSwitch() { primaryActive_ = !primaryActive_; }
 		
-		bool mouseMove() override;
+		bool mouseMove(SDL_MouseMotionEvent& e) override;
 		bool mouseButtonUp(MouseButton button) override;
 		
 	private:

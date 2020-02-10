@@ -414,7 +414,7 @@ namespace PaintTests
 				c.addChild(element);
 			}
 
-			for (auto child : c.getChildren()){
+			for (const auto& child : c.getChildren()){
 				Assert::IsNotNull(child.get());
 				Assert::IsTrue(child->getParent() == &c);
 			}
@@ -431,7 +431,7 @@ namespace PaintTests
 
 			c.applyLayout();
 			
-			for (auto child : c.getChildren()) {
+			for (const auto& child : c.getChildren()) {
 				Assert::AreEqual(child->getRect().x, 0);
 				Assert::AreEqual(child->getRect().y, 0);
 				Assert::AreEqual(child->getRect().width, 1);
@@ -453,7 +453,7 @@ namespace PaintTests
 
 			int xcount = 0;
 			int ycount = 0;
-			for (auto child : c.getChildren()) {
+			for (const auto& child : c.getChildren()) {
 				Assert::AreEqual(child->getRect().x, 10 + (25 * xcount));
 				Assert::AreEqual(child->getRect().y, 10 + (25 * ycount));
 				Assert::AreEqual(child->getRect().width, 20);

@@ -40,13 +40,13 @@ namespace win
 		void setMarkerValue(int val);
 		void setMarkerPos(int x);
 		
-		void moveMarker();
+		void moveMarker(const int x);
 		void update() override;
 		void updateAndRerender() override;
 		void draw() override;
 
 		bool mouseExit() override;
-		bool mouseMove() override;
+		bool mouseMove(SDL_MouseMotionEvent& e) override;
 		bool mouseButtonDown(MouseButton button) override;
 		bool mouseButtonUp(MouseButton button) override;
 		

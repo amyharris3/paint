@@ -40,7 +40,7 @@ namespace gfx
 		void renderTextbox(Rectangle rect, Colour colour, Text* text, const int xOffset, const int yOffset);
 		void renderLines(const std::vector<gfx::Line>& lines, int thickness, const uint8_t drawRGBA_[]);
 		
-		void renderDrawWindow(Rectangle rect, const uint8_t drawRGBA_[], std::vector<Line> lines) const;
+		void renderDrawWindow(Rectangle rect, const uint8_t drawRGBA_[]) const;
 		void clearDrawWindow(Rectangle rect, gfx::Colour colour) const;
 
 		void getMouseState(int& xMouse, int& yMouse, bool dummyValues = false, int dummyX=0, int dummyY=0);

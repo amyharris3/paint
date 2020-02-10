@@ -41,6 +41,7 @@ namespace win
 		virtual bool mouseEnter();
 		virtual bool mouseExit();
 		virtual bool mouseMove() { return false; };
+		virtual bool mouseMove(SDL_MouseMotionEvent& e) { return false; }
 		virtual bool mouseButtonDown(MouseButton button) { return false; };
 		virtual bool mouseButtonUp(MouseButton button) { return false; };
 

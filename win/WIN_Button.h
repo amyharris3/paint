@@ -30,6 +30,7 @@ namespace win
 		void draw() override;
 		bool mouseEnter() override;
 		bool mouseExit() override;
+		bool mouseMove(SDL_MouseMotionEvent& e) override;
 		bool mouseButtonDown(MouseButton b) override;
 		bool mouseButtonUp(MouseButton b) override;
 
@@ -41,5 +42,8 @@ namespace win
 		gfx::Rectangle rect_;
 		std::vector<SDL_Rect> spriteClips_;
 		SDL_Rect* activeClip_;
+
+		bool mouseDown_;
+		bool mouseDragged_;
 	};
 }

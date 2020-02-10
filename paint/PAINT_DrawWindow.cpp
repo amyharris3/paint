@@ -31,7 +31,6 @@ DrawWindow::DrawWindow(gfx::Renderer* renderer, gfx::Rectangle const& rect, cons
 	renderer_->createDrawWindowTexture(rect);
 	primaryColour_.getComponents(primaryRGBA_);
 	secondaryColour_.getComponents(secondaryRGBA_);
-	auto test = getBackgroundColour();
 }
 
 DrawWindow::~DrawWindow()
@@ -172,7 +171,7 @@ void DrawWindow::draw()
 		}
 	}
 	
-	renderer_->renderDrawWindow(getRect(), drawRGBA_, lines_);
+	renderer_->renderDrawWindow(getRect(), drawRGBA_);
 }
 
 void DrawWindow::updateAndRerender()

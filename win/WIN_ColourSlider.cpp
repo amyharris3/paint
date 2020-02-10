@@ -39,10 +39,10 @@ void ColourSlider::valueChangedExternally()
 	//updateAndRerender();
 }
 
-bool ColourSlider::mouseMove()
+bool ColourSlider::mouseMove(SDL_MouseMotionEvent& e)
 {
 	if (getHold()) {
-		moveMarker();
+		moveMarker(e.x);
 		valueChangedByMovement();
 		
 		//updateAndRerender();
@@ -58,9 +58,8 @@ bool ColourSlider::mouseButtonUp(MouseButton button)
 		int yMouse;
 
 		getRenderer()->getMouseState(xMouse, yMouse);
-		moveMarker();
+		moveMarker(xMouse);
 		valueChangedByMovement();
-		//updateAndRerender();
 	}	
 	holdOff();
 	return true;

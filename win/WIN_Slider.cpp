@@ -100,14 +100,14 @@ void Slider::setMarkerPos(int x)
 	markerVal_ = val;
 }
 
-void Slider::moveMarker()
+void Slider::moveMarker(const int x)
 {
-	int xMouse = 0;
-	int yMouse = 0;
+	//int xMouse = 0;
+	//int yMouse = 0;
 
-	renderer_->getMouseState(xMouse, yMouse);
+	//renderer_->getMouseState(xMouse, yMouse);
 
-	setMarkerPos(xMouse);
+	setMarkerPos(x);
 }
 
 void Slider::update()
@@ -155,11 +155,10 @@ bool Slider::mouseExit()
 	return false;
 }
 
-bool Slider::mouseMove()
+bool Slider::mouseMove(SDL_MouseMotionEvent& e)
 {
 	if (holdMarker_) {
-		moveMarker();
-		//updateAndRerender();
+		moveMarker(e.x);
 	}
 	return true;
 }

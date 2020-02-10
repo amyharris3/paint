@@ -15,6 +15,8 @@ ToggleButton::ToggleButton(gfx::Renderer* renderer, const gfx::Rectangle& rect, 
 	, buttonGroup_(nullptr)
 	, state_(ButtonStates::off)
 	, activated_(true)
+	, mouseDown_(false)
+	, mouseDragged_(false)
 {
 	texture_ = SDLUtils::loadSprite(renderer_, spritePath);
 	spriteClips_ = SDLUtils::handleSpriteSheet(texture_);
@@ -72,9 +74,19 @@ bool ToggleButton::mouseExit()
 	return false;
 }
 
+bool ToggleButton::mouseMove(SDL_MouseMotionEvent& e)
+{
+	if (mouseDown_ && (e.xrel != 2 || e.yrel != 2)) {
+		mouseDragged_ = true;
+	}
+
+	return false;
+}
+
 /* override */
 bool ToggleButton::mouseButtonDown(MouseButton b)
 {
+	mouseDown_ = true;
 	if (activated_) {
 		activeClip_ = &(spriteClips_[2]);
 	}
@@ -85,7 +97,8 @@ bool ToggleButton::mouseButtonDown(MouseButton b)
 /* override */
 bool ToggleButton::mouseButtonUp(MouseButton b)
 {
-	if (activated_) {
+	mouseDown_ = false;
+	if (activated_ && !mouseDragged_) {
 		// set the state of click
 		if (state_ == ButtonStates::on) {
 			state_ = ButtonStates::off;
@@ -114,7 +127,7 @@ bool ToggleButton::mouseButtonUp(MouseButton b)
 			action(this);
 		}
 	}
-
+	mouseDragged_ = false;
 	return false;
 }
 
