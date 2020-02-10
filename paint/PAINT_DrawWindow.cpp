@@ -51,8 +51,9 @@ static void handleMouseUp(MouseButton const b, Tool* tool, Coords& mouse, Coords
 //not really getting many clipping problems with entry into draw window, but adding this as a precaution
 bool DrawWindow::mouseEnter(bool clicked)
 {
-	const int xMouse = mouseCoords_.x;
-	const int yMouse = mouseCoords_.y; 
+	int xMouse = mouseCoords_.x;
+	int yMouse = mouseCoords_.y;
+	//SDL_GetMouseState(&xMouse, &yMouse);
 	auto absCoords = clippingHandler(prevMouseCoords_, { xMouse, yMouse });
 
 	prevMouseCoords_ = { absCoords[0].x, absCoords[0].y };
