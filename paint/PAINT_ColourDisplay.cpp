@@ -66,7 +66,15 @@ void ColourDisplay::draw()
 	renderer_->renderBox({ getRect().x + 5, getRect().y + 5, getRect().width - 10, getRect().height - 10 }, getForegroundColour());
 }
 
-bool ColourDisplay::mouseExit()
+bool ColourDisplay::mouseEnter(bool clicked)
+{
+	if (clicked) {
+		mouseDragged_ = true;
+	}
+	return false;
+}
+
+bool ColourDisplay::mouseExit(bool clicked)
 {
 	isClicked_ = false;
 	return false;

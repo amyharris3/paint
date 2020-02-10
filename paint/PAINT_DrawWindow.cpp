@@ -41,7 +41,7 @@ DrawWindow::~DrawWindow()
 /*override*/
 
 //if exit, mouse may move too fast for render lines to keep up, so must interpolate intersect with DW boundary
-bool DrawWindow::mouseExit()
+bool DrawWindow::mouseExit(bool clicked)
 {
 	int xMouse = mouseCoords_.x;
 	int yMouse = mouseCoords_.y;
@@ -51,13 +51,16 @@ bool DrawWindow::mouseExit()
 	prevMouseCoords_ = { absCoords[0].x, absCoords[0].y};
 	mouseCoords_ = { absCoords[1].x, absCoords[1].y };
 
+	printf("mouseEXIT: (%d,%d) -> (%d,%d)\n", prevMouseCoords_.x, prevMouseCoords_.y, mouseCoords_.x, mouseCoords_.y);
+	
 	if (drawToggle_) {
-		if (activeTool_) {
+		mouseButtonDown(MouseButton::Left);
+		/*if (activeTool_) {
 			const Coords prevRel = { prevMouseCoords_.x - this->getRect().x, prevMouseCoords_.y - this->getRect().y };
 			const Coords rel = { mouseCoords_.x - this->getRect().x, mouseCoords_.y - this->getRect().y };
 
 			activeTool_->toolFunction(rel, prevRel);
-		}
+		}*/
 	}
 	
 	return false;
@@ -65,6 +68,8 @@ bool DrawWindow::mouseExit()
 
 bool DrawWindow::mouseButtonDown(MouseButton const b)
 {
+	printf("mouseDRAW: (%d,%d) -> (%d,%d)\n", prevMouseCoords_.x, prevMouseCoords_.y, mouseCoords_.x, mouseCoords_.y);
+
 	drawToggle_ = true;
 	if (b == MouseButton::Left) {
 		if (activeTool_) {
@@ -187,7 +192,7 @@ void DrawWindow::clearWindow() const
 }
 
 //using Cohen-Sutherland clipping algorithm
-std::vector<win::Coords> DrawWindow::clippingHandler(win::Coords pStart, win::Coords pEnd)
+std::vector<win::Coords> DrawWindow::clippingHandler(win::Coords pStart, win::Coords pEnd) const
 {
 	bool accept = false;
 	const auto rect = getRect();
@@ -200,7 +205,6 @@ std::vector<win::Coords> DrawWindow::clippingHandler(win::Coords pStart, win::Co
 	while(true){
 		// case where start and end points are within rectangle
 		if (!(startOutcode | endOutcode)){
-			printf("both inside DW\n");
 			accept = true;
 			break;
 		}
@@ -210,7 +214,6 @@ std::vector<win::Coords> DrawWindow::clippingHandler(win::Coords pStart, win::Co
 		}
 		// one or more point is outside rect and not sharing 'outside zone'
 		else {
-			printf("start (%d,%d), end (%d,%d)\n", pStart.x, pStart.y, pEnd.x, pEnd.y);
 			// if startOutcode is 0, ie false, then is inside rect, so examine pEnd instead
 			auto examineOutcode = startOutcode ? startOutcode : endOutcode;
 			int x = startOutcode ? pStart.x : pEnd.x;
@@ -251,7 +254,6 @@ std::vector<win::Coords> DrawWindow::clippingHandler(win::Coords pStart, win::Co
 				pEnd.y = y;
 				endOutcode = win::utils::findOutcode(rect, pEnd.x, pEnd.y);
 			}
-			printf("point %d, %d\n", x, y);
 		}
 	}
 

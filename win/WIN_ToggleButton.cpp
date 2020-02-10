@@ -39,8 +39,12 @@ void ToggleButton::draw()
 }
 
 /* override */
-bool ToggleButton::mouseEnter()
+bool ToggleButton::mouseEnter(bool clicked)
 {
+	if (clicked) {
+		mouseDragged_ = true;
+	}
+	
 	if (activated_) {
 		if (state_ == ButtonStates::on) {
 			activeClip_ = &(spriteClips_[2]);
@@ -57,7 +61,7 @@ bool ToggleButton::mouseEnter()
 }
 
 /* override */
-bool ToggleButton::mouseExit()
+bool ToggleButton::mouseExit(bool clicked)
 {
 	if (activated_) {
 		if (state_ == ButtonStates::on) {
@@ -76,10 +80,6 @@ bool ToggleButton::mouseExit()
 
 bool ToggleButton::mouseMove(SDL_MouseMotionEvent& e)
 {
-	if (mouseDown_ && (e.xrel != 2 || e.yrel != 2)) {
-		mouseDragged_ = true;
-	}
-
 	return false;
 }
 

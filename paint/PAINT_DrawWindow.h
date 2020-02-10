@@ -40,7 +40,7 @@ namespace paint
 
 		bool mouseButtonDown(win::MouseButton button) override;
 		bool mouseButtonUp(win::MouseButton b) override;
-		bool mouseExit() override;
+		bool mouseExit(bool clicked = false) override;
 		
 		void setActiveTool(std::shared_ptr<Tool> tool);
 		std::shared_ptr<Tool> getActiveTool() const { return activeTool_; };
@@ -67,7 +67,7 @@ namespace paint
 		void updateAndRerender() override;
 		void clearWindow() const;
 
-		std::vector<win::Coords> clippingHandler(win::Coords pStart, win::Coords pEnd);
+		std::vector<win::Coords> clippingHandler(win::Coords pStart, win::Coords pEnd) const;
 
 	private:
 		gfx::Renderer* renderer_;

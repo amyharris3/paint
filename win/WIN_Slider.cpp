@@ -148,15 +148,16 @@ void Slider::draw()
 
 }
 
-bool Slider::mouseEnter()
+bool Slider::mouseEnter(bool clicked)
 {
 	//to handle mouse being dragged in from outside with button held
-	printf("mouse entering slider\n");
-	clickDownOutsideSlider_ = true;
+	if (clicked) {
+		clickDownOutsideSlider_ = true;
+	}
 	return true;
 }
 
-bool Slider::mouseExit()
+bool Slider::mouseExit(bool clicked)
 {
 	holdMarker_ = false;
 	return false;

@@ -35,15 +35,18 @@ void Button::draw()
 }
 
 /* override */
-bool Button::mouseEnter()
+bool Button::mouseEnter(bool clicked)
 {
 	//to handle mouse being dragged in from outside with button held
+	if (clicked) {
+		mouseDragged_ = true;
+	}
 	activeClip_ = &(spriteClips_[0]);
 	return true;
 }
 
 /* override */
-bool Button::mouseExit()
+bool Button::mouseExit(bool clicked)
 {
 	activeClip_ = &(spriteClips_[1]);
 	return true;
@@ -51,10 +54,6 @@ bool Button::mouseExit()
 
 bool Button::mouseMove(SDL_MouseMotionEvent& e)
 {
-	if(mouseDown_ && (e.xrel != 2 || e.yrel != 2)){
-		mouseDragged_ = true;
-	}
-	
 	return false;
 }
 
@@ -69,14 +68,14 @@ bool Button::mouseButtonDown(MouseButton b)
 /* override */
 bool Button::mouseButtonUp(MouseButton b)
 {
-	mouseDown_ = false;
-	if (!mouseDragged_) {
+	if (mouseDown_ && !mouseDragged_) {
 		activeClip_ = &(spriteClips_[0]);
 
 		if (action) {
 			action(this);
 		}
 	}
+	mouseDown_ = false;
 	mouseDragged_ = false;
 	return true;
 }

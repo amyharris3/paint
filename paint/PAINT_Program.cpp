@@ -92,12 +92,12 @@ void Program::run() const
 				auto active = GetTopmostElement(screen_->getChildren(), xMouse, yMouse);
 				if (activeElement != active) {
 					if (activeElement) {
-						rerenderFlag = activeElement->mouseExit();
+						rerenderFlag = activeElement->mouseExit(clicked);
 					}
 					activeElement = active;
 					
 					if (activeElement) {
-						rerenderFlag = activeElement->mouseEnter();
+						rerenderFlag = activeElement->mouseEnter(clicked);
 					}
 				}
 

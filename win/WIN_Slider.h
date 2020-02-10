@@ -47,8 +47,8 @@ namespace win
 		void updateAndRerender() override;
 		void draw() override;
 
-		bool mouseEnter() override;
-		bool mouseExit() override;
+		bool mouseEnter(bool clicked = false) override;
+		bool mouseExit(bool clicked = false) override;
 		bool mouseMove(SDL_MouseMotionEvent& e) override;
 		bool mouseButtonDown(MouseButton button) override;
 		bool mouseButtonUp(MouseButton button) override;
