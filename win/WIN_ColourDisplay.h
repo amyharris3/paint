@@ -27,7 +27,7 @@ namespace win
 
 		void update() override;
 		void draw() override;
-		bool mouseExit() override;
+		bool mouseExit(MouseButton button) override;
 		bool mouseButtonDown(win::MouseButton button) override;
 		bool mouseButtonUp(MouseButton button) override;
 

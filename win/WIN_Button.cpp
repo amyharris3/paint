@@ -41,7 +41,7 @@ bool Button::mouseEnter()
 }
 
 /* override */
-bool Button::mouseExit()
+bool Button::mouseExit(MouseButton button)
 {
 	activeClip_ = &(spriteClips_[1]);
 	return true;

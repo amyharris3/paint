@@ -39,7 +39,7 @@ namespace win
 		virtual void update() { };
 		virtual void updateAndRerender() { };
 		virtual bool mouseEnter();
-		virtual bool mouseExit();
+		virtual bool mouseExit(MouseButton button);
 		virtual bool mouseMove() { return false; };
 		virtual bool mouseButtonDown(MouseButton button);
 		virtual bool mouseButtonUp(MouseButton) { return false; };

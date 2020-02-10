@@ -52,7 +52,7 @@ bool UIelement::mouseEnter()
 	return false;
 }
 
-bool UIelement::mouseExit()
+bool UIelement::mouseExit(MouseButton button)
 {
 	#ifdef VERBOSE
 	std::cout << "The mouse has left the " << name_ << " UI element. \n";

@@ -36,7 +36,7 @@ namespace win
 		void updateAndRerender() override;
 		void draw() override;
 
-		bool mouseExit() override;
+		bool mouseExit(MouseButton button) override;
 		bool mouseMove() override;
 		bool mouseButtonDown(MouseButton button) override;
 		bool mouseButtonUp(MouseButton button) override;

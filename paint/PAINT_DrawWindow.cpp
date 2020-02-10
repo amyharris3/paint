@@ -5,6 +5,7 @@
 #include "WIN_ToggleButton.h"
 #include "WIN_Coords.h"
 #include "WIN_ButtonStates.h"
+#include "PAINT_ShapeTool.h"
 
 using namespace paint;
 using namespace win;
@@ -17,6 +18,7 @@ DrawWindow::DrawWindow(SDL_Renderer* renderer, gfx::Rectangle const& rect, const
 	, renderer_(renderer)
 	, mouseCoords_({ 0,0 })
 	, prevMouseCoords_({ 0,0 })
+	, startCoord_({0,0})
 	, primaryActive_(true)
 	, primaryRGBA_{}
 	, secondaryRGBA_{}
@@ -25,6 +27,7 @@ DrawWindow::DrawWindow(SDL_Renderer* renderer, gfx::Rectangle const& rect, const
 	primaryColour_.getComponents(primaryRGBA_);
 	secondaryColour_.getComponents(secondaryRGBA_);
 	drawTool_ = std::make_shared<DrawTool>(renderer_, texture_);
+	shapeTool_ = std::make_shared<ShapeTool>(renderer_, texture_);
 }
 
 DrawWindow::~DrawWindow()
@@ -38,12 +41,13 @@ DrawWindow::~DrawWindow()
 /*override*/
 bool DrawWindow::mouseButtonDown(MouseButton const b)
 {
-	const Coords rel = { mouseCoords_.x - this->getRect().x, mouseCoords_.y - this->getRect().y };
-	const Coords prevRel = { prevMouseCoords_.x - this->getRect().x, prevMouseCoords_.y - this->getRect().y };
+	//const Coords rel = { mouseCoords_.x - this->getRect().x, mouseCoords_.y - this->getRect().y };
+	//const Coords prevRel = { prevMouseCoords_.x - this->getRect().x, prevMouseCoords_.y - this->getRect().y };
+	//const Coords relStart = { startCoord_.x - this->getRect().x, startCoord_.y - this->getRect().y };
 
 	if (b == MouseButton::Left) {
 		if (activeTool_) {
-			activeTool_->toolFunction(rel, prevRel);
+			activeTool_->toolFunction(mouseCoords_, prevMouseCoords_, startCoord_, this->getRect());
 		}
 	}
 
@@ -55,10 +59,17 @@ bool DrawWindow::mouseButtonUp(win::MouseButton const b)
 {
 	if (b == MouseButton::Left) {
 		if (activeTool_) {
-			activeTool_->clearLines();
+			activeTool_->toolFunctionEnd(mouseCoords_, prevMouseCoords_, startCoord_, this->getRect());
 		}
 	}
 
+	return false;
+}
+
+/*override*/
+bool DrawWindow::mouseExit(MouseButton button)
+{
+	mouseButtonUp(button);
 	return false;
 }
 
@@ -72,6 +83,16 @@ void DrawWindow::toggleDrawTool(win::ToggleButton* b)
 {
 	if (b->getState() == ButtonStates::on) {
 		activeTool_ = drawTool_;
+	}
+	else if (b->getState() == ButtonStates::off) {
+		activeTool_ = nullptr;
+	}
+}
+
+void DrawWindow::toggleShapeTool(win::ToggleButton* b)
+{
+	if (b->getState() == ButtonStates::on) {
+		activeTool_ = shapeTool_;
 	}
 	else if (b->getState() == ButtonStates::off) {
 		activeTool_ = nullptr;
@@ -142,4 +163,9 @@ void DrawWindow::clearScreen() const
 	const auto& myRect = getRect();
 	SDL_Rect destRect = { myRect.x, myRect.y, myRect.width, myRect.height };
 	SDL_RenderCopy(renderer_, texture_, nullptr, &destRect);
+}
+
+void DrawWindow::setStartCoord(win::Coords const startCoords)
+{
+	startCoord_ = startCoords;
 }

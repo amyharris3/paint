@@ -50,6 +50,18 @@ Screen::Screen(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* n
 			auto button = std::make_shared<ToggleButton>(renderer, buttonRect, "drawButton", "button_toggle_draw.png", toggleDraw);
 			toolbox->addChild(button);
 		}
+		else if (i == 1) {
+			auto button = std::make_shared<ToggleButton>(renderer, buttonRect, "rectangleButton", "button_draw_rectangle.png", toggleDrawRectangle);
+			toolbox->addChild(button);
+		}
+		else if (i == 2) {
+			auto button = std::make_shared<ToggleButton>(renderer, buttonRect, "ellipseButton", "button_draw_ellipse.png", toggleDrawEllipse);
+			toolbox->addChild(button);
+		}
+		else if (i == 3) {
+			auto button = std::make_shared<ToggleButton>(renderer, buttonRect, "triangleButton", "button_draw_triangle.png", toggleDrawTriangle);
+			toolbox->addChild(button);
+		}
 		else if (i == 5){
 			auto button = std::make_shared<Button>(renderer, buttonRect, "clearButton", "button_clear_screen.png", paint::clearScreen);
 			toolbox->addChild(button);

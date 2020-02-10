@@ -54,7 +54,7 @@ bool ToggleButton::mouseEnter()
 }
 
 /* override */
-bool ToggleButton::mouseExit()
+bool ToggleButton::mouseExit(MouseButton button)
 {
 	if (activated_) {
 		if (state_ == ButtonStates::on) {

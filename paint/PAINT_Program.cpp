@@ -3,7 +3,6 @@
 #include "PAINT_DrawWindow.h"
 #include "PAINT_Screen.h"
 #include "WIN_Mouse.h"
-#include "PAINT_ColourPicker.h"
 
 using namespace paint;
 using namespace gfx;
@@ -85,14 +84,18 @@ void Program::run() const
 				SDL_GetMouseState(&xMouse, &yMouse);
 				auto active = GetTopmostElement(screen_->getChildren(), xMouse, yMouse);
 				if (activeElement != active) {
-					if (activeElement) {
-						rerenderFlag = activeElement->mouseExit();
+					if (!clicked)
+					{
+						if (activeElement) {
+							rerenderFlag = activeElement->mouseExit(button);
+						}
+						activeElement = active;
+
+						if (activeElement) {
+							rerenderFlag = activeElement->mouseEnter();
+						}
 					}
-					activeElement = active;
-					
-					if (activeElement) {
-						rerenderFlag = activeElement->mouseEnter();
-					}
+
 				}
 
 				if(activeElement){
@@ -105,7 +108,10 @@ void Program::run() const
 
 			if (e.type == SDL_MOUSEBUTTONDOWN) {
 
+
+				
 				clicked = true;
+				drawWindow->setStartCoord({ xMouse, yMouse });
 
 				switch (e.button.button) {
 				case SDL_BUTTON_LEFT:

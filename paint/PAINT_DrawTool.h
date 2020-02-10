@@ -26,8 +26,8 @@ namespace paint
 		DrawTool& operator=(const DrawTool& that) = default;
 		DrawTool& operator=(DrawTool&& that) = default;
 
-		void toolFunction(win::Coords relCoords, win::Coords prevRelCoords) override;
-		void renderLines();
+		void toolFunction(win::Coords mouseCoords, win::Coords prevMouseCoords, win::Coords startCoords, gfx::Rectangle refRect) override;
+		void toolFunctionEnd(win::Coords mouseCoords, win::Coords prevMouseCoords, win::Coords startCoords, gfx::Rectangle refRect) override;
 
 	private:
 		SDL_Renderer* renderer_;

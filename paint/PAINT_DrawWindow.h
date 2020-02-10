@@ -19,8 +19,9 @@ namespace win
 
 namespace paint 
 {
-	class Tool;
+	class DrawTool;
 	class Brush;
+	class ShapeTool;
 
 	class DrawWindow final :
 		public win::Window
@@ -37,9 +38,11 @@ namespace paint
 
 		bool mouseButtonDown(win::MouseButton button) override;
 		bool mouseButtonUp(win::MouseButton b) override;
+		bool mouseExit(win::MouseButton button) override;
 		void setActiveTool(std::shared_ptr<Tool> tool);
 		std::shared_ptr<Tool> getActiveTool() const { return activeTool_; };
 		void toggleDrawTool(win::ToggleButton* b);
+		void toggleShapeTool(win::ToggleButton* b);
 		void setMouseCoords(win::Coords relCoords);
 		void setPrevCoords(win::Coords relPrevCoords);
 		gfx::Colour getPrimaryColour() const { return primaryColour_; }
@@ -67,6 +70,9 @@ namespace paint
 		void updateAndRerender() override;
 		void clearScreen() const;
 
+		void setStartCoord(win::Coords startCoords);
+		std::shared_ptr<ShapeTool> getShapeTool() const { return shapeTool_; }
+
 	private:
 		std::shared_ptr<Tool> activeTool_;
 		gfx::Colour primaryColour_;
@@ -75,7 +81,9 @@ namespace paint
 		SDL_Texture* texture_;
 		win::Coords mouseCoords_;
 		win::Coords prevMouseCoords_;
-		std::shared_ptr<Tool> drawTool_;
+		win::Coords startCoord_;
+		std::shared_ptr<DrawTool> drawTool_;
+		std::shared_ptr<ShapeTool> shapeTool_;
 
 		//whenever the active colour is changed this should be updated
 		bool primaryActive_;

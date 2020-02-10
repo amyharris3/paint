@@ -92,7 +92,7 @@ void Slider::draw()
 
 }
 
-bool Slider::mouseExit()
+bool Slider::mouseExit(MouseButton button)
 {
 	holdMarker_ = false;
 	return false;

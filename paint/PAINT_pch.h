@@ -10,3 +10,4 @@
 #if defined(_DEBUG)
 #include <iostream>
 #endif
+#include <cmath>

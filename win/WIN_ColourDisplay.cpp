@@ -74,7 +74,7 @@ void ColourDisplay::draw()
 	SDL_RenderFillRect(renderer_, &boxRect);
 }
 
-bool ColourDisplay::mouseExit()
+bool ColourDisplay::mouseExit(MouseButton button)
 {
 	isClicked_ = false;
 	return false;

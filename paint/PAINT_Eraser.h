@@ -14,6 +14,8 @@ namespace paint
 		Eraser& operator=(const Eraser & that) = default;
 		Eraser& operator=(Eraser && that) = default;
 
-		void toolFunction(win::Coords relCoords, win::Coords prevRelCoords) override;
+		void toolFunction(win::Coords relCoords, win::Coords prevRelCoords, win::Coords startCoords, gfx::Rectangle refRect) override;
+		void toolFunctionEnd(win::Coords mouseCoords, win::Coords prevMouseCoords, win::Coords startCoords,
+			gfx::Rectangle refRect) override;
 	};
 }
