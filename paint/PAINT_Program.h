@@ -1,5 +1,6 @@
 #pragma once
 #include "GFX_Renderer.h"
+#include "GFX_Rectangle.h"
 
 struct SDL_Window;
 struct SDL_Renderer;
@@ -20,11 +21,15 @@ namespace paint
 		Program& operator=(Program const& that) = default;
 		Program& operator=(Program&& that) = default;
 
-		void initialize(SDL_Renderer* renderer);
+		void initialize(SDL_Renderer* renderer, SDL_Window* rootWindow);
+		gfx::Rectangle getRootWindowRect() const;
 		void run() const;
 
 	private:
 		std::shared_ptr<Screen> screen_;
 		gfx::Renderer* renderer_;
+
+		SDL_Window* rootWindow_;
+		
 	};
 }

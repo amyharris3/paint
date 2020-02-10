@@ -51,8 +51,6 @@ bool DrawWindow::mouseExit(bool clicked)
 	prevMouseCoords_ = { absCoords[0].x, absCoords[0].y};
 	mouseCoords_ = { absCoords[1].x, absCoords[1].y };
 
-	printf("mouseEXIT: (%d,%d) -> (%d,%d)\n", prevMouseCoords_.x, prevMouseCoords_.y, mouseCoords_.x, mouseCoords_.y);
-	
 	if (drawToggle_) {
 		mouseButtonDown(MouseButton::Left);
 		/*if (activeTool_) {
@@ -62,14 +60,14 @@ bool DrawWindow::mouseExit(bool clicked)
 			activeTool_->toolFunction(rel, prevRel);
 		}*/
 	}
+
+	drawToggle_ = false;
 	
 	return false;
 }
 
 bool DrawWindow::mouseButtonDown(MouseButton const b)
 {
-	printf("mouseDRAW: (%d,%d) -> (%d,%d)\n", prevMouseCoords_.x, prevMouseCoords_.y, mouseCoords_.x, mouseCoords_.y);
-
 	drawToggle_ = true;
 	if (b == MouseButton::Left) {
 		if (activeTool_) {
@@ -199,8 +197,6 @@ std::vector<win::Coords> DrawWindow::clippingHandler(win::Coords pStart, win::Co
 	
 	int startOutcode = win::utils::findOutcode(rect, pStart.x, pStart.y);
 	int endOutcode = win::utils::findOutcode(rect, pEnd.x, pEnd.y);
-
-	printf("1: (%d,%d), 2: (%d,%d) -> ", pStart.x, pStart.y, pEnd.x, pEnd.y);
 	
 	while(true){
 		// case where start and end points are within rectangle
