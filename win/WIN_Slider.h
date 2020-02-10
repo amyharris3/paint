@@ -33,6 +33,8 @@ namespace win
 		bool getHold() const { return holdMarker_; }
 		void holdOn() { holdMarker_ = true; }
 		void holdOff() { holdMarker_ = false; }
+		bool getClickDownFromOutside() const { return clickDownOutsideSlider_; }
+		void setClickDownFromOutside(const bool b) { clickDownOutsideSlider_ = b; }
 		
 		int getApproxPositionFromValue() const;
 		int getApproxValueFromPosition() const;
@@ -45,6 +47,7 @@ namespace win
 		void updateAndRerender() override;
 		void draw() override;
 
+		bool mouseEnter() override;
 		bool mouseExit() override;
 		bool mouseMove(SDL_MouseMotionEvent& e) override;
 		bool mouseButtonDown(MouseButton button) override;
@@ -67,6 +70,7 @@ namespace win
 		gfx::Colour markerColour_;
 		bool holdMarker_;
 
+		bool clickDownOutsideSlider_;
 	};
 	
 }

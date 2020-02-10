@@ -41,7 +41,7 @@ void ColourSlider::valueChangedExternally()
 
 bool ColourSlider::mouseMove(SDL_MouseMotionEvent& e)
 {
-	if (getHold()) {
+	if (getHold() && !getClickDownFromOutside()) {
 		moveMarker(e.x);
 		valueChangedByMovement();
 		
@@ -53,7 +53,7 @@ bool ColourSlider::mouseMove(SDL_MouseMotionEvent& e)
 
 bool ColourSlider::mouseButtonUp(MouseButton button)
 {	
-	if (getHold()) {
+	if (getHold() && !getClickDownFromOutside()) {
 		int xMouse;
 		int yMouse;
 
@@ -62,5 +62,6 @@ bool ColourSlider::mouseButtonUp(MouseButton button)
 		valueChangedByMovement();
 	}	
 	holdOff();
+	setClickDownFromOutside(false);
 	return true;
 }

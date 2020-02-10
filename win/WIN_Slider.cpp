@@ -16,7 +16,7 @@ Slider::Slider(gfx::Renderer* renderer, gfx::Rectangle rect, const char* name, g
 	, markerRect_(getApproxPositionFromValue(), rect.y, 5, rect.height)
 	, markerColour_({ 0,0,0,255 })
 	, holdMarker_(false)
-
+	, clickDownOutsideSlider_(false)
 {
 	setForegroundColour(fillColour);
 	setBackgroundColour(outlineColour);
@@ -106,7 +106,6 @@ void Slider::moveMarker(const int x)
 	//int yMouse = 0;
 
 	//renderer_->getMouseState(xMouse, yMouse);
-
 	setMarkerPos(x);
 }
 
@@ -149,6 +148,14 @@ void Slider::draw()
 
 }
 
+bool Slider::mouseEnter()
+{
+	//to handle mouse being dragged in from outside with button held
+	printf("mouse entering slider\n");
+	clickDownOutsideSlider_ = true;
+	return true;
+}
+
 bool Slider::mouseExit()
 {
 	holdMarker_ = false;
@@ -157,7 +164,7 @@ bool Slider::mouseExit()
 
 bool Slider::mouseMove(SDL_MouseMotionEvent& e)
 {
-	if (holdMarker_) {
+	if (holdMarker_ && !clickDownOutsideSlider_) {
 		moveMarker(e.x);
 	}
 	return true;
@@ -171,7 +178,7 @@ bool Slider::mouseButtonDown(MouseButton button)
 
 bool Slider::mouseButtonUp(MouseButton button)
 {
-	if (holdMarker_== true){
+	if (holdMarker_ && !clickDownOutsideSlider_){
 		int xMouse = 0;
 		int yMouse = 0;
 		
@@ -181,5 +188,6 @@ bool Slider::mouseButtonUp(MouseButton button)
 	}
 	
 	holdMarker_ = false;
+	clickDownOutsideSlider_ = false;
 	return true;
 }
