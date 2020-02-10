@@ -153,7 +153,7 @@ void Renderer::renderLines(const std::vector<gfx::Line>& lines, const int thickn
 	}
 }
 
-void Renderer::renderDrawWindow(gfx::Rectangle rect, const uint8_t drawRGBA_[], std::vector<Line> lines) const
+void Renderer::renderDrawWindow(gfx::Rectangle rect, const uint8_t drawRGBA_[]) const
 {
 	assert(rendererSDL_);
 	SDL_Rect destRect = { rect.x, rect.y, rect.width, rect.height };

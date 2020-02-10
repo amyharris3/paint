@@ -10,6 +10,7 @@ ColourDisplay::ColourDisplay(gfx::Rectangle rect, const char* name, uint8_t disp
 	, renderer_(renderer)
 	, isActive_(isActive)
 	, isClicked_(false)
+	, mouseDragged_(false)
 {
 	this->setForegroundColour(gfx::Colour(displayColour[0], displayColour[1], displayColour[2], displayColour[3]));
 	if (isActive_)
@@ -63,25 +64,31 @@ void ColourDisplay::draw()
 {
 	renderer_->renderBox(getRect(), getBackgroundColour());
 	renderer_->renderBox({ getRect().x + 5, getRect().y + 5, getRect().width - 10, getRect().height - 10 }, getForegroundColour());
-	
-	/*SDL_Rect outlineRect = { this->getRect().x, this->getRect().y, this->getRect().width, this->getRect().height };
-	uint8_t outlineColour[4];
-	getBackgroundColour().getComponents(outlineColour);
-	SDL_SetRenderDrawColor(renderer_, outlineColour[0], outlineColour[1], outlineColour[2], outlineColour[3]);
-	SDL_RenderFillRect(renderer_, &outlineRect);
-
-	SDL_Rect boxRect = { this->getRect().x+5, this->getRect().y+5, this->getRect().width-10, this->getRect().height -10 };
-	uint8_t rgba[4];
-	getForegroundColour().getComponents(rgba);
-	SDL_SetRenderDrawColor(renderer_, rgba[0], rgba[1], rgba[2], rgba[3]);
-	SDL_RenderFillRect(renderer_, &boxRect);*/
 }
 
-bool ColourDisplay::mouseExit()
+bool ColourDisplay::mouseEnter(bool clicked)
+{
+	if (clicked) {
+		mouseDragged_ = true;
+	}
+	return false;
+}
+
+bool ColourDisplay::mouseExit(bool clicked)
 {
 	isClicked_ = false;
 	return false;
 }
+
+bool ColourDisplay::mouseMove(SDL_MouseMotionEvent& e)
+{
+	if (isClicked_ && (e.xrel != 2 || e.yrel != 2)) {
+		mouseDragged_ = true;
+	}
+
+	return false;
+}
+
 bool ColourDisplay::mouseButtonDown(win::MouseButton const button)
 {
 	isClicked_ = true;
@@ -90,10 +97,11 @@ bool ColourDisplay::mouseButtonDown(win::MouseButton const button)
 
 bool ColourDisplay::mouseButtonUp(win::MouseButton const button)
 {
-	if (isClicked_) {
+	if (isClicked_ && !mouseDragged_) {
 		const auto cpick = paint::utils::findToolWindow(this)->getColourPicker();
 		cpick->swapActiveColour();
-		isClicked_ = false;
 	}
+	isClicked_ = false;
+	mouseDragged_ = false;
 	return true;
 }

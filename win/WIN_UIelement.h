@@ -38,9 +38,10 @@ namespace win
 		virtual void draw() = 0;
 		virtual void update() { };
 		virtual void updateAndRerender() { };
-		virtual bool mouseEnter();
-		virtual bool mouseExit();
+		virtual bool mouseEnter(bool clicked = false);
+		virtual bool mouseExit(bool clicked = false);
 		virtual bool mouseMove() { return false; };
+		virtual bool mouseMove(SDL_MouseMotionEvent& e) { return false; }
 		virtual bool mouseButtonDown(MouseButton button) { return false; };
 		virtual bool mouseButtonUp(MouseButton button) { return false; };
 

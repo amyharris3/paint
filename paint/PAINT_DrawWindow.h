@@ -40,6 +40,8 @@ namespace paint
 
 		bool mouseButtonDown(win::MouseButton button) override;
 		bool mouseButtonUp(win::MouseButton b) override;
+		bool mouseExit(bool clicked = false) override;
+		
 		void setActiveTool(std::shared_ptr<Tool> tool);
 		std::shared_ptr<Tool> getActiveTool() const { return activeTool_; };
 		void toggleDrawTool(win::ToggleButton* b);
@@ -60,11 +62,12 @@ namespace paint
 
 		void updateDrawToolRGBA();
 
-	
 		//void setColor(SDL_Surface* surface);
 		void draw() override;
 		void updateAndRerender() override;
 		void clearWindow() const;
+
+		std::vector<win::Coords> clippingHandler(win::Coords pStart, win::Coords pEnd) const;
 
 	private:
 		gfx::Renderer* renderer_;

@@ -8,9 +8,9 @@ StatusBarWindow::StatusBarWindow(gfx::Renderer* renderer, gfx::Rectangle const& 
 	, xMouse(0)
 	, yMouse(0)
 	, mouseCoordsText_(gfx::Colour(0,0,0,255),"OpenSans-Regular.ttf", 16, "(0,0)")
+	, outputMessageText_(gfx::Colour(0, 0, 0, 255), "OpenSans-Regular.ttf", 16, "Status Bar Window initialised")
 	, drawWinX_(drawWinX)
 	, drawWinY_(drawWinY)
-	, outputMessageText_(gfx::Colour(0, 0, 0, 255), "OpenSans-Regular.ttf", 16, "Status Bar Window initialised")
 {
 }
 
