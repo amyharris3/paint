@@ -51,15 +51,17 @@ static void handleMouseUp(MouseButton const b, Tool* tool, Coords& mouse, Coords
 //if exit, mouse may move too fast for render lines to keep up, so must interpolate intersect with DW boundary
 bool DrawWindow::mouseExit(const MouseButton button, bool clicked)
 {
-	auto xMouse = mouseCoords_.x;
-	auto yMouse = mouseCoords_.y;
-	SDL_GetMouseState(&xMouse, &yMouse);
+	int xMouse = mouseCoords_.x;
+	int yMouse = mouseCoords_.y;
+	//SDL_GetMouseState(&xMouse, &yMouse);
 	auto absCoords = clippingHandler(prevMouseCoords_, { xMouse, yMouse });
 
 	prevMouseCoords_ = { absCoords[0].x, absCoords[0].y};
 	mouseCoords_ = { absCoords[1].x, absCoords[1].y };
 
+	if (drawToggle_) {
 	handleMouseUp(button, activeTool_.get(), mouseCoords_, prevMouseCoords_, startCoord_, this->getRect());
+	}
 	
 	return false;
 }
@@ -196,6 +198,9 @@ std::vector<win::Coords> DrawWindow::clippingHandler(win::Coords pStart, win::Co
 	auto startOutcode = win::utils::findOutcode(rect, pStart.x, pStart.y);
 	auto endOutcode = win::utils::findOutcode(rect, pEnd.x, pEnd.y);
 	
+	int startOutcode = win::utils::findOutcode(rect, pStart.x, pStart.y);
+	int endOutcode = win::utils::findOutcode(rect, pEnd.x, pEnd.y);
+
 	while(true){
 		// case where start and end points are within rectangle
 		if (!(startOutcode | endOutcode)){
@@ -208,10 +213,10 @@ std::vector<win::Coords> DrawWindow::clippingHandler(win::Coords pStart, win::Co
 		// one or more point is outside rect and not sharing 'outside zone'
 		else {
 			// if startOutcode is 0, ie false, then is inside rect, so examine pEnd instead
-			const auto examineOutcode = startOutcode ? startOutcode : endOutcode;
-			auto x = startOutcode ? pStart.x : pEnd.x;
-			auto y = startOutcode ? pStart.y : pEnd.y;
-
+			auto examineOutcode = startOutcode ? startOutcode : endOutcode;
+			int x = startOutcode ? pStart.x : pEnd.x;
+			int y = startOutcode ? pStart.y : pEnd.y;
+	
 			// find point of intersection with rect
 			// using slope formula: y = mx + y0, m = (y-y0)/(x-x0)
 			
