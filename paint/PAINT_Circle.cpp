@@ -1,12 +1,12 @@
 #include "PAINT_pch.h"
-#include "PAINT_Circle.h"
+#include "PAINT_Ellipse.h"
 #include "WIN_Coords.h"
 #include "GFX_Line.h"
 
 using namespace paint;
 using namespace win;
 
-std::vector<gfx::Line> Circle::shapeGeometry(win::Coords startCoords, win::Coords currentCoords)
+std::vector<gfx::Line> Ellipse::shapeGeometry(win::Coords startCoords, win::Coords currentCoords)
 {
 	if (startCoords.x > currentCoords.x)
 	{
@@ -32,7 +32,7 @@ std::vector<gfx::Line> Circle::shapeGeometry(win::Coords startCoords, win::Coord
 	return shapeLines;
 }
 
-std::vector<int> Circle::ellipse(int x, int a, int b, int h, int k) const
+std::vector<int> Ellipse::ellipse(int x, int a, int b, int h, int k) const
 {
 	std::vector<int> yEllipse;
 	yEllipse.push_back(k + sqrt((1 - (pow((x - h), 2) / pow(a, 2))) * pow(b, 2)));

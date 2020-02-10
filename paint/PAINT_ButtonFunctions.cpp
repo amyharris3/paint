@@ -7,7 +7,7 @@
 #include "WIN_ButtonStates.h"
 #include "PAINT_ShapeTool.h"
 #include "PAINT_Rectangle.h"
-#include "PAINT_Circle.h"
+#include "PAINT_Ellipse.h"
 #include "PAINT_Triangle.h"
 
 using namespace win;
@@ -39,7 +39,7 @@ void paint::toggleDrawEllipse(UIelement* control)
 	assert(dw && "findDrawWindow in toggleDraw returned nullptr.");
 	dw->toggleShapeTool(button);
 	auto shapeTool = dw->getShapeTool();
-	auto const ellipse = std::make_shared<Circle>();
+	auto const ellipse = std::make_shared<Ellipse>();
 	shapeTool->setActiveShape(ellipse);
 }
 

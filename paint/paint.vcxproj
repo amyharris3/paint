@@ -206,7 +206,7 @@ xcopy /q /y /s $(SolutionDir)SDL2_ttf-2.0.15\lib\x64\zlib1.dll $(OutDir)
   <ItemGroup>
     <ClInclude Include="PAINT_Brush.h" />
     <ClInclude Include="PAINT_ButtonFunctions.h" />
-    <ClInclude Include="PAINT_Circle.h" />
+    <ClInclude Include="PAINT_Ellipse.h" />
     <ClInclude Include="PAINT_ColourPicker.h" />
     <ClInclude Include="PAINT_DrawFlags.h" />
     <ClInclude Include="PAINT_DrawTool.h" />
