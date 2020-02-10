@@ -45,7 +45,7 @@ bool DrawWindow::mouseExit(bool clicked)
 {
 	int xMouse = mouseCoords_.x;
 	int yMouse = mouseCoords_.y;
-	SDL_GetMouseState(&xMouse, &yMouse);
+	//SDL_GetMouseState(&xMouse, &yMouse);
 	auto absCoords = clippingHandler(prevMouseCoords_, { xMouse, yMouse });
 
 	prevMouseCoords_ = { absCoords[0].x, absCoords[0].y};
@@ -53,12 +53,6 @@ bool DrawWindow::mouseExit(bool clicked)
 
 	if (drawToggle_) {
 		mouseButtonDown(MouseButton::Left);
-		/*if (activeTool_) {
-			const Coords prevRel = { prevMouseCoords_.x - this->getRect().x, prevMouseCoords_.y - this->getRect().y };
-			const Coords rel = { mouseCoords_.x - this->getRect().x, mouseCoords_.y - this->getRect().y };
-
-			activeTool_->toolFunction(rel, prevRel);
-		}*/
 	}
 
 	drawToggle_ = false;
@@ -197,7 +191,7 @@ std::vector<win::Coords> DrawWindow::clippingHandler(win::Coords pStart, win::Co
 	
 	int startOutcode = win::utils::findOutcode(rect, pStart.x, pStart.y);
 	int endOutcode = win::utils::findOutcode(rect, pEnd.x, pEnd.y);
-	
+
 	while(true){
 		// case where start and end points are within rectangle
 		if (!(startOutcode | endOutcode)){
@@ -214,7 +208,7 @@ std::vector<win::Coords> DrawWindow::clippingHandler(win::Coords pStart, win::Co
 			auto examineOutcode = startOutcode ? startOutcode : endOutcode;
 			int x = startOutcode ? pStart.x : pEnd.x;
 			int y = startOutcode ? pStart.y : pEnd.y;
-
+	
 			// find point of intersection with rect
 			// using slope formula: y = mx + y0, m = (y-y0)/(x-x0)
 			

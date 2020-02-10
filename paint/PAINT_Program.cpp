@@ -88,6 +88,7 @@ void Program::run() const
 	
 	//While application is running
 	std::shared_ptr<UIelement> activeElement = nullptr;
+	std::shared_ptr<UIelement> prevActiveElement = nullptr;
 	while (!quit) {
 		// if a method causes a change in the visual representation of the program, returns 'true' and calls to rerender the relevant section, else have the method return 'false'
 		auto rerenderFlag = false;
@@ -118,23 +119,34 @@ void Program::run() const
 				//if mouse goes outside window, usually on right-hand side
 				// do we want to check for this all the time, or only if it is close to the boundaries?
 				SDL_GetGlobalMouseState(&xGlobal, &yGlobal);
-				if(!(xGlobal >= rootWindowRect_.x && xGlobal < (rootWindowRect_.x + rootWindowRect_.width) && yGlobal >= rootWindowRect_.y && yGlobal < (rootWindowRect_.y + rootWindowRect_.height))){
+				if (!(xGlobal >= rootWindowRect_.x && xGlobal < (rootWindowRect_.x + rootWindowRect_.width) && yGlobal >= rootWindowRect_.y && yGlobal < (rootWindowRect_.y + rootWindowRect_.height))) {
 					insideRootWindow = false;
 					clicked = false;
+					drawWindow->setMouseCoords({ xGlobal - rootWindowRect_.x, yGlobal - rootWindowRect_.y });
+					drawWindow->setPrevCoords({ xPrev, yPrev });
+					if (activeElement) {
+						prevActiveElement = activeElement;
+						prevActiveElement->mouseExit(clicked);
+					}
+				}
+				else{
+					insideRootWindow = true;
 				}
 				
 				if (activeElement != active) {
-					if (activeElement) {
+					if (activeElement && insideRootWindow) {
 						rerenderFlag = activeElement->mouseExit(clicked);
 					}
-					activeElement = active;
+					prevActiveElement = activeElement;
 					
-					if (activeElement) {
+					activeElement = active;
+
+					if (activeElement && insideRootWindow) {
 						rerenderFlag = activeElement->mouseEnter(clicked);
 					}
 				}
 
-				if(activeElement){
+				if(activeElement && insideRootWindow){
 					rerenderFlag = activeElement->mouseMove(e.motion);
 				}
 				
@@ -144,7 +156,9 @@ void Program::run() const
 
 			if (e.type == SDL_MOUSEBUTTONDOWN) {
 
-				clicked = true;
+				if (insideRootWindow) {
+					clicked = true;
+				}
 
 				switch (e.button.button) {
 				case SDL_BUTTON_LEFT:
@@ -166,7 +180,7 @@ void Program::run() const
 			}
 
 			if (clicked) {
-				if (activeElement) {
+				if (activeElement && insideRootWindow) {
 
 					drawWindow->setMouseCoords({ xMouse, yMouse });
 					drawWindow->setPrevCoords({ xPrev, yPrev });
@@ -180,10 +194,9 @@ void Program::run() const
 
 			if (e.type == SDL_MOUSEBUTTONUP) {
 				clicked = false;
-				if (activeElement) {
+				if (activeElement && insideRootWindow) {
 					rerenderFlag = activeElement->mouseButtonUp(button);
 				}
-
 			}
 
 			if (xPrev != xMouse) {
