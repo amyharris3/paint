@@ -76,7 +76,7 @@ void Renderer::renderBox(const gfx::Rectangle rect, const gfx::Colour colour) co
 	SDL_RenderFillRect(rendererSDL_, &sdlRect);
 }
 
-void Renderer::renderTextbox(const gfx::Rectangle rect, const gfx::Colour colour, gfx::Text* text, const int xOffset, const int yOffset) const
+void Renderer::renderTextbox(gfx::Rectangle rect, gfx::Colour colour, gfx::Text* text, const int xOffset, const int yOffset) const
 {
 	assert(rendererSDL_);
 	SDL_Rect outlineRect = { rect.x - 2, rect.y - 2, rect.width + 4, rect.height + 4 };

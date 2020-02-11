@@ -77,6 +77,7 @@ bool ColourDisplay::mouseEnter(win::MouseButton button, const bool clicked)
 bool ColourDisplay::mouseExit(win::MouseButton button, bool clicked)
 {
 	isClicked_ = false;
+	mouseDragged_ = false;
 	return false;
 }
 
