@@ -53,6 +53,26 @@ bool DrawWindow::mouseEnter(bool clicked)
 {
 	int xMouse = mouseCoords_.x;
 	int yMouse = mouseCoords_.y;
+	auto absCoords = clippingHandler(prevMouseCoords_, { xMouse, yMouse });
+
+	prevMouseCoords_ = { absCoords[0].x, absCoords[0].y };
+	mouseCoords_ = { absCoords[1].x, absCoords[1].y };
+
+	if (drawToggle_) {
+		mouseButtonDown(MouseButton::Left);
+	}
+
+	drawToggle_ = false;
+
+	return false;
+}
+
+
+//if exit, mouse may move too fast for render lines to keep up, so must interpolate intersect with DW boundary
+bool DrawWindow::mouseExit(bool clicked)
+{
+	int xMouse = mouseCoords_.x;
+	int yMouse = mouseCoords_.y;
 	//SDL_GetMouseState(&xMouse, &yMouse);
 	auto absCoords = clippingHandler(prevMouseCoords_, { xMouse, yMouse });
 
