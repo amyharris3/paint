@@ -16,33 +16,40 @@ using namespace win;
 using namespace gfx;
 
 static ButtonInfo toolbox_button_info[] = {
-	{ "drawButton", "button_toggle_draw.png", toggleDraw },
-	{"rectangleButton", "button_draw_rectangle.png", toggleDrawRectangle },
-	{ "ellipseButton", "button_draw_ellipse.png", toggleDrawEllipse },
-	{ "triangleButton", "button_draw_triangle.png", toggleDrawTriangle },
-	{ "clearButton", "button_clear_screen.png", clearScreen }
+	{ "drawButton", "button_toggle_draw.png", toggleDraw, true },
+	{"rectangleButton", "button_draw_rectangle.png", toggleDrawRectangle, true },
+	{ "ellipseButton", "button_draw_ellipse.png", toggleDrawEllipse, true },
+	{ "triangleButton", "button_draw_triangle.png", toggleDrawTriangle, true },
+	{ "clearButton", "button_clear_screen.png", clearScreen, false }
 };
 
 static constexpr auto numToolBoxButtons = sizeof(toolbox_button_info) / sizeof(ButtonInfo);
 
 static ButtonInfo thickness_button_info[] = {
-	{ "thickness1Button", "button_thickness1.png", setBrushThickness0 },
-	{ "thickness2Button", "button_thickness2.png", setBrushThickness1 },
-	{ "thickness3Button", "button_thickness3.png", setBrushThickness2 },
+	{ "thickness1Button", "button_thickness1.png", setBrushThickness0, true },
+	{ "thickness2Button", "button_thickness2.png", setBrushThickness1, true },
+	{ "thickness3Button", "button_thickness3.png", setBrushThickness2, true },
 };
 
 static constexpr auto numThicknessButtons = sizeof(thickness_button_info) / sizeof(ButtonInfo);
 
 
-static void makeButtons(SDL_Renderer* renderer, Rectangle& rect, ButtonInfo* buttonInfo, int const numButtons, Window* window, std::shared_ptr<ButtonGroup> const & buttonGroup = nullptr)
+static void makeButtons(gfx::Renderer* renderer, Rectangle& rect, ButtonInfo* buttonInfo, int const numButtons, Window* window, std::shared_ptr<ButtonGroup> const & buttonGroup = nullptr)
 {
 	for (auto i = 0; i < numButtons; ++i) {
-		auto button = std::make_shared<ToggleButton>(renderer, rect, buttonInfo[i].buttonName, buttonInfo[i].buttonSpritePath, buttonInfo[i].action);
-		window->addChild(button);
-		if (buttonGroup) {
-			button->setButtonGroup(buttonGroup);
-			buttonGroup->addButtonChild(button);
+		if (buttonInfo->toggleType == true) {
+			auto button = std::make_shared<ToggleButton>(renderer, rect, buttonInfo[i].buttonName, buttonInfo[i].buttonSpritePath, buttonInfo[i].action);
+			window->addChild(button);
+			if (buttonGroup) {
+				button->setButtonGroup(buttonGroup);
+				buttonGroup->addButtonChild(button);
+			}
 		}
+		else {
+			auto button = std::make_shared<Button>(renderer, rect, buttonInfo[i].buttonName, buttonInfo[i].buttonSpritePath, buttonInfo[i].action);
+			window->addChild(button);
+		}
+
 	}
 }
 

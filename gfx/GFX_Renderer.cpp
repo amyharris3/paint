@@ -34,7 +34,7 @@ bool Renderer::notDummy() const
 	return false;
 }
 
-void Renderer::createDrawWindowTexture(gfx::Rectangle rect)
+void Renderer::createDrawWindowTexture(const gfx::Rectangle rect)
 {
 	assert(rendererSDL_);
 	textureDW_ = SDL_CreateTexture(rendererSDL_, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, rect.width, rect.height);
@@ -65,7 +65,7 @@ void Renderer::renderPresent() const
 	SDL_RenderPresent(rendererSDL_);
 }
 
-void Renderer::renderBox(gfx::Rectangle rect, gfx::Colour colour) const
+void Renderer::renderBox(const gfx::Rectangle rect, const gfx::Colour colour) const
 {
 	assert(rendererSDL_);
 	SDL_Rect sdlRect{ rect.x, rect.y, rect.width, rect.height };
@@ -76,7 +76,7 @@ void Renderer::renderBox(gfx::Rectangle rect, gfx::Colour colour) const
 	SDL_RenderFillRect(rendererSDL_, &sdlRect);
 }
 
-void Renderer::renderTextbox(gfx::Rectangle rect, gfx::Colour colour, gfx::Text* text, const int xOffset, const int yOffset)
+void Renderer::renderTextbox(const gfx::Rectangle rect, const gfx::Colour colour, gfx::Text* text, const int xOffset, const int yOffset) const
 {
 	assert(rendererSDL_);
 	SDL_Rect outlineRect = { rect.x - 2, rect.y - 2, rect.width + 4, rect.height + 4 };
@@ -97,10 +97,10 @@ void Renderer::renderText(gfx::Text * text, int const xPixel, int const yPixel) 
 {
 	assert(rendererSDL_);
 	SDL_Texture* textTex_ = nullptr;
-	int textHeight = 0;
-	int textWidth = 0;
+	auto textHeight = 0;
+	auto textWidth = 0;
 	const SDL_Color textColour{ text->getColour().getRed(), text->getColour().getGreen(), text->getColour().getBlue(), text->getColour().getAlpha() };
-	SDL_Surface* textSurface = TTF_RenderText_Solid(text->getFont(), text->getString().c_str(), textColour);
+	const auto textSurface = TTF_RenderText_Solid(text->getFont(), text->getString().c_str(), textColour);
 	if (textSurface == nullptr) {
 		printf("Error: unable to render text -> SDL_ttf Error: %s\n", TTF_GetError());
 	}
@@ -124,7 +124,7 @@ void Renderer::renderText(gfx::Text * text, int const xPixel, int const yPixel) 
 	assert(textTex_);
 }
 
-void Renderer::renderLines(const std::vector<gfx::Line>& lines, const int thickness, const uint8_t drawRGBA_[])
+void Renderer::renderLines(const std::vector<gfx::Line>& lines, const int thickness, const uint8_t drawRGBA_[]) const
 {
 	SDL_SetRenderDrawColor(rendererSDL_, int(drawRGBA_[0]), int(drawRGBA_[1]), int(drawRGBA_[2]), int(drawRGBA_[3]));
 	for (const auto& line : lines) {
@@ -153,7 +153,7 @@ void Renderer::renderLines(const std::vector<gfx::Line>& lines, const int thickn
 	}
 }
 
-void Renderer::renderDrawWindow(gfx::Rectangle rect, const uint8_t drawRGBA_[]) const
+void Renderer::renderDrawWindow(const gfx::Rectangle rect, const uint8_t drawRGBA_[]) const
 {
 	assert(rendererSDL_);
 	SDL_Rect destRect = { rect.x, rect.y, rect.width, rect.height };
@@ -165,7 +165,7 @@ void Renderer::renderDrawWindow(gfx::Rectangle rect, const uint8_t drawRGBA_[]) 
 	}*/
 }
 
-void Renderer::clearDrawWindow(gfx::Rectangle rect, gfx::Colour colour) const
+void Renderer::clearDrawWindow(const gfx::Rectangle rect, const gfx::Colour colour) const
 {
 	if (textureDW_) {
 		assert(rendererSDL_);
@@ -182,7 +182,7 @@ void Renderer::clearDrawWindow(gfx::Rectangle rect, gfx::Colour colour) const
 }
 
 // Handles mouse states from SDL for rest of code, also allows setting dummy values for xMouse and yMouse for unit testing
-void Renderer::getMouseState(int& xMouse, int& yMouse, bool dummyValues, int dummyX, int dummyY)
+void Renderer::getMouseState(int& xMouse, int& yMouse, const bool dummyValues, const int dummyX, const int dummyY)
 {
 	if (dummyValues){
 		xMouse = dummyX;

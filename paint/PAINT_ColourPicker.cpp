@@ -13,7 +13,7 @@
 using namespace win;
 using namespace paint;
 
-ColourPicker::ColourPicker(gfx::Rectangle const rect, SDL_Renderer* renderer, std::shared_ptr<DrawWindow>& drawWindow)
+ColourPicker::ColourPicker(gfx::Rectangle const rect, gfx::Renderer* renderer, std::shared_ptr<DrawWindow>& drawWindow)
 	: Container(std::make_shared<win::FreeLayout>(), rect, "colourPicker")
 	, drawWindowPtr_(std::move(drawWindow))
 	, renderer_(renderer)

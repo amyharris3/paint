@@ -39,9 +39,9 @@ namespace paint
 		DrawWindow& operator=(const DrawWindow& that) = delete;
 		DrawWindow& operator=(DrawWindow&& that) = delete;
 
-		bool mouseButtonDown(win::MouseButton button) override;
-		bool mouseButtonUp(win::MouseButton button) override;
-		bool mouseExit(win::MouseButton button) override;
+		bool mouseButtonDown(win::MouseButton button, bool clicked) override;
+		bool mouseButtonUp(win::MouseButton button, bool clicked) override;
+		bool mouseExit(win::MouseButton button, bool clicked) override;
 		void setActiveTool(std::shared_ptr<Tool> tool);
 		std::shared_ptr<Tool> getActiveTool() const { return activeTool_; }
 		void toggleDrawTool(win::ToggleButton* b);
@@ -80,11 +80,9 @@ namespace paint
 		gfx::Colour primaryColour_;
 		gfx::Colour secondaryColour_;
 		std::vector<win::Coords> clickedPixels_;
-		bool drawToggle_;
 		win::Coords mouseCoords_;
 		win::Coords prevMouseCoords_;
 		win::Coords startCoord_;
-		std::shared_ptr<DrawTool> drawTool_;
 		std::shared_ptr<ShapeTool> shapeTool_;
 		std::vector<gfx::Line> lines_;
 

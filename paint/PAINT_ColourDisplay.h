@@ -39,11 +39,11 @@ namespace paint
 
 		void update() override;
 		void draw() override;
-		bool mouseEnter(bool clicked = false) override;
-		bool mouseExit(bool clicked = false) override;
+		bool mouseEnter(win::MouseButton button, bool clicked) override;
+		bool mouseExit(win::MouseButton button, bool clicked) override;
 		bool mouseMove(SDL_MouseMotionEvent& e) override;
-		bool mouseButtonDown(win::MouseButton button) override;
-		bool mouseButtonUp(win::MouseButton button) override;
+		bool mouseButtonDown(win::MouseButton button, bool clicked) override;
+		bool mouseButtonUp(win::MouseButton button, bool clicked) override;
 
 	private:
 		gfx::Renderer* renderer_;

@@ -1,6 +1,5 @@
 #include "PAINT_pch.h"
 #include "PAINT_DrawWindow.h"
-#include "PAINT_Brush.h"
 #include "WIN_Mouse.h"
 #include "PAINT_DrawTool.h"
 #include "WIN_ToggleButton.h"
@@ -8,7 +7,6 @@
 #include "WIN_ButtonStates.h"
 #include "PAINT_ShapeTool.h"
 #include "PAINT_Utils.h"
-#include "GFX_Line.h"
 #include "WIN_Utils.h"
 
 using namespace paint;
@@ -32,8 +30,8 @@ DrawWindow::DrawWindow(gfx::Renderer* renderer, gfx::Rectangle const& rect, cons
 	renderer_->createDrawWindowTexture(rect);
 	primaryColour_.getComponents(primaryRGBA_);
 	secondaryColour_.getComponents(secondaryRGBA_);
-	drawTool_ = std::make_shared<DrawTool>(renderer_, texture_);
-	shapeTool_ = std::make_shared<ShapeTool>(renderer_, texture_);
+	drawTool_ = std::make_shared<DrawTool>(renderer_);
+	shapeTool_ = std::make_shared<ShapeTool>(renderer_);
 }
 
 DrawWindow::~DrawWindow()
@@ -41,36 +39,33 @@ DrawWindow::~DrawWindow()
 	renderer_->destroyDrawWindowTexture();
 }
 
+static void handleMouseUp(MouseButton const b, Tool* tool, Coords& mouse, Coords& prevMouse, Coords& start, gfx::Rectangle const& rect)
+{
+	if (b == MouseButton::Left && tool) {
+		tool->toolFunctionEnd(mouse, prevMouse, start, rect);
+	}
+}
+
 /*override*/
 
 //if exit, mouse may move too fast for render lines to keep up, so must interpolate intersect with DW boundary
-bool DrawWindow::mouseExit(bool clicked)
+bool DrawWindow::mouseExit(const MouseButton button, bool clicked)
 {
-	int xMouse = mouseCoords_.x;
-	int yMouse = mouseCoords_.y;
+	auto xMouse = mouseCoords_.x;
+	auto yMouse = mouseCoords_.y;
 	SDL_GetMouseState(&xMouse, &yMouse);
 	auto absCoords = clippingHandler(prevMouseCoords_, { xMouse, yMouse });
 
 	prevMouseCoords_ = { absCoords[0].x, absCoords[0].y};
 	mouseCoords_ = { absCoords[1].x, absCoords[1].y };
 
-	if (drawToggle_) {
-		mouseButtonDown(MouseButton::Left);
-		/*if (activeTool_) {
-			const Coords prevRel = { prevMouseCoords_.x - this->getRect().x, prevMouseCoords_.y - this->getRect().y };
-			const Coords rel = { mouseCoords_.x - this->getRect().x, mouseCoords_.y - this->getRect().y };
-
-			activeTool_->toolFunction(rel, prevRel);
-		}*/
-	}
-
-	drawToggle_ = false;
+	handleMouseUp(button, activeTool_.get(), mouseCoords_, prevMouseCoords_, startCoord_, this->getRect());
 	
 	return false;
 }
 
 /*override*/
-bool DrawWindow::mouseButtonDown(MouseButton const button)
+bool DrawWindow::mouseButtonDown(const MouseButton button, bool clicked)
 {
 	if (button == MouseButton::Left) {
 		if (activeTool_) {
@@ -81,26 +76,15 @@ bool DrawWindow::mouseButtonDown(MouseButton const button)
 	return false;
 }
 
-static void handleMouseUp(MouseButton const b, Tool * tool, Coords& mouse, Coords& prevMouse, Coords& start, gfx::Rectangle const& rect)
-{
-	if (b == MouseButton::Left && tool) {
-		tool->toolFunctionEnd(mouse, prevMouse, start, rect);
-	}
-}
+
 
 /*override*/
-bool DrawWindow::mouseButtonUp(MouseButton const button)
+bool DrawWindow::mouseButtonUp(const MouseButton button, bool clicked)
 {
 	handleMouseUp(button, activeTool_.get(), mouseCoords_, prevMouseCoords_, startCoord_, this->getRect());
 	return false;
 }
 
-/*override*/
-bool DrawWindow::mouseExit(MouseButton const button)
-{
-	handleMouseUp(button, activeTool_.get(), mouseCoords_, prevMouseCoords_, startCoord_, this->getRect());
-	return false;
-}
 
 void DrawWindow::setActiveTool(std::shared_ptr<Tool> tool)
 {
@@ -137,7 +121,7 @@ void DrawWindow::setPrevCoords(const win::Coords relPrevCoords)
 	prevMouseCoords_ = relPrevCoords;
 }
 
-void DrawWindow::setCanvasColour(gfx::Colour colour)
+void DrawWindow::setCanvasColour(const gfx::Colour colour)
 {
 	setBackgroundColour(colour);
 }
@@ -154,12 +138,23 @@ void DrawWindow::setSecondaryColour(const gfx::Colour colour)
 	secondaryColour_.getComponents(secondaryRGBA_);
 }
 
-//void DrawWindow::swapPrimarySecondaryColours()
-//{
-//	std::cout << "Swapping colours\n";
-//	std::swap(primaryColour_, secondaryColour_);
-//	std::cout << "Colours have been swapped \n";
-//}
+
+void DrawWindow::updateDrawToolRGBA()
+{
+	uint8_t drawRGBA_[4];
+	if (primaryActive_) {
+		for (auto i = 0; i < 4; i++) {
+			drawRGBA_[i] = primaryRGBA_[i];
+		}
+	}
+	else {
+		for (auto i = 0; i < 4; i++) {
+			drawRGBA_[i] = secondaryRGBA_[i];
+		}
+	}
+	drawTool_->setToolColour(drawRGBA_);
+
+}
 
 /*override*/
 void DrawWindow::draw()
@@ -188,22 +183,22 @@ void DrawWindow::updateAndRerender()
 // TODO Needs more work, to properly clear drawWindow
 void DrawWindow::clearWindow() const
 {
+	//renderer_->setRenderTargetDWTexture();
 	renderer_->clearDrawWindow(getRect(), getBackgroundColour());
+	//renderer_->setRenderTargetNull();
 }
 
 //using Cohen-Sutherland clipping algorithm
 std::vector<win::Coords> DrawWindow::clippingHandler(win::Coords pStart, win::Coords pEnd) const
 {
-	bool accept = false;
 	const auto rect = getRect();
-	
-	int startOutcode = win::utils::findOutcode(rect, pStart.x, pStart.y);
-	int endOutcode = win::utils::findOutcode(rect, pEnd.x, pEnd.y);
+
+	auto startOutcode = win::utils::findOutcode(rect, pStart.x, pStart.y);
+	auto endOutcode = win::utils::findOutcode(rect, pEnd.x, pEnd.y);
 	
 	while(true){
 		// case where start and end points are within rectangle
 		if (!(startOutcode | endOutcode)){
-			accept = true;
 			break;
 		}
 		// both points share one zone designation outside the rect, so no crossing over into the rect
@@ -213,9 +208,9 @@ std::vector<win::Coords> DrawWindow::clippingHandler(win::Coords pStart, win::Co
 		// one or more point is outside rect and not sharing 'outside zone'
 		else {
 			// if startOutcode is 0, ie false, then is inside rect, so examine pEnd instead
-			auto examineOutcode = startOutcode ? startOutcode : endOutcode;
-			int x = startOutcode ? pStart.x : pEnd.x;
-			int y = startOutcode ? pStart.y : pEnd.y;
+			const auto examineOutcode = startOutcode ? startOutcode : endOutcode;
+			auto x = startOutcode ? pStart.x : pEnd.x;
+			auto y = startOutcode ? pStart.y : pEnd.y;
 
 			// find point of intersection with rect
 			// using slope formula: y = mx + y0, m = (y-y0)/(x-x0)

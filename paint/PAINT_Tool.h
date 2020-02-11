@@ -4,6 +4,11 @@
 #include "GFX_Rectangle.h"
 //#include "PAINT_Brush.h"
 
+namespace gfx
+{
+	class Renderer;
+}
+
 namespace paint
 {
 	class Brush;
@@ -22,7 +27,7 @@ namespace paint
 		void clearLines();
 		virtual void toolFunction(win::Coords& mouseCoords, win::Coords& prevMouseCoords, win::Coords& startCoords, gfx::Rectangle refRect) = 0;
 		std::shared_ptr<Brush> getActiveBrush() const { return activeBrush_; }
-		void renderLines(SDL_Renderer* renderer, const std::vector<gfx::Line>& lines) const;
+		//void renderLines(gfx::Renderer* renderer, const std::vector<gfx::Line>& lines) const;
 		virtual void toolFunctionEnd(win::Coords& mouseCoords, win::Coords& prevMouseCoords, win::Coords& startCoords, gfx::Rectangle refRect) = 0;
 		void setALine(gfx::Line line);
 		void setLines(std::vector<gfx::Line> lines);
@@ -33,6 +38,7 @@ namespace paint
 		
 		std::vector<gfx::Line> lines_;
 		std::shared_ptr<Brush> activeBrush_;
+		uint8_t drawRGBA_[4];
 
 	};
 }

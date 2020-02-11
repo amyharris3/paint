@@ -18,6 +18,7 @@ namespace paint {
 		const char* buttonName;
 		const char* buttonSpritePath;
 		win::UIelement::ActionFunction action;
+		bool toggleType;
 
 	};
 

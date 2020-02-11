@@ -95,9 +95,6 @@
     <ClInclude Include="WIN_GenericBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WIN_ColourDisplay.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="WIN_ButtonGroup.h">
       <Filter>Header Files</Filter>
     </ClInclude>

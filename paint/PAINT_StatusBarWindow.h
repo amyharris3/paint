@@ -9,7 +9,7 @@ namespace paint
 	{
 	public:
 		StatusBarWindow() = delete;
-		StatusBarWindow(gfx::Renderer* renderer, gfx::Rectangle const& rect, const char* name, const int drawWinX, const int drawWinY);
+		StatusBarWindow(gfx::Renderer* renderer, gfx::Rectangle const& rect, const char* name, int drawWinX, int drawWinY);
 		virtual ~StatusBarWindow() = default;
 		StatusBarWindow(const StatusBarWindow& that) = delete;
 		StatusBarWindow(StatusBarWindow && that) = delete;

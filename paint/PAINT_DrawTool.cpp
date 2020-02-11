@@ -29,19 +29,13 @@ void DrawTool::toolFunction(win::Coords& mouseCoords, win::Coords& prevMouseCoor
 	const Coords prevRel = { prevMouseCoords.x - refRect.x, prevMouseCoords.y - refRect.y };
 	setALine({ rel.x, rel.y, prevRel.x, prevRel.y });
 	renderer_->setRenderTargetDWTexture();
-	renderLines(renderer_, getLines());
+	renderer_->renderLines(getLines(), getActiveBrush()->getThickness(), drawRGBA_);
 	renderer_->setRenderTargetNull();
 }
 
-void DrawTool::renderLines() const
+
 void DrawTool::toolFunctionEnd(win::Coords& mouseCoords, win::Coords& prevMouseCoords, win::Coords& startCoords, gfx::Rectangle refRect)
 {
-	assert(activeBrush_ && "activeBrush_ is nullptr.");
-	const auto thickness = activeBrush_->getThickness();
-	assert((thickness == 0) || (thickness == 1) || (thickness == 2) && "brush thickness in renderLines is not 0, 1, or 2.");
-
-	if (renderer_->notDummy()) {
-		renderer_->renderLines(lines_, thickness, drawRGBA_);
-	}
 	clearLines();
 }
+

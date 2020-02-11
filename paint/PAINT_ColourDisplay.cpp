@@ -5,7 +5,7 @@
 using namespace paint;
 
 
-ColourDisplay::ColourDisplay(gfx::Rectangle rect, const char* name, uint8_t displayColour[], gfx::Renderer* renderer, bool isActive)
+ColourDisplay::ColourDisplay(const gfx::Rectangle rect, const char* name, uint8_t displayColour[], gfx::Renderer* renderer, const bool isActive)
 	: UIelement(rect, name)
 	, renderer_(renderer)
 	, isActive_(isActive)
@@ -66,7 +66,7 @@ void ColourDisplay::draw()
 	renderer_->renderBox({ getRect().x + 5, getRect().y + 5, getRect().width - 10, getRect().height - 10 }, getForegroundColour());
 }
 
-bool ColourDisplay::mouseEnter(bool clicked)
+bool ColourDisplay::mouseEnter(win::MouseButton button, const bool clicked)
 {
 	if (clicked) {
 		mouseDragged_ = true;
@@ -74,7 +74,7 @@ bool ColourDisplay::mouseEnter(bool clicked)
 	return false;
 }
 
-bool ColourDisplay::mouseExit(bool clicked)
+bool ColourDisplay::mouseExit(win::MouseButton button, bool clicked)
 {
 	isClicked_ = false;
 	return false;
@@ -89,13 +89,13 @@ bool ColourDisplay::mouseMove(SDL_MouseMotionEvent& e)
 	return false;
 }
 
-bool ColourDisplay::mouseButtonDown(win::MouseButton const button)
+bool ColourDisplay::mouseButtonDown(win::MouseButton button, bool clicked)
 {
 	isClicked_ = true;
 	return false;
 }
 
-bool ColourDisplay::mouseButtonUp(win::MouseButton const button)
+bool ColourDisplay::mouseButtonUp(win::MouseButton button, bool clicked)
 {
 	if (isClicked_ && !mouseDragged_) {
 		const auto cpick = paint::utils::findToolWindow(this)->getColourPicker();

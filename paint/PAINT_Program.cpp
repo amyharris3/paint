@@ -77,8 +77,7 @@ void Program::run() const
 	auto xGlobal{ 0 };
 	auto yGlobal{ 0 };
 
-	gfx::Rectangle rootWindowRect_ = getRootWindowRect();
-	auto insideRootWindow = true;
+	auto rootWindowRect_ = getRootWindowRect();
 
 	auto drawWindow = screen_->getDrawWindow();
 
@@ -119,7 +118,6 @@ void Program::run() const
 				// do we want to check for this all the time, or only if it is close to the boundaries?
 				SDL_GetGlobalMouseState(&xGlobal, &yGlobal);
 				if(!(xGlobal >= rootWindowRect_.x && xGlobal < (rootWindowRect_.x + rootWindowRect_.width) && yGlobal >= rootWindowRect_.y && yGlobal < (rootWindowRect_.y + rootWindowRect_.height))){
-					insideRootWindow = false;
 					clicked = false;
 				}
 				
@@ -132,7 +130,7 @@ void Program::run() const
 						activeElement = active;
 
 						if (activeElement) {
-							rerenderFlag = activeElement->mouseEnter();
+							rerenderFlag = activeElement->mouseEnter(button, clicked);
 						}
 					}
 

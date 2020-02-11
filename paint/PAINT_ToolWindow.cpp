@@ -33,7 +33,7 @@ void ToolWindow::draw()
 	Window::draw();
 }
 
-bool ToolWindow::mouseButtonDown(win::MouseButton const)
+bool ToolWindow::mouseButtonDown(win::MouseButton button, bool clicked)
 {
 	return false;
 }
