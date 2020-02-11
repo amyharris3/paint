@@ -39,13 +39,9 @@ DrawWindow::~DrawWindow()
 }
 
 /*override*/
-bool DrawWindow::mouseButtonDown(MouseButton const b)
+bool DrawWindow::mouseButtonDown(MouseButton const button)
 {
-	//const Coords rel = { mouseCoords_.x - this->getRect().x, mouseCoords_.y - this->getRect().y };
-	//const Coords prevRel = { prevMouseCoords_.x - this->getRect().x, prevMouseCoords_.y - this->getRect().y };
-	//const Coords relStart = { startCoord_.x - this->getRect().x, startCoord_.y - this->getRect().y };
-
-	if (b == MouseButton::Left) {
+	if (button == MouseButton::Left) {
 		if (activeTool_) {
 			activeTool_->toolFunction(mouseCoords_, prevMouseCoords_, startCoord_, this->getRect());
 		}
@@ -54,32 +50,33 @@ bool DrawWindow::mouseButtonDown(MouseButton const b)
 	return false;
 }
 
-/*override*/
-bool DrawWindow::mouseButtonUp(win::MouseButton const b)
+static void handleMouseUp(MouseButton const b, Tool * tool, Coords& mouse, Coords& prevMouse, Coords& start, gfx::Rectangle const& rect)
 {
-	if (b == MouseButton::Left) {
-		if (activeTool_) {
-			activeTool_->toolFunctionEnd(mouseCoords_, prevMouseCoords_, startCoord_, this->getRect());
-		}
+	if (b == MouseButton::Left && tool) {
+		tool->toolFunctionEnd(mouse, prevMouse, start, rect);
 	}
+}
 
+/*override*/
+bool DrawWindow::mouseButtonUp(MouseButton const button)
+{
+	handleMouseUp(button, activeTool_.get(), mouseCoords_, prevMouseCoords_, startCoord_, this->getRect());
 	return false;
 }
 
 /*override*/
-bool DrawWindow::mouseExit(MouseButton button)
+bool DrawWindow::mouseExit(MouseButton const button)
 {
-	mouseButtonUp(button);
+	handleMouseUp(button, activeTool_.get(), mouseCoords_, prevMouseCoords_, startCoord_, this->getRect());
 	return false;
 }
-
 
 void DrawWindow::setActiveTool(std::shared_ptr<Tool> tool)
 {
 	activeTool_ = std::move(tool);
 }
 
-void DrawWindow::toggleDrawTool(win::ToggleButton* b)
+void DrawWindow::toggleDrawTool(ToggleButton* b)
 {
 	if (b->getState() == ButtonStates::on) {
 		activeTool_ = drawTool_;
@@ -89,7 +86,7 @@ void DrawWindow::toggleDrawTool(win::ToggleButton* b)
 	}
 }
 
-void DrawWindow::toggleShapeTool(win::ToggleButton* b)
+void DrawWindow::toggleShapeTool(ToggleButton* b)
 {
 	if (b->getState() == ButtonStates::on) {
 		activeTool_ = shapeTool_;

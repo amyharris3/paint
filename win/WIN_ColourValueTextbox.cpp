@@ -4,7 +4,7 @@
 
 using namespace win;
 
-ColourValueTextbox::ColourValueTextbox(gfx::Rectangle rect, const char* name, SDL_Renderer* renderer, int const textSize, int const xOffset, int const yOffset, uint8_t* linkedVariablePrimary, uint8_t* linkedVariableSecondary, const bool primaryActive)
+ColourValueTextbox::ColourValueTextbox(gfx::Rectangle const rect, const char* name, SDL_Renderer* renderer, int const textSize, int const xOffset, int const yOffset, uint8_t* linkedVariablePrimary, uint8_t* linkedVariableSecondary, const bool primaryActive)
 	: EditTextbox(rect, name, renderer, textSize, xOffset, yOffset)
 	, linkedVariablePrimary_(linkedVariablePrimary)
 	, linkedVariableSecondary_(linkedVariableSecondary)
@@ -59,12 +59,12 @@ void ColourValueTextbox::editTextAndRerender(std::string & newString)
 
 void ColourValueTextbox::takeTextEntry()
 {
-	bool quit = false;
-	bool textChanged = false;
+	auto quit = false;
+	auto textChanged = false;
 	std::string newString;
-	int xMouse = 0;
-	int yMouse = 0;
-	int entryCount = 0;
+	auto xMouse = 0;
+	auto yMouse = 0;
+	auto entryCount = 0;
 
 	SDL_StartTextInput();
 	//Recording text entry

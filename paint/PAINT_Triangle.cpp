@@ -6,7 +6,7 @@
 using namespace paint;
 using namespace win;
 
-std::vector<gfx::Line> Triangle::shapeGeometry(win::Coords startCoords, win::Coords currentCoords)
+std::vector<gfx::Line> Triangle::getGeometry(win::Coords startCoords, win::Coords currentCoords)
 {
 	if (startCoords.x > currentCoords.x) {
 		auto const tmp = currentCoords.x;

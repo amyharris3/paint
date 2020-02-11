@@ -1,8 +1,6 @@
 #pragma once
 
 #include "WIN_Window.h"
-#include "PAINT_DrawTool.h"
-#include "WIN_ToggleButton.h"
 #include "WIN_Coords.h"
 
 struct SDL_Texture;
@@ -15,6 +13,7 @@ namespace gfx
 namespace win
 {
 	enum class MouseButton;
+	class ToggleButton;
 }
 
 namespace paint 
@@ -22,6 +21,8 @@ namespace paint
 	class DrawTool;
 	class Brush;
 	class ShapeTool;
+	class Tool;
+
 
 	class DrawWindow final :
 		public win::Window
@@ -37,10 +38,10 @@ namespace paint
 		DrawWindow& operator=(DrawWindow&& that) = delete;
 
 		bool mouseButtonDown(win::MouseButton button) override;
-		bool mouseButtonUp(win::MouseButton b) override;
+		bool mouseButtonUp(win::MouseButton button) override;
 		bool mouseExit(win::MouseButton button) override;
 		void setActiveTool(std::shared_ptr<Tool> tool);
-		std::shared_ptr<Tool> getActiveTool() const { return activeTool_; };
+		std::shared_ptr<Tool> getActiveTool() const { return activeTool_; }
 		void toggleDrawTool(win::ToggleButton* b);
 		void toggleShapeTool(win::ToggleButton* b);
 		void setMouseCoords(win::Coords relCoords);

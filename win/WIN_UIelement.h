@@ -36,13 +36,13 @@ namespace win
 		void setParent(UIelement * parent);
 
 		virtual void draw() = 0;
-		virtual void update() { };
-		virtual void updateAndRerender() { };
+		virtual void update() { }
+		virtual void updateAndRerender() { }
 		virtual bool mouseEnter();
 		virtual bool mouseExit(MouseButton button);
-		virtual bool mouseMove() { return false; };
+		virtual bool mouseMove() { return false; }
 		virtual bool mouseButtonDown(MouseButton button);
-		virtual bool mouseButtonUp(MouseButton) { return false; };
+		virtual bool mouseButtonUp(MouseButton) { return false; }
 
 	private:
 		std::string name_;

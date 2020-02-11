@@ -16,12 +16,12 @@ Text::Text()
 {
 }
 
-Text::Text(SDL_Renderer* renderer, Colour textColour, const char* fontName, int const textSize)
+Text::Text(SDL_Renderer* renderer, Colour const textColour, const char* fontName, int const textSize)
 	: Text(renderer, textColour, fontName, textSize, "")
 {
 }
 
-Text::Text(SDL_Renderer* renderer, Colour textColour, const char* fontName, int const textSize, const char* textString)
+Text::Text(SDL_Renderer* renderer, Colour const textColour, const char* fontName, int const textSize, const char* textString)
 	: textString_(textString)
 	, renderer_(renderer)
 	, textSize_(textSize)
@@ -31,7 +31,7 @@ Text::Text(SDL_Renderer* renderer, Colour textColour, const char* fontName, int 
 	, textWidth_(0)
 	, textHeight_(0)
 {
-	SDL_Surface* textSurface = TTF_RenderText_Solid(textFont_, textString_.c_str(), textColour_);
+	auto const textSurface = TTF_RenderText_Solid(textFont_, textString_.c_str(), textColour_);
 	if (textSurface == nullptr) {
 		printf("Error: unable to render text -> SDL_ttf Error: %s\n", TTF_GetError());
 	}
@@ -62,7 +62,7 @@ void Text::loadFont(const char* fontName)
 
 bool Text::renderText(int const xPixel, int const yPixel)
 {
-	SDL_Surface* textSurface = TTF_RenderText_Solid(textFont_, textString_.c_str(), textColour_);
+	auto const textSurface = TTF_RenderText_Solid(textFont_, textString_.c_str(), textColour_);
 	if (textSurface == nullptr) {
 		printf("Error: unable to render text -> SDL_ttf Error: %s\n", TTF_GetError());
 	}

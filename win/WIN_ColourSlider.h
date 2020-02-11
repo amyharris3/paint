@@ -3,7 +3,8 @@
 
 namespace win
 {
-	class ColourSlider : public Slider
+	class ColourSlider final
+	: public Slider
 	{
 	public:
 		ColourSlider() = delete;

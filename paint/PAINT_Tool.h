@@ -2,6 +2,7 @@
 #include "GFX_Line.h"
 #include "WIN_Coords.h"
 #include "GFX_Rectangle.h"
+//#include "PAINT_Brush.h"
 
 namespace paint
 {
@@ -13,20 +14,23 @@ namespace paint
 		Tool();
 		virtual ~Tool() = default;
 		Tool(const Tool& that) = default;
-		Tool(Tool && that) = default;
-		Tool& operator=(const Tool & that) = default;
-		Tool& operator=(Tool && that) = default;
+		Tool(Tool&& that) = default;
+		Tool& operator=(const Tool& that) = default;
+		Tool& operator=(Tool&& that) = default;
 
 		void setActiveBrush(std::shared_ptr<Brush> brush);
 		void clearLines();
-		virtual void toolFunction(win::Coords mouseCoords = { 0,0 }, win::Coords prevMouseCoords = { 0,0 }, win::Coords startCoords = { 0,0 }, gfx::Rectangle refRect = {0,0,0,0}) = 0;
-		std::shared_ptr<Brush> getActiveBrush() const {return activeBrush_;}
+		virtual void toolFunction(win::Coords& mouseCoords, win::Coords& prevMouseCoords, win::Coords& startCoords, gfx::Rectangle refRect) = 0;
+		std::shared_ptr<Brush> getActiveBrush() const { return activeBrush_; }
 		void renderLines(SDL_Renderer* renderer, const std::vector<gfx::Line>& lines) const;
-		virtual void toolFunctionEnd(win::Coords mouseCoords, win::Coords prevMouseCoords, win::Coords startCoords, gfx::Rectangle refRect) = 0;
+		virtual void toolFunctionEnd(win::Coords& mouseCoords, win::Coords& prevMouseCoords, win::Coords& startCoords, gfx::Rectangle refRect) = 0;
+		void setALine(gfx::Line line);
+		void setLines(std::vector<gfx::Line> lines);
+		std::vector<gfx::Line> getLines() const { return lines_; }
 
-	protected:
+	private:
 		std::vector<gfx::Line> lines_;
 		std::shared_ptr<Brush> activeBrush_;
-		
+
 	};
 }

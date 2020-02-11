@@ -9,7 +9,7 @@ using namespace win;
 using namespace gfx;
 
 
-std::vector<gfx::Line> Rectangle::shapeGeometry(win::Coords startCoords, win::Coords currentCoords)
+std::vector<gfx::Line> Rectangle::getGeometry(win::Coords const startCoords, win::Coords const currentCoords)
 {
 	std::vector<gfx::Line> shapeLines;
 	shapeLines.push_back({ startCoords.x, startCoords.y, currentCoords.x, startCoords.y });

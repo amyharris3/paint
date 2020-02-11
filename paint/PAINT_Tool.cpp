@@ -5,11 +5,9 @@
 using namespace paint;
 
 Tool::Tool()
-	: lines_(NULL)
-	, activeBrush_(nullptr)
+	: activeBrush_(nullptr)
 {
 }
-
 
 void Tool::setActiveBrush(std::shared_ptr<Brush> brush)
 {
@@ -20,6 +18,18 @@ void Tool::clearLines()
 {
 	lines_.clear();
 }
+
+void Tool::setALine(gfx::Line const line)
+{
+	lines_.push_back(line);
+}
+
+void Tool::setLines(std::vector<gfx::Line> lines)
+{
+	lines_ = std::move(lines);
+}
+
+
 
 void Tool::renderLines(SDL_Renderer* renderer, const std::vector<gfx::Line>& lines) const
 {
@@ -50,7 +60,5 @@ void Tool::renderLines(SDL_Renderer* renderer, const std::vector<gfx::Line>& lin
 		}
 	}
 }
-
-
 
 

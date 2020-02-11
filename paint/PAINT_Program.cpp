@@ -149,17 +149,10 @@ void Program::run() const
 				if (activeElement) {
 					rerenderFlag = activeElement->mouseButtonUp(button);
 				}
-
 			}
 
-			if (xPrev != xMouse) {
-				xPrev = xMouse;
-			}
-
-			if (yPrev != yMouse)
-			{
-				yPrev = yMouse;
-			}
+			xPrev = xMouse;
+			yPrev = yMouse;
 
 			if (rerenderFlag) {
 				screen_->updateAndRerender();

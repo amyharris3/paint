@@ -5,7 +5,7 @@
 using namespace win;
 
 
-ColourDisplay::ColourDisplay(gfx::Rectangle rect, const char* name, uint8_t displayColour[], SDL_Renderer* renderer, bool isActive)
+ColourDisplay::ColourDisplay(gfx::Rectangle const rect, const char* name, uint8_t displayColour[], SDL_Renderer* renderer, bool const isActive)
 	: UIelement(rect, name)
 	, renderer_(renderer)
 	, isActive_(isActive)

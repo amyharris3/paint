@@ -15,6 +15,6 @@ namespace paint
 		Rectangle& operator=(const Rectangle & that) = default;
 		Rectangle& operator=(Rectangle && that) = default;
 
-		std::vector<gfx::Line> shapeGeometry(win::Coords startCoords, win::Coords currentCoords) override;
+		std::vector<gfx::Line> getGeometry(win::Coords startCoords, win::Coords currentCoords) override;
 	};
 }

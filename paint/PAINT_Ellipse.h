@@ -14,8 +14,7 @@ namespace paint
 		Ellipse& operator=(const Ellipse& that) = default;
 		Ellipse& operator=(Ellipse&& that) = default;
 
-		std::vector<gfx::Line> shapeGeometry(win::Coords startCoords, win::Coords currentCoords) override;
-		std::vector<int> ellipse(int x, int a, int b, int h, int k) const;
+		std::vector<gfx::Line> getGeometry(win::Coords startCoords, win::Coords currentCoords) override;
 
 	};
 }

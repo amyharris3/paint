@@ -14,6 +14,6 @@ namespace paint
 		Triangle& operator=(const Triangle & that) = default;
 		Triangle& operator=(Triangle && that) = default;
 
-		std::vector<gfx::Line> shapeGeometry(win::Coords startCoords, win::Coords currentCoords) override;
+		std::vector<gfx::Line> getGeometry(win::Coords startCoords, win::Coords currentCoords) override;
 	};
 }

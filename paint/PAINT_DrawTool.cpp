@@ -13,20 +13,20 @@ DrawTool::DrawTool(SDL_Renderer* renderer, SDL_Texture* texture)
 	, texture_(texture)
 {
 	// Activate a default brush
-	activeBrush_ = std::make_shared<Brush>(0);
+	setActiveBrush(std::make_shared<Brush>(0));
 }
 
-void DrawTool::toolFunction(win::Coords mouseCoords, win::Coords prevMouseCoords, win::Coords startCoords, gfx::Rectangle refRect)
+void DrawTool::toolFunction(win::Coords& mouseCoords, win::Coords& prevMouseCoords, win::Coords& startCoords, gfx::Rectangle const refRect)
 {
 	const Coords rel = { mouseCoords.x - refRect.x, mouseCoords.y - refRect.y };
 	const Coords prevRel = { prevMouseCoords.x - refRect.x, prevMouseCoords.y - refRect.y };
-	lines_.push_back({ rel .x, rel.y, prevRel.x, prevRel.y });
+	setALine({ rel.x, rel.y, prevRel.x, prevRel.y });
 	SDL_SetRenderTarget(renderer_, texture_);
-	renderLines(renderer_, lines_);
+	renderLines(renderer_, getLines());
 	SDL_SetRenderTarget(renderer_, nullptr);
 }
 
-void DrawTool::toolFunctionEnd(win::Coords mouseCoords, win::Coords prevMouseCoords, win::Coords startCoords, gfx::Rectangle refRect)
+void DrawTool::toolFunctionEnd(win::Coords& mouseCoords, win::Coords& prevMouseCoords, win::Coords& startCoords, gfx::Rectangle refRect)
 {
 	clearLines();
 }

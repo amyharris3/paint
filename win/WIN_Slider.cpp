@@ -3,7 +3,7 @@
 
 using namespace win;
 
-Slider::Slider(SDL_Renderer* renderer, gfx::Rectangle rect, const char* name, gfx::Colour fillColour, gfx::Colour outlineColour, int const initialPos, int const slideMin, int const slideMax)
+Slider::Slider(SDL_Renderer* renderer, gfx::Rectangle const rect, const char* name, gfx::Colour const fillColour, gfx::Colour const outlineColour, int const initialPos, int const slideMin, int const slideMax)
 	: UIelement(rect, name)
 	, renderer_(renderer)
 	, slideLineMin_(slideMin)
@@ -42,8 +42,8 @@ int Slider::getValueFromPosition() const
 
 void Slider::moveMarker()
 {
-	int xMouse = 0;
-	int yMouse = 0;
+	auto xMouse = 0;
+	auto yMouse = 0;
 
 	SDL_GetMouseState(&xMouse, &yMouse);
 	if (xMouse > lineRect_.x + lineRect_.width - 2) {
@@ -115,9 +115,9 @@ bool Slider::mouseButtonDown(MouseButton button)
 
 bool Slider::mouseButtonUp(MouseButton button)
 {
-	if (holdMarker_== true){
-		int xMouse = 0;
-		int yMouse = 0;
+	if (holdMarker_){
+		auto xMouse = 0;
+		auto yMouse = 0;
 		
 		SDL_GetMouseState(&xMouse, &yMouse);
 		markerRect_.x = xMouse;

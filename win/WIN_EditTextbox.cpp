@@ -3,7 +3,7 @@
 
 using namespace win;
 
-EditTextbox::EditTextbox(gfx::Rectangle rect, const char* name, SDL_Renderer* renderer, int const textSize, int const xOffset, int const yOffset)
+EditTextbox::EditTextbox(gfx::Rectangle const rect, const char* name, SDL_Renderer* renderer, int const textSize, int const xOffset, int const yOffset)
 	: UIelement(rect, name)
 	, renderer_(renderer)
 	, text_(std::make_shared<gfx::Text>(renderer, gfx::Colour { 0, 0, 0, 0xFF }, "OpenSans-Bold.ttf", textSize, "0"))
@@ -37,12 +37,12 @@ void EditTextbox::editTextAndRerender(std::string & newString)
 // Simple text entry, TODO copy, paste, highlight, cursor position, ect
 void EditTextbox::takeTextEntry()
 {
-	bool quit = false;
-	bool textChanged = false;
+	auto quit = false;
+	auto textChanged = false;
 	std::string newString;
-	int xMouse { 0 };
-	int yMouse { 0 };
-	int entryCount{ 0 };
+	auto xMouse { 0 };
+	auto yMouse { 0 };
+	auto entryCount{ 0 };
 	
 	SDL_StartTextInput();
 	//Recording text entry

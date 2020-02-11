@@ -17,7 +17,7 @@ namespace paint
 	class DrawTool final :
 		public Tool
 	{
-	public:;
+	public:
 		DrawTool() = delete;
 		DrawTool(SDL_Renderer* renderer, SDL_Texture* texture);
 		virtual ~DrawTool() = default;
@@ -26,12 +26,13 @@ namespace paint
 		DrawTool& operator=(const DrawTool& that) = default;
 		DrawTool& operator=(DrawTool&& that) = default;
 
-		void toolFunction(win::Coords mouseCoords, win::Coords prevMouseCoords, win::Coords startCoords, gfx::Rectangle refRect) override;
-		void toolFunctionEnd(win::Coords mouseCoords, win::Coords prevMouseCoords, win::Coords startCoords, gfx::Rectangle refRect) override;
+		void toolFunction(win::Coords& mouseCoords, win::Coords& prevMouseCoords, win::Coords& startCoords, gfx::Rectangle refRect) override;
+		void toolFunctionEnd(win::Coords& mouseCoords, win::Coords& prevMouseCoords, win::Coords& startCoords, gfx::Rectangle refRect) override;
 
 	private:
 		SDL_Renderer* renderer_;
 		SDL_Texture* texture_;
+		//std::vector<gfx::Line> drawLines_;
 		
 	};
 

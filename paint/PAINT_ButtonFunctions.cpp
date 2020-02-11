@@ -13,6 +13,17 @@
 using namespace win;
 using namespace paint;
 
+
+static ToggleButton* CastToggleButton(UIelement* control)
+{
+#if !defined(NDEBUG)
+	const auto button = dynamic_cast<ToggleButton*>(control);
+#else
+	const auto button = static_cast<ToggleButton*>(control);    // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
+#endif
+	return button;
+}
+
 void paint::toggleDraw(UIelement* control)
 {
 	auto const button = CastToggleButton(control);
@@ -54,7 +65,7 @@ void paint::toggleDrawTriangle(UIelement* control)
 	shapeTool->setActiveShape(triangle);
 }
 
-static void paint::setBrushThickness(UIelement* control, int thick)
+static void setBrushThickness(UIelement* control, int const thick)
 {
 	auto const button = CastToggleButton(control);
 	assert((thick == 0) || (thick == 1) || (thick == 2) && "Brush thickness set to value other than 0, 1, or 2 in ButtonFunctions.");
@@ -106,14 +117,3 @@ void paint::clearScreen(UIelement* control)
 	const auto dw = utils::findDrawWindow(control);
 	dw->clearScreen();
 }
-
-static ToggleButton* paint::CastToggleButton(UIelement* control)
-{
-#if !defined(NDEBUG)
-	const auto button = dynamic_cast<ToggleButton*>(control);
-#else
-	const auto button = static_cast<ToggleButton*>(control);    // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
-#endif
-	return button;
-}
-

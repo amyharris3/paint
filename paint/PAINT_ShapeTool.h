@@ -6,7 +6,7 @@ namespace paint
 {
 	class Shape;
 	
-	class ShapeTool :
+	class ShapeTool final :
 		public Tool
 	{
 	public:
@@ -21,8 +21,8 @@ namespace paint
 		void setActiveShape(std::shared_ptr<Shape> shape);
 		std::shared_ptr<Shape> getActiveShape() const { return activeShape_; }
 
-		void toolFunction(win::Coords mouseCoords, win::Coords prevMouseCoords, win::Coords startCoords, gfx::Rectangle refRect) override;
-		void toolFunctionEnd(win::Coords mouseCoords, win::Coords prevMouseCoords, win::Coords startCoords, gfx::Rectangle refRect) override;
+		void toolFunction(win::Coords& mouseCoords, win::Coords& prevMouseCoords, win::Coords& startCoords, gfx::Rectangle refRect) override;
+		void toolFunctionEnd(win::Coords& mouseCoords, win::Coords& prevMouseCoords, win::Coords& startCoords, gfx::Rectangle refRect) override;
 
 	private:
 		std::shared_ptr<Shape> activeShape_;

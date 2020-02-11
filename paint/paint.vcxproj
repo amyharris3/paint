@@ -177,7 +177,7 @@ xcopy /q /y /s $(SolutionDir)SDL2_ttf-2.0.15\lib\x64\zlib1.dll $(OutDir)
   <ItemGroup>
     <ClCompile Include="PAINT_ButtonFunctions.cpp" />
     <ClCompile Include="PAINT_Brush.cpp" />
-    <ClCompile Include="PAINT_Circle.cpp" />
+    <ClCompile Include="PAINT_Ellipse.cpp" />
     <ClCompile Include="PAINT_ColourPicker.cpp" />
     <ClCompile Include="PAINT_DrawFlags.cpp" />
     <ClCompile Include="PAINT_DrawTool.cpp" />
