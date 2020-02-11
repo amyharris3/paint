@@ -76,7 +76,7 @@ void Renderer::renderBox(gfx::Rectangle rect, gfx::Colour colour) const
 	SDL_RenderFillRect(rendererSDL_, &sdlRect);
 }
 
-void Renderer::renderTextbox(gfx::Rectangle rect, gfx::Colour colour, gfx::Text* text, const int xOffset, const int yOffset)
+void Renderer::renderTextbox(gfx::Rectangle rect, gfx::Colour colour, gfx::Text* text, const int xOffset, const int yOffset) const
 {
 	assert(rendererSDL_);
 	SDL_Rect outlineRect = { rect.x - 2, rect.y - 2, rect.width + 4, rect.height + 4 };
@@ -124,7 +124,7 @@ void Renderer::renderText(gfx::Text * text, int const xPixel, int const yPixel) 
 	assert(textTex_);
 }
 
-void Renderer::renderLines(const std::vector<gfx::Line>& lines, const int thickness, const uint8_t drawRGBA_[])
+void Renderer::renderLines(const std::vector<gfx::Line>& lines, const int thickness, const uint8_t drawRGBA_[]) const
 {
 	SDL_SetRenderDrawColor(rendererSDL_, int(drawRGBA_[0]), int(drawRGBA_[1]), int(drawRGBA_[2]), int(drawRGBA_[3]));
 	for (const auto& line : lines) {

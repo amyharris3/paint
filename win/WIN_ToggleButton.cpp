@@ -74,6 +74,7 @@ bool ToggleButton::mouseExit(bool clicked)
 			assert(!"Invalid state");
 		}
 	}
+	mouseDragged_ = false;
 
 	return false;
 }

@@ -42,7 +42,7 @@ namespace win
 		void setMarkerValue(int val);
 		void setMarkerPos(int x);
 		
-		void moveMarker(const int x);
+		void moveMarker(int x);
 		void update() override;
 		void updateAndRerender() override;
 		void draw() override;
