@@ -311,7 +311,7 @@ namespace PaintTests
 	public:
 		TEST_METHOD(TestDefaultConstructor)
 		{
-			Container c;
+			const Container c;
 
 			Assert::IsNotNull(c.getLayout().get());
 			Assert::AreEqual(c.getRect().x, 0);
@@ -483,7 +483,7 @@ namespace PaintTests
 		{
 			Renderer dummyRenderer;
 			Renderer* rendererPtr = &dummyRenderer;
-			Window W(rendererPtr, gfx::Rectangle(), "test");
+			const Window W(rendererPtr, gfx::Rectangle(), "test");
 
 			Assert::IsNotNull(W.getRenderer());
 			Assert::IsTrue(W.getRenderer() == rendererPtr);
@@ -609,7 +609,7 @@ namespace PaintTests
 			Renderer* rendererPtr = &dummyRenderer;
 			uint8_t ColA = 0;
 			uint8_t ColB = 5;
-			ColourValueTextbox box(gfx::Rectangle(), "textbox", rendererPtr, 20, 5, 10, &ColA, &ColB, true);
+			const ColourValueTextbox box(gfx::Rectangle(), "textbox", rendererPtr, 20, 5, 10, &ColA, &ColB, true);
 
 			Assert::AreEqual(ColA, uint8_t(0));
 			Assert::AreEqual(ColB, uint8_t(5));
@@ -632,7 +632,7 @@ namespace PaintTests
 		{
 			Renderer dummyRenderer;
 			Renderer* rendererPtr = &dummyRenderer;
-			Slider slider(rendererPtr, gfx::Rectangle(), "slider", gfx::Colour(210, 220, 230, 240), gfx::Colour(1, 2, 3, 4), 0, 0, 10);
+			const Slider slider(rendererPtr, gfx::Rectangle(), "slider", gfx::Colour(210, 220, 230, 240), gfx::Colour(1, 2, 3, 4), 0, 0, 10);
 
 			// general slider dimensions + properties
 			Assert::IsNotNull(slider.getRenderer());
@@ -675,7 +675,7 @@ namespace PaintTests
 		{
 			Renderer dummyRenderer;
 			Renderer* rendererPtr = &dummyRenderer;
-			Slider slider(rendererPtr, gfx::Rectangle(0,0,100,20), "slider", gfx::Colour(210, 220, 230, 240), gfx::Colour(1, 2, 3, 4), 50, 0, 200);
+			const Slider slider(rendererPtr, gfx::Rectangle(0,0,100,20), "slider", gfx::Colour(210, 220, 230, 240), gfx::Colour(1, 2, 3, 4), 50, 0, 200);
 
 			Assert::AreEqual(slider.getLineRect().x, 2);
 			Assert::AreEqual(slider.getLineRect().y,8);
@@ -830,7 +830,7 @@ namespace PaintTests
 			Renderer* rendererPtr = &dummyRenderer;
 			uint8_t ColA = 0;
 			uint8_t ColB = 5;
-			ColourValueTextbox box(gfx::Rectangle(), "textbox", rendererPtr, 20, 5, 10, &ColA, &ColB, true);
+			const ColourValueTextbox box(gfx::Rectangle(), "textbox", rendererPtr, 20, 5, 10, &ColA, &ColB, true);
 
 			Assert::AreEqual(ColA, uint8_t(0));
 			Assert::AreEqual(ColB, uint8_t(5));

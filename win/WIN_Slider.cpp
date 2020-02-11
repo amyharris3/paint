@@ -160,6 +160,7 @@ bool Slider::mouseEnter(bool clicked)
 bool Slider::mouseExit(bool clicked)
 {
 	holdMarker_ = false;
+	clickDownOutsideSlider_ = false;
 	return false;
 }
 
@@ -183,7 +184,7 @@ bool Slider::mouseButtonUp(MouseButton button)
 		int xMouse = 0;
 		int yMouse = 0;
 		
-		SDL_GetMouseState(&xMouse, &yMouse);
+		getRenderer()->getMouseState(xMouse, yMouse);
 		markerRect_.x = xMouse;
 		//updateAndRerender();
 	}

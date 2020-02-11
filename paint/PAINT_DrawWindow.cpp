@@ -1,13 +1,11 @@
 #include "PAINT_pch.h"
 #include "PAINT_DrawWindow.h"
-#include "PAINT_Brush.h"
 #include "WIN_Mouse.h"
 #include "PAINT_DrawTool.h"
 #include "WIN_ToggleButton.h"
 #include "WIN_Coords.h"
 #include "WIN_ButtonStates.h"
 #include "PAINT_Utils.h"
-#include "GFX_Line.h"
 #include "WIN_Utils.h"
 
 using namespace paint;
@@ -43,8 +41,8 @@ DrawWindow::~DrawWindow()
 //not really getting many clipping problems with entry into draw window, but adding this as a precaution
 bool DrawWindow::mouseEnter(bool clicked)
 {
-	int xMouse = mouseCoords_.x;
-	int yMouse = mouseCoords_.y;
+	const int xMouse = mouseCoords_.x;
+	const int yMouse = mouseCoords_.y; 
 	auto absCoords = clippingHandler(prevMouseCoords_, { xMouse, yMouse });
 
 	prevMouseCoords_ = { absCoords[0].x, absCoords[0].y };
@@ -63,8 +61,8 @@ bool DrawWindow::mouseEnter(bool clicked)
 //if exit, mouse may move too fast for render lines to keep up, so must interpolate intersect with DW boundary
 bool DrawWindow::mouseExit(bool clicked)
 {
-	int xMouse = mouseCoords_.x;
-	int yMouse = mouseCoords_.y;
+	const int xMouse = mouseCoords_.x;
+	const int yMouse = mouseCoords_.y;
 	//SDL_GetMouseState(&xMouse, &yMouse);
 	auto absCoords = clippingHandler(prevMouseCoords_, { xMouse, yMouse });
 
@@ -206,7 +204,6 @@ void DrawWindow::clearWindow() const
 //using Cohen-Sutherland clipping algorithm
 std::vector<win::Coords> DrawWindow::clippingHandler(win::Coords pStart, win::Coords pEnd) const
 {
-	bool accept = false;
 	const auto rect = getRect();
 	
 	int startOutcode = win::utils::findOutcode(rect, pStart.x, pStart.y);
@@ -214,18 +211,14 @@ std::vector<win::Coords> DrawWindow::clippingHandler(win::Coords pStart, win::Co
 
 	while(true){
 		// case where start and end points are within rectangle
-		if (!(startOutcode | endOutcode)){
-			accept = true;
-			break;
-		}
-		// both points share one zone designation outside the rect, so no crossing over into the rect
-		else if (startOutcode & endOutcode) {
+		// OR both points share one zone designation outside the rect, so no crossing over into the rect
+		if (!(startOutcode | endOutcode) || (startOutcode & endOutcode)){
 			break;
 		}
 		// one or more point is outside rect and not sharing 'outside zone'
 		else {
 			// if startOutcode is 0, ie false, then is inside rect, so examine pEnd instead
-			auto examineOutcode = startOutcode ? startOutcode : endOutcode;
+			const auto examineOutcode = startOutcode ? startOutcode : endOutcode;
 			int x = startOutcode ? pStart.x : pEnd.x;
 			int y = startOutcode ? pStart.y : pEnd.y;
 	

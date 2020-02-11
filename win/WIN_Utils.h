@@ -8,7 +8,7 @@ namespace win
 {
 	namespace utils
 	{
-		bool filterNumerical(const char c);
+		bool filterNumerical(char c);
 
 		int findOutcode(gfx::Rectangle rect, int x, int y);
 		

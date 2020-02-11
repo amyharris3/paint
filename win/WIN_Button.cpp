@@ -49,6 +49,7 @@ bool Button::mouseEnter(bool clicked)
 bool Button::mouseExit(bool clicked)
 {
 	activeClip_ = &(spriteClips_[1]);
+	mouseDragged_ = false;
 	return true;
 }
 

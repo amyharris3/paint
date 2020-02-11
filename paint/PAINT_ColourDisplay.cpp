@@ -77,6 +77,7 @@ bool ColourDisplay::mouseEnter(bool clicked)
 bool ColourDisplay::mouseExit(bool clicked)
 {
 	isClicked_ = false;
+	mouseDragged_ = false;
 	return false;
 }
 
