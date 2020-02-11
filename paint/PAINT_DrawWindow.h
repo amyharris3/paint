@@ -38,9 +38,10 @@ namespace paint
 		DrawWindow& operator=(const DrawWindow& that) = delete;
 		DrawWindow& operator=(DrawWindow&& that) = delete;
 
+		bool mouseEnter(bool clicked = false) override;
+		bool mouseExit(bool clicked = false) override;
 		bool mouseButtonDown(win::MouseButton button) override;
 		bool mouseButtonUp(win::MouseButton b) override;
-		bool mouseExit(bool clicked = false) override;
 		
 		void setActiveTool(std::shared_ptr<Tool> tool);
 		std::shared_ptr<Tool> getActiveTool() const { return activeTool_; };
