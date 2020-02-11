@@ -62,8 +62,8 @@ void ColourDisplay::update()
 
 void ColourDisplay::draw()
 {
-	renderer_->renderBox(getRect(), getBackgroundColour());
-	renderer_->renderBox({ getRect().x + 5, getRect().y + 5, getRect().width - 10, getRect().height - 10 }, getForegroundColour());
+	renderer_->renderBox(gfx::RenderTarget::SCREEN, getRect(), getBackgroundColour());
+	renderer_->renderBox(gfx::RenderTarget::SCREEN, { getRect().x + 5, getRect().y + 5, getRect().width - 10, getRect().height - 10 }, getForegroundColour());
 }
 
 bool ColourDisplay::mouseEnter(win::MouseButton button, const bool clicked)

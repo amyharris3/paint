@@ -51,5 +51,5 @@ void Text::loadFont(const char* fontName)
 
 void Text::render(Renderer* renderer, int const xPixel, int const yPixel)
 {	
-	renderer->renderText(this, xPixel, yPixel);
+	renderer->renderText(RenderTarget::SCREEN, this, xPixel, yPixel);
 }

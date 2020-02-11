@@ -177,12 +177,12 @@ void ColourPicker::updateAndRerender()
 	update();
 	
 	draw();
-	renderer_->renderPresent();
+	renderer_->renderPresentScreen();
 }
 
 void ColourPicker::draw()
 {	
-	renderer_->renderBox(getRect(), getBackgroundColour());
+	renderer_->renderBox(gfx::RenderTarget::SCREEN, getRect(), getBackgroundColour());
 
 	updateColourDisplaysFromDrawWindow();
 	

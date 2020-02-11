@@ -103,8 +103,8 @@ bool DrawWindow::mouseExit(const MouseButton button, bool clicked)
 	if (drawToggle_) {
 	handleMouseUp(button, activeTool_.get(), mouseCoords_, prevMouseCoords_, startCoord_, this->getRect());
 	}
-	
-	return false;
+
+	return true;
 }
 
 /*override*/
@@ -202,25 +202,13 @@ void DrawWindow::updateDrawToolRGBA()
 /*override*/
 void DrawWindow::draw()
 {
-	uint8_t drawRGBA_[4];
-	if (primaryActive_) {
-		for (auto i = 0; i < 4; i++) {
-			drawRGBA_[i] = primaryRGBA_[i];
-		}
-	}
-	else {
-		for (auto i = 0; i < 4; i++) {
-			drawRGBA_[i] = secondaryRGBA_[i];
-		}
-	}
-	
-	renderer_->renderDrawWindow(getRect(), drawRGBA_);
+	renderer_->renderDrawWindow(getRect(), getBackgroundColour());
 }
 
 void DrawWindow::updateAndRerender()
 {
 	draw();
-	renderer_->renderPresent();
+	renderer_->renderPresentScreen();
 }
 
 // TODO Needs more work, to properly clear drawWindow

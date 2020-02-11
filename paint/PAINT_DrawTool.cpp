@@ -28,12 +28,19 @@ void DrawTool::toolFunction(win::Coords& mouseCoords, win::Coords& prevMouseCoor
 	const Coords rel = { mouseCoords.x - refRect.x, mouseCoords.y - refRect.y };
 	const Coords prevRel = { prevMouseCoords.x - refRect.x, prevMouseCoords.y - refRect.y };
 	setALine({ rel.x, rel.y, prevRel.x, prevRel.y });
-	renderer_->setRenderTargetDWTexture();
-	renderer_->renderLines(getLines(), getActiveBrush()->getThickness(), drawRGBA_);
-	renderer_->setRenderTargetNull();
+	drawLines();
+	renderer_->switchRenderTarget(gfx::RenderTarget::SCREEN);
 }
 
+void DrawTool::drawLines() const
+{
+	assert(activeBrush_ && "activeBrush_ is nullptr.");
+	const auto thickness = activeBrush_->getThickness();
+	assert((thickness == 0) || (thickness == 1) || (thickness == 2) && "brush thickness in renderLines is not 0, 1, or 2.");
 
+	if (renderer_->notDummy()) {
+		renderer_->renderLines(gfx::RenderTarget::DRAWWINDOW, lines_, thickness, drawRGBA_);
+	}
 void DrawTool::toolFunctionEnd(win::Coords& mouseCoords, win::Coords& prevMouseCoords, win::Coords& startCoords, gfx::Rectangle refRect)
 {
 	clearLines();

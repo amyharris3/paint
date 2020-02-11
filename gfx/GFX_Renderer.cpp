@@ -11,12 +11,14 @@ using namespace gfx;
 Renderer::Renderer()
 	: rendererSDL_(nullptr)
 	, textureDW_(nullptr)
+	, currentTarget_(RenderTarget::SCREEN)
 {
 }
 
 Renderer::Renderer(SDL_Renderer* renderer)
 	: rendererSDL_(renderer)
 	, textureDW_(nullptr)
+	, currentTarget_(RenderTarget::SCREEN)
 {
 }
 
@@ -49,24 +51,39 @@ void Renderer::destroyDrawWindowTexture()
 	}
 }
 
-void Renderer::setRenderTargetDWTexture() const
+//Should only change the render target if it is different to specified before
+void Renderer::switchRenderTarget(RenderTarget target)
 {
-	SDL_SetRenderTarget(rendererSDL_, textureDW_);
+	SDL_Texture* targetPtr;
+	if (target != currentTarget_){
+		switch (target)
+		{
+		case RenderTarget::DRAWWINDOW:
+			printf("changing render target to drawWindow\n");
+			targetPtr = textureDW_;
+			break;
+		case RenderTarget::SCREEN:
+		default:
+			printf("changing render target to screen\n");
+			targetPtr = nullptr;
+			break;
+		}
+		currentTarget_ = target;
+		SDL_SetRenderTarget(rendererSDL_, targetPtr);
+	}
 }
 
-void Renderer::setRenderTargetNull() const
+void Renderer::renderPresentScreen()
 {
-	SDL_SetRenderTarget(rendererSDL_, nullptr);
-}
-
-void Renderer::renderPresent() const
-{
+	//switchRenderTarget(RenderTarget::SCREEN);
 	assert(rendererSDL_);
 	SDL_RenderPresent(rendererSDL_);
 }
 
-void Renderer::renderBox(const gfx::Rectangle rect, const gfx::Colour colour) const
+void Renderer::renderBox(RenderTarget target, gfx::Rectangle rect, gfx::Colour colour)
 {
+	switchRenderTarget(target);
+	
 	assert(rendererSDL_);
 	SDL_Rect sdlRect{ rect.x, rect.y, rect.width, rect.height };
 	SDL_RenderDrawRect(rendererSDL_, &sdlRect);
@@ -76,8 +93,10 @@ void Renderer::renderBox(const gfx::Rectangle rect, const gfx::Colour colour) co
 	SDL_RenderFillRect(rendererSDL_, &sdlRect);
 }
 
-void Renderer::renderTextbox(gfx::Rectangle rect, gfx::Colour colour, gfx::Text* text, const int xOffset, const int yOffset) const
+void Renderer::renderTextbox(RenderTarget target, gfx::Rectangle rect, gfx::Colour colour, gfx::Text* text, const int xOffset, const int yOffset)
 {
+	switchRenderTarget(target);
+	
 	assert(rendererSDL_);
 	SDL_Rect outlineRect = { rect.x - 2, rect.y - 2, rect.width + 4, rect.height + 4 };
 	SDL_SetRenderDrawColor(rendererSDL_, 0, 0, 0, 255);
@@ -90,11 +109,13 @@ void Renderer::renderTextbox(gfx::Rectangle rect, gfx::Colour colour, gfx::Text*
 	SDL_RenderFillRect(rendererSDL_, &boxRect);
 
 	//text->render(this, rect.x + xOffset, rect.y + yOffset);
-	renderText(text, rect.x + xOffset, rect.y + yOffset);
+	renderText(target, text, rect.x + xOffset, rect.y + yOffset);
 }
 
-void Renderer::renderText(gfx::Text * text, int const xPixel, int const yPixel) const
+void Renderer::renderText(RenderTarget target, gfx::Text * text, int const xPixel, int const yPixel)
 {
+	switchRenderTarget(target);
+	
 	assert(rendererSDL_);
 	SDL_Texture* textTex_ = nullptr;
 	auto textHeight = 0;
@@ -124,10 +145,15 @@ void Renderer::renderText(gfx::Text * text, int const xPixel, int const yPixel) 
 	assert(textTex_);
 }
 
-void Renderer::renderLines(const std::vector<gfx::Line>& lines, const int thickness, const uint8_t drawRGBA_[]) const
+void Renderer::renderLines(RenderTarget target, const std::vector<gfx::Line>& lines, const int thickness, const uint8_t drawRGBA_[])
 {
+	switchRenderTarget(target);
+
+	assert(rendererSDL_);
 	SDL_SetRenderDrawColor(rendererSDL_, int(drawRGBA_[0]), int(drawRGBA_[1]), int(drawRGBA_[2]), int(drawRGBA_[3]));
 	for (const auto& line : lines) {
+		printf("drawing line (%d,%d) -> (%d,%d)\n", line.x1, line.y1, line.x2, line.y2);
+
 		SDL_RenderDrawLine(rendererSDL_, line.x1, line.y1, line.x2, line.y2);
 		for (auto sign : { -1, 1 })
 		{
@@ -153,31 +179,36 @@ void Renderer::renderLines(const std::vector<gfx::Line>& lines, const int thickn
 	}
 }
 
-void Renderer::renderDrawWindow(const gfx::Rectangle rect, const uint8_t drawRGBA_[]) const
+void Renderer::renderDrawWindow(gfx::Rectangle rect, const gfx::Colour colour) const
 {
 	assert(rendererSDL_);
+	assert(textureDW_);
+
+	uint8_t backRGBA_[4];
+	colour.getComponents(backRGBA_);
+	
+	SDL_SetRenderDrawColor(rendererSDL_, int(backRGBA_[0]), int(backRGBA_[1]), int(backRGBA_[2]), int(backRGBA_[3]));
+
 	SDL_Rect destRect = { rect.x, rect.y, rect.width, rect.height };
 	SDL_RenderCopy(rendererSDL_, textureDW_, nullptr, &destRect);
 
-	SDL_SetRenderDrawColor(rendererSDL_, int(drawRGBA_[0]), int(drawRGBA_[1]), int(drawRGBA_[2]), int(drawRGBA_[3]));
-	/*for (auto line : lines) {
-		SDL_RenderDrawLine(rendererSDL_, line.x1, line.y1, line.x2, line.y2);
-	}*/
+	printf("draw window colour %d %d %d %d\n", int(backRGBA_[0]), int(backRGBA_[1]), int(backRGBA_[2]), int(backRGBA_[3]));
+	
 }
 
-void Renderer::clearDrawWindow(const gfx::Rectangle rect, const gfx::Colour colour) const
+void Renderer::clearDrawWindow(gfx::Rectangle rect, gfx::Colour colour)
 {
 	if (textureDW_) {
 		assert(rendererSDL_);
+		switchRenderTarget(RenderTarget::DRAWWINDOW);
+		
 		SDL_Rect destRect = { 0, 0, rect.width, rect.height };
 		uint8_t rgba[4];
 		colour.getComponents(rgba);
 		SDL_SetRenderDrawColor(rendererSDL_, rgba[0], rgba[1], rgba[2], uint8_t(255));
 
-		setRenderTargetDWTexture();
 		SDL_RenderDrawRect(rendererSDL_, &destRect);
 		SDL_RenderFillRect(rendererSDL_, &destRect);
-		setRenderTargetNull();
 	}
 }
 

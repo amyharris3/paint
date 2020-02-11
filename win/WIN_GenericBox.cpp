@@ -13,5 +13,5 @@ GenericBox::GenericBox(gfx::Rectangle& rect, const char* name, const gfx::Colour
 
 void GenericBox::draw()
 {
-	renderer_->renderBox(getRect(), getBackgroundColour());
+	renderer_->renderBox(gfx::RenderTarget::SCREEN, getRect(), getBackgroundColour());
 }

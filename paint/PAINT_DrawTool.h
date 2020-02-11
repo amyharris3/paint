@@ -27,7 +27,8 @@ namespace paint
 		void toolFunction(win::Coords& mouseCoords, win::Coords& prevMouseCoords, win::Coords& startCoords, gfx::Rectangle refRect) override;
 		void toolFunctionEnd(win::Coords& mouseCoords, win::Coords& prevMouseCoords, win::Coords& startCoords, gfx::Rectangle refRect) override;
 		void setToolColour(const uint8_t RGBA[]) override;
-		//void renderLines() const;
+		void toolFunction(win::Coords relCoords, win::Coords prevRelCoords) override;
+		void drawLines() const;
 
 	private:
 		gfx::Renderer* renderer_;

@@ -21,13 +21,13 @@ void Window::updateAndRerender()
 	for (const auto& child : getChildren()){
 		child->update();
 		child->draw();
-		getRenderer()->renderPresent();
+		getRenderer()->renderPresentScreen();
 	}
 }
 
 void Window::draw()
 {
-	getRenderer()->renderBox(getRect(), getBackgroundColour());
+	getRenderer()->renderBox(gfx::RenderTarget::SCREEN, getRect(), getBackgroundColour());
 	
 	Container::draw();
 

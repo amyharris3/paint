@@ -120,16 +120,16 @@ void Slider::updateAndRerender()
 	updateLineMarker();
 	
 	draw();
-	renderer_->renderPresent();
+	renderer_->renderPresentScreen();
 }
 
 void Slider::draw()
 {
 	//updateLineMarker();
 	
-	renderer_->renderBox(getRect(), getForegroundColour());
-	renderer_->renderBox(lineRect_, lineColour_);
-	renderer_->renderBox({ markerRect_.x - 2, markerRect_.y, markerRect_.width, markerRect_.height }, markerColour_);
+	renderer_->renderBox(gfx::RenderTarget::SCREEN, getRect(), getForegroundColour());
+	renderer_->renderBox(gfx::RenderTarget::SCREEN, lineRect_, lineColour_);
+	renderer_->renderBox(gfx::RenderTarget::SCREEN, { markerRect_.x - 2, markerRect_.y, markerRect_.width, markerRect_.height }, markerColour_);
 
 	/*SDL_Rect boxRect = { getRect().x, getRect().y, getRect().width, getRect().height };
 	getForegroundColour().getComponents(rgba);
