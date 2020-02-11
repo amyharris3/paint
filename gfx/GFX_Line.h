@@ -1,9 +1,10 @@
 #pragma once
 
-namespace gfx
-{
-	struct Line
+namespace gfx {
+	
+	class Line
 	{
+	public:
 		int x1;
 		int y1;
 		int x2;

@@ -7,7 +7,7 @@ namespace win {
 
 namespace gfx
 {
-	struct Line;
+	class Line;
 }
 
 namespace paint

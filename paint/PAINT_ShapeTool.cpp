@@ -5,10 +5,10 @@
 
 using namespace paint;
 
-ShapeTool::ShapeTool(SDL_Renderer* renderer, SDL_Texture* texture)
+ShapeTool::ShapeTool(gfx::Renderer* renderer)
 	: activeShape_(nullptr)
 	, renderer_(renderer)
-	, texture_(texture)
+	, drawRGBA_{ 255,255,255,255 }
 {
 	setActiveBrush(std::make_shared<Brush>(0));
 }
@@ -33,7 +33,7 @@ void ShapeTool::toolFunction(win::Coords& mouseCoords, win::Coords& prevMouseCoo
 	}
 	auto const lines = activeShape_->getGeometry(startCoords, mouseCoords);
 	setLines(lines);
-	renderLines(renderer_, lines);
+	renderer_->renderLines(lines, getActiveBrush()->getThickness(), drawRGBA_);
 }
 
 void ShapeTool::toolFunctionEnd(win::Coords& mouseCoords, win::Coords& prevMouseCoords, win::Coords& startCoords, gfx::Rectangle const refRect)
@@ -43,7 +43,7 @@ void ShapeTool::toolFunctionEnd(win::Coords& mouseCoords, win::Coords& prevMouse
 	{
 		shiftedLines.push_back({ line.x1 - refRect.x, line.y1 - refRect.y, line.x2 - refRect.x, line.y2 - refRect.y });
 	}
-	SDL_SetRenderTarget(renderer_, texture_);
-	renderLines(renderer_, shiftedLines);
-	SDL_SetRenderTarget(renderer_, nullptr);
+	renderer_->setRenderTargetDWTexture();
+	renderer_->renderLines(shiftedLines, getActiveBrush()->getThickness(), drawRGBA_);
+	renderer_->setRenderTargetNull();
 }

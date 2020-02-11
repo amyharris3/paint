@@ -27,7 +27,7 @@ int main(int /*argc*/, char ** /* argv*/)
 		printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
 	}
 
-	s_program.initialize(renderer);
+	s_program.initialize(renderer, rootWindow);
 	s_program.run();
 
 	if (renderer) {

@@ -1,12 +1,18 @@
 #include "WIN_pch.h"
 #include "WIN_EditTextbox.h"
+#include "GFX_Renderer.h"
 
 using namespace win;
 
-EditTextbox::EditTextbox(gfx::Rectangle const rect, const char* name, SDL_Renderer* renderer, int const textSize, int const xOffset, int const yOffset)
+EditTextbox::EditTextbox(const gfx::Rectangle rect, const char* name, gfx::Renderer* renderer, int const textSize, int const xOffset, int const yOffset)
+	: EditTextbox(rect, name, renderer, textSize, xOffset, yOffset, "")
+{
+}
+
+EditTextbox::EditTextbox(const gfx::Rectangle rect, const char* name, gfx::Renderer* renderer, int const textSize, int const xOffset, int const yOffset, const char* initialText)
 	: UIelement(rect, name)
 	, renderer_(renderer)
-	, text_(std::make_shared<gfx::Text>(renderer, gfx::Colour { 0, 0, 0, 0xFF }, "OpenSans-Bold.ttf", textSize, "0"))
+	, text_(std::make_shared<gfx::Text>(gfx::Colour { 0, 0, 0, 0xFF }, "OpenSans-Bold.ttf", textSize, initialText))
     , xOffset_(xOffset)
     , yOffset_(yOffset)
     , isClicked_(false)
@@ -19,7 +25,7 @@ void EditTextbox::click()
 	isClicked_ = !isClicked_;
 }
 
-void EditTextbox::editText(const char* newText) const
+void EditTextbox::editText(const char* newText)
 {
 	text_->changeString(newText);
 }
@@ -31,7 +37,7 @@ void EditTextbox::editTextAndRerender(std::string & newString)
 	text_->changeString(newString.c_str());
 
 	draw();
-	SDL_RenderPresent(renderer_);
+	getRenderer()->renderPresent();
 }
 
 // Simple text entry, TODO copy, paste, highlight, cursor position, ect
@@ -98,27 +104,17 @@ void EditTextbox::takeTextEntry()
 
 void EditTextbox::draw()
 {
-	SDL_Rect outlineRect = { getRect().x-2, getRect().y-2, getRect().width+4, getRect().height+4 };
-	SDL_SetRenderDrawColor(renderer_, 0,0,0,255);
-	SDL_RenderFillRect(renderer_, &outlineRect);
+	renderer_->renderTextbox(getRect(), getBackgroundColour(), text_.get(), xOffset_, yOffset_);
 	
-	SDL_Rect boxRect = { getRect().x, getRect().y, getRect().width, getRect().height };
-	uint8_t rgba[4];
-	getBackgroundColour().getComponents(rgba);
-	SDL_SetRenderDrawColor(renderer_, rgba[0], rgba[1], rgba[2], rgba[3]);
-	SDL_RenderFillRect(renderer_, &boxRect);
-
-	(void)text_->renderText(getRect().x + xOffset_, getRect().y + yOffset_);
-
 }
 
-bool EditTextbox::mouseButtonDown(win::MouseButton const button)
+bool EditTextbox::mouseButtonDown(MouseButton button, bool clicked)
 {
 	isClicked_ = true;
 	return false;
 }
 
-bool EditTextbox::mouseButtonUp(win::MouseButton const button)
+bool EditTextbox::mouseButtonUp(MouseButton button, bool clicked)
 {
 	if (isClicked_) {
 		printf("Taking text entry now\n");

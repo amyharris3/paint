@@ -178,6 +178,7 @@ xcopy /q /y /s $(SolutionDir)SDL2_ttf-2.0.15\lib\x64\zlib1.dll $(OutDir)
     <ClCompile Include="PAINT_ButtonFunctions.cpp" />
     <ClCompile Include="PAINT_Brush.cpp" />
     <ClCompile Include="PAINT_Ellipse.cpp" />
+    <ClCompile Include="PAINT_ColourDisplay.cpp" />
     <ClCompile Include="PAINT_ColourPicker.cpp" />
     <ClCompile Include="PAINT_DrawFlags.cpp" />
     <ClCompile Include="PAINT_DrawTool.cpp" />
@@ -207,6 +208,7 @@ xcopy /q /y /s $(SolutionDir)SDL2_ttf-2.0.15\lib\x64\zlib1.dll $(OutDir)
     <ClInclude Include="PAINT_Brush.h" />
     <ClInclude Include="PAINT_ButtonFunctions.h" />
     <ClInclude Include="PAINT_Ellipse.h" />
+    <ClInclude Include="PAINT_ColourDisplay.h" />
     <ClInclude Include="PAINT_ColourPicker.h" />
     <ClInclude Include="PAINT_DrawFlags.h" />
     <ClInclude Include="PAINT_DrawTool.h" />

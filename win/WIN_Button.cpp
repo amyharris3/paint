@@ -4,14 +4,15 @@
 
 using namespace win;
 
-Button::Button(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* name, const char* spritePath, const ActionFunction act)
+Button::Button(gfx::Renderer* renderer, const gfx::Rectangle& rect, const char* name, const char* spritePath, const ActionFunction act)
 	: UIelement(rect, name)
 	, action(act)
-	, renderer_(renderer)
-	, texture_ (SDLUtils::loadSprite(renderer, spritePath))
+	, renderer_(renderer->getRendererSDL())
+	, texture_ (SDLUtils::loadSprite(renderer->getRendererSDL(), spritePath))
 	, rect_(rect)
+	, mouseDown_(false)
+	, mouseDragged_(false)
 {
-	renderer_ = renderer;
 	rect_ = rect;
 	texture_ = SDLUtils::loadSprite(renderer_, spritePath);
 	spriteClips_ = SDLUtils::handleSpriteSheet(texture_);
@@ -34,34 +35,47 @@ void Button::draw()
 }
 
 /* override */
-bool Button::mouseEnter()
+bool Button::mouseEnter(MouseButton button, const bool clicked)
 {
+	//to handle mouse being dragged in from outside with button held
+	if (clicked) {
+		mouseDragged_ = true;
+	}
 	activeClip_ = &(spriteClips_[0]);
 	return true;
 }
 
 /* override */
-bool Button::mouseExit(MouseButton button)
+bool Button::mouseExit(MouseButton button, bool clicked)
 {
 	activeClip_ = &(spriteClips_[1]);
 	return true;
 }
 
-/* override */
-bool Button::mouseButtonDown(MouseButton b)
+bool Button::mouseMove(SDL_MouseMotionEvent& e)
 {
+	return false;
+}
+
+/* override */
+bool Button::mouseButtonDown(MouseButton button, bool clicked)
+{
+	mouseDown_ = true;
 	activeClip_ = &(spriteClips_[2]);
 	return true;
 }
 
 /* override */
-bool Button::mouseButtonUp(MouseButton b)
+bool Button::mouseButtonUp(MouseButton button, bool clicked)
 {
-	activeClip_ = &(spriteClips_[0]);
+	if (mouseDown_ && !mouseDragged_) {
+		activeClip_ = &(spriteClips_[0]);
 
-	if (action) {
-		action(this);
+		if (action) {
+			action(this);
+		}
 	}
+	mouseDown_ = false;
+	mouseDragged_ = false;
 	return true;
 }
-

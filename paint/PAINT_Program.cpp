@@ -3,6 +3,8 @@
 #include "PAINT_DrawWindow.h"
 #include "PAINT_Screen.h"
 #include "WIN_Mouse.h"
+#include "PAINT_ColourPicker.h"
+#include "PAINT_StatusBarWindow.h"
 
 using namespace paint;
 using namespace gfx;
@@ -13,6 +15,7 @@ using UIelementVector = std::vector<std::shared_ptr<UIelement>>;
 Program::Program()
 	: screen_(nullptr)
 	, renderer_(nullptr)
+	, rootWindow_(nullptr)
 {
 
 }
@@ -40,12 +43,27 @@ static std::shared_ptr<UIelement> GetTopmostElement(const UIelementVector& child
 	return nullptr;
 }
 
-void Program::initialize(SDL_Renderer* renderer)
+void Program::initialize(SDL_Renderer* renderer, SDL_Window* rootWindow)
 {
-	renderer_ = renderer;
-	auto screenRect = gfx::Rectangle(0, 0, 1200, 800);
-	screen_ = std::make_shared<Screen>(renderer, screenRect, "Screen");
+	//Create gfx::Renderer from SDL renderer
+	//renderer_ = renderer;
+
+	renderer_ = new Renderer(renderer);
+	rootWindow_ = rootWindow;
 	
+	auto screenRect = gfx::Rectangle(0, 0, 1200, 800);
+	screen_ = std::make_shared<Screen>(renderer_, screenRect, "Screen");
+}
+
+gfx::Rectangle Program::getRootWindowRect() const
+{
+	int x;
+	int y;
+	int width;
+	int height;
+	SDL_GetWindowPosition(rootWindow_, &x, &y);
+	SDL_GetWindowSize(rootWindow_, &width, &height);
+	return { x,y,width,height };
 }
 
 void Program::run() const
@@ -56,6 +74,11 @@ void Program::run() const
 	auto yMouse{ 0 };
 	auto xPrev{ 0 };
 	auto yPrev{ 0 };
+	auto xGlobal{ 0 };
+	auto yGlobal{ 0 };
+
+	gfx::Rectangle rootWindowRect_ = getRootWindowRect();
+	auto insideRootWindow = true;
 
 	auto drawWindow = screen_->getDrawWindow();
 
@@ -66,11 +89,12 @@ void Program::run() const
 	//While application is running
 	std::shared_ptr<UIelement> activeElement = nullptr;
 	while (!quit) {
+		// if a method causes a change in the visual representation of the program, returns 'true' and calls to rerender the relevant section, else have the method return 'false'
 		auto rerenderFlag = false;
-
+		
 		//Handle events on queue
 		while (SDL_PollEvent(&e) != 0) {
-			SDL_RenderClear(renderer_);
+			SDL_RenderClear(renderer_->getRendererSDL());
 			screen_->draw();
 
 			//User requests quit
@@ -78,11 +102,27 @@ void Program::run() const
 				quit = true;
 			}
 
+			//If the window moved
+			if (e.type == SDL_WINDOWEVENT && e.window.event == SDL_WINDOWEVENT_MOVED) {
+				rootWindowRect_ = getRootWindowRect();
+			}
+				
 			//If the mouse moved
 			if (e.type == SDL_MOUSEMOTION) {
-
 				SDL_GetMouseState(&xMouse, &yMouse);
 				auto active = GetTopmostElement(screen_->getChildren(), xMouse, yMouse);
+
+				drawWindow->setMouseCoords({ xMouse, yMouse });
+				drawWindow->setPrevCoords({ xPrev, yPrev });
+
+				//if mouse goes outside window, usually on right-hand side
+				// do we want to check for this all the time, or only if it is close to the boundaries?
+				SDL_GetGlobalMouseState(&xGlobal, &yGlobal);
+				if(!(xGlobal >= rootWindowRect_.x && xGlobal < (rootWindowRect_.x + rootWindowRect_.width) && yGlobal >= rootWindowRect_.y && yGlobal < (rootWindowRect_.y + rootWindowRect_.height))){
+					insideRootWindow = false;
+					clicked = false;
+				}
+				
 				if (activeElement != active) {
 					if (!clicked)
 					{
@@ -99,7 +139,7 @@ void Program::run() const
 				}
 
 				if(activeElement){
-					rerenderFlag = activeElement->mouseMove();
+					rerenderFlag = activeElement->mouseMove(e.motion);
 				}
 				
 			}
@@ -134,10 +174,11 @@ void Program::run() const
 
 			if (clicked) {
 				if (activeElement) {
+
 					drawWindow->setMouseCoords({ xMouse, yMouse });
 					drawWindow->setPrevCoords({ xPrev, yPrev });
 					// ReSharper disable once CppLocalVariableMightNotBeInitialized
-					activeElement->mouseButtonDown(button);
+					//activeElement->mouseButtonDown(button);
 					
 					rerenderFlag = activeElement->mouseButtonDown(button);
 				}
@@ -159,6 +200,12 @@ void Program::run() const
 			}
 			
 		}
-		SDL_RenderPresent(renderer_);
+
+		 // Draw buttons.
+		/*for (const auto& toolChild : toolChildren) {
+			toolChild->draw();
+		}*/
+
+		renderer_->renderPresent();
 	}
 }

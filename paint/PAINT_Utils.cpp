@@ -61,3 +61,24 @@ ToolWindow* paint::utils::findToolWindow(UIelement* control)
 	}
 	return findToolWindow(parent);
 }
+
+StatusBarWindow* paint::utils::findStatusBarWindow(UIelement* control)
+{
+	/* Preconditions. */
+	assert(control != nullptr && "null control in findToolWindow()");
+
+	/* Implementation */
+
+	// Are we already at the DrawWindow?
+	if (const auto sw = dynamic_cast<StatusBarWindow*>(control)) {
+		return sw;
+	}
+
+	// Are we the screen?
+	const auto parent = control->getParent();
+	if (!parent) {
+		const auto screen = dynamic_cast<Screen*>(control);
+		return screen->getStatusBarWindow();
+	}
+	return findStatusBarWindow(parent);
+}

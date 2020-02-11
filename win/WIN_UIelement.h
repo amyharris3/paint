@@ -38,11 +38,12 @@ namespace win
 		virtual void draw() = 0;
 		virtual void update() { }
 		virtual void updateAndRerender() { }
-		virtual bool mouseEnter();
-		virtual bool mouseExit(MouseButton button);
+		virtual bool mouseEnter(MouseButton button, bool clicked = false);
+		virtual bool mouseExit(MouseButton button, bool clicked = false);
 		virtual bool mouseMove() { return false; }
-		virtual bool mouseButtonDown(MouseButton button);
-		virtual bool mouseButtonUp(MouseButton) { return false; }
+		virtual bool mouseMove(SDL_MouseMotionEvent& e) { return false; }
+		virtual bool mouseButtonDown(MouseButton button, bool clicked = false) { return false; }
+		virtual bool mouseButtonUp(MouseButton button, bool clicked = false) { return false; }
 
 	private:
 		std::string name_;

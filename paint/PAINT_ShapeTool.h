@@ -1,6 +1,7 @@
 #pragma once
 #include "PAINT_Tool.h"
 #include "PAINT_Shape.h"
+#include "GFX_Renderer.h"
 
 namespace paint
 {
@@ -11,8 +12,8 @@ namespace paint
 	{
 	public:
 		ShapeTool() = delete;
-		ShapeTool(SDL_Renderer* renderer, SDL_Texture* texture);
-		virtual ~ShapeTool() = default;
+		ShapeTool(gfx::Renderer* renderer);
+		~ShapeTool() = default;
 		ShapeTool(const ShapeTool& that) = default;
 		ShapeTool(ShapeTool && that) = default;
 		ShapeTool& operator=(const ShapeTool & that) = default;
@@ -24,9 +25,11 @@ namespace paint
 		void toolFunction(win::Coords& mouseCoords, win::Coords& prevMouseCoords, win::Coords& startCoords, gfx::Rectangle refRect) override;
 		void toolFunctionEnd(win::Coords& mouseCoords, win::Coords& prevMouseCoords, win::Coords& startCoords, gfx::Rectangle refRect) override;
 
+		void setToolColour(const uint8_t RGBA[]) override {}
 	private:
 		std::shared_ptr<Shape> activeShape_;
-		SDL_Renderer* renderer_;
-		SDL_Texture* texture_;
+		gfx::Renderer* renderer_;
+		uint8_t drawRGBA_[4];
+
 	};
 }

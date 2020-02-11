@@ -1,21 +1,26 @@
 #include "PAINT_pch.h"
 #include "PAINT_DrawWindow.h"
+#include "PAINT_Brush.h"
 #include "WIN_Mouse.h"
 #include "PAINT_DrawTool.h"
 #include "WIN_ToggleButton.h"
 #include "WIN_Coords.h"
 #include "WIN_ButtonStates.h"
 #include "PAINT_ShapeTool.h"
+#include "PAINT_Utils.h"
+#include "GFX_Line.h"
+#include "WIN_Utils.h"
 
 using namespace paint;
 using namespace win;
 
-DrawWindow::DrawWindow(SDL_Renderer* renderer, gfx::Rectangle const& rect, const char* name)
-	: Window(renderer, rect, name)
-	, activeTool_(nullptr)
-	, primaryColour_(gfx::Colour(255, 255, 255, 255))
-	, secondaryColour_(gfx::Colour(255, 255, 255, 255))
+DrawWindow::DrawWindow(gfx::Renderer* renderer, gfx::Rectangle const& rect, const char* name)
+	: Window( renderer, rect, name)
 	, renderer_(renderer)
+	, activeTool_(nullptr)
+	, drawTool_(std::make_shared<DrawTool>(renderer_))
+	, primaryColour_(gfx::Colour(255, 255, 255,255))
+	, secondaryColour_(gfx::Colour(255, 255, 255, 255))
 	, mouseCoords_({ 0,0 })
 	, prevMouseCoords_({ 0,0 })
 	, startCoord_({0,0})
@@ -23,7 +28,8 @@ DrawWindow::DrawWindow(SDL_Renderer* renderer, gfx::Rectangle const& rect, const
 	, primaryRGBA_{}
 	, secondaryRGBA_{}
 {
-	texture_ = SDL_CreateTexture(renderer_, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, rect.width, rect.height);
+	//texture_ = SDL_CreateTexture(renderer_, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, rect.width, rect.height);
+	renderer_->createDrawWindowTexture(rect);
 	primaryColour_.getComponents(primaryRGBA_);
 	secondaryColour_.getComponents(secondaryRGBA_);
 	drawTool_ = std::make_shared<DrawTool>(renderer_, texture_);
@@ -32,10 +38,35 @@ DrawWindow::DrawWindow(SDL_Renderer* renderer, gfx::Rectangle const& rect, const
 
 DrawWindow::~DrawWindow()
 {
-	if (texture_) {
-		SDL_DestroyTexture(texture_);
-		texture_ = nullptr;
+	renderer_->destroyDrawWindowTexture();
+}
+
+/*override*/
+
+//if exit, mouse may move too fast for render lines to keep up, so must interpolate intersect with DW boundary
+bool DrawWindow::mouseExit(bool clicked)
+{
+	int xMouse = mouseCoords_.x;
+	int yMouse = mouseCoords_.y;
+	SDL_GetMouseState(&xMouse, &yMouse);
+	auto absCoords = clippingHandler(prevMouseCoords_, { xMouse, yMouse });
+
+	prevMouseCoords_ = { absCoords[0].x, absCoords[0].y};
+	mouseCoords_ = { absCoords[1].x, absCoords[1].y };
+
+	if (drawToggle_) {
+		mouseButtonDown(MouseButton::Left);
+		/*if (activeTool_) {
+			const Coords prevRel = { prevMouseCoords_.x - this->getRect().x, prevMouseCoords_.y - this->getRect().y };
+			const Coords rel = { mouseCoords_.x - this->getRect().x, mouseCoords_.y - this->getRect().y };
+
+			activeTool_->toolFunction(rel, prevRel);
+		}*/
 	}
+
+	drawToggle_ = false;
+	
+	return false;
 }
 
 /*override*/
@@ -106,6 +137,11 @@ void DrawWindow::setPrevCoords(const win::Coords relPrevCoords)
 	prevMouseCoords_ = relPrevCoords;
 }
 
+void DrawWindow::setCanvasColour(gfx::Colour colour)
+{
+	setBackgroundColour(colour);
+}
+
 void DrawWindow::setPrimaryColour(const gfx::Colour colour)
 {
 	primaryColour_ = colour;
@@ -118,21 +154,16 @@ void DrawWindow::setSecondaryColour(const gfx::Colour colour)
 	secondaryColour_.getComponents(secondaryRGBA_);
 }
 
-void DrawWindow::swapPrimarySecondaryColours()
-{
-	std::cout << "Swapping colours\n";
-	std::swap(primaryColour_, secondaryColour_);
-	std::cout << "Colours have been swapped \n";
-}
+//void DrawWindow::swapPrimarySecondaryColours()
+//{
+//	std::cout << "Swapping colours\n";
+//	std::swap(primaryColour_, secondaryColour_);
+//	std::cout << "Colours have been swapped \n";
+//}
 
 /*override*/
 void DrawWindow::draw()
 {
-	const auto& myRect = getRect();
-	SDL_Rect destRect = { myRect.x, myRect.y, myRect.width, myRect.height };
-	SDL_RenderCopy(renderer_, texture_, nullptr, &destRect);
-	//SDL_SetRenderDrawColor(renderer_, 255, 255, 255, SDL_ALPHA_OPAQUE);
-
 	uint8_t drawRGBA_[4];
 	if (primaryActive_) {
 		for (auto i = 0; i < 4; i++) {
@@ -144,22 +175,91 @@ void DrawWindow::draw()
 			drawRGBA_[i] = secondaryRGBA_[i];
 		}
 	}
-
-	SDL_SetRenderDrawColor(renderer_, int(drawRGBA_[0]), int(drawRGBA_[1]), int(drawRGBA_[2]), int(drawRGBA_[3]));
+	
+	renderer_->renderDrawWindow(getRect(), drawRGBA_);
 }
 
 void DrawWindow::updateAndRerender()
 {
 	draw();
-	SDL_RenderPresent(renderer_);
+	renderer_->renderPresent();
 }
 
 // TODO Needs more work, to properly clear drawWindow
-void DrawWindow::clearScreen() const
+void DrawWindow::clearWindow() const
 {
-	const auto& myRect = getRect();
-	SDL_Rect destRect = { myRect.x, myRect.y, myRect.width, myRect.height };
-	SDL_RenderCopy(renderer_, texture_, nullptr, &destRect);
+	renderer_->clearDrawWindow(getRect(), getBackgroundColour());
+}
+
+//using Cohen-Sutherland clipping algorithm
+std::vector<win::Coords> DrawWindow::clippingHandler(win::Coords pStart, win::Coords pEnd) const
+{
+	bool accept = false;
+	const auto rect = getRect();
+	
+	int startOutcode = win::utils::findOutcode(rect, pStart.x, pStart.y);
+	int endOutcode = win::utils::findOutcode(rect, pEnd.x, pEnd.y);
+	
+	while(true){
+		// case where start and end points are within rectangle
+		if (!(startOutcode | endOutcode)){
+			accept = true;
+			break;
+		}
+		// both points share one zone designation outside the rect, so no crossing over into the rect
+		else if (startOutcode & endOutcode) {
+			break;
+		}
+		// one or more point is outside rect and not sharing 'outside zone'
+		else {
+			// if startOutcode is 0, ie false, then is inside rect, so examine pEnd instead
+			auto examineOutcode = startOutcode ? startOutcode : endOutcode;
+			int x = startOutcode ? pStart.x : pEnd.x;
+			int y = startOutcode ? pStart.y : pEnd.y;
+
+			// find point of intersection with rect
+			// using slope formula: y = mx + y0, m = (y-y0)/(x-x0)
+			
+			// point is above rect
+			if (examineOutcode & 8){
+				x = pStart.x + (pEnd.x - pStart.x) * (rect.y - pStart.y) / (pEnd.y - pStart.y);
+				y = rect.y;
+			}
+			// point is below rect
+			else if (examineOutcode & 4) {
+				x = pStart.x + (pEnd.x - pStart.x) * (rect.y + rect.height - pStart.y) / (pEnd.y - pStart.y);
+				y = rect.y + rect.height;
+			}
+			// point is left of window
+			else if (examineOutcode & 1) {
+				x = rect.x;
+				y = pStart.y + (pEnd.y - pStart.y) * (rect.x - pStart.x) / (pEnd.x - pStart.x);
+			}
+			// point is right of rect
+			else if (examineOutcode & 2) {
+				x = rect.x + rect.width;
+				y = pStart.y + (pEnd.y - pStart.y) * (rect.x + rect.width - pStart.x) / (pEnd.x - pStart.x);
+			}
+
+			// move the point under examination to the intersection point, then repeat
+			if (examineOutcode == startOutcode){
+				pStart.x = x;
+				pStart.y = y;
+				startOutcode = win::utils::findOutcode(rect, pStart.x, pStart.y);
+			}
+			else {
+				pEnd.x = x;
+				pEnd.y = y;
+				endOutcode = win::utils::findOutcode(rect, pEnd.x, pEnd.y);
+			}
+		}
+	}
+
+	std::vector<win::Coords> returnCoords;
+	returnCoords.push_back(pStart);
+	returnCoords.push_back(pEnd);
+	
+	return returnCoords;
 }
 
 void DrawWindow::setStartCoord(win::Coords const startCoords)

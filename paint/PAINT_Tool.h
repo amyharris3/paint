@@ -28,7 +28,9 @@ namespace paint
 		void setLines(std::vector<gfx::Line> lines);
 		std::vector<gfx::Line> getLines() const { return lines_; }
 
+		virtual void setToolColour(const uint8_t RGBA[]) = 0;
 	private:
+		
 		std::vector<gfx::Line> lines_;
 		std::shared_ptr<Brush> activeBrush_;
 

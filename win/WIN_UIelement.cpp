@@ -44,7 +44,7 @@ void UIelement::setRect(const gfx::Rectangle& rect)
 }
 
 
-bool UIelement::mouseEnter()
+bool UIelement::mouseEnter(win::MouseButton button, bool clicked)
 {
 	#ifdef VERBOSE
 	std::cout << "The mouse has entered the " << name_ << " UI element. \n";
@@ -52,16 +52,11 @@ bool UIelement::mouseEnter()
 	return false;
 }
 
-bool UIelement::mouseExit(MouseButton button)
+bool UIelement::mouseExit(MouseButton button, bool clicked)
 {
 	#ifdef VERBOSE
 	std::cout << "The mouse has left the " << name_ << " UI element. \n";
 	#endif
-	return false;
-}
-
-bool UIelement::mouseButtonDown(MouseButton button)
-{
 	return false;
 }
 

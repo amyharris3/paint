@@ -1,9 +1,10 @@
 #include "WIN_pch.h"
 #include "WIN_ColourSlider.h"
+#include "GFX_Renderer.h"
 
 using namespace win;
 
-ColourSlider::ColourSlider(SDL_Renderer* renderer, gfx::Rectangle rect, const char* name, gfx::Colour fillColour, gfx::Colour outlineColour, uint8_t* linkedVariablePrimary, uint8_t* linkedVariableSecondary, const bool primaryActive)
+ColourSlider::ColourSlider(gfx::Renderer* renderer, gfx::Rectangle rect, const char* name, gfx::Colour fillColour, gfx::Colour outlineColour, uint8_t* linkedVariablePrimary, uint8_t* linkedVariableSecondary, const bool primaryActive)
 	: Slider(renderer, rect, name, fillColour, outlineColour, 0, 0, 255)
 	, linkedVariablePrimary_(linkedVariablePrimary)
 	, linkedVariableSecondary_(linkedVariableSecondary)
@@ -18,30 +19,30 @@ ColourSlider::ColourSlider(SDL_Renderer* renderer, gfx::Rectangle rect, const ch
 void ColourSlider::valueChangedByMovement() const
 {
 	if (primaryActive_) {
-		*linkedVariablePrimary_ = getValueFromPosition();
+		*linkedVariablePrimary_ = getApproxValueFromPosition();
 	}
 	else
 	{
-		*linkedVariableSecondary_ = getValueFromPosition();
+		*linkedVariableSecondary_ = getApproxValueFromPosition();
 	}
 }
 
 void ColourSlider::valueChangedExternally()
 {
 	if (primaryActive_) {
-		positionFromValue(*linkedVariablePrimary_);
+		setMarkerValue(*linkedVariablePrimary_);
 	}
 	else
 	{
-		positionFromValue(*linkedVariableSecondary_);
+		setMarkerValue(*linkedVariableSecondary_);
 	}
 	//updateAndRerender();
 }
 
-bool ColourSlider::mouseMove()
+bool ColourSlider::mouseMove(SDL_MouseMotionEvent& e)
 {
-	if (getHold()) {
-		moveMarker();
+	if (getHold() && !getClickDownFromOutside()) {
+		moveMarker(e.x);
 		valueChangedByMovement();
 		
 		//updateAndRerender();
@@ -50,17 +51,17 @@ bool ColourSlider::mouseMove()
 	return true;
 }
 
-bool ColourSlider::mouseButtonUp(MouseButton button)
+bool ColourSlider::mouseButtonUp(MouseButton button, bool clicked)
 {	
-	if (getHold()) {
+	if (getHold() && !getClickDownFromOutside()) {
 		int xMouse;
 		int yMouse;
 
-		SDL_GetMouseState(&xMouse, &yMouse);
-		moveMarker();
+		getRenderer()->getMouseState(xMouse, yMouse);
+		moveMarker(xMouse);
 		valueChangedByMovement();
-		//updateAndRerender();
 	}	
 	holdOff();
+	setClickDownFromOutside(false);
 	return true;
 }

@@ -3,17 +3,20 @@
 #include "WIN_SDLUtils.h"
 #include "WIN_ButtonGroup.h"
 #include "WIN_ButtonStates.h"
+#include "GFX_Renderer.h"
 
 using namespace win;
 
-ToggleButton::ToggleButton(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* name, const char* spritePath, ActionFunction const act)
+ToggleButton::ToggleButton(gfx::Renderer* renderer, const gfx::Rectangle& rect, const char* name, const char* spritePath, ActionFunction const act)
 	: UIelement(rect, name)
 	, action(act)
-	, renderer_(renderer)
+	, renderer_(renderer->getRendererSDL())
 	, rect_(rect)
 	, buttonGroup_(nullptr)
 	, state_(ButtonStates::off)
 	, activated_(true)
+	, mouseDown_(false)
+	, mouseDragged_(false)
 {
 	texture_ = SDLUtils::loadSprite(renderer_, spritePath);
 	spriteClips_ = SDLUtils::handleSpriteSheet(texture_);
@@ -36,8 +39,12 @@ void ToggleButton::draw()
 }
 
 /* override */
-bool ToggleButton::mouseEnter()
+bool ToggleButton::mouseEnter(MouseButton button, const bool clicked)
 {
+	if (clicked) {
+		mouseDragged_ = true;
+	}
+	
 	if (activated_) {
 		if (state_ == ButtonStates::on) {
 			activeClip_ = &(spriteClips_[2]);
@@ -54,7 +61,7 @@ bool ToggleButton::mouseEnter()
 }
 
 /* override */
-bool ToggleButton::mouseExit(MouseButton button)
+bool ToggleButton::mouseExit(MouseButton button, bool clicked)
 {
 	if (activated_) {
 		if (state_ == ButtonStates::on) {
@@ -71,9 +78,15 @@ bool ToggleButton::mouseExit(MouseButton button)
 	return false;
 }
 
-/* override */
-bool ToggleButton::mouseButtonDown(MouseButton b)
+bool ToggleButton::mouseMove(SDL_MouseMotionEvent& e)
 {
+	return false;
+}
+
+/* override */
+bool ToggleButton::mouseButtonDown(MouseButton button, bool clicked)
+{
+	mouseDown_ = true;
 	if (activated_) {
 		activeClip_ = &(spriteClips_[2]);
 	}
@@ -82,9 +95,10 @@ bool ToggleButton::mouseButtonDown(MouseButton b)
 }
 
 /* override */
-bool ToggleButton::mouseButtonUp(MouseButton b)
+bool ToggleButton::mouseButtonUp(MouseButton button, bool clicked)
 {
-	if (activated_) {
+	mouseDown_ = false;
+	if (activated_ && !mouseDragged_) {
 		// set the state of click
 		if (state_ == ButtonStates::on) {
 			state_ = ButtonStates::off;
@@ -113,7 +127,7 @@ bool ToggleButton::mouseButtonUp(MouseButton b)
 			action(this);
 		}
 	}
-
+	mouseDragged_ = false;
 	return false;
 }
 

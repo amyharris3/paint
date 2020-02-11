@@ -39,9 +39,6 @@
     <ClCompile Include="WIN_GenericBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WIN_ColourDisplay.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="WIN_EditTextbox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

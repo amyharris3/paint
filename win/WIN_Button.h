@@ -1,5 +1,10 @@
 #pragma once
 #include "WIN_UIelement.h"
+#include "GFX_Renderer.h"
+
+namespace gfx {
+	class Renderer;
+}
 
 struct SDL_Texture;
 struct SDL_Renderer;
@@ -15,7 +20,7 @@ namespace win
 	{
 	public:
 		Button() = delete;
-		Button(SDL_Renderer* renderer, const gfx::Rectangle& rect, const char* name, const char* spritePath, ActionFunction act);
+		Button(gfx::Renderer* renderer, const gfx::Rectangle& rect, const char* name, const char* spritePath, ActionFunction act);
 		virtual ~Button();
 		Button(const Button& that) = default;
 		Button(Button&& that) = default;
@@ -23,10 +28,11 @@ namespace win
 		Button& operator=(Button&& that) = default;
 
 		void draw() override;
-		bool mouseEnter() override;
-		bool mouseExit(MouseButton button) override;
-		bool mouseButtonDown(MouseButton b) override;
-		bool mouseButtonUp(MouseButton b) override;
+		bool mouseEnter(MouseButton button, bool clicked = false) override;
+		bool mouseExit(MouseButton button, bool clicked = false) override;
+		bool mouseMove(SDL_MouseMotionEvent& e) override;
+		bool mouseButtonDown(MouseButton button, bool clicked = false) override;
+		bool mouseButtonUp(MouseButton button, bool clicked = false) override;
 
 		ActionFunction action;
 
@@ -36,5 +42,8 @@ namespace win
 		gfx::Rectangle rect_;
 		std::vector<SDL_Rect> spriteClips_;
 		SDL_Rect* activeClip_;
+
+		bool mouseDown_;
+		bool mouseDragged_;
 	};
 }

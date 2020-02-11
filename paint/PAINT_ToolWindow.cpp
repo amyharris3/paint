@@ -6,12 +6,12 @@
 
 using namespace paint;
 
-ToolWindow::ToolWindow(SDL_Renderer* renderer, gfx::Rectangle const& rect, const char* name)
+ToolWindow::ToolWindow(gfx::Renderer* renderer, gfx::Rectangle const& rect, const char* name)
 	: Window(renderer, rect, name)
 {
 }
 
-ToolWindow::ToolWindow(SDL_Renderer* renderer, gfx::Rectangle const& rect, const char* name, std::shared_ptr<win::Layout> const& layout)
+ToolWindow::ToolWindow(gfx::Renderer* renderer, gfx::Rectangle const& rect, const char* name, std::shared_ptr<win::Layout> const& layout)
 	: Window(renderer, rect, name, layout)
 	, colourPicker_(nullptr)
 {

@@ -2,6 +2,9 @@
 #include "CppUnitTest.h"
 #include "../gfx/GFX_Rectangle.h"
 #include "../gfx/GFX_Colour.h"
+#include "GFX_Text.h"
+#include "SDL.h"
+#include "SDL_ttf.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace gfx;
@@ -189,5 +192,174 @@ namespace PaintTests
 			return {255, 255, 255, 255};
 		}
 	};
-	// ReSharper restore CppCStyleCast
+
+	TEST_CLASS(TestGfxText)
+	{
+
+		TEST_METHOD(TestDefaultConstructor)
+		{
+			Assert::AreNotEqual(SDL_Init(SDL_INIT_VIDEO), -1);
+			Assert::AreNotEqual(TTF_Init(), -1);
+
+			Text text;
+
+			Assert::AreEqual(text.getString().c_str(), "");
+			
+			Assert::AreEqual(text.getTextSize(), 12);
+			Assert::IsNotNull(text.getFont());
+			
+			uint8_t rgba[4];
+			text.getColour().getComponents(rgba);
+			Assert::AreEqual(rgba[0], static_cast<uint8_t>(0));
+			Assert::AreEqual(rgba[1], static_cast<uint8_t>(0));
+			Assert::AreEqual(rgba[2], static_cast<uint8_t>(0));
+			Assert::AreEqual(rgba[3], static_cast<uint8_t>(255));
+
+			Assert::AreEqual(text.getWidth(), 0);
+		}
+
+		TEST_METHOD(TestExampleConstructor)
+		{
+			Assert::AreNotEqual(SDL_Init(SDL_INIT_VIDEO), -1);
+			Assert::AreNotEqual(TTF_Init(), -1);
+
+			Text text({10,20,30,40}, "OpenSans-Regular.ttf", 20, "Example");
+
+			Assert::AreEqual(text.getString().c_str(), "Example");
+			
+			Assert::AreEqual(text.getTextSize(), 20);
+			Assert::IsNotNull(text.getFont());
+
+			uint8_t rgba[4];
+			text.getColour().getComponents(rgba);
+			Assert::AreEqual(rgba[0], static_cast<uint8_t>(10));
+			Assert::AreEqual(rgba[1], static_cast<uint8_t>(20));
+			Assert::AreEqual(rgba[2], static_cast<uint8_t>(30));
+			Assert::AreEqual(rgba[3], static_cast<uint8_t>(40));
+
+			Assert::AreNotEqual(text.getWidth(), 0);
+			Assert::AreNotEqual(text.getHeight(), 0);
+		}
+
+		TEST_METHOD(TestCopyConstruction)
+		{
+			Assert::AreNotEqual(SDL_Init(SDL_INIT_VIDEO), -1);
+			Assert::AreNotEqual(TTF_Init(), -1);
+			
+			Text a;
+			Text b(a);
+			Assert::AreEqual(a.getString(), b.getString());
+			Assert::AreEqual(a.getTextSize(), b.getTextSize());
+			Assert::IsNotNull(a.getFont());
+			Assert::IsNotNull(b.getFont());
+			Assert::IsTrue(a.getFont() == b.getFont());
+			Assert::AreEqual(a.getWidth(), b.getWidth());
+			Assert::AreEqual(a.getHeight(), b.getHeight());
+
+			uint8_t rgba_a[4];
+			a.getColour().getComponents(rgba_a);
+			uint8_t rgba_b[4];
+			b.getColour().getComponents(rgba_b);
+			Assert::AreEqual(rgba_a[0], rgba_a[0]);
+			Assert::AreEqual(rgba_a[1], rgba_a[1]);
+			Assert::AreEqual(rgba_a[2], rgba_a[2]);
+			Assert::AreEqual(rgba_a[3], rgba_a[3]);
+			
+		}
+
+		TEST_METHOD(TestAssignmentOperator)
+		{
+			Assert::AreNotEqual(SDL_Init(SDL_INIT_VIDEO), -1);
+			Assert::AreNotEqual(TTF_Init(), -1);
+			
+			Text a;
+			Text b = a;
+			Assert::AreEqual(a.getString(), b.getString());
+			Assert::AreEqual(a.getTextSize(), b.getTextSize());
+			Assert::IsNotNull(a.getFont());
+			Assert::IsNotNull(b.getFont());
+			Assert::IsTrue(a.getFont() == b.getFont());
+			Assert::AreEqual(a.getWidth(), b.getWidth());
+			Assert::AreEqual(a.getHeight(), b.getHeight());
+			
+			uint8_t rgba_a[4];
+			a.getColour().getComponents(rgba_a);
+			uint8_t rgba_b[4];
+			b.getColour().getComponents(rgba_b);
+			Assert::AreEqual(rgba_a[0], rgba_a[0]);
+			Assert::AreEqual(rgba_a[1], rgba_a[1]);
+			Assert::AreEqual(rgba_a[2], rgba_a[2]);
+			Assert::AreEqual(rgba_a[3], rgba_a[3]);
+		}
+
+		TEST_METHOD(TestMoveConstructor)
+		{
+			Assert::AreNotEqual(SDL_Init(SDL_INIT_VIDEO), -1);
+			Assert::AreNotEqual(TTF_Init(), -1);
+			
+			Text text(makeEmptyText());
+			Assert::AreEqual(text.getString().c_str(), "");
+
+			Assert::AreEqual(text.getTextSize(), 12);
+			Assert::IsNotNull(text.getFont());
+
+			uint8_t rgba[4];
+			text.getColour().getComponents(rgba);
+			Assert::AreEqual(rgba[0], static_cast<uint8_t>(0));
+			Assert::AreEqual(rgba[1], static_cast<uint8_t>(0));
+			Assert::AreEqual(rgba[2], static_cast<uint8_t>(0));
+			Assert::AreEqual(rgba[3], static_cast<uint8_t>(255));
+
+			Assert::AreEqual(text.getWidth(), 0);
+		}
+
+		TEST_METHOD(TestMoveAssignmentOperator)
+		{
+			Assert::AreNotEqual(SDL_Init(SDL_INIT_VIDEO), -1);
+			Assert::AreNotEqual(TTF_Init(), -1);
+			
+			Text text = makeEmptyText();
+			Assert::AreEqual(text.getString().c_str(), "");
+
+			Assert::AreEqual(text.getTextSize(), 12);
+			Assert::IsNotNull(text.getFont());
+
+			uint8_t rgba[4];
+			text.getColour().getComponents(rgba);
+			Assert::AreEqual(rgba[0], static_cast<uint8_t>(0));
+			Assert::AreEqual(rgba[1], static_cast<uint8_t>(0));
+			Assert::AreEqual(rgba[2], static_cast<uint8_t>(0));
+			Assert::AreEqual(rgba[3], static_cast<uint8_t>(255));
+
+			Assert::AreEqual(text.getWidth(), 0);
+		}
+
+		
+		TEST_METHOD(TestChangeString)
+		{
+			Assert::AreNotEqual(SDL_Init(SDL_INIT_VIDEO), -1);
+			Assert::AreNotEqual(TTF_Init(), -1);
+
+			Text text;
+			text.changeString("NewExampleText");
+			Assert::AreEqual(text.getString().c_str(), "NewExampleText");
+		}
+		TEST_METHOD(TestLoadFont)
+		{
+			Assert::AreNotEqual(SDL_Init(SDL_INIT_VIDEO), -1);
+			Assert::AreNotEqual(TTF_Init(), -1);
+
+			Text text;
+			text.loadFont("OpenSans-Bold.ttf");
+			Assert::IsNotNull(text.getFont());
+	}
+
+		private:
+			static Text makeEmptyText()
+			{
+				return Text();
+			}
+		
+	};
+
 }
