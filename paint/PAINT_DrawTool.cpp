@@ -26,18 +26,18 @@ void DrawTool::toolFunction(win::Coords relCoords, win::Coords prevRelCoords)
 {
 	lines_.push_back({ relCoords.x, relCoords.y, prevRelCoords.x, prevRelCoords.y });
 
-	renderer_->setRenderTargetDWTexture();
-	renderLines();
-	renderer_->setRenderTargetNull();
+	drawLines();
+	//This ideally should be removed, but removing the following line causes strange behaviour in Paint - leaving alone for now to prioritise other things
+	renderer_->switchRenderTarget(gfx::RenderTarget::SCREEN);
 }
 
-void DrawTool::renderLines() const
+void DrawTool::drawLines() const
 {
 	assert(activeBrush_ && "activeBrush_ is nullptr.");
 	const auto thickness = activeBrush_->getThickness();
 	assert((thickness == 0) || (thickness == 1) || (thickness == 2) && "brush thickness in renderLines is not 0, 1, or 2.");
 
 	if (renderer_->notDummy()) {
-		renderer_->renderLines(lines_, thickness, drawRGBA_);
+		renderer_->renderLines(gfx::RenderTarget::DRAWWINDOW, lines_, thickness, drawRGBA_);
 	}
 }

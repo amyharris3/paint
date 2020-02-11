@@ -205,6 +205,7 @@ void Program::run() const
 			}
 
 			if (rerenderFlag) {
+				printf("rerendering in while loop\n");
 				screen_->updateAndRerender();
 			}
 			
@@ -215,6 +216,6 @@ void Program::run() const
 			toolChild->draw();
 		}*/
 
-		renderer_->renderPresent();
+		renderer_->renderPresentScreen();
 	}
 }

@@ -37,7 +37,7 @@ void EditTextbox::editTextAndRerender(std::string & newString)
 	text_->changeString(newString.c_str());
 
 	draw();
-	getRenderer()->renderPresent();
+	getRenderer()->renderPresentScreen();
 }
 
 // Simple text entry, TODO copy, paste, highlight, cursor position, ect
@@ -104,7 +104,7 @@ void EditTextbox::takeTextEntry()
 
 void EditTextbox::draw()
 {
-	renderer_->renderTextbox(getRect(), getBackgroundColour(), text_.get(), xOffset_, yOffset_);
+	renderer_->renderTextbox(gfx::RenderTarget::SCREEN, getRect(), getBackgroundColour(), text_.get(), xOffset_, yOffset_);
 	
 }
 

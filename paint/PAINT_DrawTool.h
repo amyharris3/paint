@@ -26,7 +26,7 @@ namespace paint
 
 		void setToolColour(const uint8_t RGBA[]) override;
 		void toolFunction(win::Coords relCoords, win::Coords prevRelCoords) override;
-		void renderLines() const;
+		void drawLines() const;
 
 	private:
 		gfx::Renderer* renderer_;

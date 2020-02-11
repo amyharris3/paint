@@ -43,7 +43,7 @@ void StatusBarWindow::outputMessage(const char* message)
 // Status bar should contain only text
 void StatusBarWindow::draw()
 {
-	getRenderer()->renderBox(getRect(), getBackgroundColour());
+	getRenderer()->renderBox(gfx::RenderTarget::SCREEN, getRect(), getBackgroundColour());
 	displayMouseCoords(xMouse, yMouse);
 	displayMouseCoordsRelative(xMouse, yMouse);
 	outputMessageText_.render(getRenderer(), getRect().x + 10, getRect().y + 5);

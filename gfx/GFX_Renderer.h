@@ -9,6 +9,12 @@ namespace gfx
 	class Rectangle;
 	class Line;
 
+	enum class RenderTarget
+	{
+		SCREEN,
+		DRAWWINDOW
+	};
+	
 	// The purpose of the separate renderer class is to handle the SDL rendering, so as to allow the PAINT and WIN classes to function without needing to load SDL.
 	// Will be dependent on all other classes as it needs to have the functionality to render each of them.
 	// Default/empty constructor sets nullptr for the SDL renderer, use if necessary for unit testing, but do NOT use when actually rendering anything or it will cause assertion error.
@@ -30,18 +36,18 @@ namespace gfx
 		void createDrawWindowTexture(Rectangle rect);
 		void destroyDrawWindowTexture();
 		
-		void setRenderTargetDWTexture() const;
-		void setRenderTargetNull() const;
+		void renderPresentScreen();
 
-		void renderPresent() const;
+		void switchRenderTarget(RenderTarget target);
+
+		void renderScreen();
+		void renderBox(RenderTarget target, Rectangle rect, Colour);
+		void renderText(RenderTarget target, Text* text, int xPixel, int yPixel);
+		void renderTextbox(RenderTarget target, Rectangle rect, Colour colour, Text* text, int xOffset, int yOffset);
+		void renderLines(RenderTarget target, const std::vector<gfx::Line>& lines, int thickness, const uint8_t drawRGBA_[]);
 		
-		void renderBox(Rectangle rect, Colour) const;
-		void renderText(Text* text, int xPixel, int yPixel) const;
-		void renderTextbox(Rectangle rect, Colour colour, Text* text, int xOffset, int yOffset) const;
-		void renderLines(const std::vector<gfx::Line>& lines, int thickness, const uint8_t drawRGBA_[]) const;
-		
-		void renderDrawWindow(Rectangle rect, const uint8_t drawRGBA_[]) const;
-		void clearDrawWindow(Rectangle rect, gfx::Colour colour) const;
+		void renderDrawWindow(Rectangle rect, Colour colour) const;
+		void clearDrawWindow(Rectangle rect, gfx::Colour colour);
 
 		void getMouseState(int& xMouse, int& yMouse, bool dummyValues = false, int dummyX=0, int dummyY=0);
 		
@@ -49,5 +55,9 @@ namespace gfx
 		SDL_Renderer* rendererSDL_;
 		SDL_Texture* textureDW_;
 		
+		RenderTarget currentTarget_;
+
+		
+
 	};
 }
