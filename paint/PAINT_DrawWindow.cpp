@@ -51,8 +51,8 @@ static void handleMouseUp(MouseButton const b, Tool* tool, Coords& mouse, Coords
 //not really getting many clipping problems with entry into draw window, but adding this as a precaution
 bool DrawWindow::mouseEnter(bool clicked)
 {
-	int xMouse = mouseCoords_.x;
-	int yMouse = mouseCoords_.y;
+	const int xMouse = mouseCoords_.x;
+	const int yMouse = mouseCoords_.y; 
 	auto absCoords = clippingHandler(prevMouseCoords_, { xMouse, yMouse });
 
 	prevMouseCoords_ = { absCoords[0].x, absCoords[0].y };
@@ -71,8 +71,8 @@ bool DrawWindow::mouseEnter(bool clicked)
 //if exit, mouse may move too fast for render lines to keep up, so must interpolate intersect with DW boundary
 bool DrawWindow::mouseExit(bool clicked)
 {
-	int xMouse = mouseCoords_.x;
-	int yMouse = mouseCoords_.y;
+	const int xMouse = mouseCoords_.x;
+	const int yMouse = mouseCoords_.y;
 	//SDL_GetMouseState(&xMouse, &yMouse);
 	auto absCoords = clippingHandler(prevMouseCoords_, { xMouse, yMouse });
 
