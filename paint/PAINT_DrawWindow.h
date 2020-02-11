@@ -39,6 +39,7 @@ namespace paint
 		DrawWindow& operator=(const DrawWindow& that) = delete;
 		DrawWindow& operator=(DrawWindow&& that) = delete;
 
+		bool mouseEnter(bool clicked = false) override;
 		bool mouseButtonDown(win::MouseButton button, bool clicked) override;
 		bool mouseButtonUp(win::MouseButton button, bool clicked) override;
 		bool mouseExit(win::MouseButton button, bool clicked) override;
