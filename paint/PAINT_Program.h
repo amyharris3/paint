@@ -1,6 +1,6 @@
 #pragma once
-#include "GFX_Renderer.h"
 #include "GFX_Rectangle.h"
+#include "WIN_SDLRenderer.h"
 
 struct SDL_Window;
 struct SDL_Renderer;
@@ -27,7 +27,7 @@ namespace paint
 
 	private:
 		std::shared_ptr<Screen> screen_;
-		gfx::Renderer* renderer_;
+		win::SDLRenderer* renderer_;
 
 		SDL_Window* rootWindow_;
 		

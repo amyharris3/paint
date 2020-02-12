@@ -3,7 +3,7 @@
 
 namespace paint
 {
-	class Eraser :
+	class Eraser final :
 		public Tool
 	{
 	public:

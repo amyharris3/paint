@@ -3,20 +3,20 @@
 #include "WIN_Mouse.h"
 #include "PAINT_DrawTool.h"
 #include "WIN_ToggleButton.h"
-#include "WIN_Coords.h"
+#include "GFX_Coords.h"
 #include "WIN_ButtonStates.h"
 #include "PAINT_ShapeTool.h"
 #include "PAINT_Utils.h"
-#include "WIN_Utils.h"
+#include "GFX_Utils.h"
 
 using namespace paint;
 using namespace win;
 
-DrawWindow::DrawWindow(gfx::Renderer* renderer, gfx::Rectangle const& rect, const char* name)
-	: Window( renderer, rect, name)
+DrawWindow::DrawWindow(win::SDLRenderer* renderer, gfx::Rectangle const& rect, const char* name)
+	: Window(rect, name)
 	, renderer_(renderer)
 	, activeTool_(nullptr)
-	, drawTool_(std::make_shared<DrawTool>(renderer_))
+	, drawTool_(std::make_shared<DrawTool>(renderer))
 	, primaryColour_(gfx::Colour(255, 255, 255,255))
 	, secondaryColour_(gfx::Colour(255, 255, 255, 255))
 	, mouseCoords_({ 0,0 })
@@ -27,7 +27,7 @@ DrawWindow::DrawWindow(gfx::Renderer* renderer, gfx::Rectangle const& rect, cons
 	, secondaryRGBA_{}
 {
 	//texture_ = SDL_CreateTexture(renderer_, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, rect.width, rect.height);
-	renderer_->createDrawWindowTexture(rect);
+	renderer->createDrawWindowTexture(rect);
 	primaryColour_.getComponents(primaryRGBA_);
 	secondaryColour_.getComponents(secondaryRGBA_);
 	drawTool_ = std::make_shared<DrawTool>(renderer_);
@@ -36,7 +36,7 @@ DrawWindow::DrawWindow(gfx::Renderer* renderer, gfx::Rectangle const& rect, cons
 
 DrawWindow::~DrawWindow()
 {
-	renderer_->destroyDrawWindowTexture();
+	//renderer->destroyDrawWindowTexture();
 }
 
 static void handleMouseUp(MouseButton const b, Tool* tool, Coords& mouse, Coords& prevMouse, Coords& start, gfx::Rectangle const& rect)
@@ -53,7 +53,7 @@ bool DrawWindow::mouseEnter(bool clicked)
 {
 	const int xMouse = mouseCoords_.x;
 	const int yMouse = mouseCoords_.y; 
-	auto absCoords = clippingHandler(prevMouseCoords_, { xMouse, yMouse });
+	auto absCoords = gfx::utils::clippingHandler(getRect(), prevMouseCoords_, { xMouse, yMouse });
 
 	prevMouseCoords_ = { absCoords[0].x, absCoords[0].y };
 	mouseCoords_ = { absCoords[1].x, absCoords[1].y };
@@ -74,7 +74,7 @@ bool DrawWindow::mouseExit(bool clicked)
 	const int xMouse = mouseCoords_.x;
 	const int yMouse = mouseCoords_.y;
 	//SDL_GetMouseState(&xMouse, &yMouse);
-	auto absCoords = clippingHandler(prevMouseCoords_, { xMouse, yMouse });
+	auto absCoords = gfx::utils::clippingHandler(getRect(),prevMouseCoords_, { xMouse, yMouse });
 
 	prevMouseCoords_ = { absCoords[0].x, absCoords[0].y };
 	mouseCoords_ = { absCoords[1].x, absCoords[1].y };
@@ -92,10 +92,11 @@ bool DrawWindow::mouseExit(bool clicked)
 //if exit, mouse may move too fast for render lines to keep up, so must interpolate intersect with DW boundary
 bool DrawWindow::mouseExit(const MouseButton button, bool clicked)
 {
-	const int xMouse = mouseCoords_.x;
-	const int yMouse = mouseCoords_.y;
-	//SDL_GetMouseState(&xMouse, &yMouse);
-	auto absCoords = clippingHandler(prevMouseCoords_, { xMouse, yMouse });
+	drawToggle_ = true;
+	if (b == MouseButton::Left) {
+		if (activeTool_) {
+			const gfx::Coords prevRel = { prevMouseCoords_.x - this->getRect().x, prevMouseCoords_.y - this->getRect().y };
+			const gfx::Coords rel = { mouseCoords_.x - this->getRect().x, mouseCoords_.y - this->getRect().y };
 
 	prevMouseCoords_ = { absCoords[0].x, absCoords[0].y};
 	mouseCoords_ = { absCoords[1].x, absCoords[1].y };
@@ -108,7 +109,7 @@ bool DrawWindow::mouseExit(const MouseButton button, bool clicked)
 }
 
 /*override*/
-bool DrawWindow::mouseButtonDown(const MouseButton button, bool clicked)
+bool DrawWindow::mouseButtonUp(win::MouseButton const b, win::SDLRenderer* renderer)
 {
 	if (button == MouseButton::Left) {
 		if (activeTool_) {
@@ -154,12 +155,12 @@ void DrawWindow::toggleShapeTool(ToggleButton* b)
 	}
 }
 
-void DrawWindow::setMouseCoords(const win::Coords relCoords)
+void DrawWindow::setMouseCoords(const gfx::Coords relCoords)
 {
 	mouseCoords_ = relCoords;
 }
 
-void DrawWindow::setPrevCoords(const win::Coords relPrevCoords)
+void DrawWindow::setPrevCoords(const gfx::Coords relPrevCoords)
 {
 	prevMouseCoords_ = relPrevCoords;
 }
@@ -200,15 +201,15 @@ void DrawWindow::updateDrawToolRGBA()
 }
 
 /*override*/
-void DrawWindow::draw()
+void DrawWindow::draw(win::SDLRenderer* renderer)
 {
-	renderer_->renderDrawWindow(getRect(), getBackgroundColour());
+	renderer->renderDrawWindow(getRect(), getBackgroundColour());
 }
 
-void DrawWindow::updateAndRerender()
+void DrawWindow::updateAndRerender(win::SDLRenderer* renderer)
 {
-	draw();
-	renderer_->renderPresentScreen();
+	draw(renderer);
+	renderer->renderPresentScreen();
 }
 
 // TODO Needs more work, to properly clear drawWindow
@@ -217,78 +218,4 @@ void DrawWindow::clearWindow() const
 	//renderer_->setRenderTargetDWTexture();
 	renderer_->clearDrawWindow(getRect(), getBackgroundColour());
 	//renderer_->setRenderTargetNull();
-}
-
-//using Cohen-Sutherland clipping algorithm
-std::vector<win::Coords> DrawWindow::clippingHandler(win::Coords pStart, win::Coords pEnd) const
-{
-	const auto rect = getRect();
-
-	auto startOutcode = win::utils::findOutcode(rect, pStart.x, pStart.y);
-	auto endOutcode = win::utils::findOutcode(rect, pEnd.x, pEnd.y);
-	
-	int startOutcode = win::utils::findOutcode(rect, pStart.x, pStart.y);
-	int endOutcode = win::utils::findOutcode(rect, pEnd.x, pEnd.y);
-
-	while(true){
-		// case where start and end points are within rectangle
-		// OR both points share one zone designation outside the rect, so no crossing over into the rect
-		if (!(startOutcode | endOutcode) || (startOutcode & endOutcode)){
-			break;
-		}
-		// one or more point is outside rect and not sharing 'outside zone'
-		else {
-			// if startOutcode is 0, ie false, then is inside rect, so examine pEnd instead
-			const auto examineOutcode = startOutcode ? startOutcode : endOutcode;
-			int x = startOutcode ? pStart.x : pEnd.x;
-			int y = startOutcode ? pStart.y : pEnd.y;
-	
-			// find point of intersection with rect
-			// using slope formula: y = mx + y0, m = (y-y0)/(x-x0)
-			
-			// point is above rect
-			if (examineOutcode & 8){
-				x = pStart.x + (pEnd.x - pStart.x) * (rect.y - pStart.y) / (pEnd.y - pStart.y);
-				y = rect.y;
-			}
-			// point is below rect
-			else if (examineOutcode & 4) {
-				x = pStart.x + (pEnd.x - pStart.x) * (rect.y + rect.height - pStart.y) / (pEnd.y - pStart.y);
-				y = rect.y + rect.height;
-			}
-			// point is left of window
-			else if (examineOutcode & 1) {
-				x = rect.x;
-				y = pStart.y + (pEnd.y - pStart.y) * (rect.x - pStart.x) / (pEnd.x - pStart.x);
-			}
-			// point is right of rect
-			else if (examineOutcode & 2) {
-				x = rect.x + rect.width;
-				y = pStart.y + (pEnd.y - pStart.y) * (rect.x + rect.width - pStart.x) / (pEnd.x - pStart.x);
-			}
-
-			// move the point under examination to the intersection point, then repeat
-			if (examineOutcode == startOutcode){
-				pStart.x = x;
-				pStart.y = y;
-				startOutcode = win::utils::findOutcode(rect, pStart.x, pStart.y);
-			}
-			else {
-				pEnd.x = x;
-				pEnd.y = y;
-				endOutcode = win::utils::findOutcode(rect, pEnd.x, pEnd.y);
-			}
-		}
-	}
-
-	std::vector<win::Coords> returnCoords;
-	returnCoords.push_back(pStart);
-	returnCoords.push_back(pEnd);
-	
-	return returnCoords;
-}
-
-void DrawWindow::setStartCoord(win::Coords const startCoords)
-{
-	startCoord_ = startCoords;
 }

@@ -1,5 +1,4 @@
 #pragma once
-#include "SDL.h"
 #include <vector>
 #include "GFX_Text.h"
 
@@ -21,43 +20,29 @@ namespace gfx
 	class Renderer
 	{
 	public:
-		Renderer(); //should only be used in debug
-		Renderer(SDL_Renderer* renderer);
-		~Renderer();
-		Renderer(const Renderer & that) = default;
-		Renderer(Renderer && that) = default;
-		Renderer& operator=(const Renderer & that) = default;
-		Renderer& operator=(Renderer && that) = default;
 
-		bool notDummy() const;
-		
-		SDL_Renderer* getRendererSDL() const { return rendererSDL_; }
-		
-		void createDrawWindowTexture(Rectangle rect);
-		void destroyDrawWindowTexture();
-		
-		void renderPresentScreen();
+		virtual void createDrawWindowTexture(Rectangle rect) = 0;
+		virtual  void destroyDrawWindowTexture() = 0;
 
-		void switchRenderTarget(RenderTarget target);
+		virtual void renderPresentScreen() = 0;
 
-		void renderScreen();
-		void renderBox(RenderTarget target, Rectangle rect, Colour);
-		void renderText(RenderTarget target, Text* text, int xPixel, int yPixel);
-		void renderTextbox(RenderTarget target, Rectangle rect, Colour colour, Text* text, int xOffset, int yOffset);
-		void renderLines(RenderTarget target, const std::vector<gfx::Line>& lines, int thickness, const uint8_t drawRGBA_[]);
-		
-		void renderDrawWindow(Rectangle rect, Colour colour) const;
-		void clearDrawWindow(Rectangle rect, gfx::Colour colour);
+		virtual void switchRenderTarget(RenderTarget target) = 0;
 
-		static void getMouseState(int& xMouse, int& yMouse, bool dummyValues = false, int dummyX=0, int dummyY=0);
-		
-	private:
-		SDL_Renderer* rendererSDL_;
-		SDL_Texture* textureDW_;
-		
-		RenderTarget currentTarget_;
+		virtual void renderBox(RenderTarget target, Rectangle rect, Colour) = 0;
+		virtual void renderText(RenderTarget target, Text* text, int xPixel, int yPixel) = 0;
+		virtual void renderTextbox(RenderTarget target, Rectangle rect, Colour colour, Text* text, int xOffset, int yOffset) = 0;
+		virtual void renderLines(RenderTarget target, const std::vector<gfx::Line>& lines, int thickness, const uint8_t drawRGBA_[]) = 0;
 
-		
+		virtual void renderDrawWindow(Rectangle rect, Colour colour) const = 0;
+		virtual void clearDrawWindow(Rectangle rect, gfx::Colour colour) = 0;
+
+	protected:
+		Renderer() = default;
+		~Renderer() = default;
+		Renderer(const Renderer& that) = default;
+		Renderer(Renderer&& that) = default;
+		Renderer& operator=(const Renderer& that) = default;
+		Renderer& operator=(Renderer&& that) = default;
 
 	};
 }

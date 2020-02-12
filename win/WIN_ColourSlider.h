@@ -8,7 +8,7 @@ namespace win
 	{
 	public:
 		ColourSlider() = delete;
-		ColourSlider(gfx::Renderer* renderer, gfx::Rectangle rect, const char* name, gfx::Colour fillColour, gfx::Colour outlineColour, uint8_t* linkedVariablePrimary, uint8_t* linkedVariableSecondary, bool primaryActive);
+		ColourSlider(gfx::Rectangle rect, const char* name, gfx::Colour fillColour, gfx::Colour outlineColour, uint8_t* linkedVariablePrimary, uint8_t* linkedVariableSecondary, bool primaryActive);
 		virtual ~ColourSlider() = default;
 		ColourSlider(ColourSlider const& that) = default;
 		ColourSlider(ColourSlider && that) = default;
@@ -21,7 +21,7 @@ namespace win
 		void primaryActiveSwitch() { primaryActive_ = !primaryActive_; }
 		
 		bool mouseMove(SDL_MouseMotionEvent& e) override;
-		bool mouseButtonUp(MouseButton button, bool clicked) override;
+		bool mouseButtonUp(MouseButton button, win::SDLRenderer* renderer) override;
 		
 	private:
 

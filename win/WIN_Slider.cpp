@@ -1,13 +1,14 @@
 #include "WIN_pch.h"
 #include "WIN_Slider.h"
 #include "GFX_Renderer.h"
+#include "WIN_SDLRenderer.h"
+#include "WIN_Utils.h"
 
 using namespace win;
 
 //Demanding minimum dimensions for the slider box, if input parameters are below the minimum size then it will re-adjust
-Slider::Slider(gfx::Renderer* renderer, gfx::Rectangle rect, const char* name, gfx::Colour fillColour, gfx::Colour outlineColour, int const initialVal, int const slideMin, int const slideMax)
+Slider::Slider(gfx::Rectangle rect, const char* name, gfx::Colour fillColour, gfx::Colour outlineColour, int const initialVal, int const slideMin, int const slideMax)
 	: UIelement(rect, name)
-	, renderer_(renderer)
 	, slideValueMin_(slideMin)
 	, slideValueMax_(slideMax)
 	, lineRect_(rect.x+2, int(rect.y+rect.height/2)-2, rect.width-5, 3)
@@ -115,21 +116,21 @@ void Slider::update()
 }
 
 
-void Slider::updateAndRerender()
+void Slider::updateAndRerender(win::SDLRenderer* renderer)
 {
 	updateLineMarker();
 	
-	draw();
-	renderer_->renderPresentScreen();
+	draw(renderer);
+	renderer->renderPresentScreen();
 }
 
-void Slider::draw()
+void Slider::draw(win::SDLRenderer* renderer)
 {
 	//updateLineMarker();
 	
-	renderer_->renderBox(gfx::RenderTarget::SCREEN, getRect(), getForegroundColour());
-	renderer_->renderBox(gfx::RenderTarget::SCREEN, lineRect_, lineColour_);
-	renderer_->renderBox(gfx::RenderTarget::SCREEN, { markerRect_.x - 2, markerRect_.y, markerRect_.width, markerRect_.height }, markerColour_);
+	renderer->renderBox(gfx::RenderTarget::SCREEN, getRect(), getForegroundColour());
+	renderer->renderBox(gfx::RenderTarget::SCREEN, lineRect_, lineColour_);
+	renderer->renderBox(gfx::RenderTarget::SCREEN, { markerRect_.x - 2, markerRect_.y, markerRect_.width, markerRect_.height }, markerColour_);
 
 	/*SDL_Rect boxRect = { getRect().x, getRect().y, getRect().width, getRect().height };
 	getForegroundColour().getComponents(rgba);
@@ -178,13 +179,13 @@ bool Slider::mouseButtonDown(MouseButton button, bool clicked)
 	return false;
 }
 
-bool Slider::mouseButtonUp(MouseButton button, bool clicked)
+bool Slider::mouseButtonUp(MouseButton button, win::SDLRenderer* renderer)
 {
 	if (holdMarker_ && !clickDownOutsideSlider_){
 		auto xMouse = 0;
 		auto yMouse = 0;
 		
-		getRenderer()->getMouseState(xMouse, yMouse);
+		win::utils::getMouseState(xMouse, yMouse);
 		markerRect_.x = xMouse;
 		//updateAndRerender();
 	}

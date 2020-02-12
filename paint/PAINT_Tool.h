@@ -1,8 +1,7 @@
 #pragma once
 #include "GFX_Line.h"
-#include "WIN_Coords.h"
+#include "GFX_Coords.h"
 #include "GFX_Rectangle.h"
-//#include "PAINT_Brush.h"
 
 namespace gfx
 {

@@ -5,8 +5,8 @@
 using namespace paint;
 using namespace win;
 
-MenuWindow::MenuWindow(gfx::Renderer* renderer, const gfx::Rectangle& rect, const char* name)
-	: Window(renderer, rect, name)
+MenuWindow::MenuWindow(const gfx::Rectangle& rect, const char* name)
+	: Window(rect, name)
 {
 
 }

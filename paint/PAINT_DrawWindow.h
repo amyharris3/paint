@@ -1,20 +1,21 @@
 #pragma once
 
 #include "WIN_Window.h"
-#include "WIN_Coords.h"
+#include "PAINT_DrawTool.h"
+#include "WIN_ToggleButton.h"
+#include "GFX_Coords.h"
 
 struct SDL_Texture;
 
 namespace gfx
 {
+	struct Coords;
 	class Colour;
-	//class Line;
 }
 
 namespace win
 {
 	enum class MouseButton;
-	class ToggleButton;
 }
 
 namespace paint 
@@ -31,7 +32,7 @@ namespace paint
 
 	public:
 		DrawWindow() = delete;
-		DrawWindow(gfx::Renderer* renderer, const gfx::Rectangle& rect, const char* name);
+		DrawWindow(win::SDLRenderer* renderer, const gfx::Rectangle& rect, const char* name);
 
 		virtual ~DrawWindow();
 		DrawWindow(const DrawWindow& that) = delete;
@@ -42,7 +43,7 @@ namespace paint
 		bool mouseEnter(bool clicked = false) override;
 		bool mouseExit(bool clicked = false) override;
 		bool mouseButtonDown(win::MouseButton button) override;
-		bool mouseButtonUp(win::MouseButton b) override;
+		bool mouseButtonUp(win::MouseButton b, win::SDLRenderer* renderer) override;
 		
 		void setActiveTool(std::shared_ptr<Tool> tool);
 		std::shared_ptr<Tool> getActiveTool() const { return activeTool_; }
@@ -65,8 +66,8 @@ namespace paint
 		void updateDrawToolRGBA();
 
 		//void setColor(SDL_Surface* surface);
-		void draw() override;
-		void updateAndRerender() override;
+		void draw(win::SDLRenderer* renderer) override;
+		void updateAndRerender(win::SDLRenderer* renderer) override;
 		void clearWindow() const;
 
 		void setStartCoord(win::Coords startCoords);
@@ -75,7 +76,7 @@ namespace paint
 		std::vector<win::Coords> clippingHandler(win::Coords pStart, win::Coords pEnd) const;
 
 	private:
-		gfx::Renderer* renderer_;
+		win::SDLRenderer* renderer_;
 		
 		std::shared_ptr<Tool> activeTool_;
 		std::shared_ptr<Tool> drawTool_;

@@ -1,8 +1,8 @@
 #pragma once
 #include "PAINT_Tool.h"
-#include <GFX_Renderer.h>
+#include "WIN_SDLRenderer.h"
 
-namespace win
+namespace gfx
 {
 	struct Coords;
 }
@@ -17,7 +17,7 @@ namespace paint
 	{
 	public:
 		DrawTool() = delete;
-		DrawTool(gfx::Renderer* renderer);
+		DrawTool(win::SDLRenderer* renderer);
 		virtual ~DrawTool() = default;
 		DrawTool(const DrawTool& that) = default;
 		DrawTool(DrawTool&& that) = default;
@@ -27,11 +27,11 @@ namespace paint
 		void toolFunction(win::Coords& mouseCoords, win::Coords& prevMouseCoords, win::Coords& startCoords, gfx::Rectangle refRect) override;
 		void toolFunctionEnd(win::Coords& mouseCoords, win::Coords& prevMouseCoords, win::Coords& startCoords, gfx::Rectangle refRect) override;
 		void setToolColour(const uint8_t RGBA[]) override;
-		void toolFunction(win::Coords relCoords, win::Coords prevRelCoords) override;
+		void toolFunction(gfx::Coords relCoords, gfx::Coords prevRelCoords) override;
 		void drawLines() const;
 
 	private:
-		gfx::Renderer* renderer_;
+		win::SDLRenderer* renderer_;
 		uint8_t drawRGBA_[4];
 
 	};

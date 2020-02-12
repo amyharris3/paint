@@ -5,9 +5,8 @@
 //struct SDL_Renderer;
 //struct SDL_Rect;
 
-namespace gfx
-{
-	class Renderer;
+namespace win {
+	class SDLRenderer;
 }
 
 namespace paint
@@ -17,7 +16,7 @@ namespace paint
 	public:
 
 		ColourDisplay() = delete;
-		ColourDisplay(gfx::Rectangle rect, const char* name, uint8_t displayColour[], gfx::Renderer* renderer, bool isActive);
+		ColourDisplay(gfx::Rectangle rect, const char* name, uint8_t displayColour[], bool isActive);
 		virtual ~ColourDisplay() = default;
 		ColourDisplay(ColourDisplay const& that) = default;
 		ColourDisplay(ColourDisplay&& that) = default;
@@ -38,15 +37,14 @@ namespace paint
 		void setClickFalse() { isClicked_ = false; }
 
 		void update() override;
-		void draw() override;
-		bool mouseEnter(win::MouseButton button, bool clicked) override;
-		bool mouseExit(win::MouseButton button, bool clicked) override;
+		void draw(win::SDLRenderer* renderer) override;
+		bool mouseEnter(bool clicked = false) override;
+		bool mouseExit(bool clicked = false) override;
 		bool mouseMove(SDL_MouseMotionEvent& e) override;
-		bool mouseButtonDown(win::MouseButton button, bool clicked) override;
-		bool mouseButtonUp(win::MouseButton button, bool clicked) override;
+		bool mouseButtonDown(win::MouseButton button) override;
+		bool mouseButtonUp(win::MouseButton button, win::SDLRenderer* renderer = nullptr) override;
 
 	private:
-		gfx::Renderer* renderer_;
 		bool isActive_;
 		bool isClicked_;
 		bool mouseDragged_;

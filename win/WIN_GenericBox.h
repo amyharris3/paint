@@ -14,17 +14,15 @@ namespace win
 	public:
 
 		GenericBox() = delete;
-		GenericBox(gfx::Rectangle& rect, const char* name, gfx::Colour foregroundColour, gfx::Colour backgroundColour, gfx::Renderer* renderer);
+		GenericBox(gfx::Rectangle& rect, const char* name, gfx::Colour foregroundColour, gfx::Colour backgroundColour);
 		virtual ~GenericBox() = default;
 		GenericBox(GenericBox const& that) = default;
 		GenericBox(GenericBox && that) = default;
 		GenericBox& operator=(GenericBox const& that) = default;
 		GenericBox& operator=(GenericBox && that) = default;
 
-		void draw() override;
+		void draw(win::SDLRenderer* renderer) override;
 
-	private:
-		gfx::Renderer* renderer_;
 	};
 	
 }

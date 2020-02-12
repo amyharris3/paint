@@ -9,7 +9,7 @@ namespace win
 	{
 	public:
 		ColourValueTextbox() = delete;
-		ColourValueTextbox(gfx::Rectangle rect, const char* name, gfx::Renderer* renderer, int textSize, int xOffset, int yOffset, uint8_t* linkedVariablePrimary, uint8_t* linkedVariableSecondary, bool primaryActive);
+		ColourValueTextbox(gfx::Rectangle rect, const char* name, int textSize, int xOffset, int yOffset, uint8_t* linkedVariablePrimary, uint8_t* linkedVariableSecondary, bool primaryActive);
 		~ColourValueTextbox() = default;
 		ColourValueTextbox(const ColourValueTextbox& that) = default;
 		ColourValueTextbox(ColourValueTextbox&& that) = default;
@@ -28,7 +28,7 @@ namespace win
 
 		void primaryActiveSwitch();
 		
-		bool mouseButtonUp(MouseButton button, bool clicked) override;
+		bool mouseButtonUp(win::MouseButton button, win::SDLRenderer* renderer) override;
 
 	private:
 

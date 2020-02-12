@@ -13,12 +13,11 @@
 using namespace win;
 using namespace paint;
 
-ColourPicker::ColourPicker(gfx::Rectangle const rect, gfx::Renderer* renderer, std::shared_ptr<DrawWindow>& drawWindow)
+ColourPicker::ColourPicker(gfx::Rectangle rect, win::SDLRenderer* renderer, std::shared_ptr<DrawWindow> drawWindow)
 	: Container(std::make_shared<win::FreeLayout>(), rect, "colourPicker")
 	, drawWindowPtr_(std::move(drawWindow))
-	, renderer_(renderer)
 	, displayBox_(std::make_shared<win::Container>(std::make_shared<win::TableLayout>(20, 20, 60, 0, 1, 2), gfx::Rectangle(rect.x, rect.y, rect.width, 70), "displayBox"))
-	, swapButton_(std::make_shared<win::Button>(renderer, gfx::Rectangle(rect.x + 75, rect.y + 20, 30, 30), "swapColourButton", "button_swap_colours.png", paint::swapColours))
+	, swapButton_(std::make_shared<Button>(renderer, gfx::Rectangle(rect.x + 75, rect.y + 20, 30, 30), "swapColourButton", "button_swap_colours.png", paint::swapColours))
 	, swappedDisplays_(false)
 	, colourValuesBox_(std::make_shared<win::Container>(std::make_shared<win::TableLayout>(0, 0, 0, 20, 4, 1), gfx::Rectangle(rect.x + rect.width - 50, rect.y + 65, 40, 140), "colourValuesBox"))
 	, colourSliders_(std::make_shared<win::Container>(std::make_shared<win::TableLayout>(0, 0, 0, 20, 4, 1), gfx::Rectangle(rect.x+5, rect.y + 65, 120, 140), "colourSlidersBox"))
@@ -35,8 +34,8 @@ ColourPicker::ColourPicker(gfx::Rectangle const rect, gfx::Renderer* renderer, s
 
 inline void ColourPicker::initialiseColourDisplays()
 {
-	leftColourDisplay_ = std::make_shared<ColourDisplay>(gfx::Rectangle(), "primaryColourDisplay", drawWindowPtr_->getPrimaryRGBA(), renderer_, true);
-	rightColourDisplay_ = std::make_shared<ColourDisplay>(gfx::Rectangle(), "secondaryColourDisplay", drawWindowPtr_->getSecondaryRGBA(), renderer_, false);
+	leftColourDisplay_ = std::make_shared<ColourDisplay>(gfx::Rectangle(), "primaryColourDisplay", drawWindowPtr_->getPrimaryRGBA(), true);
+	rightColourDisplay_ = std::make_shared<ColourDisplay>(gfx::Rectangle(), "secondaryColourDisplay", drawWindowPtr_->getSecondaryRGBA(), false);
 
 	displayBox_->addChild(leftColourDisplay_);
 	displayBox_->addChild(rightColourDisplay_);
@@ -45,13 +44,13 @@ inline void ColourPicker::initialiseColourDisplays()
 
 inline void ColourPicker::initialiseColourValueBoxes()
 {
-	redValueBox_ = std::make_shared<win::ColourValueTextbox>(gfx::Rectangle(), "redValueBox", renderer_, 18, 2, -3, &(drawWindowPtr_->getPrimaryRGBA()[0]), &(drawWindowPtr_->getSecondaryRGBA()[0]), drawWindowPtr_->isPrimaryActive());
+	redValueBox_ = std::make_shared<win::ColourValueTextbox>(gfx::Rectangle(), "redValueBox", 18, 2, -3, &(drawWindowPtr_->getPrimaryRGBA()[0]), &(drawWindowPtr_->getSecondaryRGBA()[0]), drawWindowPtr_->isPrimaryActive());
 	redValueBox_->setBackgroundColour({ 255,50,50,200 });
-	greenValueBox_ = std::make_shared<win::ColourValueTextbox>(gfx::Rectangle(), "greenValueBox", renderer_, 18, 2, -3, &(drawWindowPtr_->getPrimaryRGBA()[1]), &(drawWindowPtr_->getSecondaryRGBA()[1]), drawWindowPtr_->isPrimaryActive());
+	greenValueBox_ = std::make_shared<win::ColourValueTextbox>(gfx::Rectangle(), "greenValueBox", 18, 2, -3, &(drawWindowPtr_->getPrimaryRGBA()[1]), &(drawWindowPtr_->getSecondaryRGBA()[1]), drawWindowPtr_->isPrimaryActive());
 	greenValueBox_->setBackgroundColour({ 50,255,50,200 });
-	blueValueBox_ = std::make_shared<win::ColourValueTextbox>(gfx::Rectangle(), "blueValueBox", renderer_, 18, 2, -3, &(drawWindowPtr_->getPrimaryRGBA()[2]), &(drawWindowPtr_->getSecondaryRGBA()[2]), drawWindowPtr_->isPrimaryActive());
+	blueValueBox_ = std::make_shared<win::ColourValueTextbox>(gfx::Rectangle(), "blueValueBox", 18, 2, -3, &(drawWindowPtr_->getPrimaryRGBA()[2]), &(drawWindowPtr_->getSecondaryRGBA()[2]), drawWindowPtr_->isPrimaryActive());
 	blueValueBox_->setBackgroundColour({ 50, 50, 255, 200 });
-	alphaValueBox_ = std::make_shared<win::ColourValueTextbox>(gfx::Rectangle(), "alphaValueBox", renderer_, 18, 2, -3, &(drawWindowPtr_->getPrimaryRGBA()[3]), &(drawWindowPtr_->getSecondaryRGBA()[3]), drawWindowPtr_->isPrimaryActive());
+	alphaValueBox_ = std::make_shared<win::ColourValueTextbox>(gfx::Rectangle(), "alphaValueBox",  18, 2, -3, &(drawWindowPtr_->getPrimaryRGBA()[3]), &(drawWindowPtr_->getSecondaryRGBA()[3]), drawWindowPtr_->isPrimaryActive());
 	alphaValueBox_->setBackgroundColour({ 150,150,150,200 });
 	
 	colourValuesBox_->addChild(redValueBox_);
@@ -64,10 +63,10 @@ inline void ColourPicker::initialiseColourValueBoxes()
 
 inline void ColourPicker::initialiseColourSliders()
 {
-	redValueSlider_ = std::make_shared<win::ColourSlider>(renderer_, gfx::Rectangle(15, 660, 105, 20), "redValueSlider", gfx::Colour(255, 255, 255, 255), gfx::Colour(0, 0, 0, 255), &(drawWindowPtr_->getPrimaryRGBA()[0]), &(drawWindowPtr_->getSecondaryRGBA()[0]), drawWindowPtr_->isPrimaryActive());
-	greenValueSlider_ = std::make_shared<win::ColourSlider>(renderer_, gfx::Rectangle(15, 660, 105, 20), "greenValueSlider", gfx::Colour(255, 255, 255, 255), gfx::Colour(0, 0, 0, 255), &(drawWindowPtr_->getPrimaryRGBA()[1]), &(drawWindowPtr_->getSecondaryRGBA()[1]), drawWindowPtr_->isPrimaryActive());
-	blueValueSlider_ = std::make_shared<win::ColourSlider>(renderer_, gfx::Rectangle(15, 660, 105, 20), "blueValueSlider", gfx::Colour(255, 255, 255, 255), gfx::Colour(0, 0, 0, 255), &(drawWindowPtr_->getPrimaryRGBA()[2]), &(drawWindowPtr_->getSecondaryRGBA()[2]), drawWindowPtr_->isPrimaryActive());
-	alphaValueSlider_ = std::make_shared<win::ColourSlider>(renderer_, gfx::Rectangle(15, 660, 105, 20), "alphaValueSlider", gfx::Colour(255, 255, 255, 255), gfx::Colour(0, 0, 0, 255), &(drawWindowPtr_->getPrimaryRGBA()[3]), &(drawWindowPtr_->getSecondaryRGBA()[3]), drawWindowPtr_->isPrimaryActive());
+	redValueSlider_ = std::make_shared<win::ColourSlider>(gfx::Rectangle(15, 660, 105, 20), "redValueSlider", gfx::Colour(255, 255, 255, 255), gfx::Colour(0, 0, 0, 255), &(drawWindowPtr_->getPrimaryRGBA()[0]), &(drawWindowPtr_->getSecondaryRGBA()[0]), drawWindowPtr_->isPrimaryActive());
+	greenValueSlider_ = std::make_shared<win::ColourSlider>(gfx::Rectangle(15, 660, 105, 20), "greenValueSlider", gfx::Colour(255, 255, 255, 255), gfx::Colour(0, 0, 0, 255), &(drawWindowPtr_->getPrimaryRGBA()[1]), &(drawWindowPtr_->getSecondaryRGBA()[1]), drawWindowPtr_->isPrimaryActive());
+	blueValueSlider_ = std::make_shared<win::ColourSlider>(gfx::Rectangle(15, 660, 105, 20), "blueValueSlider", gfx::Colour(255, 255, 255, 255), gfx::Colour(0, 0, 0, 255), &(drawWindowPtr_->getPrimaryRGBA()[2]), &(drawWindowPtr_->getSecondaryRGBA()[2]), drawWindowPtr_->isPrimaryActive());
+	alphaValueSlider_ = std::make_shared<win::ColourSlider>(gfx::Rectangle(15, 660, 105, 20), "alphaValueSlider", gfx::Colour(255, 255, 255, 255), gfx::Colour(0, 0, 0, 255), &(drawWindowPtr_->getPrimaryRGBA()[3]), &(drawWindowPtr_->getSecondaryRGBA()[3]), drawWindowPtr_->isPrimaryActive());
 
 	colourSliders_->addChild(redValueSlider_);
 	colourSliders_->addChild(greenValueSlider_);
@@ -141,12 +140,12 @@ void ColourPicker::updateColourDisplaysFromDrawWindow() const
 	}
 }
 
-void ColourPicker::updateColourDisplays() const
+/*void ColourPicker::updateColourDisplays() const
 {
 	updateColourDisplaysFromDrawWindow();
 	leftColourDisplay_->draw();
 	rightColourDisplay_->draw();
-}
+}*/
 
 void ColourPicker::updateColourValueBoxes() const
 {
@@ -167,27 +166,28 @@ void ColourPicker::updateColourSliders() const
 void ColourPicker::update()
 {
 	drawWindowPtr_->updateDrawToolRGBA();
-	updateColourDisplays();
+	//updateColourDisplays();
+	updateColourDisplaysFromDrawWindow();
 	updateColourValueBoxes();
 	updateColourSliders();
 }
 
-void ColourPicker::updateAndRerender()
+void ColourPicker::updateAndRerender(win::SDLRenderer* renderer)
 {
 	update();
 	
-	draw();
-	renderer_->renderPresentScreen();
+	draw(renderer);
+	renderer->renderPresentScreen();
 }
 
-void ColourPicker::draw()
+void ColourPicker::draw(win::SDLRenderer* renderer)
 {	
-	renderer_->renderBox(gfx::RenderTarget::SCREEN, getRect(), getBackgroundColour());
+	renderer->renderBox(gfx::RenderTarget::SCREEN, getRect(), getBackgroundColour());
 
 	updateColourDisplaysFromDrawWindow();
 	
 	 for (auto const& child : getChildren())
 	{
-		child->draw();
+		child->draw(renderer);
 	}
 }

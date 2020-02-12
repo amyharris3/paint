@@ -1,6 +1,7 @@
 #pragma once
 
 namespace win {
+	class SDLRenderer;
 	class Button;
 	class ToggleButton;
 	class UIelement;

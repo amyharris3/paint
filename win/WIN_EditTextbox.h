@@ -12,15 +12,14 @@ namespace win
 	{
 	public:
 		EditTextbox() = delete;
-		EditTextbox(gfx::Rectangle rect, const char* name, gfx::Renderer* renderer, int textSize, int xOffset, int yOffset);
-		EditTextbox(gfx::Rectangle rect, const char* name, gfx::Renderer* renderer, int textSize, int xOffset, int yOffset, const char* initialText);
+		EditTextbox(gfx::Rectangle rect, const char* name, int textSize, int xOffset, int yOffset);
+		EditTextbox(gfx::Rectangle rect, const char* name, int textSize, int xOffset, int yOffset, const char* initialText);
 		~EditTextbox() = default;
 		EditTextbox(const EditTextbox & that) = default;
 		EditTextbox(EditTextbox && that) = default;
 		EditTextbox& operator=(const EditTextbox & that) = default;
 		EditTextbox& operator=(EditTextbox && that) = default;
 
-		gfx::Renderer* getRenderer() const { return renderer_;  }
 		std::shared_ptr<gfx::Text> getText() const { return text_; }
 		int getXOffset() const { return xOffset_; }
 		int getYOffset() const { return yOffset_; }
@@ -31,13 +30,12 @@ namespace win
 		virtual void editTextAndRerender(std::string & newString);
 		virtual void takeTextEntry();
 		
-		void draw() override;
-		bool mouseButtonDown(MouseButton button, bool clicked) override;
-		bool mouseButtonUp(MouseButton button, bool clicked) override;
+		void draw(win::SDLRenderer* renderer) override;
+		bool mouseButtonDown(win::MouseButton button) override;
+		bool mouseButtonUp(win::MouseButton button, win::SDLRenderer* renderer) override;
 		
 	private:
 
-		gfx::Renderer* renderer_;
 		std::shared_ptr<gfx::Text> text_;
 		int xOffset_;
 		int yOffset_;
@@ -46,6 +44,7 @@ namespace win
 		
 		//dirty flags
 		bool isClicked_;
+		bool rerenderFlag_;
 		
 	};
 }

@@ -7,7 +7,7 @@ namespace paint {
 	{
 	public:
 		MenuWindow() = delete;
-		MenuWindow(gfx::Renderer* renderer, const gfx::Rectangle& rect, const char* name);
+		MenuWindow(const gfx::Rectangle& rect, const char* name);
 		virtual ~MenuWindow() = default;
 		MenuWindow(const MenuWindow& that) = delete;
 		MenuWindow(MenuWindow&& that) = delete;
