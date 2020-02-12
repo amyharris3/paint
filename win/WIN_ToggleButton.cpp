@@ -97,7 +97,7 @@ bool ToggleButton::mouseButtonDown(MouseButton button, bool clicked)
 }
 
 /* override */
-bool ToggleButton::mouseButtonUp(MouseButton b, win::SDLRenderer* renderer)
+bool ToggleButton::mouseButtonUp(MouseButton button, bool clicked, SDLRenderer* renderer)
 {
 	mouseDown_ = false;
 	if (activated_ && !mouseDragged_) {

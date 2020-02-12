@@ -38,7 +38,6 @@ void ColourSlider::valueChangedExternally()
 	{
 		setMarkerValue(*linkedVariableSecondary_);
 	}
-	//updateAndRerender();
 }
 
 bool ColourSlider::mouseMove(SDL_MouseMotionEvent& e)
@@ -47,13 +46,12 @@ bool ColourSlider::mouseMove(SDL_MouseMotionEvent& e)
 		moveMarker(e.x);
 		valueChangedByMovement();
 		
-		//updateAndRerender();
 	}
 
 	return true;
 }
 
-bool ColourSlider::mouseButtonUp(MouseButton button, win::SDLRenderer* renderer)
+bool ColourSlider::mouseButtonUp(MouseButton button, bool clicked, win::SDLRenderer* renderer)
 {	
 	if (getHold() && !getClickDownFromOutside()) {
 		int xMouse;

@@ -87,18 +87,30 @@ void ColourPicker::setActiveColourInDrawWindow() const
 	if (leftColourDisplay_->isActive()) {
 		if (!swappedDisplays_) {
 			drawWindowPtr_->setIfPrimaryColourActive(true);
+			if (drawWindowPtr_->getActiveTool()) {
+				drawWindowPtr_->getActiveTool()->setToolColour(drawWindowPtr_->getPrimaryRGBA());
+			}
 		}
 		else{
 			drawWindowPtr_->setIfPrimaryColourActive(false);
+			if (drawWindowPtr_->getActiveTool()) {
+				drawWindowPtr_->getActiveTool()->setToolColour(drawWindowPtr_->getSecondaryRGBA());
+			}
 		}
 	}
 	else
 	{
 		if (!swappedDisplays_) {
 			drawWindowPtr_->setIfPrimaryColourActive(false);
+			if (drawWindowPtr_->getActiveTool()) {
+				drawWindowPtr_->getActiveTool()->setToolColour(drawWindowPtr_->getSecondaryRGBA());
+			}
 		}
 		else {
 			drawWindowPtr_->setIfPrimaryColourActive(true);
+			if (drawWindowPtr_->getActiveTool()) {
+				drawWindowPtr_->getActiveTool()->setToolColour(drawWindowPtr_->getPrimaryRGBA());
+			}
 		}
 	}
 }

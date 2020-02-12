@@ -17,21 +17,18 @@ namespace paint
 	{
 	public:
 		DrawTool() = delete;
-		DrawTool(win::SDLRenderer* renderer);
+		DrawTool(gfx::Colour colour);
 		virtual ~DrawTool() = default;
 		DrawTool(const DrawTool& that) = default;
 		DrawTool(DrawTool&& that) = default;
 		DrawTool& operator=(const DrawTool& that) = default;
 		DrawTool& operator=(DrawTool&& that) = default;
 
-		void toolFunction(win::Coords& mouseCoords, win::Coords& prevMouseCoords, win::Coords& startCoords, gfx::Rectangle refRect) override;
-		void toolFunctionEnd(win::Coords& mouseCoords, win::Coords& prevMouseCoords, win::Coords& startCoords, gfx::Rectangle refRect) override;
+		void toolFunction(gfx::Coords& mouseCoords, gfx::Coords& prevMouseCoords, gfx::Coords& startCoords, gfx::Rectangle refRect, win::SDLRenderer* renderer) override;
+		void toolFunctionEnd(gfx::Coords& mouseCoords, gfx::Coords& prevMouseCoords, gfx::Coords& startCoords, gfx::Rectangle refRect, win::SDLRenderer* renderer) override;
 		void setToolColour(const uint8_t RGBA[]) override;
-		void toolFunction(gfx::Coords relCoords, gfx::Coords prevRelCoords) override;
-		void drawLines() const;
 
 	private:
-		win::SDLRenderer* renderer_;
 		uint8_t drawRGBA_[4];
 
 	};

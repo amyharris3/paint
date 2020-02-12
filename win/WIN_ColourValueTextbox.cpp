@@ -146,7 +146,7 @@ void ColourValueTextbox::takeTextEntry()
 	}
 }
 
-bool ColourValueTextbox::mouseButtonUp(win::MouseButton const button, win::SDLRenderer* renderer)
+bool ColourValueTextbox::mouseButtonUp(win::MouseButton const button, bool clicked, win::SDLRenderer* renderer)
 {
 	if (getClick()) {
 		printf("Taking text entry now\n");

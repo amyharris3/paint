@@ -14,7 +14,7 @@ namespace paint
 		Ellipse& operator=(const Ellipse& that) = default;
 		Ellipse& operator=(Ellipse&& that) = default;
 
-		std::vector<gfx::Line> getGeometry(win::Coords startCoords, win::Coords currentCoords) override;
+		std::vector<gfx::Line> getGeometry(gfx::Coords startCoords, gfx::Coords currentCoords) override;
 
 	};
 }

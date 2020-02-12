@@ -28,7 +28,7 @@ namespace win
 		bool mouseExit(MouseButton button, bool clicked = false) override;
 		bool mouseMove(SDL_MouseMotionEvent& e) override;
 		bool mouseButtonDown(MouseButton button, bool clicked = false) override;
-		bool mouseButtonUp(MouseButton button, bool clicked = false) override;
+		bool mouseButtonUp(MouseButton button, bool clicked = false, win::SDLRenderer* renderer = nullptr) override;
 
 		ActionFunction action;
 

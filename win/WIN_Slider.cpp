@@ -179,7 +179,7 @@ bool Slider::mouseButtonDown(MouseButton button, bool clicked)
 	return false;
 }
 
-bool Slider::mouseButtonUp(MouseButton button, win::SDLRenderer* renderer)
+bool Slider::mouseButtonUp(MouseButton button, bool clicked, win::SDLRenderer* renderer)
 {
 	if (holdMarker_ && !clickDownOutsideSlider_){
 		auto xMouse = 0;

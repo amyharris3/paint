@@ -3,6 +3,10 @@
 #include "GFX_Coords.h"
 #include "GFX_Rectangle.h"
 
+namespace win {
+	class SDLRenderer;
+}
+
 namespace gfx
 {
 	class Renderer;
@@ -24,15 +28,15 @@ namespace paint
 
 		void setActiveBrush(std::shared_ptr<Brush> brush);
 		void clearLines();
-		virtual void toolFunction(win::Coords& mouseCoords, win::Coords& prevMouseCoords, win::Coords& startCoords, gfx::Rectangle refRect) = 0;
+		virtual void toolFunction(gfx::Coords& mouseCoords, gfx::Coords& prevMouseCoords, gfx::Coords& startCoords, gfx::Rectangle refRect, win::SDLRenderer* renderer) = 0;
 		std::shared_ptr<Brush> getActiveBrush() const { return activeBrush_; }
-		//void renderLines(gfx::Renderer* renderer, const std::vector<gfx::Line>& lines) const;
-		virtual void toolFunctionEnd(win::Coords& mouseCoords, win::Coords& prevMouseCoords, win::Coords& startCoords, gfx::Rectangle refRect) = 0;
+		virtual void toolFunctionEnd(gfx::Coords& mouseCoords, gfx::Coords& prevMouseCoords, gfx::Coords& startCoords, gfx::Rectangle refRect, win::SDLRenderer* renderer) = 0;
 		void setALine(gfx::Line line);
 		void setLines(std::vector<gfx::Line> lines);
 		std::vector<gfx::Line> getLines() const { return lines_; }
 
 		virtual void setToolColour(const uint8_t RGBA[]) = 0;
+		
 	private:
 		
 		std::vector<gfx::Line> lines_;

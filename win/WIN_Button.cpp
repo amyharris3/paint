@@ -68,7 +68,7 @@ bool Button::mouseButtonDown(MouseButton button, bool clicked)
 }
 
 /* override */
-bool Button::mouseButtonUp(MouseButton b, win::SDLRenderer* renderer)
+bool Button::mouseButtonUp(MouseButton b, bool clicked, win::SDLRenderer* renderer)
 {
 	if (mouseDown_ && !mouseDragged_) {
 		activeClip_ = &(spriteClips_[0]);

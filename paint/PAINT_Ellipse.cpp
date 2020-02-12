@@ -1,10 +1,9 @@
 #include "PAINT_pch.h"
 #include "PAINT_Ellipse.h"
-#include "WIN_Coords.h"
+#include "GFX_Coords.h"
 #include "GFX_Line.h"
 
 using namespace paint;
-using namespace win;
 
 static std::vector<int> ellipse(int const x, int const a2, int const b2, int const h, int const k)
 {
@@ -15,7 +14,7 @@ static std::vector<int> ellipse(int const x, int const a2, int const b2, int con
 	return yEllipse;
 }
 
-std::vector<gfx::Line> Ellipse::getGeometry(win::Coords startCoords, win::Coords currentCoords)
+std::vector<gfx::Line> Ellipse::getGeometry(gfx::Coords startCoords, gfx::Coords currentCoords)
 {
 	if (startCoords.x > currentCoords.x)
 	{

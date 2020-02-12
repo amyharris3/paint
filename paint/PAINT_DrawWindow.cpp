@@ -16,7 +16,8 @@ DrawWindow::DrawWindow(win::SDLRenderer* renderer, gfx::Rectangle const& rect, c
 	: Window(rect, name)
 	, renderer_(renderer)
 	, activeTool_(nullptr)
-	, drawTool_(std::make_shared<DrawTool>(renderer))
+	, drawTool_(std::make_shared<DrawTool>(gfx::Colour(255,255,255,255)))
+	, shapeTool_(std::make_shared<ShapeTool>(gfx::Colour(255, 255, 255, 255)))
 	, primaryColour_(gfx::Colour(255, 255, 255,255))
 	, secondaryColour_(gfx::Colour(255, 255, 255, 255))
 	, mouseCoords_({ 0,0 })
@@ -26,107 +27,85 @@ DrawWindow::DrawWindow(win::SDLRenderer* renderer, gfx::Rectangle const& rect, c
 	, primaryRGBA_{}
 	, secondaryRGBA_{}
 {
-	//texture_ = SDL_CreateTexture(renderer_, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, rect.width, rect.height);
 	renderer->createDrawWindowTexture(rect);
 	primaryColour_.getComponents(primaryRGBA_);
 	secondaryColour_.getComponents(secondaryRGBA_);
-	drawTool_ = std::make_shared<DrawTool>(renderer_);
-	shapeTool_ = std::make_shared<ShapeTool>(renderer_);
 }
 
-DrawWindow::~DrawWindow()
-{
-	//renderer->destroyDrawWindowTexture();
-}
+//DrawWindow::~DrawWindow()
+//{
+//	//renderer->destroyDrawWindowTexture();
+//}
 
-static void handleMouseUp(MouseButton const b, Tool* tool, Coords& mouse, Coords& prevMouse, Coords& start, gfx::Rectangle const& rect)
-{
-	if (b == MouseButton::Left && tool) {
-		tool->toolFunctionEnd(mouse, prevMouse, start, rect);
-	}
-}
+//static void handleMouseUp(MouseButton const b, Tool* tool, gfx::Coords& mouse, gfx::Coords& prevMouse, gfx::Coords& start, gfx::Rectangle const& rect)
+//{
+//	if (b == MouseButton::Left && tool) {
+//		tool->toolFunctionEnd(mouse, prevMouse, start, rect);
+//	}
+//}
 
 /*override*/
 
 //not really getting many clipping problems with entry into draw window, but adding this as a precaution
-bool DrawWindow::mouseEnter(bool clicked)
+bool DrawWindow::mouseEnter(MouseButton button, const bool clicked)
 {
-	const int xMouse = mouseCoords_.x;
-	const int yMouse = mouseCoords_.y; 
-	auto absCoords = gfx::utils::clippingHandler(getRect(), prevMouseCoords_, { xMouse, yMouse });
+	if (clicked) {
+		const int xMouse = mouseCoords_.x;
+		const int yMouse = mouseCoords_.y;
+		auto absCoords = gfx::utils::clippingHandler(getRect(), prevMouseCoords_, { xMouse, yMouse });
 
-	prevMouseCoords_ = { absCoords[0].x, absCoords[0].y };
-	mouseCoords_ = { absCoords[1].x, absCoords[1].y };
+		prevMouseCoords_ = { absCoords[0].x, absCoords[0].y };
+		mouseCoords_ = { absCoords[1].x, absCoords[1].y };
 
-	if (drawToggle_) {
-		mouseButtonDown(MouseButton::Left);
+		mouseButtonDown(button);
+		return true;
 	}
-
-	drawToggle_ = false;
-
 	return false;
 }
 
 
 //if exit, mouse may move too fast for render lines to keep up, so must interpolate intersect with DW boundary
-bool DrawWindow::mouseExit(bool clicked)
+bool DrawWindow::mouseExit(MouseButton button, bool clicked)
 {
-	const int xMouse = mouseCoords_.x;
-	const int yMouse = mouseCoords_.y;
-	//SDL_GetMouseState(&xMouse, &yMouse);
-	auto absCoords = gfx::utils::clippingHandler(getRect(),prevMouseCoords_, { xMouse, yMouse });
+	if (clicked) {
+		const int xMouse = mouseCoords_.x;
+		const int yMouse = mouseCoords_.y;
+		auto absCoords = gfx::utils::clippingHandler(getRect(), prevMouseCoords_, { xMouse, yMouse });
 
-	prevMouseCoords_ = { absCoords[0].x, absCoords[0].y };
-	mouseCoords_ = { absCoords[1].x, absCoords[1].y };
+		prevMouseCoords_ = { absCoords[0].x, absCoords[0].y };
+		mouseCoords_ = { absCoords[1].x, absCoords[1].y };
 
-	if (drawToggle_) {
-		mouseButtonDown(MouseButton::Left);
+		
+		mouseButtonDown(button);
+		return true;
 	}
-
-	drawToggle_ = false;
 
 	return false;
 }
 
 
-//if exit, mouse may move too fast for render lines to keep up, so must interpolate intersect with DW boundary
-bool DrawWindow::mouseExit(const MouseButton button, bool clicked)
+/*override*/
+bool DrawWindow::mouseButtonDown(const MouseButton button, bool clicked)
 {
-	drawToggle_ = true;
-	if (b == MouseButton::Left) {
+	if (button == MouseButton::Left) {
 		if (activeTool_) {
-			const gfx::Coords prevRel = { prevMouseCoords_.x - this->getRect().x, prevMouseCoords_.y - this->getRect().y };
-			const gfx::Coords rel = { mouseCoords_.x - this->getRect().x, mouseCoords_.y - this->getRect().y };
-
-	prevMouseCoords_ = { absCoords[0].x, absCoords[0].y};
-	mouseCoords_ = { absCoords[1].x, absCoords[1].y };
-
-	if (drawToggle_) {
-	handleMouseUp(button, activeTool_.get(), mouseCoords_, prevMouseCoords_, startCoord_, this->getRect());
+			activeTool_->toolFunction(mouseCoords_, prevMouseCoords_, startCoord_, this->getRect(), renderer_);
+		}
 	}
 
 	return true;
 }
 
 /*override*/
-bool DrawWindow::mouseButtonUp(win::MouseButton const b, win::SDLRenderer* renderer)
+bool DrawWindow::mouseButtonUp(MouseButton button, bool clicked, SDLRenderer* renderer)
 {
 	if (button == MouseButton::Left) {
 		if (activeTool_) {
-			activeTool_->toolFunction(mouseCoords_, prevMouseCoords_, startCoord_, this->getRect());
+			activeTool_->toolFunctionEnd(mouseCoords_, prevMouseCoords_, startCoord_, this->getRect(), renderer_);
 		}
 	}
 
-	return false;
-}
-
-
-
-/*override*/
-bool DrawWindow::mouseButtonUp(const MouseButton button, bool clicked)
-{
-	handleMouseUp(button, activeTool_.get(), mouseCoords_, prevMouseCoords_, startCoord_, this->getRect());
-	return false;
+	return true;
 }
 
 
@@ -218,4 +197,9 @@ void DrawWindow::clearWindow() const
 	//renderer_->setRenderTargetDWTexture();
 	renderer_->clearDrawWindow(getRect(), getBackgroundColour());
 	//renderer_->setRenderTargetNull();
+}
+
+void DrawWindow::setStartCoord(gfx::Coords const startCoords)
+{
+	startCoord_ = startCoords;
 }

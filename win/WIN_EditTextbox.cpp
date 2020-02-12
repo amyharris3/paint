@@ -113,12 +113,16 @@ bool EditTextbox::mouseButtonDown(MouseButton button, bool clicked)
 	return false;
 }
 
-bool EditTextbox::mouseButtonUp(win::MouseButton const button, win::SDLRenderer* renderer)
+bool EditTextbox::mouseButtonUp(win::MouseButton const button, bool clicked, win::SDLRenderer* renderer)
 {
 	if (isClicked_) {
+#ifdef VERBOSE
 		printf("Taking text entry now\n");
+#endif
 		takeTextEntry();
+#ifdef VERBOSE
 		printf("Finished taking text entry\n");
+#endif
 		isClicked_ = false;
 	}
 	return true;

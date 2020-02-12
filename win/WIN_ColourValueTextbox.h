@@ -28,7 +28,7 @@ namespace win
 
 		void primaryActiveSwitch();
 		
-		bool mouseButtonUp(win::MouseButton button, win::SDLRenderer* renderer) override;
+		bool mouseButtonUp(win::MouseButton button, bool clicked = false, win::SDLRenderer* renderer = nullptr) override;
 
 	private:
 

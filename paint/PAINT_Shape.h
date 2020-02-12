@@ -1,12 +1,8 @@
 #pragma once
 
-
-namespace win {
-	struct Coords;
-}
-
 namespace gfx
 {
+	struct Coords;
 	class Line;
 }
 
@@ -24,7 +20,7 @@ namespace paint
 		Shape& operator=(const Shape & that) = default;
 		Shape& operator=(Shape && that) = default;
 
-		virtual std::vector<gfx::Line> getGeometry(win::Coords startCoords, win::Coords currentCoords) = 0;
+		virtual std::vector<gfx::Line> getGeometry(gfx::Coords startCoords, gfx::Coords currentCoords) = 0;
 
 	};
 }

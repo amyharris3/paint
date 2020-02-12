@@ -7,9 +7,8 @@ using namespace paint;
 using namespace win;
 
 
-DrawTool::DrawTool(win::SDLRenderer* renderer)
-	: renderer_(renderer)
-	, drawRGBA_{255,255,255,255}
+DrawTool::DrawTool(const gfx::Colour colour)
+	: drawRGBA_{colour.getRed(),colour.getGreen(),colour.getBlue(),colour.getAlpha()}
 {
 	// Activate a default brush
 	setActiveBrush(std::make_shared<Brush>(0));
@@ -22,25 +21,20 @@ void DrawTool::setToolColour(const uint8_t RGBA[])
 	}
 }
 
-void DrawTool::toolFunction(win::Coords& mouseCoords, win::Coords& prevMouseCoords, win::Coords& startCoords, gfx::Rectangle const refRect)
+void DrawTool::toolFunction(gfx::Coords& mouseCoords, gfx::Coords& prevMouseCoords, gfx::Coords& startCoords, gfx::Rectangle const refRect, win::SDLRenderer* renderer)
 {
-	const Coords rel = { mouseCoords.x - refRect.x, mouseCoords.y - refRect.y };
-	const Coords prevRel = { prevMouseCoords.x - refRect.x, prevMouseCoords.y - refRect.y };
-	setALine({ rel.x, rel.y, prevRel.x, prevRel.y });
-	drawLines();
-	renderer_->switchRenderTarget(gfx::RenderTarget::SCREEN);
-}
-
-void DrawTool::drawLines() const
-{
-	assert(activeBrush_ && "activeBrush_ is nullptr.");
-	const auto thickness = activeBrush_->getThickness();
+	assert(getActiveBrush() && "activeBrush_ is nullptr.");
+	const auto thickness = getActiveBrush()->getThickness();
 	assert((thickness == 0) || (thickness == 1) || (thickness == 2) && "brush thickness in renderLines is not 0, 1, or 2.");
 
-	if (renderer_->notDummy()) {
-		renderer_->renderLines(gfx::RenderTarget::DRAWWINDOW, lines_, thickness, drawRGBA_);
-	}
-void DrawTool::toolFunctionEnd(win::Coords& mouseCoords, win::Coords& prevMouseCoords, win::Coords& startCoords, gfx::Rectangle refRect)
+	const gfx::Coords rel = { mouseCoords.x - refRect.x, mouseCoords.y - refRect.y };
+	const gfx::Coords prevRel = { prevMouseCoords.x - refRect.x, prevMouseCoords.y - refRect.y };
+	setALine({ rel.x, rel.y, prevRel.x, prevRel.y });
+	renderer->renderLines(gfx::RenderTarget::DRAWWINDOW, getLines(), thickness, drawRGBA_);
+	renderer->switchRenderTarget(gfx::RenderTarget::SCREEN);
+}
+	
+void DrawTool::toolFunctionEnd(gfx::Coords& mouseCoords, gfx::Coords& prevMouseCoords, gfx::Coords& startCoords, gfx::Rectangle refRect, win::SDLRenderer* renderer)
 {
 	clearLines();
 }

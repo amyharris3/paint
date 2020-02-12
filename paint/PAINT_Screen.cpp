@@ -19,8 +19,8 @@ static ButtonInfo toolbox_button_info[] = {
 	{ "drawButton", "button_toggle_draw.png", toggleDraw, true },
 	{"rectangleButton", "button_draw_rectangle.png", toggleDrawRectangle, true },
 	{ "ellipseButton", "button_draw_ellipse.png", toggleDrawEllipse, true },
-	{ "triangleButton", "button_draw_triangle.png", toggleDrawTriangle, true },
-	{ "clearButton", "button_clear_screen.png", clearScreen, false }
+	{ "triangleButton", "button_draw_triangle.png", toggleDrawTriangle, true }
+	//{ "clearButton", "button_clear_screen.png", clearScreen, false }
 };
 
 static constexpr auto numToolBoxButtons = sizeof(toolbox_button_info) / sizeof(ButtonInfo);
@@ -34,7 +34,7 @@ static ButtonInfo thickness_button_info[] = {
 static constexpr auto numThicknessButtons = sizeof(thickness_button_info) / sizeof(ButtonInfo);
 
 
-static void makeButtons(gfx::Renderer* renderer, Rectangle& rect, ButtonInfo* buttonInfo, int const numButtons, Window* window, std::shared_ptr<ButtonGroup> const & buttonGroup = nullptr)
+static void makeButtons(win::SDLRenderer* renderer, Rectangle& rect, ButtonInfo* buttonInfo, int const numButtons, Window* window, std::shared_ptr<ButtonGroup> const & buttonGroup = nullptr)
 {
 	for (auto i = 0; i < numButtons; ++i) {
 		if (buttonInfo->toggleType == true) {
@@ -53,7 +53,7 @@ static void makeButtons(gfx::Renderer* renderer, Rectangle& rect, ButtonInfo* bu
 	}
 }
 
-Screen::Screen(gfx::Renderer* renderer, const gfx::Rectangle& rect, const char* name)
+Screen::Screen(win::SDLRenderer* renderer, const gfx::Rectangle& rect, const char* name)
 : Container(std::make_shared<FreeLayout>(), rect, name)
 {
 	// Creating drawWindow
@@ -82,9 +82,13 @@ Screen::Screen(gfx::Renderer* renderer, const gfx::Rectangle& rect, const char* 
 	toolbox->setBackgroundColour(toolboxColour);
 	
 	// Create tool window buttons.
-	//gfx::Colour yellow(255, 255, 0, 255);
+	auto toolboxButtonGroup = std::make_shared<ButtonGroup>();
 	gfx::Rectangle buttonRect(20, 60, 60, 60);
-	makeButtons(renderer, buttonRect, toolbox_button_info, numToolBoxButtons, toolbox.get());
+	makeButtons(renderer, buttonRect, toolbox_button_info, numToolBoxButtons, toolbox.get(), toolboxButtonGroup);
+
+	// Make clear screen button.
+	auto button = std::make_shared<Button>(renderer, rect, "clearScreenButton", "button_clear_screen.png", clearScreen);
+	toolbox->addChild(button);
 
 	toolWindow->addChild(toolbox);
 	toolWindow->setToolbox(toolbox);

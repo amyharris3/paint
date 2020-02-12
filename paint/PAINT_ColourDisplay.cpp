@@ -96,7 +96,7 @@ bool ColourDisplay::mouseButtonDown(win::MouseButton button, bool clicked)
 	return false;
 }
 
-bool ColourDisplay::mouseButtonUp(win::MouseButton const button, win::SDLRenderer* renderer)
+bool ColourDisplay::mouseButtonUp(win::MouseButton const button, bool clicked, win::SDLRenderer* renderer)
 {
 	if (isClicked_ && !mouseDragged_) {
 		const auto cpick = paint::utils::findToolWindow(this)->getColourPicker();

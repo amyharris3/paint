@@ -1,12 +1,11 @@
 #include "PAINT_pch.h"
 #include "PAINT_Triangle.h"
-#include "WIN_Coords.h"
 #include "GFX_Line.h"
+#include "GFX_Coords.h"
 
 using namespace paint;
-using namespace win;
 
-std::vector<gfx::Line> Triangle::getGeometry(win::Coords startCoords, win::Coords currentCoords)
+std::vector<gfx::Line> Triangle::getGeometry(gfx::Coords startCoords, gfx::Coords currentCoords)
 {
 	if (startCoords.x > currentCoords.x) {
 		auto const tmp = currentCoords.x;
