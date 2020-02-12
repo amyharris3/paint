@@ -1,17 +1,17 @@
 #include "WIN_pch.h"
 #include "WIN_GenericBox.h"
+#include "WIN_SDLRenderer.h"
 
 using namespace win;
 
-GenericBox::GenericBox(gfx::Rectangle& rect, const char* name, gfx::Colour foregroundColour, gfx::Colour backgroundColour, gfx::Renderer* renderer)
+GenericBox::GenericBox(gfx::Rectangle& rect, const char* name, gfx::Colour foregroundColour, gfx::Colour backgroundColour)
 	: UIelement(rect, name)
-	, renderer_(renderer)
 {
 	this->setForegroundColour(foregroundColour);
 	this->setBackgroundColour(backgroundColour);
 }
 
-void GenericBox::draw()
+void GenericBox::draw(win::SDLRenderer* renderer)
 {
-	renderer_->renderBox(getRect(), getBackgroundColour());
+	renderer->renderBox(gfx::RenderTarget::SCREEN, getRect(), getBackgroundColour());
 }

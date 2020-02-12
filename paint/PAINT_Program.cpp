@@ -3,7 +3,6 @@
 #include "PAINT_DrawWindow.h"
 #include "PAINT_Screen.h"
 #include "WIN_Mouse.h"
-#include "PAINT_ColourPicker.h"
 #include "PAINT_StatusBarWindow.h"
 
 using namespace paint;
@@ -48,7 +47,7 @@ void Program::initialize(SDL_Renderer* renderer, SDL_Window* rootWindow)
 	//Create gfx::Renderer from SDL renderer
 	//renderer_ = renderer;
 
-	renderer_ = new Renderer(renderer);
+	renderer_ = new SDLRenderer(renderer);
 	rootWindow_ = rootWindow;
 	
 	auto screenRect = gfx::Rectangle(0, 0, 1200, 800);
@@ -94,8 +93,8 @@ void Program::run() const
 		
 		//Handle events on queue
 		while (SDL_PollEvent(&e) != 0) {
-			SDL_RenderClear(renderer_->getRendererSDL());
-			screen_->draw();
+			SDL_RenderClear(renderer_->getSDLRenderer());
+			screen_->draw(renderer_);
 
 			//User requests quit
 			if (e.type == SDL_QUIT) {
@@ -118,23 +117,32 @@ void Program::run() const
 				//if mouse goes outside window, usually on right-hand side
 				// do we want to check for this all the time, or only if it is close to the boundaries?
 				SDL_GetGlobalMouseState(&xGlobal, &yGlobal);
-				if(!(xGlobal >= rootWindowRect_.x && xGlobal < (rootWindowRect_.x + rootWindowRect_.width) && yGlobal >= rootWindowRect_.y && yGlobal < (rootWindowRect_.y + rootWindowRect_.height))){
+				if (!(xGlobal >= rootWindowRect_.x && xGlobal < (rootWindowRect_.x + rootWindowRect_.width) && yGlobal >= rootWindowRect_.y && yGlobal < (rootWindowRect_.y + rootWindowRect_.height))) {
 					insideRootWindow = false;
 					clicked = false;
+					drawWindow->setMouseCoords({ xGlobal - rootWindowRect_.x, yGlobal - rootWindowRect_.y });
+					drawWindow->setPrevCoords({ xPrev, yPrev });
+					if (activeElement) {
+						activeElement->mouseExit(clicked);
+					}
+				}
+				else{
+					insideRootWindow = true;
 				}
 				
 				if (activeElement != active) {
-					if (activeElement) {
+					if (activeElement && insideRootWindow) {
 						rerenderFlag = activeElement->mouseExit(clicked);
 					}
-					activeElement = active;
 					
-					if (activeElement) {
+					activeElement = active;
+
+					if (activeElement && insideRootWindow) {
 						rerenderFlag = activeElement->mouseEnter(clicked);
 					}
 				}
 
-				if(activeElement){
+				if(activeElement && insideRootWindow){
 					rerenderFlag = activeElement->mouseMove(e.motion);
 				}
 				
@@ -144,7 +152,9 @@ void Program::run() const
 
 			if (e.type == SDL_MOUSEBUTTONDOWN) {
 
-				clicked = true;
+				if (insideRootWindow) {
+					clicked = true;
+				}
 
 				switch (e.button.button) {
 				case SDL_BUTTON_LEFT:
@@ -166,7 +176,7 @@ void Program::run() const
 			}
 
 			if (clicked) {
-				if (activeElement) {
+				if (activeElement && insideRootWindow) {
 
 					drawWindow->setMouseCoords({ xMouse, yMouse });
 					drawWindow->setPrevCoords({ xPrev, yPrev });
@@ -180,10 +190,9 @@ void Program::run() const
 
 			if (e.type == SDL_MOUSEBUTTONUP) {
 				clicked = false;
-				if (activeElement) {
-					rerenderFlag = activeElement->mouseButtonUp(button);
+				if (activeElement && insideRootWindow) {
+					rerenderFlag = activeElement->mouseButtonUp(button, renderer_);
 				}
-
 			}
 
 			if (xPrev != xMouse) {
@@ -196,7 +205,7 @@ void Program::run() const
 			}
 
 			if (rerenderFlag) {
-				screen_->updateAndRerender();
+				screen_->updateAndRerender(renderer_);
 			}
 			
 		}
@@ -206,6 +215,6 @@ void Program::run() const
 			toolChild->draw();
 		}*/
 
-		renderer_->renderPresent();
+		renderer_->renderPresentScreen();
 	}
 }

@@ -5,6 +5,7 @@
 
 namespace win
 {
+	class SDLRenderer;
 	enum class MouseButton;
 
 	class UIelement
@@ -17,9 +18,9 @@ namespace win
 		UIelement(gfx::Rectangle rect, const char* name);
 		virtual ~UIelement() = default;
 		UIelement(UIelement const& that) = default;
-		UIelement(UIelement && that) = default;
+		UIelement(UIelement&& that) = default;
 		UIelement& operator=(UIelement const& that) = default;
-		UIelement & operator=(UIelement && that) = default;
+		UIelement& operator=(UIelement&& that) = default;
 
 		void setForegroundColour(gfx::Colour fgColour);
 		void setBackgroundColour(gfx::Colour bgColour);
@@ -29,21 +30,21 @@ namespace win
 		void getBackgroundColour(uint8_t rgba[]) const;
 		virtual void swapFgBgColours();
 
-		void setRect(const gfx::Rectangle & rect);
-		const gfx::Rectangle & getRect() const { return rect_; }
+		void setRect(const gfx::Rectangle& rect);
+		const gfx::Rectangle& getRect() const { return rect_; }
 		const char* getName() const { return name_.c_str(); }
 		UIelement* getParent() const { return parent_; }
-		void setParent(UIelement * parent);
+		void setParent(UIelement* parent);
 
-		virtual void draw() = 0;
+		virtual void draw(win::SDLRenderer* renderer) = 0;
 		virtual void update() { };
-		virtual void updateAndRerender() { };
+		virtual void updateAndRerender(win::SDLRenderer* renderer) { };
 		virtual bool mouseEnter(bool clicked = false);
 		virtual bool mouseExit(bool clicked = false);
 		virtual bool mouseMove() { return false; };
 		virtual bool mouseMove(SDL_MouseMotionEvent& e) { return false; }
 		virtual bool mouseButtonDown(MouseButton button) { return false; };
-		virtual bool mouseButtonUp(MouseButton button) { return false; };
+		virtual bool mouseButtonUp(MouseButton button, win::SDLRenderer* renderer = nullptr) { return false; };
 
 	private:
 		std::string name_;

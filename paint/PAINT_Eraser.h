@@ -3,7 +3,7 @@
 
 namespace paint
 {
-	class Eraser final :
+	class Eraser :
 		public Tool
 	{
 	public:
@@ -14,6 +14,6 @@ namespace paint
 		Eraser& operator=(const Eraser & that) = default;
 		Eraser& operator=(Eraser && that) = default;
 
-		void toolFunction(win::Coords relCoords, win::Coords prevRelCoords) override;
+		void toolFunction(gfx::Coords relCoords, gfx::Coords prevRelCoords) override;
 	};
 }

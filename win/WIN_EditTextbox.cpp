@@ -1,21 +1,21 @@
 #include "WIN_pch.h"
 #include "WIN_EditTextbox.h"
-#include "GFX_Renderer.h"
+#include "WIN_SDLRenderer.h"
 
 using namespace win;
 
-EditTextbox::EditTextbox(gfx::Rectangle rect, const char* name, gfx::Renderer* renderer, int const textSize, int const xOffset, int const yOffset)
-	: EditTextbox(rect, name, renderer, textSize, xOffset, yOffset, "")
+EditTextbox::EditTextbox(gfx::Rectangle rect, const char* name, int const textSize, int const xOffset, int const yOffset)
+	: EditTextbox(rect, name, textSize, xOffset, yOffset, "")
 {
 }
 
-EditTextbox::EditTextbox(gfx::Rectangle rect, const char* name, gfx::Renderer* renderer, int const textSize, int const xOffset, int const yOffset, const char* initialText)
+EditTextbox::EditTextbox(gfx::Rectangle rect, const char* name, int const textSize, int const xOffset, int const yOffset, const char* initialText)
 	: UIelement(rect, name)
-	, renderer_(renderer)
 	, text_(std::make_shared<gfx::Text>(gfx::Colour { 0, 0, 0, 0xFF }, "OpenSans-Bold.ttf", textSize, initialText))
     , xOffset_(xOffset)
     , yOffset_(yOffset)
     , isClicked_(false)
+	, rerenderFlag_(false)
 {
 	setBackgroundColour(gfx::Colour(255, 255, 255, 255));
 }
@@ -34,10 +34,9 @@ void EditTextbox::editTextAndRerender(std::string & newString)
 {
 	//filters and checks on the input here
 	
-	text_->changeString(newString.c_str());
+	editText(newString.c_str());
 
-	draw();
-	getRenderer()->renderPresent();
+	rerenderFlag_ = true;
 }
 
 // Simple text entry, TODO copy, paste, highlight, cursor position, ect
@@ -102,9 +101,9 @@ void EditTextbox::takeTextEntry()
 	}
 }
 
-void EditTextbox::draw()
+void EditTextbox::draw(win::SDLRenderer* renderer)
 {
-	renderer_->renderTextbox(getRect(), getBackgroundColour(), text_.get(), xOffset_, yOffset_);
+	renderer->renderTextbox(gfx::RenderTarget::SCREEN, getRect(), getBackgroundColour(), text_.get(), xOffset_, yOffset_);
 	
 }
 
@@ -114,7 +113,7 @@ bool EditTextbox::mouseButtonDown(win::MouseButton const button)
 	return false;
 }
 
-bool EditTextbox::mouseButtonUp(win::MouseButton const button)
+bool EditTextbox::mouseButtonUp(win::MouseButton const button, win::SDLRenderer* renderer)
 {
 	if (isClicked_) {
 		printf("Taking text entry now\n");

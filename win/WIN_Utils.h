@@ -8,9 +8,9 @@ namespace win
 {
 	namespace utils
 	{
-		bool filterNumerical(const char c);
+		void getMouseState(int& xMouse, int& yMouse, bool dummyValues = false, int dummyX = 0, int dummyY = 0);
 
-		int findOutcode(gfx::Rectangle rect, int x, int y);
-		
+		bool filterNumerical(char c);
+
 	}
 }

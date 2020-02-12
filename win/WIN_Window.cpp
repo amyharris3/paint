@@ -5,30 +5,29 @@
 using namespace win;
 
 // If initialised without a layout, defaults to FreeLayout
-Window::Window(gfx::Renderer* renderer, gfx::Rectangle const& rect, const char* name)
-	: Window(renderer, rect, name, std::make_shared<FreeLayout>())
+Window::Window(gfx::Rectangle const& rect, const char* name)
+	: Window(rect, name, std::make_shared<FreeLayout>())
 {
 }
 
-Window::Window(gfx::Renderer* renderer, gfx::Rectangle const& rect, const char* name, std::shared_ptr<Layout> layout)
+Window::Window(gfx::Rectangle const& rect, const char* name, std::shared_ptr<Layout> layout)
 	: Container(std::move(layout), rect, name)
-	, renderer_(renderer)
 {
 }
 
-void Window::updateAndRerender()
+void Window::updateAndRerender(win::SDLRenderer* renderer)
 {
 	for (const auto& child : getChildren()){
 		child->update();
-		child->draw();
-		getRenderer()->renderPresent();
+		child->draw(renderer);
+		renderer->renderPresentScreen();
 	}
 }
 
-void Window::draw()
+void Window::draw(win::SDLRenderer* renderer)
 {
-	getRenderer()->renderBox(getRect(), getBackgroundColour());
+	renderer->renderBox(gfx::RenderTarget::SCREEN, getRect(), getBackgroundColour());
 	
-	Container::draw();
+	Container::draw(renderer);
 
 }

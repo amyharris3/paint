@@ -4,8 +4,8 @@
 
 using namespace win;
 
-ColourValueTextbox::ColourValueTextbox(gfx::Rectangle rect, const char* name, gfx::Renderer* renderer, int const textSize, int const xOffset, int const yOffset, uint8_t* linkedVariablePrimary, uint8_t* linkedVariableSecondary, const bool primaryActive)
-	: EditTextbox(rect, name, renderer, textSize, xOffset, yOffset)
+ColourValueTextbox::ColourValueTextbox(gfx::Rectangle rect, const char* name, int const textSize, int const xOffset, int const yOffset, uint8_t* linkedVariablePrimary, uint8_t* linkedVariableSecondary, const bool primaryActive)
+	: EditTextbox(rect, name, textSize, xOffset, yOffset)
 	, linkedVariablePrimary_(linkedVariablePrimary)
 	, linkedVariableSecondary_(linkedVariableSecondary)
 	, primaryActive_(primaryActive)
@@ -146,7 +146,7 @@ void ColourValueTextbox::takeTextEntry()
 	}
 }
 
-bool ColourValueTextbox::mouseButtonUp(win::MouseButton const button)
+bool ColourValueTextbox::mouseButtonUp(win::MouseButton const button, win::SDLRenderer* renderer)
 {
 	if (getClick()) {
 		printf("Taking text entry now\n");

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace win
+namespace gfx
 {
 	struct Coords
 	{

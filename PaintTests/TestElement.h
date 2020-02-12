@@ -15,6 +15,6 @@ namespace PaintTests
 		TestElement& operator=(TestElement const& that) = default;
 		TestElement& operator=(TestElement && that) = default;
 
-		void draw() override {};
+		void draw(win::SDLRenderer* renderer = nullptr) override {};
 	};
 }

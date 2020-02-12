@@ -3,7 +3,7 @@
 
 using namespace paint;
 
-void Eraser::toolFunction(win::Coords , win::Coords )
+void Eraser::toolFunction(gfx::Coords , gfx::Coords )
 {
 	// TODO
 }

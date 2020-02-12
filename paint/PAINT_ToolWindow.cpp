@@ -6,13 +6,13 @@
 
 using namespace paint;
 
-ToolWindow::ToolWindow(gfx::Renderer* renderer, gfx::Rectangle const& rect, const char* name)
-	: Window(renderer, rect, name)
+ToolWindow::ToolWindow(gfx::Rectangle const& rect, const char* name)
+	: Window(rect, name)
 {
 }
 
-ToolWindow::ToolWindow(gfx::Renderer* renderer, gfx::Rectangle const& rect, const char* name, std::shared_ptr<win::Layout> const& layout)
-	: Window(renderer, rect, name, layout)
+ToolWindow::ToolWindow(gfx::Rectangle const& rect, const char* name, std::shared_ptr<win::Layout> const& layout)
+	: Window(rect, name, layout)
 	, colourPicker_(nullptr)
 {
 }
@@ -28,9 +28,9 @@ void ToolWindow::setColourPicker(std::shared_ptr<ColourPicker> cPick)
 }
 
 //Draw toolbar in NxM table layout
-void ToolWindow::draw()
+void ToolWindow::draw(win::SDLRenderer* renderer)
 {
-	Window::draw();
+	Window::draw(renderer);
 }
 
 bool ToolWindow::mouseButtonDown(win::MouseButton const)

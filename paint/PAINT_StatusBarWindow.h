@@ -9,18 +9,18 @@ namespace paint
 	{
 	public:
 		StatusBarWindow() = delete;
-		StatusBarWindow(gfx::Renderer* renderer, gfx::Rectangle const& rect, const char* name, const int drawWinX, const int drawWinY);
+		StatusBarWindow(gfx::Rectangle const& rect, const char* name, int drawWinX, int drawWinY);
 		virtual ~StatusBarWindow() = default;
 		StatusBarWindow(const StatusBarWindow& that) = delete;
 		StatusBarWindow(StatusBarWindow && that) = delete;
 		StatusBarWindow& operator=(const StatusBarWindow & that) = delete;
 		StatusBarWindow& operator=(StatusBarWindow && that) = delete;
 
-		void displayMouseCoords(int x, int y);
-		void displayMouseCoordsRelative(int x, int y);
+		void displayMouseCoords(int x, int y, win::SDLRenderer* renderer);
+		void displayMouseCoordsRelative(int x, int y, win::SDLRenderer* renderer);
 		void outputMessage(const char* message);
 
-		void draw() override;
+		void draw(win::SDLRenderer* renderer) override;
 
 	private:	
 		

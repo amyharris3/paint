@@ -1,6 +1,6 @@
 #pragma once
 #include "GFX_Line.h"
-#include "WIN_Coords.h"
+#include "GFX_Coords.h"
 
 namespace paint
 {
@@ -17,7 +17,7 @@ namespace paint
 
 		void setActiveBrush(std::shared_ptr<Brush> brush);
 		void clearLines();
-		virtual void toolFunction(win::Coords relCoords, win::Coords prevRelCoords) = 0;
+		virtual void toolFunction(gfx::Coords relCoords, gfx::Coords prevRelCoords) = 0;
 		std::shared_ptr<Brush> getActiveBrush() const {return activeBrush_;}
 
 		virtual void setToolColour(const uint8_t RGBA[]) = 0;

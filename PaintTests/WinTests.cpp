@@ -11,6 +11,8 @@
 #include "WIN_ColourValueTextbox.h"
 #include "WIN_Slider.h"
 #include "WIN_Utils.h"
+#include "WIN_SDLRenderer.h"
+#include "GFX_Utils.h"
 
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -311,7 +313,7 @@ namespace PaintTests
 	public:
 		TEST_METHOD(TestDefaultConstructor)
 		{
-			Container c;
+			const Container c;
 
 			Assert::IsNotNull(c.getLayout().get());
 			Assert::AreEqual(c.getRect().x, 0);
@@ -481,12 +483,8 @@ namespace PaintTests
 	public:
 		TEST_METHOD(TestConstructor)
 		{
-			Renderer dummyRenderer;
-			Renderer* rendererPtr = &dummyRenderer;
-			Window W(rendererPtr, gfx::Rectangle(), "test");
+			const Window W(gfx::Rectangle(), "test");
 
-			Assert::IsNotNull(W.getRenderer());
-			Assert::IsTrue(W.getRenderer() == rendererPtr);
 			Assert::AreEqual(W.getName(), "test");
 
 			Assert::AreEqual(W.getRect().x, 0);
@@ -505,12 +503,8 @@ namespace PaintTests
 	public:
 		TEST_METHOD(TestConstructor)
 		{
-			Renderer dummyRenderer;
-			Renderer* rendererPtr = &dummyRenderer;
-			const EditTextbox box(gfx::Rectangle(), "textbox", rendererPtr,20, 5, 10);
+			const EditTextbox box(gfx::Rectangle(), "textbox", 20, 5, 10);
 			
-			Assert::IsNotNull(box.getRenderer());
-			Assert::IsTrue(box.getRenderer() == rendererPtr);
 			Assert::AreEqual(box.getName(), "textbox");
 			Assert::AreEqual(box.getText()->getString().c_str(), "");
 			Assert::AreEqual(box.getText()->getTextSize(), 20);
@@ -532,9 +526,7 @@ namespace PaintTests
 
 		TEST_METHOD(TestEditText)
 		{
-			Renderer dummyRenderer;
-			Renderer* rendererPtr = &dummyRenderer;
-			EditTextbox box(gfx::Rectangle(), "textbox", rendererPtr, 20, 5, 10);
+			EditTextbox box(gfx::Rectangle(), "textbox", 20, 5, 10);
 
 			Assert::AreEqual(box.getText()->getString().c_str(), "");
 			box.editText("newText");
@@ -548,14 +540,10 @@ namespace PaintTests
 	public:
 		TEST_METHOD(TestConstructor)
 		{
-			Renderer dummyRenderer;
-			Renderer* rendererPtr = &dummyRenderer;
-			uint8_t ColA = 0;
-			uint8_t ColB = 5;
-			ColourValueTextbox box(gfx::Rectangle(), "textbox", rendererPtr, 20, 5, 10, &ColA, &ColB, true);
+			uint8_t colA = 0;
+			uint8_t colB = 5;
+			ColourValueTextbox box(gfx::Rectangle(), "textbox", 20, 5, 10, &colA, &colB, true);
 
-			Assert::IsNotNull(box.getRenderer());
-			Assert::IsTrue(box.getRenderer() == rendererPtr);
 			Assert::AreEqual(box.getName(), "textbox");
 			Assert::AreEqual(box.getText()->getTextSize(), 20);
 			Assert::AreEqual(box.getXOffset(), 5);
@@ -577,20 +565,18 @@ namespace PaintTests
 			Assert::AreEqual(rgba[2], uint8_t(255));
 			Assert::AreEqual(rgba[3], uint8_t(255));
 
-			Assert::IsTrue(box.getLinkedPrimary() == &ColA);
-			Assert::IsTrue(box.getLinkedSecondary() == &ColB);
+			Assert::IsTrue(box.getLinkedPrimary() == &colA);
+			Assert::IsTrue(box.getLinkedSecondary() == &colB);
 		}
 
 		TEST_METHOD(TestChangeTextInternally)
 		{
-			Renderer dummyRenderer;
-			Renderer* rendererPtr = &dummyRenderer;
-			uint8_t ColA = 0;
-			uint8_t ColB = 5;
-			ColourValueTextbox box(gfx::Rectangle(), "textbox", rendererPtr, 20, 5, 10, &ColA, &ColB, true);
+			uint8_t colA = 0;
+			uint8_t colB = 5;
+			ColourValueTextbox box(gfx::Rectangle(), "textbox", 20, 5, 10, &colA, &colB, true);
 
-			Assert::AreEqual(ColA, uint8_t(0));
-			Assert::AreEqual(ColB, uint8_t(5));
+			Assert::AreEqual(colA, uint8_t(0));
+			Assert::AreEqual(colB, uint8_t(5));
 
 			//mocking text entry
 			box.editText("100");
@@ -598,29 +584,27 @@ namespace PaintTests
 			box.editText("200");
 
 			Assert::AreEqual(*(box.getLinkedPrimary()), uint8_t(100));
-			Assert::AreEqual(ColA, uint8_t(100));
+			Assert::AreEqual(colA, uint8_t(100));
 			Assert::AreEqual(*(box.getLinkedSecondary()), uint8_t(200));
-			Assert::AreEqual(ColB, uint8_t(200));
+			Assert::AreEqual(colB, uint8_t(200));
 		}
 
 		TEST_METHOD(TestChangeTextExternally)
 		{
-			Renderer dummyRenderer;
-			Renderer* rendererPtr = &dummyRenderer;
-			uint8_t ColA = 0;
-			uint8_t ColB = 5;
-			ColourValueTextbox box(gfx::Rectangle(), "textbox", rendererPtr, 20, 5, 10, &ColA, &ColB, true);
+			uint8_t colA = 0;
+			uint8_t colB = 5;
+			const ColourValueTextbox box(gfx::Rectangle(), "textbox",20, 5, 10, &colA, &colB, true);
 
-			Assert::AreEqual(ColA, uint8_t(0));
-			Assert::AreEqual(ColB, uint8_t(5));
+			Assert::AreEqual(colA, uint8_t(0));
+			Assert::AreEqual(colB, uint8_t(5));
 
-			ColA = 155;
-			ColB = 220;
+			colA = 155;
+			colB = 220;
 
 			Assert::AreEqual(*(box.getLinkedPrimary()), uint8_t(155));
-			Assert::AreEqual(ColA, uint8_t(155));
+			Assert::AreEqual(colA, uint8_t(155));
 			Assert::AreEqual(*(box.getLinkedSecondary()), uint8_t(220));
-			Assert::AreEqual(ColB, uint8_t(220));
+			Assert::AreEqual(colB, uint8_t(220));
 		}
 
 	};
@@ -630,13 +614,9 @@ namespace PaintTests
 	public:
 		TEST_METHOD(TestConstructor)
 		{
-			Renderer dummyRenderer;
-			Renderer* rendererPtr = &dummyRenderer;
-			Slider slider(rendererPtr, gfx::Rectangle(), "slider", gfx::Colour(210, 220, 230, 240), gfx::Colour(1, 2, 3, 4), 0, 0, 10);
+			const Slider slider(gfx::Rectangle(), "slider", gfx::Colour(210, 220, 230, 240), gfx::Colour(1, 2, 3, 4), 0, 0, 10);
 
 			// general slider dimensions + properties
-			Assert::IsNotNull(slider.getRenderer());
-			Assert::IsTrue(slider.getRenderer() == rendererPtr);
 			Assert::AreEqual(slider.getName(), "slider");
 
 			Assert::AreEqual(slider.getRect().x, 0);
@@ -673,9 +653,7 @@ namespace PaintTests
 
 		TEST_METHOD(TestConstructorNondefault)
 		{
-			Renderer dummyRenderer;
-			Renderer* rendererPtr = &dummyRenderer;
-			Slider slider(rendererPtr, gfx::Rectangle(0,0,100,20), "slider", gfx::Colour(210, 220, 230, 240), gfx::Colour(1, 2, 3, 4), 50, 0, 200);
+			const Slider slider(gfx::Rectangle(0,0,100,20), "slider", gfx::Colour(210, 220, 230, 240), gfx::Colour(1, 2, 3, 4), 50, 0, 200);
 
 			Assert::AreEqual(slider.getLineRect().x, 2);
 			Assert::AreEqual(slider.getLineRect().y,8);
@@ -691,9 +669,7 @@ namespace PaintTests
 		
 		TEST_METHOD(TestChangePosition)
 		{
-			Renderer dummyRenderer;
-			Renderer* rendererPtr = &dummyRenderer;
-			Slider slider(rendererPtr, gfx::Rectangle(0, 0, 100, 20), "slider", gfx::Colour(210, 220, 230, 240), gfx::Colour(1, 2, 3, 4), 50, 0, 200);
+			Slider slider(gfx::Rectangle(0, 0, 100, 20), "slider", gfx::Colour(210, 220, 230, 240), gfx::Colour(1, 2, 3, 4), 50, 0, 200);
 
 			slider.setMarkerPos(20);
 			Assert::AreEqual(slider.getMarkerPos(), 20);
@@ -714,9 +690,7 @@ namespace PaintTests
 
 		TEST_METHOD(TestChangeValue)
 		{
-			Renderer dummyRenderer;
-			Renderer* rendererPtr = &dummyRenderer;
-			Slider slider(rendererPtr, gfx::Rectangle(0, 0, 100, 20), "slider", gfx::Colour(210, 220, 230, 240), gfx::Colour(1, 2, 3, 4), 50, 0, 200);
+			Slider slider(gfx::Rectangle(0, 0, 100, 20), "slider", gfx::Colour(210, 220, 230, 240), gfx::Colour(1, 2, 3, 4), 50, 0, 200);
 
 			slider.setMarkerValue(20);
 			Assert::AreEqual(slider.getMarkerValue(), 20);
@@ -735,31 +709,6 @@ namespace PaintTests
 			Assert::AreEqual(slider.getMarkerPos(), 2);
 
 		}
-	/*	TEST_METHOD(TestPositionValueConversion)
-		{
-			Renderer dummyRenderer;
-			Renderer* rendererPtr = &dummyRenderer;
-			Slider slider(rendererPtr, gfx::Rectangle(0, 0, 100, 20), "slider", gfx::Colour(210, 220, 230, 240), gfx::Colour(1, 2, 3, 4), 50, 0, 200);
-
-			Assert::AreEqual(slider.getMarkerValue(), 50);
-			Assert::AreEqual(slider.getApproxValueFromPosition(), 50);
-			Assert::AreEqual(slider.getMarkerPos(), 26);
-			Assert::AreEqual(slider.getApproxPositionFromValue(), 26);
-			Assert::AreEqual(slider.getMarkerValue(), slider.getApproxValueFromPosition());
-			Assert::AreEqual(slider.getMarkerPos(), slider.getApproxPositionFromValue());
-			
-			slider.setMarkerPos(25);
-			Assert::AreEqual(slider.getApproxValueFromPosition(), 48);
-			Assert::AreEqual(slider.getMarkerPos(), 25);
-			Assert::AreEqual(slider.getMarkerValue(), slider.getApproxValueFromPosition());
-			Assert::AreEqual(slider.getMarkerPos(), slider.getApproxPositionFromValue());
-
-			slider.setMarkerValue(48);
-			Assert::AreEqual(slider.getApproxValueFromPosition(), 48);
-			Assert::AreEqual(slider.getMarkerPos(), 25);
-			Assert::AreEqual(slider.getMarkerValue(), slider.getApproxValueFromPosition());
-			Assert::AreEqual(slider.getMarkerPos(), slider.getApproxPositionFromValue());
-		}*/
 
 	};
 	
@@ -769,14 +718,10 @@ namespace PaintTests
 	public:
 		TEST_METHOD(TestConstructor)
 		{
-			Renderer dummyRenderer;
-			Renderer* rendererPtr = &dummyRenderer;
-			uint8_t ColA = 0;
-			uint8_t ColB = 5;
-			ColourValueTextbox box(gfx::Rectangle(), "textbox", rendererPtr, 20, 5, 10, &ColA, &ColB, true);
+			uint8_t colA = 0;
+			uint8_t colB = 5;
+			ColourValueTextbox box(gfx::Rectangle(), "textbox", 20, 5, 10, &colA, &colB, true);
 
-			Assert::IsNotNull(box.getRenderer());
-			Assert::IsTrue(box.getRenderer() == rendererPtr);
 			Assert::AreEqual(box.getName(), "textbox");
 			Assert::AreEqual(box.getText()->getTextSize(), 20);
 			Assert::AreEqual(box.getXOffset(), 5);
@@ -798,19 +743,17 @@ namespace PaintTests
 			Assert::AreEqual(rgba[2], uint8_t(255));
 			Assert::AreEqual(rgba[3], uint8_t(255));
 
-			Assert::IsTrue(box.getLinkedPrimary() == &ColA);
-			Assert::IsTrue(box.getLinkedSecondary() == &ColB);
+			Assert::IsTrue(box.getLinkedPrimary() == &colA);
+			Assert::IsTrue(box.getLinkedSecondary() == &colB);
 		}
 
 		TEST_METHOD(TestChangeValueInternally)
 		{
-			Renderer dummyRenderer;
-			Renderer* rendererPtr = &dummyRenderer;
-			uint8_t ColA = 0;
+			uint8_t colA = 0;
 			uint8_t ColB = 5;
-			ColourValueTextbox box(gfx::Rectangle(), "textbox", rendererPtr, 20, 5, 10, &ColA, &ColB, true);
+			ColourValueTextbox box(gfx::Rectangle(), "textbox", 20, 5, 10, &colA, &ColB, true);
 
-			Assert::AreEqual(ColA, uint8_t(0));
+			Assert::AreEqual(colA, uint8_t(0));
 			Assert::AreEqual(ColB, uint8_t(5));
 
 			//mocking text entry
@@ -819,29 +762,27 @@ namespace PaintTests
 			box.editText("200");
 
 			Assert::AreEqual(*(box.getLinkedPrimary()), uint8_t(100));
-			Assert::AreEqual(ColA, uint8_t(100));
+			Assert::AreEqual(colA, uint8_t(100));
 			Assert::AreEqual(*(box.getLinkedSecondary()), uint8_t(200));
 			Assert::AreEqual(ColB, uint8_t(200));
 		}
 
 		TEST_METHOD(TestChangeValueExternally)
 		{
-			Renderer dummyRenderer;
-			Renderer* rendererPtr = &dummyRenderer;
-			uint8_t ColA = 0;
-			uint8_t ColB = 5;
-			ColourValueTextbox box(gfx::Rectangle(), "textbox", rendererPtr, 20, 5, 10, &ColA, &ColB, true);
+			uint8_t colA = 0;
+			uint8_t colB = 5;
+			const ColourValueTextbox box(gfx::Rectangle(), "textbox", 20, 5, 10, &colA, &colB, true);
 
-			Assert::AreEqual(ColA, uint8_t(0));
-			Assert::AreEqual(ColB, uint8_t(5));
+			Assert::AreEqual(colA, uint8_t(0));
+			Assert::AreEqual(colB, uint8_t(5));
 
-			ColA = 155;
-			ColB = 220;
+			colA = 155;
+			colB = 220;
 
 			Assert::AreEqual(*(box.getLinkedPrimary()), uint8_t(155));
-			Assert::AreEqual(ColA, uint8_t(155));
+			Assert::AreEqual(colA, uint8_t(155));
 			Assert::AreEqual(*(box.getLinkedSecondary()), uint8_t(220));
-			Assert::AreEqual(ColB, uint8_t(220));
+			Assert::AreEqual(colB, uint8_t(220));
 		}
 
 	};
@@ -850,31 +791,31 @@ namespace PaintTests
 	{
 		TEST_METHOD(TestFilterNumerical)
 		{
-			Assert::IsFalse(utils::filterNumerical('a'));
-			Assert::IsFalse(utils::filterNumerical('A'));
-			Assert::IsTrue(utils::filterNumerical('1'));
-			Assert::IsTrue(utils::filterNumerical('9'));
-			Assert::IsTrue(utils::filterNumerical('0'));
-			Assert::IsFalse (utils::filterNumerical('/'));
-			Assert::IsFalse(utils::filterNumerical('.'));
-			Assert::IsFalse(utils::filterNumerical('['));
-			Assert::IsFalse(utils::filterNumerical('+'));
-			Assert::IsFalse(utils::filterNumerical('!'));
+			Assert::IsFalse(win::utils::filterNumerical('a'));
+			Assert::IsFalse(win::utils::filterNumerical('A'));
+			Assert::IsTrue(win::utils::filterNumerical('1'));
+			Assert::IsTrue(win::utils::filterNumerical('9'));
+			Assert::IsTrue(win::utils::filterNumerical('0'));
+			Assert::IsFalse (win::utils::filterNumerical('/'));
+			Assert::IsFalse(win::utils::filterNumerical('.'));
+			Assert::IsFalse(win::utils::filterNumerical('['));
+			Assert::IsFalse(win::utils::filterNumerical('+'));
+			Assert::IsFalse(win::utils::filterNumerical('!'));
 		}
 
 		TEST_METHOD(TestOutcode)
 		{
 			const gfx::Rectangle rect(10, 10, 10, 10);
 
-			Assert::AreEqual(win::utils::findOutcode(rect, 15, 15), 0);
-			Assert::AreEqual(win::utils::findOutcode(rect, 5, 15), 1);
-			Assert::AreEqual(win::utils::findOutcode(rect, 25, 15), 2);
-			Assert::AreEqual(win::utils::findOutcode(rect, 15, 5), 8);
-			Assert::AreEqual(win::utils::findOutcode(rect, 15, 25), 4);
-			Assert::AreEqual(win::utils::findOutcode(rect, 5, 5), 9);
-			Assert::AreEqual(win::utils::findOutcode(rect, 5, 25), 5);
-			Assert::AreEqual(win::utils::findOutcode(rect, 25, 5), 10);
-			Assert::AreEqual(win::utils::findOutcode(rect, 25, 25), 6);
+			Assert::AreEqual(gfx::utils::findOutcode(rect, 15, 15), 0);
+			Assert::AreEqual(gfx::utils::findOutcode(rect, 5, 15), 1);
+			Assert::AreEqual(gfx::utils::findOutcode(rect, 25, 15), 2);
+			Assert::AreEqual(gfx::utils::findOutcode(rect, 15, 5), 8);
+			Assert::AreEqual(gfx::utils::findOutcode(rect, 15, 25), 4);
+			Assert::AreEqual(gfx::utils::findOutcode(rect, 5, 5), 9);
+			Assert::AreEqual(gfx::utils::findOutcode(rect, 5, 25), 5);
+			Assert::AreEqual(gfx::utils::findOutcode(rect, 25, 5), 10);
+			Assert::AreEqual(gfx::utils::findOutcode(rect, 25, 25), 6);
 			
 		}
 		

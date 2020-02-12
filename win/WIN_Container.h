@@ -2,6 +2,7 @@
 
 #include "WIN_UIelement.h"
 #include "WIN_Layout.h"
+#include "WIN_SDLRenderer.h"
 
 namespace win
 {
@@ -24,7 +25,7 @@ namespace win
 		std::shared_ptr<Layout> getLayout() const { return layout_; }
 		bool getDirtyFlag() const { return dirty_; }
 		
-		void draw() override;
+		void draw(SDLRenderer* renderer) override;
 		void applyLayout() const;
 
 	private:

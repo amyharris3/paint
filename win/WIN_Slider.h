@@ -15,7 +15,7 @@ namespace win
 	{
 	public:
 		Slider() = delete;
-		Slider(gfx::Renderer* renderer, gfx::Rectangle rect, const char* name, gfx::Colour fillColour, gfx::Colour outlineColour, int initialVal, int slideMin, int slideMax);
+		Slider(gfx::Rectangle rect, const char* name, gfx::Colour fillColour, gfx::Colour outlineColour, int initialVal, int slideMin, int slideMax);
 		virtual ~Slider() = default;
 		Slider(Slider const& that) = default;
 		Slider(Slider && that) = default;
@@ -24,7 +24,6 @@ namespace win
 
 		void updateLineMarker();
 
-		gfx::Renderer* getRenderer() const { return renderer_; }
 		gfx::Rectangle getLineRect() const { return lineRect_; }
 		gfx::Rectangle getMarkerRect() const { return markerRect_; }
 		int getMarkerValue() const { return markerVal_; }
@@ -42,21 +41,18 @@ namespace win
 		void setMarkerValue(int val);
 		void setMarkerPos(int x);
 		
-		void moveMarker(const int x);
+		void moveMarker(int x);
 		void update() override;
-		void updateAndRerender() override;
-		void draw() override;
+		void updateAndRerender(win::SDLRenderer* renderer) override;
+		void draw(win::SDLRenderer* renderer) override;
 
 		bool mouseEnter(bool clicked = false) override;
 		bool mouseExit(bool clicked = false) override;
 		bool mouseMove(SDL_MouseMotionEvent& e) override;
 		bool mouseButtonDown(MouseButton button) override;
-		bool mouseButtonUp(MouseButton button) override;
+		bool mouseButtonUp(MouseButton button, win::SDLRenderer* renderer) override;
 		
-	private:
-
-		gfx::Renderer* renderer_;
-		
+	private:		
 		int slideValueMin_;
 		int slideValueMax_;
 		gfx::Rectangle lineRect_;
