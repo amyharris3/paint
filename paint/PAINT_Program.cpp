@@ -47,7 +47,7 @@ void Program::initialize(SDL_Renderer* renderer, SDL_Window* rootWindow)
 	//Create gfx::Renderer from SDL renderer
 	//renderer_ = renderer;
 
-	renderer_ = new Renderer(renderer);
+	renderer_ = new SDLRenderer(renderer);
 	rootWindow_ = rootWindow;
 	
 	auto screenRect = gfx::Rectangle(0, 0, 1200, 800);
@@ -93,8 +93,8 @@ void Program::run() const
 		
 		//Handle events on queue
 		while (SDL_PollEvent(&e) != 0) {
-			SDL_RenderClear(renderer_->getRendererSDL());
-			screen_->draw();
+			SDL_RenderClear(renderer_->getSDLRenderer());
+			screen_->draw(renderer_);
 
 			//User requests quit
 			if (e.type == SDL_QUIT) {
@@ -191,7 +191,7 @@ void Program::run() const
 			if (e.type == SDL_MOUSEBUTTONUP) {
 				clicked = false;
 				if (activeElement && insideRootWindow) {
-					rerenderFlag = activeElement->mouseButtonUp(button);
+					rerenderFlag = activeElement->mouseButtonUp(button, renderer_);
 				}
 			}
 
@@ -206,7 +206,7 @@ void Program::run() const
 
 			if (rerenderFlag) {
 				printf("rerendering in while loop\n");
-				screen_->updateAndRerender();
+				screen_->updateAndRerender(renderer_);
 			}
 			
 		}

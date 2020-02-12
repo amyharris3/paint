@@ -25,7 +25,7 @@ void Container::addChild(std::shared_ptr<UIelement> const & child)
 }
 
 /* override */
-void Container::draw()
+void Container::draw(SDLRenderer* renderer)
 {
 	if (dirty_) {
 		layout_->Apply(children_, getRect());
@@ -33,7 +33,7 @@ void Container::draw()
 	}
 
 	for (auto & child : children_) {
-		child->draw();
+		child->draw(renderer);
 	}
 }
 

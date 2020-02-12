@@ -3,20 +3,19 @@
 #include "WIN_Window.h"
 #include "PAINT_DrawTool.h"
 #include "WIN_ToggleButton.h"
-#include "WIN_Coords.h"
+#include "GFX_Coords.h"
 
 struct SDL_Texture;
 
 namespace gfx
 {
+	struct Coords;
 	class Colour;
-	//class Line;
 }
 
 namespace win
 {
 	enum class MouseButton;
-	struct Coords;
 }
 
 namespace paint 
@@ -30,7 +29,7 @@ namespace paint
 
 	public:
 		DrawWindow() = delete;
-		DrawWindow(gfx::Renderer* renderer, const gfx::Rectangle& rect, const char* name);
+		DrawWindow(win::SDLRenderer* renderer, const gfx::Rectangle& rect, const char* name);
 
 		virtual ~DrawWindow();
 		DrawWindow(const DrawWindow& that) = delete;
@@ -41,14 +40,14 @@ namespace paint
 		bool mouseEnter(bool clicked = false) override;
 		bool mouseExit(bool clicked = false) override;
 		bool mouseButtonDown(win::MouseButton button) override;
-		bool mouseButtonUp(win::MouseButton b) override;
+		bool mouseButtonUp(win::MouseButton b, win::SDLRenderer* renderer) override;
 		
 		void setActiveTool(std::shared_ptr<Tool> tool);
 		std::shared_ptr<Tool> getActiveTool() const { return activeTool_; };
 		void toggleDrawTool(win::ToggleButton* b);
 		
-		void setMouseCoords(win::Coords relCoords);
-		void setPrevCoords(win::Coords relPrevCoords);
+		void setMouseCoords(gfx::Coords relCoords);
+		void setPrevCoords(gfx::Coords relPrevCoords);
 
 		void setCanvasColour(gfx::Colour colour);
 		void setPrimaryColour(gfx::Colour colour);
@@ -64,23 +63,22 @@ namespace paint
 		void updateDrawToolRGBA();
 
 		//void setColor(SDL_Surface* surface);
-		void draw() override;
-		void updateAndRerender() override;
+		void draw(win::SDLRenderer* renderer) override;
+		void updateAndRerender(win::SDLRenderer* renderer) override;
 		void clearWindow() const;
 
-		std::vector<win::Coords> clippingHandler(win::Coords pStart, win::Coords pEnd) const;
-
+		
 	private:
-		gfx::Renderer* renderer_;
+		win::SDLRenderer* renderer_;
 		
 		std::shared_ptr<Tool> activeTool_;
 		std::shared_ptr<Tool> drawTool_;
 		gfx::Colour primaryColour_;
 		gfx::Colour secondaryColour_;
-		std::vector<win::Coords> clickedPixels_;
+		std::vector<gfx::Coords> clickedPixels_;
 		bool drawToggle_;
-		win::Coords mouseCoords_;
-		win::Coords prevMouseCoords_;
+		gfx::Coords mouseCoords_;
+		gfx::Coords prevMouseCoords_;
 		std::vector<gfx::Line> lines_;
 
 		//whenever the active colour is changed this should be updated

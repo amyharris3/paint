@@ -66,6 +66,9 @@
     <ClCompile Include="WIN_Slider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="WIN_SDLRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WIN_Button.h">
@@ -101,9 +104,6 @@
     <ClInclude Include="WIN_ToggleButton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WIN_Coords.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="WIN_SDLUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -126,6 +126,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WIN_Utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WIN_SDLRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

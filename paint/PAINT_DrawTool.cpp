@@ -1,13 +1,13 @@
 #include "PAINT_pch.h"
 #include "PAINT_DrawTool.h"
 #include "PAINT_Brush.h"
-#include "WIN_Coords.h"
+#include "GFX_Coords.h"
 
 using namespace paint;
 using namespace win;
 
 
-DrawTool::DrawTool(gfx::Renderer* renderer)
+DrawTool::DrawTool(win::SDLRenderer* renderer)
 	: renderer_(renderer)
 	, drawRGBA_{255,255,255,255}
 {
@@ -22,7 +22,7 @@ void DrawTool::setToolColour(const uint8_t RGBA[])
 	}
 }
 
-void DrawTool::toolFunction(win::Coords relCoords, win::Coords prevRelCoords)
+void DrawTool::toolFunction(gfx::Coords relCoords, gfx::Coords prevRelCoords)
 {
 	lines_.push_back({ relCoords.x, relCoords.y, prevRelCoords.x, prevRelCoords.y });
 

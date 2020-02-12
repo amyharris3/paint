@@ -14,7 +14,7 @@ namespace paint
 	public:
 		
 		ColourPicker() = delete;
-		ColourPicker(gfx::Rectangle rect, gfx::Renderer* renderer, std::shared_ptr<DrawWindow> drawWindow);
+		ColourPicker(gfx::Rectangle rect, win::SDLRenderer* renderer, std::shared_ptr<DrawWindow> drawWindow);
 		~ColourPicker() = default;
 		ColourPicker(const ColourPicker & that) = default;
 		ColourPicker(ColourPicker && that) = default;
@@ -35,13 +35,12 @@ namespace paint
 		void updateColourDisplaysFromDrawWindow() const;
 
 		void update() override;
-		void updateAndRerender() override;
-		void draw() override;
+		void updateAndRerender(win::SDLRenderer* renderer) override;
+		void draw(win::SDLRenderer* renderer) override;
 		
 	private:
 
 		std::shared_ptr<DrawWindow> drawWindowPtr_;
-		gfx::Renderer* renderer_;
 		
 		std::shared_ptr<Container> displayBox_;
 		std::shared_ptr<ColourDisplay> leftColourDisplay_;
@@ -65,7 +64,7 @@ namespace paint
 		inline void initialiseColourValueBoxes();
 		inline void initialiseColourSliders();
 
-		void updateColourDisplays() const;
+		//void updateColourDisplays() const;
 		void updateColourValueBoxes() const;
 		void updateColourSliders() const;
 	};

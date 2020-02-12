@@ -1,9 +1,10 @@
 #pragma once
 #include "WIN_Container.h"
 
-namespace gfx {
-	class Renderer;
+namespace win {
+	class SDLRenderer;
 }
+
 struct SDL_Renderer;
 
 namespace paint {
@@ -18,7 +19,7 @@ namespace paint {
 	{
 	public:
 		Screen() = default;
-		Screen(gfx::Renderer* renderer, const gfx::Rectangle& rect, const char* name);
+		Screen(win::SDLRenderer* renderer, const gfx::Rectangle& rect, const char* name);
 		~Screen() = default;
 		Screen(Screen const& that) = default;
 		Screen(Screen&& that) = default;
@@ -29,7 +30,7 @@ namespace paint {
 		ToolWindow* getToolWindow() const { return toolWindow_.get(); }
 		StatusBarWindow* getStatusBarWindow() const { return statusBarWindow_.get(); }
 
-		void updateAndRerender() override;
+		void updateAndRerender(win::SDLRenderer* renderer) override;
 	private:
 		std::shared_ptr<DrawWindow> drawWindow_;
 		std::shared_ptr<ToolWindow> toolWindow_;

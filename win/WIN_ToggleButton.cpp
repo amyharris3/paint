@@ -4,13 +4,14 @@
 #include "WIN_ButtonGroup.h"
 #include "WIN_ButtonStates.h"
 #include "GFX_Renderer.h"
+#include "WIN_SDLRenderer.h"
 
 using namespace win;
 
-ToggleButton::ToggleButton(gfx::Renderer* renderer, const gfx::Rectangle& rect, const char* name, const char* spritePath, ActionFunction const act)
+ToggleButton::ToggleButton(win::SDLRenderer* renderer, const gfx::Rectangle& rect, const char* name, const char* spritePath, ActionFunction const act)
 	: UIelement(rect, name)
 	, action(act)
-	, renderer_(renderer->getRendererSDL())
+	, renderer_(renderer)
 	, rect_(rect)
 	, buttonGroup_(nullptr)
 	, state_(ButtonStates::off)
@@ -18,7 +19,7 @@ ToggleButton::ToggleButton(gfx::Renderer* renderer, const gfx::Rectangle& rect, 
 	, mouseDown_(false)
 	, mouseDragged_(false)
 {
-	texture_ = SDLUtils::loadSprite(renderer_, spritePath);
+	texture_ = SDLUtils::loadSprite(renderer_->getSDLRenderer(), spritePath);
 	spriteClips_ = SDLUtils::handleSpriteSheet(texture_);
 	activeClip_ = &(spriteClips_[1]);
 }
@@ -32,10 +33,10 @@ ToggleButton::~ToggleButton()
 }
 
 /* override */
-void ToggleButton::draw()
+void ToggleButton::draw(win::SDLRenderer* renderer)
 {
 	SDL_Rect buttonRect = { getRect().x, getRect().y, getRect().width, getRect().height };
-	SDL_RenderCopy(renderer_, texture_, activeClip_, &buttonRect);
+	SDL_RenderCopy(renderer->getSDLRenderer(), texture_, activeClip_, &buttonRect);
 }
 
 /* override */
@@ -96,7 +97,7 @@ bool ToggleButton::mouseButtonDown(MouseButton b)
 }
 
 /* override */
-bool ToggleButton::mouseButtonUp(MouseButton b)
+bool ToggleButton::mouseButtonUp(MouseButton b, win::SDLRenderer* renderer)
 {
 	mouseDown_ = false;
 	if (activated_ && !mouseDragged_) {

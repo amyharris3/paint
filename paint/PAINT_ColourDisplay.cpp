@@ -1,13 +1,13 @@
 #include "PAINT_pch.h"
 #include "PAINT_ColourDisplay.h"
 #include "../paint/PAINT_Utils.h"
+#include "WIN_SDLRenderer.h"
 
 using namespace paint;
 
 
-ColourDisplay::ColourDisplay(gfx::Rectangle rect, const char* name, uint8_t displayColour[], gfx::Renderer* renderer, bool isActive)
+ColourDisplay::ColourDisplay(gfx::Rectangle rect, const char* name, uint8_t displayColour[], bool isActive)
 	: UIelement(rect, name)
-	, renderer_(renderer)
 	, isActive_(isActive)
 	, isClicked_(false)
 	, mouseDragged_(false)
@@ -60,10 +60,10 @@ void ColourDisplay::update()
 	
 }
 
-void ColourDisplay::draw()
+void ColourDisplay::draw(win::SDLRenderer* renderer)
 {
-	renderer_->renderBox(gfx::RenderTarget::SCREEN, getRect(), getBackgroundColour());
-	renderer_->renderBox(gfx::RenderTarget::SCREEN, { getRect().x + 5, getRect().y + 5, getRect().width - 10, getRect().height - 10 }, getForegroundColour());
+	renderer->renderBox(gfx::RenderTarget::SCREEN, getRect(), getBackgroundColour());
+	renderer->renderBox(gfx::RenderTarget::SCREEN, { getRect().x + 5, getRect().y + 5, getRect().width - 10, getRect().height - 10 }, getForegroundColour());
 }
 
 bool ColourDisplay::mouseEnter(bool clicked)
@@ -96,7 +96,7 @@ bool ColourDisplay::mouseButtonDown(win::MouseButton const button)
 	return false;
 }
 
-bool ColourDisplay::mouseButtonUp(win::MouseButton const button)
+bool ColourDisplay::mouseButtonUp(win::MouseButton const button, win::SDLRenderer* renderer)
 {
 	if (isClicked_ && !mouseDragged_) {
 		const auto cpick = paint::utils::findToolWindow(this)->getColourPicker();
