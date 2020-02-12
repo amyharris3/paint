@@ -203,7 +203,6 @@ void Program::run() const
 			yPrev = yMouse;
 
 			if (rerenderFlag) {
-				printf("rerendering in while loop\n");
 				screen_->updateAndRerender(renderer_);
 			}
 			
