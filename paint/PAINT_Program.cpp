@@ -205,7 +205,6 @@ void Program::run() const
 			}
 
 			if (rerenderFlag) {
-				printf("rerendering in while loop\n");
 				screen_->updateAndRerender(renderer_);
 			}
 			
