@@ -20,7 +20,7 @@ namespace paint
 		ShapeTool& operator=(ShapeTool && that) = default;
 
 		void setToolColour(const uint8_t RGBA[]) override;
-		void setToolThickness(const int thickness) override;
+		void setToolThickness(int thickness) override;
 		
 		void setActiveShape(std::shared_ptr<Shape> shape);
 		std::shared_ptr<Shape> getActiveShape() const { return activeShape_; }

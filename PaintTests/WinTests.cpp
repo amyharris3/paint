@@ -326,7 +326,7 @@ namespace PaintTests
 		TEST_METHOD(TestCopyConstruction)
 		{
 			const Container a;
-			const Container b(a);
+			const auto b(a);  // NOLINT(performance-unnecessary-copy-initialization)
 
 			Assert::AreEqual(a.getName(), b.getName());
 			Assert::IsTrue(a.getLayout() == b.getLayout());
@@ -354,10 +354,10 @@ namespace PaintTests
 			Assert::AreEqual(rgba_a[3], rgba_a[3]);
 		}
 
-		TEST_METHOD(TestAssignmentOperator)
+		TEST_METHOD(TestAssignmentOperator)  
 		{
 			const Container a;
-			const Container b = a;
+			const auto b = a; // NOLINT(performance-unnecessary-copy-initialization)
 
 			Assert::AreEqual(a.getName(), b.getName());
 			Assert::IsTrue(a.getLayout() == b.getLayout());
@@ -452,19 +452,19 @@ namespace PaintTests
 
 			c.applyLayout();
 
-			int xcount = 0;
-			int ycount = 0;
+			int xCount = 0;
+			int yCount = 0;
 			for (const auto& child : c.getChildren()) {
-				Assert::AreEqual(child->getRect().x, 10 + (25 * xcount));
-				Assert::AreEqual(child->getRect().y, 10 + (25 * ycount));
+				Assert::AreEqual(child->getRect().x, 10 + (25 * xCount));
+				Assert::AreEqual(child->getRect().y, 10 + (25 * yCount));
 				Assert::AreEqual(child->getRect().width, 20);
 				Assert::AreEqual(child->getRect().height, 20);
 				Assert::IsTrue(c.getRect().containsPoint(child->getRect().x, child->getRect().y));
 
-				xcount++;
-				if (xcount == 2) {
-					xcount = 0;
-					ycount++;
+				xCount++;
+				if (xCount == 2) {
+					xCount = 0;
+					yCount++;
 				}
 			}
 		}

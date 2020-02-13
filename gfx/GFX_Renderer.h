@@ -21,6 +21,7 @@ namespace gfx
 	class Renderer
 	{
 	public:
+		virtual ~Renderer() = default;
 
 		virtual void createDrawWindowTexture(Rectangle rect) = 0;
 		virtual  void destroyDrawWindowTexture() = 0;
@@ -39,7 +40,6 @@ namespace gfx
 
 	protected:
 		Renderer() = default;
-		~Renderer() = default;
 		Renderer(const Renderer& that) = default;
 		Renderer(Renderer&& that) = default;
 		Renderer& operator=(const Renderer& that) = default;
