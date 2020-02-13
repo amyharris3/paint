@@ -10,46 +10,45 @@
 #include "PAINT_ColourPicker.h"
 #include "WIN_ButtonGroup.h"
 #include "WIN_ToggleButton.h"
+#include "WIN_DisabledUIelementGroup.h"
 
 using namespace paint;
 using namespace win;
 using namespace gfx;
 
 static ButtonInfo toolbox_button_info[] = {
-	{ "drawButton", "button_toggle_draw.png", toggleDraw, true },
-	{"rectangleButton", "button_draw_rectangle.png", toggleDrawRectangle, true },
-	{ "ellipseButton", "button_draw_ellipse.png", toggleDrawEllipse, true },
-	{ "triangleButton", "button_draw_triangle.png", toggleDrawTriangle, true }
+	{ "drawButton", "button_toggle_draw.png", toggleDraw  },
+	{"rectangleButton", "button_draw_rectangle.png", toggleDrawRectangle  },
+	{ "ellipseButton", "button_draw_ellipse.png", toggleDrawEllipse  },
+	{ "triangleButton", "button_draw_triangle.png", toggleDrawTriangle  },
+	//{ "lockButton", "button_lock.png", toggleLock}
 	//{ "clearButton", "button_clear_screen.png", clearScreen, false }
 };
 
 static constexpr auto numToolBoxButtons = sizeof(toolbox_button_info) / sizeof(ButtonInfo);
 
 static ButtonInfo thickness_button_info[] = {
-	{ "thickness1Button", "button_thickness1.png", setBrushThickness0, true },
-	{ "thickness2Button", "button_thickness2.png", setBrushThickness1, true },
-	{ "thickness3Button", "button_thickness3.png", setBrushThickness2, true },
+	{ "thickness1Button", "button_thickness1.png", setBrushThickness0 },
+	{ "thickness2Button", "button_thickness2.png", setBrushThickness1 },
+	{ "thickness3Button", "button_thickness3.png", setBrushThickness2 },
 };
 
 static constexpr auto numThicknessButtons = sizeof(thickness_button_info) / sizeof(ButtonInfo);
 
 
-static void makeButtons(win::SDLRenderer* renderer, Rectangle& rect, ButtonInfo* buttonInfo, int const numButtons, Window* window, std::shared_ptr<ButtonGroup> const & buttonGroup = nullptr)
+static void makeButtons(win::SDLRenderer* renderer, Rectangle& rect, ButtonInfo* buttonInfo, int const numButtons, Window* window, std::shared_ptr<ButtonGroup> const & buttonGroup = nullptr, std::shared_ptr<DisabledUIelementGroup> const & disableGroup = nullptr)
 {
 	for (auto i = 0; i < numButtons; ++i) {
-		if (buttonInfo->toggleType == true) {
-			auto button = std::make_shared<ToggleButton>(renderer, rect, buttonInfo[i].buttonName, buttonInfo[i].buttonSpritePath, buttonInfo[i].action);
-			window->addChild(button);
-			if (buttonGroup) {
-				button->setButtonGroup(buttonGroup);
-				buttonGroup->addButtonChild(button);
-			}
+		auto button = std::make_shared<ToggleButton>(renderer, rect, buttonInfo[i].buttonName, buttonInfo[i].buttonSpritePath, buttonInfo[i].action);
+		window->addChild(button);
+		if (buttonGroup) {
+			button->setButtonGroup(buttonGroup);
+			buttonGroup->addButtonChild(button);
 		}
-		else {
-			auto button = std::make_shared<Button>(renderer, rect, buttonInfo[i].buttonName, buttonInfo[i].buttonSpritePath, buttonInfo[i].action);
-			window->addChild(button);
+		if (disableGroup) {
+			button->setDisableGroup(disableGroup);
+			//disableGroup->addButtonChild(button);
 		}
-
 	}
 }
 
@@ -89,6 +88,18 @@ Screen::Screen(win::SDLRenderer* renderer, const gfx::Rectangle& rect, const cha
 	// Make clear screen button.
 	auto button = std::make_shared<Button>(renderer, rect, "clearScreenButton", "button_clear_screen.png", clearScreen);
 	toolbox->addChild(button);
+
+
+
+	// Make lock button.
+	auto lockButton = std::make_shared<ToggleButton>(renderer, rect, "lockButton", "button_lock.png", toggleLock);
+	// Make DisabledUIelementGroup for lock button.
+	auto disabledLockGroup = std::make_shared<DisabledUIelementGroup>();
+	for (auto const & child : toolbox->getChildren()) {
+		disabledLockGroup->addChild(child);
+	}
+	lockButton->setDisableGroup(disabledLockGroup);
+	toolbox->addChild(lockButton);
 
 	toolWindow->addChild(toolbox);
 	toolWindow->setToolbox(toolbox);

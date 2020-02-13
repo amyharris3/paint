@@ -5,6 +5,7 @@
 #include "WIN_ButtonStates.h"
 #include "GFX_Renderer.h"
 #include "WIN_SDLRenderer.h"
+#include "WIN_DisabledUIelementGroup.h"
 
 using namespace win;
 
@@ -15,9 +16,10 @@ ToggleButton::ToggleButton(win::SDLRenderer* renderer, const gfx::Rectangle& rec
 	, rect_(rect)
 	, buttonGroup_(nullptr)
 	, state_(ButtonStates::off)
-	, activated_(true)
 	, mouseDown_(false)
 	, mouseDragged_(false)
+	, activated_(true)
+	, currentClip_(nullptr)
 {
 	texture_ = SDLUtils::loadSprite(renderer_->getSDLRenderer(), spritePath);
 	spriteClips_ = SDLUtils::handleSpriteSheet(texture_);
@@ -57,6 +59,9 @@ bool ToggleButton::mouseEnter(MouseButton button, const bool clicked)
 			assert(!"Invalid state");
 		}
 	}
+	else {
+		activeClip_ = &(spriteClips_[3]);
+	}
 
 	return false;
 }
@@ -75,6 +80,10 @@ bool ToggleButton::mouseExit(MouseButton button, bool clicked)
 			assert(!"Invalid state");
 		}
 	}
+	else {
+		activeClip_ = &(spriteClips_[3]);
+	}
+	
 	mouseDragged_ = false;
 
 	return false;
@@ -91,6 +100,9 @@ bool ToggleButton::mouseButtonDown(MouseButton button, bool clicked)
 	mouseDown_ = true;
 	if (activated_) {
 		activeClip_ = &(spriteClips_[2]);
+	}
+	else {
+		activeClip_ = &(spriteClips_[3]);
 	}
 
 	return false;
@@ -129,6 +141,9 @@ bool ToggleButton::mouseButtonUp(MouseButton button, bool clicked, SDLRenderer* 
 			action(this);
 		}
 	}
+	else if (activated_ == false){
+		activeClip_ = &(spriteClips_[3]);
+	}
 	mouseDragged_ = false;
 	return false;
 }
@@ -136,6 +151,11 @@ bool ToggleButton::mouseButtonUp(MouseButton button, bool clicked, SDLRenderer* 
 void ToggleButton::setButtonGroup(std::shared_ptr<ButtonGroup> buttonGroup)
 {
 	buttonGroup_ = std::move(buttonGroup);
+}
+
+void ToggleButton::setDisableGroup(std::shared_ptr<DisabledUIelementGroup> disableGroup)
+{
+	disableGroup_ = std::move(disableGroup);
 }
 
 void ToggleButton::turnOff()
@@ -150,5 +170,13 @@ void ToggleButton::turnOff()
 void ToggleButton::setActivated(const bool activated)
 {
 	activated_ = activated;
+	if (!activated) {
+		currentClip_ = activeClip_;
+		activeClip_ = &(spriteClips_[3]);
+	}
+	if (activated == true) {
+		activeClip_ = currentClip_;
+	}
+
 }
 

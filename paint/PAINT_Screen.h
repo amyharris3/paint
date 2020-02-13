@@ -2,7 +2,7 @@
 #include "WIN_Container.h"
 
 namespace win {
-	class SDLRenderer;
+	//class SDLRenderer;
 }
 
 struct SDL_Renderer;
@@ -19,8 +19,6 @@ namespace paint {
 		const char* buttonName;
 		const char* buttonSpritePath;
 		win::UIelement::ActionFunction action;
-		bool toggleType;
-
 	};
 
 	class Screen final :

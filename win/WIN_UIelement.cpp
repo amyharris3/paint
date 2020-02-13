@@ -64,3 +64,9 @@ void UIelement::setParent(UIelement * parent)
 {
 	parent_ = parent;
 }
+
+void UIelement::setActivated(bool const activated)
+{
+	//activated_ = activated;
+}
+

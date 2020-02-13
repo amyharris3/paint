@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WIN_ColourSlider.cpp" />
+    <ClCompile Include="WIN_DisabledUIelementGroup.cpp" />
     <ClCompile Include="WIN_pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -45,6 +46,7 @@
     <ClInclude Include="WIN_ColourSlider.h" />
     <ClInclude Include="WIN_ColourValueTextbox.h" />
     <ClInclude Include="WIN_ButtonStates.h" />
+    <ClInclude Include="WIN_DisabledUIelementGroup.h" />
     <ClInclude Include="WIN_pch.h" />
     <ClInclude Include="WIN_SDLRenderer.h" />
     <ClInclude Include="WIN_SDLUtils.h" />

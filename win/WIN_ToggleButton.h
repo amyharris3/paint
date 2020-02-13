@@ -1,6 +1,7 @@
 #pragma once
 #include "WIN_UIelement.h"
 
+
 namespace gfx {
 	class Renderer;
 }
@@ -11,6 +12,7 @@ namespace win
 	class ToggleButton;
 	class ButtonGroup;
 	enum class ButtonStates;
+	class DisabledUIelementGroup;
 	
 	class ToggleButton final :
 		public UIelement
@@ -37,8 +39,11 @@ namespace win
 		void setButtonGroup(std::shared_ptr<ButtonGroup> buttonGroup);
 		void turnOff();
 		ButtonStates getState() const { return state_; }
-		void setActivated(bool activated);
+		void setActivated(bool activated) override;
 
+		void setDisableGroup(std::shared_ptr<DisabledUIelementGroup> disableGroup);
+		std::shared_ptr<DisabledUIelementGroup> getDisableGroup() const { return disableGroup_; }
+		
 	private:
 		win::SDLRenderer* renderer_;
 		SDL_Texture* texture_;
@@ -48,12 +53,15 @@ namespace win
 		std::vector<SDL_Rect> spriteClips_;
 		SDL_Rect* activeClip_;
 		std::shared_ptr<ButtonGroup> buttonGroup_;
+		std::shared_ptr<DisabledUIelementGroup> disableGroup_;
 
 		ButtonStates state_;
-		bool activated_;
+
 
 		bool mouseDown_;
 		bool mouseDragged_;
+		bool activated_;
+		SDL_Rect* currentClip_;
 	};
 
 
