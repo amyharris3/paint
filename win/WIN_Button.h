@@ -29,6 +29,8 @@ namespace win
 		bool mouseMove(SDL_MouseMotionEvent& e) override;
 		bool mouseButtonDown(MouseButton button, bool clicked = false) override;
 		bool mouseButtonUp(MouseButton button, bool clicked = false, win::SDLRenderer* renderer = nullptr) override;
+		void setActivated(bool activated) override;
+
 
 		ActionFunction action;
 
@@ -42,5 +44,7 @@ namespace win
 
 		bool mouseDown_;
 		bool mouseDragged_;
+		bool activated_;
+		SDL_Rect* currentClip_;
 	};
 }

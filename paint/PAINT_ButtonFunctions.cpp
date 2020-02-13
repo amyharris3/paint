@@ -10,6 +10,7 @@
 #include "PAINT_Ellipse.h"
 #include "PAINT_Triangle.h"
 #include "PAINT_StatusBarWindow.h"
+#include "WIN_DisabledUIelementGroup.h"
 
 using namespace win;
 using namespace paint;
@@ -129,4 +130,19 @@ void paint::clearScreen(UIelement* control)
 {
 	const auto dw = utils::findDrawWindow(control);
 	dw->clearWindow();
+}
+
+void paint::toggleLock(UIelement* control)
+{
+	auto const button = CastToggleButton(control);
+	auto disableGroup = button->getDisableGroup();
+	if (button->getState() == ButtonStates::off) {
+		disableGroup->toggleDisableChildren(true);
+	}
+	else {
+		disableGroup->toggleDisableChildren(false);
+	}
+
+	auto sw = utils::findStatusBarWindow(button);
+	sw->outputMessage("Toggled lock");
 }

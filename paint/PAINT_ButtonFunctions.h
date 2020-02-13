@@ -17,6 +17,7 @@ namespace paint {
 	void setBrushThickness2(win::UIelement* control);
 	void swapColours(win::UIelement* control);
 	void clearScreen(win::UIelement* control);
+	void toggleLock(win::UIelement* control);
 
 }
  

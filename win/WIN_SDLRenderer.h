@@ -12,7 +12,7 @@ namespace win {
 	public:
 		SDLRenderer(); //should only be used in debug
 		SDLRenderer(SDL_Renderer* SDLRenderer);
-		~SDLRenderer();
+		virtual ~SDLRenderer();
 		SDLRenderer(const SDLRenderer& that) = default;
 		SDLRenderer(SDLRenderer&& that) = default;
 		SDLRenderer& operator=(const SDLRenderer& that) = default;

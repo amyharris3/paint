@@ -46,13 +46,15 @@ namespace win
 		virtual bool mouseButtonDown(MouseButton button, bool clicked = false) { return false; };
 		virtual bool mouseButtonUp(MouseButton button, bool clicked = false, SDLRenderer* renderer = nullptr) { return false; };
 
-		virtual void setActivated(bool activated) { };
-		
+		virtual void setActivated(bool activated);
+		//bool getActivated() const { return activated_; }
+
 	private:
 		std::string name_;
 		gfx::Colour foregroundColour_;
 		gfx::Colour backgroundColour_;
 		gfx::Rectangle rect_;
 		UIelement* parent_;
+		//bool activated_;
 	};
 }

@@ -5,6 +5,6 @@ namespace win
 	enum class ButtonStates
 	{
 		on,
-		off
+		off,
 	};
 }
