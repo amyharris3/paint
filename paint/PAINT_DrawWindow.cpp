@@ -63,27 +63,6 @@ bool DrawWindow::mouseEnter(MouseButton button, const bool clicked)
 	return false;
 }
 
-
-//not really getting many clipping problems with entry into draw window, but adding this as a precaution
-bool DrawWindow::mouseEnter(bool clicked)
-{
-	const int xMouse = mouseCoords_.x;
-	const int yMouse = mouseCoords_.y; 
-	auto absCoords = gfx::utils::clippingHandler(getRect(), prevMouseCoords_, { xMouse, yMouse });
-
-	prevMouseCoords_ = { absCoords[0].x, absCoords[0].y };
-	mouseCoords_ = { absCoords[1].x, absCoords[1].y };
-
-	if (drawToggle_) {
-		mouseButtonDown(MouseButton::Left);
-	}
-
-	drawToggle_ = false;
-
-	return false;
-}
-
-
 //if exit, mouse may move too fast for render lines to keep up, so must interpolate intersect with DW boundary
 bool DrawWindow::mouseExit(MouseButton button, bool clicked)
 {
@@ -95,8 +74,10 @@ bool DrawWindow::mouseExit(MouseButton button, bool clicked)
 		prevMouseCoords_ = { absCoords[0].x, absCoords[0].y };
 		mouseCoords_ = { absCoords[1].x, absCoords[1].y };
 
-		
 		mouseButtonDown(button);
+
+		activeTool_->clearLines();
+		
 		return true;
 	}
 
