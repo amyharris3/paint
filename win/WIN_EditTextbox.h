@@ -31,8 +31,8 @@ namespace win
 		virtual void takeTextEntry();
 		
 		void draw(win::SDLRenderer* renderer) override;
-		bool mouseButtonDown(win::MouseButton button) override;
-		bool mouseButtonUp(win::MouseButton button, win::SDLRenderer* renderer) override;
+		bool mouseButtonDown(MouseButton button, bool clicked = false) override;
+		bool mouseButtonUp(MouseButton button, bool clicked = false, SDLRenderer* renderer = nullptr) override;
 		
 	private:
 

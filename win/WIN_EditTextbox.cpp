@@ -42,12 +42,12 @@ void EditTextbox::editTextAndRerender(std::string & newString)
 // Simple text entry, TODO copy, paste, highlight, cursor position, ect
 void EditTextbox::takeTextEntry()
 {
-	bool quit = false;
-	bool textChanged = false;
+	auto quit = false;
+	auto textChanged = false;
 	std::string newString;
-	int xMouse { 0 };
-	int yMouse { 0 };
-	int entryCount{ 0 };
+	auto xMouse { 0 };
+	auto yMouse { 0 };
+	auto entryCount{ 0 };
 	
 	SDL_StartTextInput();
 	//Recording text entry
@@ -107,18 +107,22 @@ void EditTextbox::draw(win::SDLRenderer* renderer)
 	
 }
 
-bool EditTextbox::mouseButtonDown(win::MouseButton const button)
+bool EditTextbox::mouseButtonDown(MouseButton button, bool clicked)
 {
 	isClicked_ = true;
 	return false;
 }
 
-bool EditTextbox::mouseButtonUp(win::MouseButton const button, win::SDLRenderer* renderer)
+bool EditTextbox::mouseButtonUp(win::MouseButton const button, bool clicked, win::SDLRenderer* renderer)
 {
 	if (isClicked_) {
+#ifdef VERBOSE
 		printf("Taking text entry now\n");
+#endif
 		takeTextEntry();
+#ifdef VERBOSE
 		printf("Finished taking text entry\n");
+#endif
 		isClicked_ = false;
 	}
 	return true;

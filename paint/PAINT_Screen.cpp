@@ -3,7 +3,6 @@
 #include "PAINT_DrawWindow.h"
 #include "PAINT_ToolWindow.h"
 #include "PAINT_StatusBarWindow.h"
-#include "WIN_Button.h"
 #include "PAINT_ButtonFunctions.h"
 #include "WIN_TableLayout.h"
 #include "PAINT_MenuWindow.h"
@@ -16,6 +15,44 @@ using namespace paint;
 using namespace win;
 using namespace gfx;
 
+static ButtonInfo toolbox_button_info[] = {
+	{ "drawButton", "button_toggle_draw.png", toggleDraw, true },
+	{"rectangleButton", "button_draw_rectangle.png", toggleDrawRectangle, true },
+	{ "ellipseButton", "button_draw_ellipse.png", toggleDrawEllipse, true },
+	{ "triangleButton", "button_draw_triangle.png", toggleDrawTriangle, true }
+	//{ "clearButton", "button_clear_screen.png", clearScreen, false }
+};
+
+static constexpr auto numToolBoxButtons = sizeof(toolbox_button_info) / sizeof(ButtonInfo);
+
+static ButtonInfo thickness_button_info[] = {
+	{ "thickness1Button", "button_thickness1.png", setBrushThickness0, true },
+	{ "thickness2Button", "button_thickness2.png", setBrushThickness1, true },
+	{ "thickness3Button", "button_thickness3.png", setBrushThickness2, true },
+};
+
+static constexpr auto numThicknessButtons = sizeof(thickness_button_info) / sizeof(ButtonInfo);
+
+
+static void makeButtons(win::SDLRenderer* renderer, Rectangle& rect, ButtonInfo* buttonInfo, int const numButtons, Window* window, std::shared_ptr<ButtonGroup> const & buttonGroup = nullptr)
+{
+	for (auto i = 0; i < numButtons; ++i) {
+		if (buttonInfo->toggleType == true) {
+			auto button = std::make_shared<ToggleButton>(renderer, rect, buttonInfo[i].buttonName, buttonInfo[i].buttonSpritePath, buttonInfo[i].action);
+			window->addChild(button);
+			if (buttonGroup) {
+				button->setButtonGroup(buttonGroup);
+				buttonGroup->addButtonChild(button);
+			}
+		}
+		else {
+			auto button = std::make_shared<Button>(renderer, rect, buttonInfo[i].buttonName, buttonInfo[i].buttonSpritePath, buttonInfo[i].action);
+			window->addChild(button);
+		}
+
+	}
+}
+
 Screen::Screen(win::SDLRenderer* renderer, const gfx::Rectangle& rect, const char* name)
 : Container(std::make_shared<FreeLayout>(), rect, name)
 {
@@ -24,7 +61,7 @@ Screen::Screen(win::SDLRenderer* renderer, const gfx::Rectangle& rect, const cha
 	auto drawWindow = std::make_shared<DrawWindow>(renderer, drawRect, "drawWindow");
 	drawWindow->setPrimaryColour(gfx::Colour(255, 0, 0, 255));
 	drawWindow->setSecondaryColour(gfx::Colour(0, 255, 0, 255));
-	drawWindow->updateDrawToolRGBA();
+	drawWindow->updateAllToolsRGBA();
 	
 	this->addChild(drawWindow);
 	drawWindow_ = drawWindow;
@@ -43,23 +80,16 @@ Screen::Screen(win::SDLRenderer* renderer, const gfx::Rectangle& rect, const cha
 	auto toolbox = std::make_shared<Window>(toolbarRect, "toolbarBox", toolbarLayout);
 	const gfx::Colour toolboxColour{ 150, 255, 240, 255 };
 	toolbox->setBackgroundColour(toolboxColour);
+	
 	// Create tool window buttons.
-	gfx::Colour yellow(255, 255, 0, 255);
-	for (int i = 0; i < 6; i++) {
-		gfx::Rectangle buttonRect(20, 60, 60, 60);
-		if (i == 0) {
-			auto button = std::make_shared<ToggleButton>(renderer, buttonRect, "drawButton", "button_toggle_draw.png", toggleDraw);
-			toolbox->addChild(button);
-		}
-		else if (i == 5){
-			auto button = std::make_shared<Button>( renderer, buttonRect, "clearButton", "button_clear_screen.png", paint::clearScreen);
-			toolbox->addChild(button);
-		}
-		else {
-			auto button = std::make_shared<GenericBox>(buttonRect, "genericBox", yellow, yellow);
-			toolbox->addChild(button);
-		}
-	}
+	auto toolboxButtonGroup = std::make_shared<ButtonGroup>();
+	gfx::Rectangle buttonRect(20, 60, 60, 60);
+	makeButtons(renderer, buttonRect, toolbox_button_info, numToolBoxButtons, toolbox.get(), toolboxButtonGroup);
+
+	// Make clear screen button.
+	auto button = std::make_shared<Button>(renderer, rect, "clearScreenButton", "button_clear_screen.png", clearScreen);
+	toolbox->addChild(button);
+
 	toolWindow->addChild(toolbox);
 	toolWindow->setToolbox(toolbox);
 	
@@ -74,22 +104,8 @@ Screen::Screen(win::SDLRenderer* renderer, const gfx::Rectangle& rect, const cha
 	auto thicknessButtonGroup = std::make_shared<ButtonGroup>();
 	
 	// Create thickness buttons.
-	gfx::Rectangle buttonRect(20, 60, 60, 60);
-	auto buttonThick1 = std::make_shared<ToggleButton>(renderer, buttonRect, "thickness1Button", "button_thickness1.png", setBrushThickness0);
-	thicknessBox->addChild(buttonThick1);
-	buttonThick1->setButtonGroup(thicknessButtonGroup);
-	thicknessButtonGroup->addButtonChild(buttonThick1);
+	makeButtons(renderer, buttonRect, thickness_button_info, numThicknessButtons, thicknessBox.get(), thicknessButtonGroup);
 	
-	auto buttonThick2 = std::make_shared<ToggleButton>(renderer, buttonRect, "thickness2Button", "button_thickness2.png", setBrushThickness1);
-	thicknessBox->addChild(buttonThick2);
-	buttonThick2->setButtonGroup(thicknessButtonGroup);
-	thicknessButtonGroup->addButtonChild(buttonThick2);
-	
-	auto buttonThick3 = std::make_shared<ToggleButton>(renderer, buttonRect, "thickness3Button", "button_thickness3.png", setBrushThickness2);
-	thicknessBox->addChild(buttonThick3);
-	buttonThick3->setButtonGroup(thicknessButtonGroup);
-	thicknessButtonGroup->addButtonChild(buttonThick3);
-
 	toolWindow->addChild(thicknessBox);
 
 	// Create area for colour picker

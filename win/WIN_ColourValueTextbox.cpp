@@ -77,12 +77,12 @@ void ColourValueTextbox::editTextAndRerender(std::string & newString)
 
 void ColourValueTextbox::takeTextEntry()
 {
-	bool quit = false;
-	bool textChanged = false;
+	auto quit = false;
+	auto textChanged = false;
 	std::string newString;
-	int xMouse = 0;
-	int yMouse = 0;
-	int entryCount = 0;
+	auto xMouse = 0;
+	auto yMouse = 0;
+	auto entryCount = 0;
 
 	SDL_StartTextInput();
 	//Recording text entry
@@ -146,7 +146,7 @@ void ColourValueTextbox::takeTextEntry()
 	}
 }
 
-bool ColourValueTextbox::mouseButtonUp(win::MouseButton const button, win::SDLRenderer* renderer)
+bool ColourValueTextbox::mouseButtonUp(win::MouseButton const button, bool clicked, win::SDLRenderer* renderer)
 {
 	if (getClick()) {
 		printf("Taking text entry now\n");

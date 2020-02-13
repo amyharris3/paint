@@ -16,12 +16,12 @@ using namespace gfx;
 //{
 //}
 
-Text::Text(Colour textColour, const char* fontName, int const textSize)
+Text::Text(const Colour textColour, const char* fontName, int const textSize)
 	: Text(textColour, fontName, textSize, "")
 {
 }
 
-Text::Text(Colour textColour, const char* fontName, int const textSize, const char* textString)
+Text::Text(const Colour textColour, const char* fontName, int const textSize, const char* textString)
 	: textString_(textString)
 	, textSize_(textSize)
 	, fontName_(fontName)

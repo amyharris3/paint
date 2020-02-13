@@ -21,7 +21,7 @@ namespace paint {
 		ColourPicker* getColourPicker() const { return colourPicker_.get(); }
 		
 		void draw(win::SDLRenderer* renderer) override;
-		bool mouseButtonDown(win::MouseButton button) override;
+		bool mouseButtonDown(win::MouseButton button, bool clicked = false) override;
 
 	private:
 

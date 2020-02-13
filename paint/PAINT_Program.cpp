@@ -76,13 +76,13 @@ void Program::run() const
 	auto xGlobal{ 0 };
 	auto yGlobal{ 0 };
 
-	gfx::Rectangle rootWindowRect_ = getRootWindowRect();
-	auto insideRootWindow = true;
+	auto rootWindowRect_ = getRootWindowRect();
 
 	auto drawWindow = screen_->getDrawWindow();
 
 	auto clicked = false;
-
+	auto insideRootWindow = true;
+	
 	auto button = MouseButton::Left;
 	
 	//While application is running
@@ -90,7 +90,6 @@ void Program::run() const
 	while (!quit) {
 		// if a method causes a change in the visual representation of the program, returns 'true' and calls to rerender the relevant section, else have the method return 'false'
 		auto rerenderFlag = false;
-		
 		//Handle events on queue
 		while (SDL_PollEvent(&e) != 0) {
 			SDL_RenderClear(renderer_->getSDLRenderer());
@@ -105,7 +104,7 @@ void Program::run() const
 			if (e.type == SDL_WINDOWEVENT && e.window.event == SDL_WINDOWEVENT_MOVED) {
 				rootWindowRect_ = getRootWindowRect();
 			}
-				
+			
 			//If the mouse moved
 			if (e.type == SDL_MOUSEMOTION) {
 				SDL_GetMouseState(&xMouse, &yMouse);
@@ -119,11 +118,10 @@ void Program::run() const
 				SDL_GetGlobalMouseState(&xGlobal, &yGlobal);
 				if (!(xGlobal >= rootWindowRect_.x && xGlobal < (rootWindowRect_.x + rootWindowRect_.width) && yGlobal >= rootWindowRect_.y && yGlobal < (rootWindowRect_.y + rootWindowRect_.height))) {
 					insideRootWindow = false;
-					clicked = false;
 					drawWindow->setMouseCoords({ xGlobal - rootWindowRect_.x, yGlobal - rootWindowRect_.y });
 					drawWindow->setPrevCoords({ xPrev, yPrev });
 					if (activeElement) {
-						activeElement->mouseExit(clicked);
+						activeElement->mouseExit(button, clicked);
 					}
 				}
 				else{
@@ -131,14 +129,15 @@ void Program::run() const
 				}
 				
 				if (activeElement != active) {
+					//need to deal with leaving window but not changing active element
 					if (activeElement && insideRootWindow) {
-						rerenderFlag = activeElement->mouseExit(clicked);
-					}
+						rerenderFlag = activeElement->mouseExit(button, clicked);
+						}
 					
 					activeElement = active;
 
 					if (activeElement && insideRootWindow) {
-						rerenderFlag = activeElement->mouseEnter(clicked);
+						rerenderFlag = activeElement->mouseEnter(button, clicked);
 					}
 				}
 
@@ -155,6 +154,7 @@ void Program::run() const
 				if (insideRootWindow) {
 					clicked = true;
 				}
+				drawWindow->setStartCoord({ xMouse, yMouse });
 
 				switch (e.button.button) {
 				case SDL_BUTTON_LEFT:
@@ -183,7 +183,7 @@ void Program::run() const
 					// ReSharper disable once CppLocalVariableMightNotBeInitialized
 					//activeElement->mouseButtonDown(button);
 					
-					rerenderFlag = activeElement->mouseButtonDown(button);
+					rerenderFlag = activeElement->mouseButtonDown(button, clicked);
 				}
 				
 			}
@@ -191,18 +191,12 @@ void Program::run() const
 			if (e.type == SDL_MOUSEBUTTONUP) {
 				clicked = false;
 				if (activeElement && insideRootWindow) {
-					rerenderFlag = activeElement->mouseButtonUp(button, renderer_);
+					rerenderFlag = activeElement->mouseButtonUp(button, clicked, renderer_);
 				}
 			}
 
-			if (xPrev != xMouse) {
-				xPrev = xMouse;
-			}
-
-			if (yPrev != yMouse)
-			{
-				yPrev = yMouse;
-			}
+			xPrev = xMouse;
+			yPrev = yMouse;
 
 			if (rerenderFlag) {
 				screen_->updateAndRerender(renderer_);

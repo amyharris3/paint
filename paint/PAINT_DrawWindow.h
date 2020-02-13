@@ -20,8 +20,10 @@ namespace win
 
 namespace paint 
 {
-	class Tool;
+	class DrawTool;
 	class Brush;
+	class ShapeTool;
+	class Tool;
 
 	class DrawWindow final :
 		public win::Window
@@ -31,21 +33,21 @@ namespace paint
 		DrawWindow() = delete;
 		DrawWindow(win::SDLRenderer* renderer, const gfx::Rectangle& rect, const char* name);
 
-		virtual ~DrawWindow();
+		virtual ~DrawWindow() = default;
 		DrawWindow(const DrawWindow& that) = delete;
 		DrawWindow(DrawWindow&& that) = delete;
 		DrawWindow& operator=(const DrawWindow& that) = delete;
 		DrawWindow& operator=(DrawWindow&& that) = delete;
 
-		bool mouseEnter(bool clicked = false) override;
-		bool mouseExit(bool clicked = false) override;
-		bool mouseButtonDown(win::MouseButton button) override;
-		bool mouseButtonUp(win::MouseButton b, win::SDLRenderer* renderer) override;
+		bool mouseEnter(win::MouseButton button,  bool clicked = false) override;
+		bool mouseExit(win::MouseButton button, bool clicked = false) override;
+		bool mouseButtonDown(win::MouseButton button, bool clicked = false) override;
+		bool mouseButtonUp(win::MouseButton button, bool clicked = false, win::SDLRenderer* renderer = nullptr) override;
 		
 		void setActiveTool(std::shared_ptr<Tool> tool);
-		std::shared_ptr<Tool> getActiveTool() const { return activeTool_; };
+		std::shared_ptr<Tool> getActiveTool() const { return activeTool_; }
 		void toggleDrawTool(win::ToggleButton* b);
-		
+		void toggleShapeTool(win::ToggleButton* b);
 		void setMouseCoords(gfx::Coords relCoords);
 		void setPrevCoords(gfx::Coords relPrevCoords);
 
@@ -60,25 +62,30 @@ namespace paint
 		bool isPrimaryActive() const { return primaryActive_; }
 		void setIfPrimaryColourActive(const bool b) { primaryActive_ = b; }
 
-		void updateDrawToolRGBA();
+		void updateAllToolsRGBA();
 
 		//void setColor(SDL_Surface* surface);
 		void draw(win::SDLRenderer* renderer) override;
 		void updateAndRerender(win::SDLRenderer* renderer) override;
 		void clearWindow() const;
 
+		void setStartCoord(gfx::Coords startCoords);
+		std::shared_ptr<ShapeTool> getShapeTool() const { return shapeTool_; }
 		
 	private:
 		win::SDLRenderer* renderer_;
+		bool renderTempTexture_;
 		
 		std::shared_ptr<Tool> activeTool_;
 		std::shared_ptr<Tool> drawTool_;
+		std::shared_ptr<ShapeTool> shapeTool_;
+		
 		gfx::Colour primaryColour_;
 		gfx::Colour secondaryColour_;
 		std::vector<gfx::Coords> clickedPixels_;
-		bool drawToggle_;
 		gfx::Coords mouseCoords_;
 		gfx::Coords prevMouseCoords_;
+		gfx::Coords startCoord_;
 		std::vector<gfx::Line> lines_;
 
 		//whenever the active colour is changed this should be updated

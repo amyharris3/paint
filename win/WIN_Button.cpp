@@ -36,7 +36,7 @@ void Button::draw(SDLRenderer* renderer)
 }
 
 /* override */
-bool Button::mouseEnter(bool clicked)
+bool Button::mouseEnter(MouseButton button, const bool clicked)
 {
 	//to handle mouse being dragged in from outside with button held
 	if (clicked) {
@@ -47,7 +47,7 @@ bool Button::mouseEnter(bool clicked)
 }
 
 /* override */
-bool Button::mouseExit(bool clicked)
+bool Button::mouseExit(MouseButton button, bool clicked)
 {
 	activeClip_ = &(spriteClips_[1]);
 	mouseDragged_ = false;
@@ -60,7 +60,7 @@ bool Button::mouseMove(SDL_MouseMotionEvent& e)
 }
 
 /* override */
-bool Button::mouseButtonDown(MouseButton b)
+bool Button::mouseButtonDown(MouseButton button, bool clicked)
 {
 	mouseDown_ = true;
 	activeClip_ = &(spriteClips_[2]);
@@ -68,7 +68,7 @@ bool Button::mouseButtonDown(MouseButton b)
 }
 
 /* override */
-bool Button::mouseButtonUp(MouseButton b, win::SDLRenderer* renderer)
+bool Button::mouseButtonUp(MouseButton b, bool clicked, win::SDLRenderer* renderer)
 {
 	if (mouseDown_ && !mouseDragged_) {
 		activeClip_ = &(spriteClips_[0]);

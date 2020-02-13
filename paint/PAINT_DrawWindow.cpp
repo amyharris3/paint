@@ -5,6 +5,7 @@
 #include "WIN_ToggleButton.h"
 #include "GFX_Coords.h"
 #include "WIN_ButtonStates.h"
+#include "PAINT_ShapeTool.h"
 #include "PAINT_Utils.h"
 #include "GFX_Utils.h"
 
@@ -14,123 +15,120 @@ using namespace win;
 DrawWindow::DrawWindow(win::SDLRenderer* renderer, gfx::Rectangle const& rect, const char* name)
 	: Window(rect, name)
 	, renderer_(renderer)
+	, renderTempTexture_(false)
 	, activeTool_(nullptr)
-	, drawTool_(std::make_shared<DrawTool>(renderer))
+	, drawTool_(std::make_shared<DrawTool>(gfx::Colour(255,255,255,255)))
+	, shapeTool_(std::make_shared<ShapeTool>(gfx::Colour(255, 255, 255, 255)))
 	, primaryColour_(gfx::Colour(255, 255, 255,255))
 	, secondaryColour_(gfx::Colour(255, 255, 255, 255))
-	, drawToggle_(false)
-	, mouseCoords_({0,0})
-	, prevMouseCoords_({0,0})
+	, mouseCoords_({ 0,0 })
+	, prevMouseCoords_({ 0,0 })
+	, startCoord_({0,0})
 	, primaryActive_(true)
 	, primaryRGBA_{}
 	, secondaryRGBA_{}
 {
-	//texture_ = SDL_CreateTexture(renderer_, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, rect.width, rect.height);
 	renderer->createDrawWindowTexture(rect);
 	primaryColour_.getComponents(primaryRGBA_);
 	secondaryColour_.getComponents(secondaryRGBA_);
 }
 
-DrawWindow::~DrawWindow()
-{
-	//renderer->destroyDrawWindowTexture();
-}
+//DrawWindow::~DrawWindow()
+//{
+//	//renderer->destroyDrawWindowTexture();
+//}
+
+//static void handleMouseUp(MouseButton const b, Tool* tool, gfx::Coords& mouse, gfx::Coords& prevMouse, gfx::Coords& start, gfx::Rectangle const& rect)
+//{
+//	if (b == MouseButton::Left && tool) {
+//		tool->toolFunctionEnd(mouse, prevMouse, start, rect);
+//	}
+//}
 
 /*override*/
 
 //not really getting many clipping problems with entry into draw window, but adding this as a precaution
-bool DrawWindow::mouseEnter(bool clicked)
+bool DrawWindow::mouseEnter(MouseButton button, const bool clicked)
 {
-	const int xMouse = mouseCoords_.x;
-	const int yMouse = mouseCoords_.y; 
-	auto absCoords = gfx::utils::clippingHandler(getRect(), prevMouseCoords_, { xMouse, yMouse });
+	if (clicked) {
+		const int xMouse = mouseCoords_.x;
+		const int yMouse = mouseCoords_.y;
+		auto absCoords = gfx::utils::clippingHandler(getRect(), prevMouseCoords_, { xMouse, yMouse });
 
-	prevMouseCoords_ = { absCoords[0].x, absCoords[0].y };
-	mouseCoords_ = { absCoords[1].x, absCoords[1].y };
+		prevMouseCoords_ = { absCoords[0].x, absCoords[0].y };
+		mouseCoords_ = { absCoords[1].x, absCoords[1].y };
 
-	if (drawToggle_) {
-		mouseButtonDown(MouseButton::Left);
+		mouseButtonDown(button);
+		return true;
 	}
-
-	drawToggle_ = false;
-
 	return false;
 }
-
 
 //if exit, mouse may move too fast for render lines to keep up, so must interpolate intersect with DW boundary
-bool DrawWindow::mouseExit(bool clicked)
+bool DrawWindow::mouseExit(MouseButton button, bool clicked)
 {
-	const int xMouse = mouseCoords_.x;
-	const int yMouse = mouseCoords_.y;
-	//SDL_GetMouseState(&xMouse, &yMouse);
-	auto absCoords = gfx::utils::clippingHandler(getRect(),prevMouseCoords_, { xMouse, yMouse });
+	if (clicked) {
+		const int xMouse = mouseCoords_.x;
+		const int yMouse = mouseCoords_.y;
+		auto absCoords = gfx::utils::clippingHandler(getRect(), prevMouseCoords_, { xMouse, yMouse });
 
-	prevMouseCoords_ = { absCoords[0].x, absCoords[0].y};
-	mouseCoords_ = { absCoords[1].x, absCoords[1].y };
+		prevMouseCoords_ = { absCoords[0].x, absCoords[0].y };
+		mouseCoords_ = { absCoords[1].x, absCoords[1].y };
 
-	if (drawToggle_) {
-		mouseButtonDown(MouseButton::Left);
+		mouseButtonDown(button);
+
+		activeTool_->clearLines();
+		
+		return true;
 	}
 
-	drawToggle_ = false;
-	
 	return false;
-}
-
-bool DrawWindow::mouseButtonDown(MouseButton const b)
-{
-	drawToggle_ = true;
-	if (b == MouseButton::Left) {
-		if (activeTool_) {
-			const gfx::Coords prevRel = { prevMouseCoords_.x - this->getRect().x, prevMouseCoords_.y - this->getRect().y };
-			const gfx::Coords rel = { mouseCoords_.x - this->getRect().x, mouseCoords_.y - this->getRect().y };
-
-			activeTool_->toolFunction(rel, prevRel);
-		}
-	}
-
-	return true;
 }
 
 /*override*/
-bool DrawWindow::mouseButtonUp(win::MouseButton const b, win::SDLRenderer* renderer)
+bool DrawWindow::mouseButtonDown(const MouseButton button, bool clicked)
 {
-	drawToggle_ = false;
-	if (b == MouseButton::Left) {
+	if (button == MouseButton::Left) {
 		if (activeTool_) {
-			activeTool_->clearLines();
+			activeTool_->toolFunction(mouseCoords_, prevMouseCoords_, startCoord_, this->getRect(), renderer_);
 		}
 	}
 
 	return false;
 }
+
+/*override*/
+bool DrawWindow::mouseButtonUp(MouseButton button, bool clicked, SDLRenderer* renderer)
+{
+	if (button == MouseButton::Left) {
+		if (activeTool_) {
+			activeTool_->toolFunctionEnd(mouseCoords_, prevMouseCoords_, startCoord_, this->getRect(), renderer_);
+		}
+	}
+
+	return false;
+}
+
 
 void DrawWindow::setActiveTool(std::shared_ptr<Tool> tool)
 {
 	activeTool_ = std::move(tool);
 }
 
-void DrawWindow::updateDrawToolRGBA()
-{
-	uint8_t drawRGBA_[4];
-	if (primaryActive_) {
-		for (auto i = 0; i < 4; i++) {
-			drawRGBA_[i] = primaryRGBA_[i];
-		}
-	}
-	else {
-		for (auto i = 0; i < 4; i++) {
-			drawRGBA_[i] = secondaryRGBA_[i];
-		}
-	}
-	drawTool_->setToolColour(drawRGBA_);
-}
-
-void DrawWindow::toggleDrawTool(win::ToggleButton* b)
+void DrawWindow::toggleDrawTool(ToggleButton* b)
 {
 	if (b->getState() == ButtonStates::on) {
 		activeTool_ = drawTool_;
+	}
+	else if (b->getState() == ButtonStates::off) {
+		activeTool_ = nullptr;
+	}
+}
+
+void DrawWindow::toggleShapeTool(ToggleButton* b)
+{
+	if (b->getState() == ButtonStates::on) {
+		activeTool_ = shapeTool_;
 	}
 	else if (b->getState() == ButtonStates::off) {
 		activeTool_ = nullptr;
@@ -147,7 +145,7 @@ void DrawWindow::setPrevCoords(const gfx::Coords relPrevCoords)
 	prevMouseCoords_ = relPrevCoords;
 }
 
-void DrawWindow::setCanvasColour(gfx::Colour colour)
+void DrawWindow::setCanvasColour(const gfx::Colour colour)
 {
 	setBackgroundColour(colour);
 }
@@ -164,17 +162,28 @@ void DrawWindow::setSecondaryColour(const gfx::Colour colour)
 	secondaryColour_.getComponents(secondaryRGBA_);
 }
 
-//void DrawWindow::swapPrimarySecondaryColours()
-//{
-//	std::cout << "Swapping colours\n";
-//	std::swap(primaryColour_, secondaryColour_);
-//	std::cout << "Colours have been swapped \n";
-//}
+
+void DrawWindow::updateAllToolsRGBA()
+{
+	uint8_t drawRGBA_[4];
+	if (primaryActive_) {
+		for (auto i = 0; i < 4; i++) {
+			drawRGBA_[i] = primaryRGBA_[i];
+		}
+	}
+	else {
+		for (auto i = 0; i < 4; i++) {
+			drawRGBA_[i] = secondaryRGBA_[i];
+		}
+	}
+	drawTool_->setToolColour(drawRGBA_);
+	shapeTool_->setToolColour(drawRGBA_);
+}
 
 /*override*/
 void DrawWindow::draw(win::SDLRenderer* renderer)
 {
-	renderer->renderDrawWindow(getRect(), getBackgroundColour());
+	renderer->renderDrawWindowTexture(getRect(), getBackgroundColour(), renderTempTexture_);
 }
 
 void DrawWindow::updateAndRerender(win::SDLRenderer* renderer)
@@ -187,4 +196,9 @@ void DrawWindow::updateAndRerender(win::SDLRenderer* renderer)
 void DrawWindow::clearWindow() const
 {
 	renderer_->clearDrawWindow(getRect(), getBackgroundColour());
+}
+
+void DrawWindow::setStartCoord(gfx::Coords const startCoords)
+{
+	startCoord_ = startCoords;
 }

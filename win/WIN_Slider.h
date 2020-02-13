@@ -46,11 +46,11 @@ namespace win
 		void updateAndRerender(win::SDLRenderer* renderer) override;
 		void draw(win::SDLRenderer* renderer) override;
 
-		bool mouseEnter(bool clicked = false) override;
-		bool mouseExit(bool clicked = false) override;
+		bool mouseEnter(MouseButton button, bool clicked) override;
+		bool mouseExit(MouseButton button, bool clicked) override;
 		bool mouseMove(SDL_MouseMotionEvent& e) override;
-		bool mouseButtonDown(MouseButton button) override;
-		bool mouseButtonUp(MouseButton button, win::SDLRenderer* renderer) override;
+		bool mouseButtonDown(MouseButton button, bool clicked = false) override;
+		bool mouseButtonUp(MouseButton button, bool clicked = false, SDLRenderer* renderer = nullptr) override;
 		
 	private:		
 		int slideValueMin_;

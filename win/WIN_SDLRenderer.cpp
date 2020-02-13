@@ -49,6 +49,7 @@ void SDLRenderer::destroyDrawWindowTexture()
 		SDL_DestroyTexture(textureDW_);
 		textureDW_ = nullptr;
 	}
+
 }
 
 //Should only change the render target if it is different to specified before
@@ -58,7 +59,7 @@ void SDLRenderer::switchRenderTarget(gfx::RenderTarget target)
 	if (target != currentTarget_) {
 		switch (target)
 		{
-		case gfx::RenderTarget::DRAWWINDOW:
+		case gfx::RenderTarget::DRAW_WINDOW:
 			targetPtr = textureDW_;
 			break;
 		case gfx::RenderTarget::SCREEN:
@@ -73,7 +74,6 @@ void SDLRenderer::switchRenderTarget(gfx::RenderTarget target)
 
 void SDLRenderer::renderPresentScreen()
 {
-	//switchRenderTarget(RenderTarget::SCREEN);
 	assert(rendererSDL_);
 	SDL_RenderPresent(rendererSDL_);
 }
@@ -175,7 +175,7 @@ void SDLRenderer::renderLines(gfx::RenderTarget target, const std::vector<gfx::L
 	}
 }
 
-void SDLRenderer::renderDrawWindow(gfx::Rectangle rect, const gfx::Colour colour) const
+void SDLRenderer::renderDrawWindowTexture(gfx::Rectangle rect, const gfx::Colour colour, const bool updateTexture_) const
 {
 	assert(rendererSDL_);
 	assert(textureDW_);
@@ -183,18 +183,18 @@ void SDLRenderer::renderDrawWindow(gfx::Rectangle rect, const gfx::Colour colour
 	uint8_t backRGBA_[4];
 	colour.getComponents(backRGBA_);
 
-	SDL_SetRenderDrawColor(rendererSDL_, int(backRGBA_[0]), int(backRGBA_[1]), int(backRGBA_[2]), int(backRGBA_[3]));
-
 	SDL_Rect destRect = { rect.x, rect.y, rect.width, rect.height };
 	SDL_RenderCopy(rendererSDL_, textureDW_, nullptr, &destRect);
 
+	SDL_SetRenderDrawColor(rendererSDL_, int(backRGBA_[0]), int(backRGBA_[1]), int(backRGBA_[2]), int(backRGBA_[3]));
+	
 }
 
 void SDLRenderer::clearDrawWindow(gfx::Rectangle rect, gfx::Colour colour)
 {
 	if (textureDW_) {
 		assert(rendererSDL_);
-		switchRenderTarget(gfx::RenderTarget::DRAWWINDOW);
+		switchRenderTarget(gfx::RenderTarget::DRAW_WINDOW);
 
 		SDL_Rect destRect = { 0, 0, rect.width, rect.height };
 		uint8_t rgba[4];

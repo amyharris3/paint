@@ -1,5 +1,6 @@
 #pragma once
 #include "PAINT_Shape.h"
+#include "GFX_Line.h"
 
 namespace paint
 {
@@ -8,10 +9,12 @@ namespace paint
 	{
 	public:
 		Rectangle() = default;
-		virtual ~Rectangle();
+		virtual ~Rectangle() = default;
 		Rectangle(const Rectangle& that) = default;
 		Rectangle(Rectangle && that) = default;
 		Rectangle& operator=(const Rectangle & that) = default;
 		Rectangle& operator=(Rectangle && that) = default;
+
+		std::vector<gfx::Line> getGeometry(gfx::Coords startCoords, gfx::Coords currentCoords) override;
 	};
 }

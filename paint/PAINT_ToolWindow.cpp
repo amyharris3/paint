@@ -33,7 +33,7 @@ void ToolWindow::draw(win::SDLRenderer* renderer)
 	Window::draw(renderer);
 }
 
-bool ToolWindow::mouseButtonDown(win::MouseButton const)
+bool ToolWindow::mouseButtonDown(win::MouseButton button, bool clicked)
 {
 	return false;
 }

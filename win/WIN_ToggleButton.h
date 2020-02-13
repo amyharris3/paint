@@ -28,11 +28,11 @@ namespace win
 		ToggleButton& operator=(ToggleButton&& that) = default;
 	
 		void draw(win::SDLRenderer* renderer) override;
-		bool mouseEnter(bool clicked = false) override;
-		bool mouseExit(bool clicked = false) override;
+		bool mouseEnter(MouseButton button, bool clicked = false) override;
+		bool mouseExit(MouseButton button, bool clicked = false) override;
 		bool mouseMove(SDL_MouseMotionEvent& e) override	;
-		bool mouseButtonDown(MouseButton b) override;
-		bool mouseButtonUp(MouseButton b, win::SDLRenderer* renderer = nullptr) override;
+		bool mouseButtonDown(MouseButton button, bool clicked = false) override;
+		bool mouseButtonUp(MouseButton button, bool clicked = false, SDLRenderer* renderer = nullptr) override;
 
 		void setButtonGroup(std::shared_ptr<ButtonGroup> buttonGroup);
 		void turnOff();

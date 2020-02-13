@@ -11,7 +11,6 @@
 #include "WIN_ColourValueTextbox.h"
 #include "WIN_Slider.h"
 #include "WIN_Utils.h"
-#include "WIN_SDLRenderer.h"
 #include "GFX_Utils.h"
 
 
@@ -471,7 +470,7 @@ namespace PaintTests
 		}
 
 	private:
-		Container makeEmptyContainer()
+		static Container makeEmptyContainer()
 		{
 			return {};
 		}

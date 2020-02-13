@@ -19,7 +19,7 @@ void win::utils::getMouseState(int& xMouse, int& yMouse, bool dummyValues, int d
 
 bool win::utils::filterNumerical(const char c)
 {
-	if ((c >= '0' && c <= '9')) {
+	if ((c >= '0') && (c <= '9')) {
 		return true;
 	}
 	

@@ -13,5 +13,7 @@ namespace paint
 		Triangle(Triangle && that) = default;
 		Triangle& operator=(const Triangle & that) = default;
 		Triangle& operator=(Triangle && that) = default;
+
+		std::vector<gfx::Line> getGeometry(gfx::Coords startCoords, gfx::Coords currentCoords) override;
 	};
 }

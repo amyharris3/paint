@@ -66,7 +66,7 @@ void ColourDisplay::draw(win::SDLRenderer* renderer)
 	renderer->renderBox(gfx::RenderTarget::SCREEN, { getRect().x + 5, getRect().y + 5, getRect().width - 10, getRect().height - 10 }, getForegroundColour());
 }
 
-bool ColourDisplay::mouseEnter(bool clicked)
+bool ColourDisplay::mouseEnter(win::MouseButton button, const bool clicked)
 {
 	if (clicked) {
 		mouseDragged_ = true;
@@ -74,7 +74,7 @@ bool ColourDisplay::mouseEnter(bool clicked)
 	return false;
 }
 
-bool ColourDisplay::mouseExit(bool clicked)
+bool ColourDisplay::mouseExit(win::MouseButton button, bool clicked)
 {
 	isClicked_ = false;
 	mouseDragged_ = false;
@@ -90,13 +90,13 @@ bool ColourDisplay::mouseMove(SDL_MouseMotionEvent& e)
 	return false;
 }
 
-bool ColourDisplay::mouseButtonDown(win::MouseButton const button)
+bool ColourDisplay::mouseButtonDown(win::MouseButton button, bool clicked)
 {
 	isClicked_ = true;
 	return false;
 }
 
-bool ColourDisplay::mouseButtonUp(win::MouseButton const button, win::SDLRenderer* renderer)
+bool ColourDisplay::mouseButtonUp(win::MouseButton const button, bool clicked, win::SDLRenderer* renderer)
 {
 	if (isClicked_ && !mouseDragged_) {
 		const auto cpick = paint::utils::findToolWindow(this)->getColourPicker();

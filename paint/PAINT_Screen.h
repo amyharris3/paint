@@ -14,6 +14,15 @@ namespace paint {
 	class StatusBarWindow;
 	class MenuWindow;
 
+	struct ButtonInfo
+	{
+		const char* buttonName;
+		const char* buttonSpritePath;
+		win::UIelement::ActionFunction action;
+		bool toggleType;
+
+	};
+
 	class Screen final :
 		public win::Container
 	{

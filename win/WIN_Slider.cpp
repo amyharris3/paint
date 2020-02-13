@@ -149,7 +149,7 @@ void Slider::draw(win::SDLRenderer* renderer)
 
 }
 
-bool Slider::mouseEnter(bool clicked)
+bool Slider::mouseEnter(MouseButton button, const bool clicked)
 {
 	//to handle mouse being dragged in from outside with button held
 	if (clicked) {
@@ -158,7 +158,7 @@ bool Slider::mouseEnter(bool clicked)
 	return true;
 }
 
-bool Slider::mouseExit(bool clicked)
+bool Slider::mouseExit(MouseButton button, bool clicked)
 {
 	holdMarker_ = false;
 	clickDownOutsideSlider_ = false;
@@ -173,17 +173,17 @@ bool Slider::mouseMove(SDL_MouseMotionEvent& e)
 	return true;
 }
 
-bool Slider::mouseButtonDown(MouseButton button)
+bool Slider::mouseButtonDown(MouseButton button, bool clicked)
 {
 	holdMarker_ = true;
 	return false;
 }
 
-bool Slider::mouseButtonUp(MouseButton button, win::SDLRenderer* renderer)
+bool Slider::mouseButtonUp(MouseButton button, bool clicked, win::SDLRenderer* renderer)
 {
 	if (holdMarker_ && !clickDownOutsideSlider_){
-		int xMouse = 0;
-		int yMouse = 0;
+		auto xMouse = 0;
+		auto yMouse = 0;
 		
 		win::utils::getMouseState(xMouse, yMouse);
 		markerRect_.x = xMouse;

@@ -40,7 +40,7 @@ void ToggleButton::draw(win::SDLRenderer* renderer)
 }
 
 /* override */
-bool ToggleButton::mouseEnter(bool clicked)
+bool ToggleButton::mouseEnter(MouseButton button, const bool clicked)
 {
 	if (clicked) {
 		mouseDragged_ = true;
@@ -62,7 +62,7 @@ bool ToggleButton::mouseEnter(bool clicked)
 }
 
 /* override */
-bool ToggleButton::mouseExit(bool clicked)
+bool ToggleButton::mouseExit(MouseButton button, bool clicked)
 {
 	if (activated_) {
 		if (state_ == ButtonStates::on) {
@@ -86,7 +86,7 @@ bool ToggleButton::mouseMove(SDL_MouseMotionEvent& e)
 }
 
 /* override */
-bool ToggleButton::mouseButtonDown(MouseButton b)
+bool ToggleButton::mouseButtonDown(MouseButton button, bool clicked)
 {
 	mouseDown_ = true;
 	if (activated_) {
@@ -97,7 +97,7 @@ bool ToggleButton::mouseButtonDown(MouseButton b)
 }
 
 /* override */
-bool ToggleButton::mouseButtonUp(MouseButton b, win::SDLRenderer* renderer)
+bool ToggleButton::mouseButtonUp(MouseButton button, bool clicked, SDLRenderer* renderer)
 {
 	mouseDown_ = false;
 	if (activated_ && !mouseDragged_) {

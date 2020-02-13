@@ -2,7 +2,7 @@
 #include "WIN_Window.h"
 
 namespace paint {
-	class MenuWindow :
+	class MenuWindow final :
 		public win::Window
 	{
 	public:

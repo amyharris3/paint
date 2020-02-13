@@ -33,8 +33,9 @@ void TableLayout::Apply(std::vector<std::shared_ptr<UIelement>> const& elements,
 	const auto elementHeight = int(round(
 		(double(bounds.height) - (double(yMargin_) * 2) - (double(ySpacing_) * (double(rows_) - 1))) / double(rows_)));
 
-	int xCount = 0;
-	int yCount = 0;
+
+	auto xCount = 0;
+	auto yCount = 0;
 	for (const auto& elem : elements) {
 
 		gfx::Rectangle rect(bounds.x + xMargin_ + ((elementWidth + xSpacing_) * xCount), 

@@ -5,18 +5,29 @@
 #include "PAINT_Brush.h"
 #include "WIN_ToggleButton.h"
 #include "WIN_ButtonStates.h"
+#include "PAINT_ShapeTool.h"
+#include "PAINT_Rectangle.h"
+#include "PAINT_Ellipse.h"
+#include "PAINT_Triangle.h"
 #include "PAINT_StatusBarWindow.h"
 
 using namespace win;
 using namespace paint;
 
-void paint::toggleDraw(UIelement* control)
+
+static ToggleButton* CastToggleButton(UIelement* control)
 {
 #if !defined(NDEBUG)
 	const auto button = dynamic_cast<ToggleButton*>(control);
 #else
 	const auto button = static_cast<ToggleButton*>(control);    // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
 #endif
+	return button;
+}
+
+void paint::toggleDraw(UIelement* control)
+{
+	auto const button = CastToggleButton(control);
 	auto dw = utils::findDrawWindow(button);
 	assert(dw && "findDrawWindow in toggleDraw returned nullptr.");
 	dw->toggleDrawTool(button);
@@ -25,13 +36,42 @@ void paint::toggleDraw(UIelement* control)
 	sw->outputMessage("Toggled draw");
 }
 
-static void paint::setBrushThickness(UIelement* control, int thick)
+void paint::toggleDrawRectangle(UIelement* control)
 {
-#if !defined(NDEBUG)
-	const auto button = dynamic_cast<ToggleButton*>(control);
-#else
-	const auto button = static_cast<ToggleButton*>(control);    // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
-#endif
+	auto const button = CastToggleButton(control);
+	auto dw = utils::findDrawWindow(button);
+	assert(dw && "findDrawWindow in toggleDraw returned nullptr.");
+	dw->toggleShapeTool(button);
+	auto shapeTool = dw->getShapeTool();
+	auto const rectangle = std::make_shared<Rectangle>();
+	shapeTool->setActiveShape(rectangle);
+}
+
+void paint::toggleDrawEllipse(UIelement* control)
+{
+	auto const button = CastToggleButton(control);
+	auto dw = utils::findDrawWindow(button);
+	assert(dw && "findDrawWindow in toggleDraw returned nullptr.");
+	dw->toggleShapeTool(button);
+	auto shapeTool = dw->getShapeTool();
+	auto const ellipse = std::make_shared<Ellipse>();
+	shapeTool->setActiveShape(ellipse);
+}
+
+void paint::toggleDrawTriangle(UIelement* control)
+{
+	auto const button = CastToggleButton(control);
+	auto dw = utils::findDrawWindow(button);
+	assert(dw && "findDrawWindow in toggleDraw returned nullptr.");
+	dw->toggleShapeTool(button);
+	auto shapeTool = dw->getShapeTool();
+	auto const triangle = std::make_shared<Triangle>();
+	shapeTool->setActiveShape(triangle);
+}
+
+static void setBrushThickness(UIelement* control, int const thick)
+{
+	auto const button = CastToggleButton(control);
 	assert((thick == 0) || (thick == 1) || (thick == 2) && "Brush thickness set to value other than 0, 1, or 2 in ButtonFunctions.");
 	const auto dw = utils::findDrawWindow(button);
 	assert(dw && "findDrawWindow in setBrushThickness returned nullptr.");
@@ -87,4 +127,3 @@ void paint::clearScreen(UIelement* control)
 	const auto dw = utils::findDrawWindow(control);
 	dw->clearWindow();
 }
-

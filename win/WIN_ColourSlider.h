@@ -3,7 +3,8 @@
 
 namespace win
 {
-	class ColourSlider : public Slider
+	class ColourSlider final
+	: public Slider
 	{
 	public:
 		ColourSlider() = delete;
@@ -20,7 +21,7 @@ namespace win
 		void primaryActiveSwitch() { primaryActive_ = !primaryActive_; }
 		
 		bool mouseMove(SDL_MouseMotionEvent& e) override;
-		bool mouseButtonUp(MouseButton button, win::SDLRenderer* renderer) override;
+		bool mouseButtonUp(MouseButton button, bool clicked = false, win::SDLRenderer* renderer = nullptr) override;
 		
 	private:
 
