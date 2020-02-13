@@ -15,6 +15,7 @@ using namespace win;
 DrawWindow::DrawWindow(win::SDLRenderer* renderer, gfx::Rectangle const& rect, const char* name)
 	: Window(rect, name)
 	, renderer_(renderer)
+	, renderTempTexture_(false)
 	, activeTool_(nullptr)
 	, drawTool_(std::make_shared<DrawTool>(gfx::Colour(255,255,255,255)))
 	, shapeTool_(std::make_shared<ShapeTool>(gfx::Colour(255, 255, 255, 255)))
@@ -84,7 +85,6 @@ bool DrawWindow::mouseExit(MouseButton button, bool clicked)
 	return false;
 }
 
-
 /*override*/
 bool DrawWindow::mouseButtonDown(const MouseButton button, bool clicked)
 {
@@ -94,7 +94,7 @@ bool DrawWindow::mouseButtonDown(const MouseButton button, bool clicked)
 		}
 	}
 
-	return true;
+	return false;
 }
 
 /*override*/
@@ -106,7 +106,7 @@ bool DrawWindow::mouseButtonUp(MouseButton button, bool clicked, SDLRenderer* re
 		}
 	}
 
-	return true;
+	return false;
 }
 
 
@@ -163,7 +163,7 @@ void DrawWindow::setSecondaryColour(const gfx::Colour colour)
 }
 
 
-void DrawWindow::updateDrawToolRGBA()
+void DrawWindow::updateAllToolsRGBA()
 {
 	uint8_t drawRGBA_[4];
 	if (primaryActive_) {
@@ -177,13 +177,13 @@ void DrawWindow::updateDrawToolRGBA()
 		}
 	}
 	drawTool_->setToolColour(drawRGBA_);
-
+	shapeTool_->setToolColour(drawRGBA_);
 }
 
 /*override*/
 void DrawWindow::draw(win::SDLRenderer* renderer)
 {
-	renderer->renderDrawWindow(getRect(), getBackgroundColour());
+	renderer->renderDrawWindowTexture(getRect(), getBackgroundColour(), renderTempTexture_);
 }
 
 void DrawWindow::updateAndRerender(win::SDLRenderer* renderer)
@@ -195,9 +195,7 @@ void DrawWindow::updateAndRerender(win::SDLRenderer* renderer)
 // TODO Needs more work, to properly clear drawWindow
 void DrawWindow::clearWindow() const
 {
-	//renderer_->setRenderTargetDWTexture();
 	renderer_->clearDrawWindow(getRect(), getBackgroundColour());
-	//renderer_->setRenderTargetNull();
 }
 
 void DrawWindow::setStartCoord(gfx::Coords const startCoords)

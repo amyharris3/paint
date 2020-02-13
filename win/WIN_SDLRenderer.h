@@ -34,7 +34,7 @@ namespace win {
 		void renderTextbox(gfx::RenderTarget target, gfx::Rectangle rect, gfx::Colour colour, gfx::Text* text, int xOffset, int yOffset) override;
 		void renderLines(gfx::RenderTarget target, const std::vector<gfx::Line>& lines, int thickness, const uint8_t drawRGBA_[]) override;
 
-		void renderDrawWindow(gfx::Rectangle rect, gfx::Colour colour) const override;
+		void renderDrawWindowTexture(gfx::Rectangle rect, gfx::Colour colour, bool updateTexture_) const override;
 		void clearDrawWindow(gfx::Rectangle rect, gfx::Colour colour) override;
 
 	private:

@@ -19,13 +19,14 @@ namespace paint
 		ShapeTool& operator=(const ShapeTool & that) = default;
 		ShapeTool& operator=(ShapeTool && that) = default;
 
+		void setToolColour(const uint8_t RGBA[]) override;
 		void setActiveShape(std::shared_ptr<Shape> shape);
 		std::shared_ptr<Shape> getActiveShape() const { return activeShape_; }
 
-		void toolFunction(gfx::Coords& mouseCoords, gfx::Coords& prevMouseCoords, gfx::Coords& startCoords, gfx::Rectangle refRect, win::SDLRenderer* renderer) override;
-		void toolFunctionEnd(gfx::Coords& mouseCoords, gfx::Coords& prevMouseCoords, gfx::Coords& startCoords, gfx::Rectangle refRect, win::SDLRenderer* renderer) override;
+		bool toolFunction(gfx::Coords& mouseCoords, gfx::Coords& prevMouseCoords, gfx::Coords& startCoords, gfx::Rectangle refRect, win::SDLRenderer* renderer) override;
+		bool toolFunctionEnd(gfx::Coords& mouseCoords, gfx::Coords& prevMouseCoords, gfx::Coords& startCoords, gfx::Rectangle refRect, win::SDLRenderer* renderer) override;
 
-		void setToolColour(const uint8_t RGBA[]) override {}
+		
 	private:
 		std::shared_ptr<Shape> activeShape_;
 		uint8_t drawRGBA_[4];

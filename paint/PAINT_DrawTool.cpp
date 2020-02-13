@@ -20,8 +20,7 @@ void DrawTool::setToolColour(const uint8_t RGBA[])
 		drawRGBA_[i] = RGBA[i];
 	}
 }
-
-void DrawTool::toolFunction(gfx::Coords& mouseCoords, gfx::Coords& prevMouseCoords, gfx::Coords& startCoords, gfx::Rectangle const refRect, win::SDLRenderer* renderer)
+bool DrawTool::toolFunction(gfx::Coords& mouseCoords, gfx::Coords& prevMouseCoords, gfx::Coords& startCoords, gfx::Rectangle const refRect, win::SDLRenderer* renderer)
 {
 	assert(getActiveBrush() && "activeBrush_ is nullptr.");
 	const auto thickness = getActiveBrush()->getThickness();
@@ -30,11 +29,14 @@ void DrawTool::toolFunction(gfx::Coords& mouseCoords, gfx::Coords& prevMouseCoor
 	const gfx::Coords rel = { mouseCoords.x - refRect.x, mouseCoords.y - refRect.y };
 	const gfx::Coords prevRel = { prevMouseCoords.x - refRect.x, prevMouseCoords.y - refRect.y };
 	setALine({ rel.x, rel.y, prevRel.x, prevRel.y });
-	renderer->renderLines(gfx::RenderTarget::DRAWWINDOW, getLines(), thickness, drawRGBA_);
+	renderer->renderLines(gfx::RenderTarget::DRAW_WINDOW, getLines(), thickness, drawRGBA_);
 	renderer->switchRenderTarget(gfx::RenderTarget::SCREEN);
+
+	return false;
 }
-	
-void DrawTool::toolFunctionEnd(gfx::Coords& mouseCoords, gfx::Coords& prevMouseCoords, gfx::Coords& startCoords, gfx::Rectangle refRect, win::SDLRenderer* renderer)
+
+bool DrawTool::toolFunctionEnd(gfx::Coords& mouseCoords, gfx::Coords& prevMouseCoords, gfx::Coords& startCoords, gfx::Rectangle refRect, win::SDLRenderer* renderer)
 {
 	clearLines();
+	return false;
 }

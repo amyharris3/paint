@@ -61,7 +61,7 @@ Screen::Screen(win::SDLRenderer* renderer, const gfx::Rectangle& rect, const cha
 	auto drawWindow = std::make_shared<DrawWindow>(renderer, drawRect, "drawWindow");
 	drawWindow->setPrimaryColour(gfx::Colour(255, 0, 0, 255));
 	drawWindow->setSecondaryColour(gfx::Colour(0, 255, 0, 255));
-	drawWindow->updateDrawToolRGBA();
+	drawWindow->updateAllToolsRGBA();
 	
 	this->addChild(drawWindow);
 	drawWindow_ = drawWindow;

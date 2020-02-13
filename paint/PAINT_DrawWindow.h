@@ -62,7 +62,7 @@ namespace paint
 		bool isPrimaryActive() const { return primaryActive_; }
 		void setIfPrimaryColourActive(const bool b) { primaryActive_ = b; }
 
-		void updateDrawToolRGBA();
+		void updateAllToolsRGBA();
 
 		//void setColor(SDL_Surface* surface);
 		void draw(win::SDLRenderer* renderer) override;
@@ -74,6 +74,7 @@ namespace paint
 		
 	private:
 		win::SDLRenderer* renderer_;
+		bool renderTempTexture_;
 		
 		std::shared_ptr<Tool> activeTool_;
 		std::shared_ptr<Tool> drawTool_;

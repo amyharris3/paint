@@ -11,7 +11,8 @@ namespace gfx
 	enum class RenderTarget
 	{
 		SCREEN,
-		DRAWWINDOW
+		DRAW_WINDOW,
+		TEMP_TEXTURE
 	};
 	
 	// The purpose of the separate renderer class is to handle the SDL rendering, so as to allow the PAINT and WIN classes to function without needing to load SDL.
@@ -33,7 +34,7 @@ namespace gfx
 		virtual void renderTextbox(RenderTarget target, Rectangle rect, Colour colour, Text* text, int xOffset, int yOffset) = 0;
 		virtual void renderLines(RenderTarget target, const std::vector<gfx::Line>& lines, int thickness, const uint8_t drawRGBA_[]) = 0;
 
-		virtual void renderDrawWindow(Rectangle rect, Colour colour) const = 0;
+		virtual void renderDrawWindowTexture(Rectangle rect, Colour colour, bool updateTexture_) const = 0;
 		virtual void clearDrawWindow(Rectangle rect, gfx::Colour colour) = 0;
 
 	protected:

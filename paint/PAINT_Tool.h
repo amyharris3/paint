@@ -28,11 +28,12 @@ namespace paint
 
 		void setActiveBrush(std::shared_ptr<Brush> brush);
 		void clearLines();
-		virtual void toolFunction(gfx::Coords& mouseCoords, gfx::Coords& prevMouseCoords, gfx::Coords& startCoords, gfx::Rectangle refRect, win::SDLRenderer* renderer) = 0;
-		std::shared_ptr<Brush> getActiveBrush() const { return activeBrush_; }
-		virtual void toolFunctionEnd(gfx::Coords& mouseCoords, gfx::Coords& prevMouseCoords, gfx::Coords& startCoords, gfx::Rectangle refRect, win::SDLRenderer* renderer) = 0;
+		virtual bool toolFunction(gfx::Coords& mouseCoords, gfx::Coords& prevMouseCoords, gfx::Coords& startCoords, gfx::Rectangle refRect, win::SDLRenderer* renderer) = 0;
+		virtual bool toolFunctionEnd(gfx::Coords& mouseCoords, gfx::Coords& prevMouseCoords, gfx::Coords& startCoords, gfx::Rectangle refRect, win::SDLRenderer* renderer) = 0;
 		void setALine(gfx::Line line);
 		void setLines(std::vector<gfx::Line> lines);
+
+		std::shared_ptr<Brush> getActiveBrush() const { return activeBrush_; }
 		std::vector<gfx::Line> getLines() const { return lines_; }
 
 		virtual void setToolColour(const uint8_t RGBA[]) = 0;

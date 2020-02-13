@@ -177,7 +177,7 @@ void ColourPicker::updateColourSliders() const
 
 void ColourPicker::update()
 {
-	drawWindowPtr_->updateDrawToolRGBA();
+	drawWindowPtr_->updateAllToolsRGBA();
 	//updateColourDisplays();
 	updateColourDisplaysFromDrawWindow();
 	updateColourValueBoxes();

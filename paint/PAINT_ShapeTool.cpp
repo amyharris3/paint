@@ -13,12 +13,19 @@ ShapeTool::ShapeTool(gfx::Colour colour)
 	setActiveBrush(std::make_shared<Brush>(0));
 }
 
+void ShapeTool::setToolColour(const uint8_t RGBA[])
+{
+	for (auto i = 0; i < 4; i++) {
+		drawRGBA_[i] = RGBA[i];
+	}
+}
+
 void ShapeTool::setActiveShape(std::shared_ptr<Shape> shape)
 {
 	activeShape_ = std::move(shape);
 }
 
-void ShapeTool::toolFunction(gfx::Coords& mouseCoords, gfx::Coords& prevMouseCoords, gfx::Coords& startCoords, gfx::Rectangle const refRect, win::SDLRenderer* renderer)
+bool ShapeTool::toolFunction(gfx::Coords& mouseCoords, gfx::Coords& prevMouseCoords, gfx::Coords& startCoords, gfx::Rectangle const refRect, win::SDLRenderer* renderer)
 {
 	clearLines();
 	const gfx::Coords rel = { mouseCoords.x - refRect.x, mouseCoords.y - refRect.y };
@@ -33,10 +40,12 @@ void ShapeTool::toolFunction(gfx::Coords& mouseCoords, gfx::Coords& prevMouseCoo
 	}
 	auto const lines = activeShape_->getGeometry(startCoords, mouseCoords);
 	setLines(lines);
-	renderer->renderLines(gfx::RenderTarget::DRAWWINDOW, lines, getActiveBrush()->getThickness(), drawRGBA_);
+	renderer->renderLines(gfx::RenderTarget::SCREEN, lines, getActiveBrush()->getThickness(), drawRGBA_);
+
+	return false;
 }
 
-void ShapeTool::toolFunctionEnd(gfx::Coords& mouseCoords, gfx::Coords& prevMouseCoords, gfx::Coords& startCoords, gfx::Rectangle const refRect, win::SDLRenderer* renderer)
+bool ShapeTool::toolFunctionEnd(gfx::Coords& mouseCoords, gfx::Coords& prevMouseCoords, gfx::Coords& startCoords, gfx::Rectangle const refRect, win::SDLRenderer* renderer)
 {
 	assert(getActiveBrush() && "activeBrush_ is nullptr.");
 	const auto thickness = getActiveBrush()->getThickness();
@@ -47,6 +56,10 @@ void ShapeTool::toolFunctionEnd(gfx::Coords& mouseCoords, gfx::Coords& prevMouse
 	{
 		shiftedLines.push_back({ line.x1 - refRect.x, line.y1 - refRect.y, line.x2 - refRect.x, line.y2 - refRect.y });
 	}
-	renderer->renderLines(gfx::RenderTarget::DRAWWINDOW, shiftedLines, thickness, drawRGBA_);
+	renderer->renderLines(gfx::RenderTarget::DRAW_WINDOW, shiftedLines, thickness, drawRGBA_);
 	renderer->switchRenderTarget(gfx::RenderTarget::SCREEN);
+
+	//clearLines();
+	
+	return false;
 }
