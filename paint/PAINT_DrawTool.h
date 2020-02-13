@@ -27,6 +27,7 @@ namespace paint
 		bool toolFunction(gfx::Coords& mouseCoords, gfx::Coords& prevMouseCoords, gfx::Coords& startCoords, gfx::Rectangle refRect, win::SDLRenderer* renderer) override;
 		bool toolFunctionEnd(gfx::Coords& mouseCoords, gfx::Coords& prevMouseCoords, gfx::Coords& startCoords, gfx::Rectangle refRect, win::SDLRenderer* renderer) override;
 		void setToolColour(const uint8_t RGBA[]) override;
+		void setToolThickness(int thickness) override;
 
 	private:
 		uint8_t drawRGBA_[4];

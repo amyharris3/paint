@@ -152,13 +152,6 @@ void ColourPicker::updateColourDisplaysFromDrawWindow() const
 	}
 }
 
-/*void ColourPicker::updateColourDisplays() const
-{
-	updateColourDisplaysFromDrawWindow();
-	leftColourDisplay_->draw();
-	rightColourDisplay_->draw();
-}*/
-
 void ColourPicker::updateColourValueBoxes() const
 {
 	redValueBox_->valueChangedExternally();

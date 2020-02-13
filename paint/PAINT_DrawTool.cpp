@@ -20,6 +20,12 @@ void DrawTool::setToolColour(const uint8_t RGBA[])
 		drawRGBA_[i] = RGBA[i];
 	}
 }
+
+void DrawTool::setToolThickness(const int thickness)
+{
+	getActiveBrush()->setThickness(thickness);
+}
+
 bool DrawTool::toolFunction(gfx::Coords& mouseCoords, gfx::Coords& prevMouseCoords, gfx::Coords& startCoords, gfx::Rectangle const refRect, win::SDLRenderer* renderer)
 {
 	assert(getActiveBrush() && "activeBrush_ is nullptr.");

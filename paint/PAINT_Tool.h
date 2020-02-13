@@ -37,6 +37,7 @@ namespace paint
 		std::vector<gfx::Line> getLines() const { return lines_; }
 
 		virtual void setToolColour(const uint8_t RGBA[]) = 0;
+		virtual void setToolThickness(int thickness) = 0;
 		
 	private:
 		

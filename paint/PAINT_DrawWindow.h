@@ -58,11 +58,12 @@ namespace paint
 		gfx::Colour getSecondaryColour() const { return secondaryColour_; }
 		uint8_t* getPrimaryRGBA() { return primaryRGBA_; }
 		uint8_t* getSecondaryRGBA() { return secondaryRGBA_; }
-		
+	
 		bool isPrimaryActive() const { return primaryActive_; }
 		void setIfPrimaryColourActive(const bool b) { primaryActive_ = b; }
 
 		void updateAllToolsRGBA();
+		void setAllToolsThickness(int thickness) const;
 
 		//void setColor(SDL_Surface* surface);
 		void draw(win::SDLRenderer* renderer) override;
