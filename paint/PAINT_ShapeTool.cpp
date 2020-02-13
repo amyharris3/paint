@@ -20,6 +20,11 @@ void ShapeTool::setToolColour(const uint8_t RGBA[])
 	}
 }
 
+void ShapeTool::setToolThickness(const int thickness)
+{
+	getActiveBrush()->setThickness(thickness);
+}
+
 void ShapeTool::setActiveShape(std::shared_ptr<Shape> shape)
 {
 	activeShape_ = std::move(shape);
