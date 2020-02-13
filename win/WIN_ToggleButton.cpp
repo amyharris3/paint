@@ -158,6 +158,15 @@ void ToggleButton::setDisableGroup(std::shared_ptr<DisabledUIelementGroup> disab
 	disableGroup_ = std::move(disableGroup);
 }
 
+void ToggleButton::turnOn()
+{
+	state_ = ButtonStates::on;
+	activeClip_ = &(spriteClips_[2]);
+	if (action) {
+		action(this);
+	}
+}
+
 void ToggleButton::turnOff()
 {
 	state_ = ButtonStates::off;

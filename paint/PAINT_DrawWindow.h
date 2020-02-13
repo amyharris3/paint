@@ -58,11 +58,12 @@ namespace paint
 		gfx::Colour getSecondaryColour() const { return secondaryColour_; }
 		uint8_t* getPrimaryRGBA() { return primaryRGBA_; }
 		uint8_t* getSecondaryRGBA() { return secondaryRGBA_; }
-		
+	
 		bool isPrimaryActive() const { return primaryActive_; }
 		void setIfPrimaryColourActive(const bool b) { primaryActive_ = b; }
 
 		void updateAllToolsRGBA();
+		void setAllToolsThickness(int thickness) const;
 
 		//void setColor(SDL_Surface* surface);
 		void draw(win::SDLRenderer* renderer) override;
@@ -70,6 +71,7 @@ namespace paint
 		void clearWindow() const;
 
 		void setStartCoord(gfx::Coords startCoords);
+		std::shared_ptr<DrawTool> getDrawTool() const { return drawTool_; }
 		std::shared_ptr<ShapeTool> getShapeTool() const { return shapeTool_; }
 		
 	private:
@@ -77,7 +79,7 @@ namespace paint
 		bool renderTempTexture_;
 		
 		std::shared_ptr<Tool> activeTool_;
-		std::shared_ptr<Tool> drawTool_;
+		std::shared_ptr<DrawTool> drawTool_;
 		std::shared_ptr<ShapeTool> shapeTool_;
 		
 		gfx::Colour primaryColour_;

@@ -76,6 +76,9 @@ static void setBrushThickness(UIelement* control, int const thick)
 	assert((thick == 0) || (thick == 1) || (thick == 2) && "Brush thickness set to value other than 0, 1, or 2 in ButtonFunctions.");
 	const auto dw = utils::findDrawWindow(button);
 	assert(dw && "findDrawWindow in setBrushThickness returned nullptr.");
+
+	dw->setAllToolsThickness(thick);
+	
 	const auto activeTool = dw->getActiveTool();
 	if (activeTool) {
 		const auto activeBrush = activeTool->getActiveBrush();

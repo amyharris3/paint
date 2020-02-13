@@ -78,7 +78,7 @@ bool DrawWindow::mouseExit(MouseButton button, bool clicked)
 		mouseButtonDown(button);
 
 		activeTool_->clearLines();
-		
+
 		return true;
 	}
 
@@ -178,6 +178,13 @@ void DrawWindow::updateAllToolsRGBA()
 	}
 	drawTool_->setToolColour(drawRGBA_);
 	shapeTool_->setToolColour(drawRGBA_);
+	
+}
+
+void DrawWindow::setAllToolsThickness(int const thickness) const
+{
+	drawTool_->setToolThickness(thickness);
+	shapeTool_->setToolThickness(thickness);
 }
 
 /*override*/

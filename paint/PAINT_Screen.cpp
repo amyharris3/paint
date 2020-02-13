@@ -116,7 +116,9 @@ Screen::Screen(win::SDLRenderer* renderer, const gfx::Rectangle& rect, const cha
 	
 	// Create thickness buttons.
 	makeButtons(renderer, buttonRect, thickness_button_info, numThicknessButtons, thicknessBox.get(), thicknessButtonGroup);
-	
+	thicknessBox->getChildren()[0]->setActivated(true);
+
+	toolWindow->setThicknessButtonGroup(thicknessButtonGroup);
 	toolWindow->addChild(thicknessBox);
 
 	// Create area for colour picker

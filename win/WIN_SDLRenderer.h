@@ -43,7 +43,5 @@ namespace win {
 
 		gfx::RenderTarget currentTarget_;
 
-
-
 	};
 }
