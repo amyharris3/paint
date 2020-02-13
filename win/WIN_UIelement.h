@@ -46,6 +46,8 @@ namespace win
 		virtual bool mouseButtonDown(MouseButton button, bool clicked = false) { return false; };
 		virtual bool mouseButtonUp(MouseButton button, bool clicked = false, SDLRenderer* renderer = nullptr) { return false; };
 
+		virtual void setActivated(bool activated) { };
+		
 	private:
 		std::string name_;
 		gfx::Colour foregroundColour_;

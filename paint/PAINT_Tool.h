@@ -7,11 +7,6 @@ namespace win {
 	class SDLRenderer;
 }
 
-namespace gfx
-{
-	class Renderer;
-}
-
 namespace paint
 {
 	class Brush;
@@ -38,7 +33,6 @@ namespace paint
 
 		virtual void setToolColour(const uint8_t RGBA[]) = 0;
 		virtual void setToolThickness(int thickness) = 0;
-		
 	private:
 		
 		std::vector<gfx::Line> lines_;

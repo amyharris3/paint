@@ -39,6 +39,7 @@ namespace paint {
 		ToolWindow* getToolWindow() const { return toolWindow_.get(); }
 		StatusBarWindow* getStatusBarWindow() const { return statusBarWindow_.get(); }
 
+		
 		void updateAndRerender(win::SDLRenderer* renderer) override;
 	private:
 		std::shared_ptr<DrawWindow> drawWindow_;

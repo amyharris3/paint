@@ -78,7 +78,7 @@ bool DrawWindow::mouseExit(MouseButton button, bool clicked)
 		mouseButtonDown(button);
 
 		activeTool_->clearLines();
-		
+
 		return true;
 	}
 
