@@ -4,6 +4,7 @@
 #include "PAINT_Screen.h"
 #include "WIN_Mouse.h"
 #include "PAINT_StatusBarWindow.h"
+#include "PAINT_ToolWindow.h"
 
 using namespace paint;
 using namespace gfx;
@@ -52,6 +53,7 @@ void Program::initialize(SDL_Renderer* renderer, SDL_Window* rootWindow)
 	
 	auto screenRect = gfx::Rectangle(0, 0, 1200, 800);
 	screen_ = std::make_shared<Screen>(renderer_, screenRect, "Screen");
+	screen_->getToolWindow()->getThicknessButtonGroup()->setSelectedChildByIndex(0);
 }
 
 gfx::Rectangle Program::getRootWindowRect() const
@@ -129,18 +131,20 @@ void Program::run() const
 				}
 				
 				if (activeElement != active) {
-					//need to deal with leaving window but not changing active element
-					if (activeElement && insideRootWindow) {
-						rerenderFlag = activeElement->mouseExit(button, clicked);
+					if (!clicked)
+					{
+												if (activeElement && insideRootWindow) {
+							rerenderFlag = activeElement->mouseExit(button, clicked);
 						}
-					
-					activeElement = active;
 
-					if (activeElement && insideRootWindow) {
-						rerenderFlag = activeElement->mouseEnter(button, clicked);
+						activeElement = active;
+
+						if (activeElement && insideRootWindow) {
+							rerenderFlag = activeElement->mouseEnter(button, clicked);
+						}
 					}
 				}
-
+				
 				if(activeElement && insideRootWindow){
 					rerenderFlag = activeElement->mouseMove(e.motion);
 				}

@@ -71,6 +71,7 @@ namespace paint
 		void clearWindow() const;
 
 		void setStartCoord(gfx::Coords startCoords);
+		std::shared_ptr<DrawTool> getDrawTool() const { return drawTool_; }
 		std::shared_ptr<ShapeTool> getShapeTool() const { return shapeTool_; }
 		
 	private:
@@ -78,7 +79,7 @@ namespace paint
 		bool renderTempTexture_;
 		
 		std::shared_ptr<Tool> activeTool_;
-		std::shared_ptr<Tool> drawTool_;
+		std::shared_ptr<DrawTool> drawTool_;
 		std::shared_ptr<ShapeTool> shapeTool_;
 		
 		gfx::Colour primaryColour_;

@@ -138,6 +138,15 @@ void ToggleButton::setButtonGroup(std::shared_ptr<ButtonGroup> buttonGroup)
 	buttonGroup_ = std::move(buttonGroup);
 }
 
+void ToggleButton::turnOn()
+{
+	state_ = ButtonStates::on;
+	activeClip_ = &(spriteClips_[2]);
+	if (action) {
+		action(this);
+	}
+}
+
 void ToggleButton::turnOff()
 {
 	state_ = ButtonStates::off;

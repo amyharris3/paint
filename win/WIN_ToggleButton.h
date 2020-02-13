@@ -35,6 +35,7 @@ namespace win
 		bool mouseButtonUp(MouseButton button, bool clicked = false, SDLRenderer* renderer = nullptr) override;
 
 		void setButtonGroup(std::shared_ptr<ButtonGroup> buttonGroup);
+		void turnOn();
 		void turnOff();
 		ButtonStates getState() const { return state_; }
 		void setActivated(bool activated);
