@@ -117,7 +117,9 @@ void ColourValueTextbox::takeTextEntry()
 				}
 				break;
 			case SDL_TEXTINPUT:
+#ifdef VERBOSE
 				printf("IN: %s\n", event.text.text);
+#endif
 				if (win::utils::filterNumerical(*(event.text.text))) {
 					newString += event.text.text;
 					this->editTextAndRerender(newString);
@@ -149,9 +151,13 @@ void ColourValueTextbox::takeTextEntry()
 bool ColourValueTextbox::mouseButtonUp(win::MouseButton const button, bool clicked, win::SDLRenderer* renderer)
 {
 	if (getClick()) {
+#ifdef VERBOSE
 		printf("Taking text entry now\n");
+#endif
 		this->takeTextEntry();
+#ifdef VERBOSE
 		printf("Finished taking text entry\n");
+#endif
 		click();
 	}
 
