@@ -4,7 +4,7 @@
 
 using namespace win;
 
-GenericBox::GenericBox(gfx::Rectangle& rect, const char* name, gfx::Colour foregroundColour, gfx::Colour backgroundColour)
+GenericBox::GenericBox(gfx::Rectangle& rect, const char* name, const gfx::Colour foregroundColour, const gfx::Colour backgroundColour)
 	: UIelement(rect, name)
 {
 	this->setForegroundColour(foregroundColour);

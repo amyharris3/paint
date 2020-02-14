@@ -6,7 +6,7 @@
 
 using namespace paint;
 
-ShapeTool::ShapeTool(gfx::Colour colour)
+ShapeTool::ShapeTool(const gfx::Colour colour)
 	: activeShape_(nullptr)
 	, drawRGBA_{ colour.getRed(),colour.getGreen(),colour.getBlue(),colour.getAlpha() }
 {

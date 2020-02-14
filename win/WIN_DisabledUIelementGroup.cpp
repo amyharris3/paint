@@ -10,7 +10,7 @@ void DisabledUIelementGroup::addChild(std::weak_ptr<win::UIelement> const& child
 	disChildren_.push_back(child);
 }
 
-void DisabledUIelementGroup::toggleDisableChildren(bool activated)
+void DisabledUIelementGroup::toggleDisableChildren(const bool activated)
 {
 	for (auto const& child : disChildren_) {
 		if (auto childSp = child.lock()) {

@@ -18,6 +18,7 @@ namespace paint {
 	void swapColours(win::UIelement* control);
 	void clearScreen(win::UIelement* control);
 	void toggleLock(win::UIelement* control);
+	void toggleFill(win::UIelement* control);
 
 }
  

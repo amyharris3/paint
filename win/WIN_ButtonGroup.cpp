@@ -28,9 +28,6 @@ void ButtonGroup::setSelectedChildAndTurnOffOthers(ToggleButton* child)
 
 void ButtonGroup::setSelectedChildByIndex(const int index)
 {
-	auto a = getButtonChildren();
-	auto button1 = getButtonChildren()[index].lock();
-	auto button2 = getButtonChildren()[index].lock().get();
 	setSelectedChildAndTurnOffOthers(getButtonChildren()[index].lock().get());
 	getButtonChildren()[index].lock()->turnOn();
 }

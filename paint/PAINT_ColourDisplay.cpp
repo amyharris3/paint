@@ -6,7 +6,7 @@
 using namespace paint;
 
 
-ColourDisplay::ColourDisplay(gfx::Rectangle rect, const char* name, uint8_t displayColour[], bool isActive)
+ColourDisplay::ColourDisplay(const gfx::Rectangle rect, const char* name, uint8_t displayColour[], const bool isActive)
 	: UIelement(rect, name)
 	, isActive_(isActive)
 	, isClicked_(false)

@@ -27,6 +27,11 @@ void ToolWindow::setColourPicker(std::shared_ptr<ColourPicker> cPick)
 	colourPicker_ = std::move(cPick);
 }
 
+void ToolWindow::setThicknessButtonGroup(std::shared_ptr<win::ButtonGroup> buttonGroup)
+{
+	thicknessButtonGroup_ = std::move(buttonGroup);
+}
+
 //Draw toolbar in NxM table layout
 void ToolWindow::draw(win::SDLRenderer* renderer)
 {
