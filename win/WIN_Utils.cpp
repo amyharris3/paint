@@ -5,7 +5,7 @@ using namespace win;
 using namespace utils;
 
 // Handles mouse states from SDL for rest of code, also allows setting dummy values for xMouse and yMouse for unit testing
-void win::utils::getMouseState(int& xMouse, int& yMouse, bool dummyValues, int dummyX, int dummyY)
+void win::utils::getMouseState(int& xMouse, int& yMouse, const bool dummyValues, const int dummyX, const int dummyY)
 {
 	if (dummyValues) {
 		xMouse = dummyX;

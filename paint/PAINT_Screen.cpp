@@ -22,7 +22,6 @@ static ButtonInfo toolbox_button_info[] = {
 	{ "ellipseButton", "button_draw_ellipse.png", toggleDrawEllipse  },
 	{ "triangleButton", "button_draw_triangle.png", toggleDrawTriangle  },
 	//{ "lockButton", "button_lock.png", toggleLock}
-	//{ "clearButton", "button_clear_screen.png", clearScreen, false }
 };
 
 static constexpr auto numToolBoxButtons = sizeof(toolbox_button_info) / sizeof(ButtonInfo);
@@ -36,7 +35,7 @@ static ButtonInfo thickness_button_info[] = {
 static constexpr auto numThicknessButtons = sizeof(thickness_button_info) / sizeof(ButtonInfo);
 
 
-static void makeButtons(win::SDLRenderer* renderer, Rectangle& rect, ButtonInfo* buttonInfo, int const numButtons, Window* window, std::shared_ptr<ButtonGroup> const & buttonGroup = nullptr, std::shared_ptr<DisabledUIelementGroup> const & disableGroup = nullptr)
+static void makeButtons(win::SDLRenderer* renderer, Rectangle& rect, ButtonInfo* buttonInfo, int const numButtons, Window* window, std::shared_ptr<ButtonGroup> const & buttonGroup = nullptr)
 {
 	for (auto i = 0; i < numButtons; ++i) {
 		auto button = std::make_shared<ToggleButton>(renderer, rect, buttonInfo[i].buttonName, buttonInfo[i].buttonSpritePath, buttonInfo[i].action);
@@ -44,10 +43,6 @@ static void makeButtons(win::SDLRenderer* renderer, Rectangle& rect, ButtonInfo*
 		if (buttonGroup) {
 			button->setButtonGroup(buttonGroup);
 			buttonGroup->addButtonChild(button);
-		}
-		if (disableGroup) {
-			button->setDisableGroup(disableGroup);
-			//disableGroup->addButtonChild(button);
 		}
 	}
 }
@@ -73,6 +68,25 @@ Screen::Screen(win::SDLRenderer* renderer, const gfx::Rectangle& rect, const cha
 	this->addChild(toolWindow);
 	toolWindow_ = toolWindow;
 
+	gfx::Rectangle buttonRect(20, 60, 60, 60);
+
+	// Create thickness window inside tool window, allocating 3x1 table for 3 thickness choices
+	gfx::Rectangle thicknessRect(10, 320, 180, 70);
+	auto thicknessLayout = std::make_shared<win::TableLayout>(20, 20, 20, 20, 1, 3);
+	auto thicknessBox = std::make_shared<ToolWindow>(thicknessRect, "thicknessBox", thicknessLayout);
+	const gfx::Colour thicknessColour{ 150, 255, 240, 255 };
+	thicknessBox->setBackgroundColour(thicknessColour);
+
+	// Create button group for thickness buttons.
+	auto thicknessButtonGroup = std::make_shared<ButtonGroup>();
+
+	// Create thickness buttons.
+	makeButtons(renderer, buttonRect, thickness_button_info, numThicknessButtons, thicknessBox.get(), thicknessButtonGroup);
+	thicknessBox->getChildren()[0]->setActivated(true);
+
+	toolWindow->setThicknessButtonGroup(thicknessButtonGroup);
+	toolWindow->addChild(thicknessBox);
+	
 	// Create toolbar inside tool window, allocating 3x2 table for 6 tool elements
 	gfx::Rectangle toolbarRect(10, 50, 180, 260);
 	auto toolbarLayout = std::make_shared<win::TableLayout>(20, 20, 20, 20, 3, 2);
@@ -82,44 +96,36 @@ Screen::Screen(win::SDLRenderer* renderer, const gfx::Rectangle& rect, const cha
 	
 	// Create tool window buttons.
 	auto toolboxButtonGroup = std::make_shared<ButtonGroup>();
-	gfx::Rectangle buttonRect(20, 60, 60, 60);
 	makeButtons(renderer, buttonRect, toolbox_button_info, numToolBoxButtons, toolbox.get(), toolboxButtonGroup);
 
 	// Make clear screen button.
 	auto button = std::make_shared<Button>(renderer, rect, "clearScreenButton", "button_clear_screen.png", clearScreen);
 	toolbox->addChild(button);
 
+	//// Make lock button.
+	//auto lockButton = std::make_shared<ToggleButton>(renderer, rect, "lockButton", "button_lock.png", toggleLock);
+	//// Make DisabledUIelementGroup for lock button.
+	//auto disabledLockGroup = std::make_shared<DisabledUIelementGroup>();
+	//for (auto const & child : toolbox->getChildren()) {
+	//	disabledLockGroup->addChild(child);
+	//}
+	//lockButton->setDisableGroup(disabledLockGroup);
+	//toolbox->addChild(lockButton);
 
-
-	// Make lock button.
-	auto lockButton = std::make_shared<ToggleButton>(renderer, rect, "lockButton", "button_lock.png", toggleLock);
-	// Make DisabledUIelementGroup for lock button.
-	auto disabledLockGroup = std::make_shared<DisabledUIelementGroup>();
-	for (auto const & child : toolbox->getChildren()) {
-		disabledLockGroup->addChild(child);
+	// Make fill button.
+	auto fillButton = std::make_shared<ToggleButton>(renderer, rect, "fillButton", "button_fill.png", toggleFill);
+	// Make DisabledUIelementGroup for fill button.
+	auto disabledFillGroup = std::make_shared<DisabledUIelementGroup>();
+	for (auto const& child : thicknessBox->getChildren()) {
+		disabledFillGroup->addChild(child);
 	}
-	lockButton->setDisableGroup(disabledLockGroup);
-	toolbox->addChild(lockButton);
-
+	fillButton->setDisableGroup(disabledFillGroup);
+	toolbox->addChild(fillButton);
+	fillButton->setButtonGroup(toolboxButtonGroup);
+	toolboxButtonGroup->addButtonChild(fillButton);
+	
 	toolWindow->addChild(toolbox);
 	toolWindow->setToolbox(toolbox);
-	
-	// Create thickness window inside tool window, allocating 3x1 table for 3 thickness choices
-	gfx::Rectangle thicknessRect(10, 320, 180, 70);
-	auto thicknessLayout = std::make_shared<win::TableLayout>(20, 20, 20, 20, 1, 3);
-	auto thicknessBox = std::make_shared<ToolWindow>(thicknessRect, "thicknessBox", thicknessLayout);
-	const gfx::Colour thicknessColour{ 150, 255, 240, 255 };
-	thicknessBox->setBackgroundColour(thicknessColour);
-	
-	// Create button group for thickness buttons.
-	auto thicknessButtonGroup = std::make_shared<ButtonGroup>();
-	
-	// Create thickness buttons.
-	makeButtons(renderer, buttonRect, thickness_button_info, numThicknessButtons, thicknessBox.get(), thicknessButtonGroup);
-	thicknessBox->getChildren()[0]->setActivated(true);
-
-	toolWindow->setThicknessButtonGroup(thicknessButtonGroup);
-	toolWindow->addChild(thicknessBox);
 
 	// Create area for colour picker
 	gfx::Rectangle colourPickerRect(10, 400, 180, 220);

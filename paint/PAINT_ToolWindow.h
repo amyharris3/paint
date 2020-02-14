@@ -20,7 +20,7 @@ namespace paint {
 		Window* getToolbox() const { return toolbox_.get(); }
 		void setColourPicker(std::shared_ptr<ColourPicker> cPick);
 		ColourPicker* getColourPicker() const { return colourPicker_.get(); }
-		void setThicknessButtonGroup(std::shared_ptr<win::ButtonGroup> buttonGroup) { thicknessButtonGroup_ = buttonGroup; }
+		void setThicknessButtonGroup(std::shared_ptr<win::ButtonGroup> buttonGroup);
 		win::ButtonGroup* getThicknessButtonGroup() const { return thicknessButtonGroup_.get(); }
 		
 		void draw(win::SDLRenderer* renderer) override;

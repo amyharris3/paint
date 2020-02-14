@@ -7,7 +7,7 @@ namespace win {
 	// The purpose of the separate SDLRenderer class is to handle the SDL rendering, so as to allow the PAINT and WIN classes to function without needing to load SDL.
 		// Will be dependent on all other classes as it needs to have the functionality to render each of them.
 		// Default/empty constructor sets nullptr for the SDL SDLRenderer, use if necessary for unit testing, but do NOT use when actually rendering anything or it will cause assertion error.
-	class SDLRenderer : public gfx::Renderer
+	class SDLRenderer final : public gfx::Renderer
 	{
 	public:
 		SDLRenderer(); //should only be used in debug

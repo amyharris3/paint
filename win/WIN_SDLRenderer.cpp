@@ -36,7 +36,7 @@ bool SDLRenderer::notDummy() const
 	return false;
 }
 
-void SDLRenderer::createDrawWindowTexture(gfx::Rectangle rect)
+void SDLRenderer::createDrawWindowTexture(const gfx::Rectangle rect)
 {
 	assert(rendererSDL_);
 	textureDW_ = SDL_CreateTexture(rendererSDL_, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, rect.width, rect.height);
@@ -53,7 +53,7 @@ void SDLRenderer::destroyDrawWindowTexture()
 }
 
 //Should only change the render target if it is different to specified before
-void SDLRenderer::switchRenderTarget(gfx::RenderTarget target)
+void SDLRenderer::switchRenderTarget(const gfx::RenderTarget target)
 {
 	SDL_Texture* targetPtr;
 	if (target != currentTarget_) {
@@ -78,7 +78,7 @@ void SDLRenderer::renderPresentScreen()
 	SDL_RenderPresent(rendererSDL_);
 }
 
-void SDLRenderer::renderBox(gfx::RenderTarget target, gfx::Rectangle rect, gfx::Colour colour)
+void SDLRenderer::renderBox(const gfx::RenderTarget target, const gfx::Rectangle rect, const gfx::Colour colour)
 {
 	switchRenderTarget(target);
 
@@ -91,7 +91,7 @@ void SDLRenderer::renderBox(gfx::RenderTarget target, gfx::Rectangle rect, gfx::
 	SDL_RenderFillRect(rendererSDL_, &sdlRect);
 }
 
-void SDLRenderer::renderTextbox(gfx::RenderTarget target, gfx::Rectangle rect, gfx::Colour colour, gfx::Text* text, const int xOffset, const int yOffset)
+void SDLRenderer::renderTextbox(const gfx::RenderTarget target, const gfx::Rectangle rect, const gfx::Colour colour, gfx::Text* text, const int xOffset, const int yOffset)
 {
 	switchRenderTarget(target);
 
@@ -110,16 +110,16 @@ void SDLRenderer::renderTextbox(gfx::RenderTarget target, gfx::Rectangle rect, g
 	renderText(target, text, rect.x + xOffset, rect.y + yOffset);
 }
 
-void SDLRenderer::renderText(gfx::RenderTarget target, gfx::Text* text, int const xPixel, int const yPixel)
+void SDLRenderer::renderText(const gfx::RenderTarget target, gfx::Text* text, int const xPixel, int const yPixel)
 {
 	switchRenderTarget(target);
 
 	assert(rendererSDL_);
 	SDL_Texture* textTex_ = nullptr;
-	int textHeight = 0;
-	int textWidth = 0;
+	auto textHeight = 0;
+	auto textWidth = 0;
 	const SDL_Color textColour{ text->getColour().getRed(), text->getColour().getGreen(), text->getColour().getBlue(), text->getColour().getAlpha() };
-	SDL_Surface* textSurface = TTF_RenderText_Solid(text->getFont(), text->getString().c_str(), textColour);
+	const auto textSurface = TTF_RenderText_Solid(text->getFont(), text->getString().c_str(), textColour);
 	if (textSurface == nullptr) {
 		printf("Error: unable to render text -> SDL_ttf Error: %s\n", TTF_GetError());
 	}
@@ -143,7 +143,7 @@ void SDLRenderer::renderText(gfx::RenderTarget target, gfx::Text* text, int cons
 	assert(textTex_);
 }
 
-void SDLRenderer::renderLines(gfx::RenderTarget target, const std::vector<gfx::Line>& lines, const int thickness, const uint8_t drawRGBA_[])
+void SDLRenderer::renderLines(const gfx::RenderTarget target, const std::vector<gfx::Line>& lines, const int thickness, const uint8_t drawRGBA_[])
 {
 	switchRenderTarget(target);
 
@@ -175,7 +175,7 @@ void SDLRenderer::renderLines(gfx::RenderTarget target, const std::vector<gfx::L
 	}
 }
 
-void SDLRenderer::renderDrawWindowTexture(gfx::Rectangle rect, const gfx::Colour colour, const bool updateTexture_) const
+void SDLRenderer::renderDrawWindowTexture(const gfx::Rectangle rect, const gfx::Colour colour, const bool updateTexture_) const
 {
 	assert(rendererSDL_);
 	assert(textureDW_);
@@ -190,7 +190,7 @@ void SDLRenderer::renderDrawWindowTexture(gfx::Rectangle rect, const gfx::Colour
 	
 }
 
-void SDLRenderer::clearDrawWindow(gfx::Rectangle rect, gfx::Colour colour)
+void SDLRenderer::clearDrawWindow(const gfx::Rectangle rect, const gfx::Colour colour)
 {
 	if (textureDW_) {
 		assert(rendererSDL_);

@@ -48,11 +48,11 @@ DrawWindow::DrawWindow(win::SDLRenderer* renderer, gfx::Rectangle const& rect, c
 /*override*/
 
 //not really getting many clipping problems with entry into draw window, but adding this as a precaution
-bool DrawWindow::mouseEnter(MouseButton button, const bool clicked)
+bool DrawWindow::mouseEnter(const MouseButton button, const bool clicked)
 {
 	if (clicked) {
-		const int xMouse = mouseCoords_.x;
-		const int yMouse = mouseCoords_.y;
+		const auto xMouse = mouseCoords_.x;
+		const auto yMouse = mouseCoords_.y;
 		auto absCoords = gfx::utils::clippingHandler(getRect(), prevMouseCoords_, { xMouse, yMouse });
 
 		prevMouseCoords_ = { absCoords[0].x, absCoords[0].y };
@@ -65,11 +65,11 @@ bool DrawWindow::mouseEnter(MouseButton button, const bool clicked)
 }
 
 //if exit, mouse may move too fast for render lines to keep up, so must interpolate intersect with DW boundary
-bool DrawWindow::mouseExit(MouseButton button, bool clicked)
+bool DrawWindow::mouseExit(const MouseButton button, const bool clicked)
 {
 	if (clicked) {
-		const int xMouse = mouseCoords_.x;
-		const int yMouse = mouseCoords_.y;
+		const auto xMouse = mouseCoords_.x;
+		const auto yMouse = mouseCoords_.y;
 		auto absCoords = gfx::utils::clippingHandler(getRect(), prevMouseCoords_, { xMouse, yMouse });
 
 		prevMouseCoords_ = { absCoords[0].x, absCoords[0].y };
@@ -98,7 +98,7 @@ bool DrawWindow::mouseButtonDown(const MouseButton button, bool clicked)
 }
 
 /*override*/
-bool DrawWindow::mouseButtonUp(MouseButton button, bool clicked, SDLRenderer* renderer)
+bool DrawWindow::mouseButtonUp(const MouseButton button, bool clicked, SDLRenderer* renderer)
 {
 	if (button == MouseButton::Left) {
 		if (activeTool_) {

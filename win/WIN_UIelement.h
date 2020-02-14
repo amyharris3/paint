@@ -37,14 +37,14 @@ namespace win
 		void setParent(UIelement* parent);
 
 		virtual void draw(SDLRenderer* renderer) = 0;
-		virtual void update() { };
-		virtual void updateAndRerender(win::SDLRenderer* renderer) { };
+		virtual void update() { }
+		virtual void updateAndRerender(win::SDLRenderer* renderer) { }
 		virtual bool mouseEnter(MouseButton button, bool clicked = false);
 		virtual bool mouseExit(MouseButton button, bool clicked = false);
-		virtual bool mouseMove() { return false; };
+		virtual bool mouseMove() { return false; }
 		virtual bool mouseMove(SDL_MouseMotionEvent& e) { return false; }
-		virtual bool mouseButtonDown(MouseButton button, bool clicked = false) { return false; };
-		virtual bool mouseButtonUp(MouseButton button, bool clicked = false, SDLRenderer* renderer = nullptr) { return false; };
+		virtual bool mouseButtonDown(MouseButton button, bool clicked = false) { return false; }
+		virtual bool mouseButtonUp(MouseButton button, bool clicked = false, SDLRenderer* renderer = nullptr) { return false; }
 
 		virtual void setActivated(bool activated);
 		//bool getActivated() const { return activated_; }

@@ -4,7 +4,7 @@
 
 using namespace win;
 
-ColourValueTextbox::ColourValueTextbox(gfx::Rectangle rect, const char* name, int const textSize, int const xOffset, int const yOffset, uint8_t* linkedVariablePrimary, uint8_t* linkedVariableSecondary, const bool primaryActive)
+ColourValueTextbox::ColourValueTextbox(const gfx::Rectangle rect, const char* name, int const textSize, int const xOffset, int const yOffset, uint8_t* linkedVariablePrimary, uint8_t* linkedVariableSecondary, const bool primaryActive)
 	: EditTextbox(rect, name, textSize, xOffset, yOffset)
 	, linkedVariablePrimary_(linkedVariablePrimary)
 	, linkedVariableSecondary_(linkedVariableSecondary)

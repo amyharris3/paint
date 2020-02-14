@@ -4,12 +4,12 @@
 
 using namespace win;
 
-EditTextbox::EditTextbox(gfx::Rectangle rect, const char* name, int const textSize, int const xOffset, int const yOffset)
+EditTextbox::EditTextbox(const gfx::Rectangle rect, const char* name, int const textSize, int const xOffset, int const yOffset)
 	: EditTextbox(rect, name, textSize, xOffset, yOffset, "")
 {
 }
 
-EditTextbox::EditTextbox(gfx::Rectangle rect, const char* name, int const textSize, int const xOffset, int const yOffset, const char* initialText)
+EditTextbox::EditTextbox(const gfx::Rectangle rect, const char* name, int const textSize, int const xOffset, int const yOffset, const char* initialText)
 	: UIelement(rect, name)
 	, text_(std::make_shared<gfx::Text>(gfx::Colour { 0, 0, 0, 0xFF }, "OpenSans-Bold.ttf", textSize, initialText))
     , xOffset_(xOffset)

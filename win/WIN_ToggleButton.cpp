@@ -62,6 +62,7 @@ bool ToggleButton::mouseEnter(MouseButton button, const bool clicked)
 	else {
 		activeClip_ = &(spriteClips_[3]);
 	}
+	currentClip_ = activeClip_;
 
 	return false;
 }
@@ -85,6 +86,7 @@ bool ToggleButton::mouseExit(MouseButton button, bool clicked)
 	}
 	
 	mouseDragged_ = false;
+	currentClip_ = activeClip_;
 
 	return false;
 }
@@ -104,7 +106,7 @@ bool ToggleButton::mouseButtonDown(MouseButton button, bool clicked)
 	else {
 		activeClip_ = &(spriteClips_[3]);
 	}
-
+	currentClip_ = activeClip_;
 	return false;
 }
 
@@ -145,6 +147,7 @@ bool ToggleButton::mouseButtonUp(MouseButton button, bool clicked, SDLRenderer* 
 		activeClip_ = &(spriteClips_[3]);
 	}
 	mouseDragged_ = false;
+	currentClip_ = activeClip_;
 	return false;
 }
 
@@ -165,6 +168,7 @@ void ToggleButton::turnOn()
 	if (action) {
 		action(this);
 	}
+	currentClip_ = activeClip_;
 }
 
 void ToggleButton::turnOff()
@@ -174,6 +178,7 @@ void ToggleButton::turnOff()
 	if (action) {
 		action(this);
 	}
+	currentClip_ = activeClip_;
 }
 
 void ToggleButton::setActivated(const bool activated)

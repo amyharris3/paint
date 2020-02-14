@@ -22,7 +22,7 @@
 int gfx::utils::findOutcode(const Rectangle rect, const int x, const int y)
 {
 	//Initialise outcode as inside the rectangle
-	int outcode = 0;
+	auto outcode = 0;
 
 	if (x < rect.x) {
 		outcode |= 1;
@@ -42,10 +42,10 @@ int gfx::utils::findOutcode(const Rectangle rect, const int x, const int y)
 }
 
 //using Cohen-Sutherland clipping algorithm
-std::vector<gfx::Coords> gfx::utils::clippingHandler(Rectangle rect, Coords pStart, Coords pEnd)
+std::vector<gfx::Coords> gfx::utils::clippingHandler(const Rectangle rect, Coords pStart, Coords pEnd)
 {
-	int startOutcode = utils::findOutcode(rect, pStart.x, pStart.y);
-	int endOutcode = utils::findOutcode(rect, pEnd.x, pEnd.y);
+	auto startOutcode = utils::findOutcode(rect, pStart.x, pStart.y);
+	auto endOutcode = utils::findOutcode(rect, pEnd.x, pEnd.y);
 
 	while (true) {
 		// case where start and end points are within rectangle
@@ -57,8 +57,8 @@ std::vector<gfx::Coords> gfx::utils::clippingHandler(Rectangle rect, Coords pSta
 		else {
 			// if startOutcode is 0, ie false, then is inside rect, so examine pEnd instead
 			const auto examineOutcode = startOutcode ? startOutcode : endOutcode;
-			int x = startOutcode ? pStart.x : pEnd.x;
-			int y = startOutcode ? pStart.y : pEnd.y;
+			auto x = startOutcode ? pStart.x : pEnd.x;
+			auto y = startOutcode ? pStart.y : pEnd.y;
 
 			// find point of intersection with rect
 			// using slope formula: y = mx + y0, m = (y-y0)/(x-x0)

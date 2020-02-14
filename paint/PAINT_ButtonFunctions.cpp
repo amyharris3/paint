@@ -46,6 +46,8 @@ void paint::toggleDrawRectangle(UIelement* control)
 	auto shapeTool = dw->getShapeTool();
 	auto const rectangle = std::make_shared<Rectangle>();
 	shapeTool->setActiveShape(rectangle);
+	auto sw = utils::findStatusBarWindow(button);
+	sw->outputMessage("Toggled rectangle tool");
 }
 
 void paint::toggleDrawEllipse(UIelement* control)
@@ -57,6 +59,8 @@ void paint::toggleDrawEllipse(UIelement* control)
 	auto shapeTool = dw->getShapeTool();
 	auto const ellipse = std::make_shared<Ellipse>();
 	shapeTool->setActiveShape(ellipse);
+	auto sw = utils::findStatusBarWindow(button);
+	sw->outputMessage("Toggled ellipse tool");
 }
 
 void paint::toggleDrawTriangle(UIelement* control)
@@ -68,6 +72,8 @@ void paint::toggleDrawTriangle(UIelement* control)
 	auto shapeTool = dw->getShapeTool();
 	auto const triangle = std::make_shared<Triangle>();
 	shapeTool->setActiveShape(triangle);
+	auto sw = utils::findStatusBarWindow(button);
+	sw->outputMessage("Toggled triangle tool");
 }
 
 static void setBrushThickness(UIelement* control, int const thick)
@@ -145,4 +151,19 @@ void paint::toggleLock(UIelement* control)
 
 	auto sw = utils::findStatusBarWindow(button);
 	sw->outputMessage("Toggled lock");
+}
+
+void paint::toggleFill(UIelement* control)
+{
+	auto const button = CastToggleButton(control);
+	auto disableGroup = button->getDisableGroup();
+	if (button->getState() == ButtonStates::off) {
+		disableGroup->toggleDisableChildren(true);
+	}
+	else {
+		disableGroup->toggleDisableChildren(false);
+	}
+
+	auto sw = utils::findStatusBarWindow(button);
+	sw->outputMessage("Toggled fill");
 }
